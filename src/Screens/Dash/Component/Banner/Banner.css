@@ -1,0 +1,14 @@
+*{
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+.Banner{
+  margin: 0 0 1px;
+  padding: 0 0 344px;
+  background-color: rgba(210, 236, 255, 0.6);
+}
+
+/* .Banner_title img{
+ 
+} */
