@@ -22,12 +22,13 @@ const App = () => {
     <Provider store={store}>
       <BrowserRouter>
         <Routes>
-          <Route path={"/"} element={<UserChoice />} />
+          <Route path={"/Home"} element={<Home />} />
+          <Route path={"/UserChoice"} element={<UserChoice />} />
           <Route path={"/SignUp"} element={<SignUp />} />
           <Route path={"/LogIn"} element={<LogIn />} />
           <Route path={"/VerifyOTP"} element={<VerifyOTP />} />
           {/*  */}
-          <Route path={"/Home"} element={<Home />} />
+
           <Route path={"/DashBoard"} element={<DashBoard />} />
           <Route path={"/BoatOfferStep1"} element={<BoatOfferStep1 />} />
           <Route path={"/BoatOfferStep2"} element={<BoatOfferStep2 />} />

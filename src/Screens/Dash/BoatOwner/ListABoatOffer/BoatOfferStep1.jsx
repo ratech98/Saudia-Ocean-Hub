@@ -391,6 +391,7 @@ const headingStyle = {
 
 const headingTextStyle = {
   fontSize: 45,
+  fontFamily: "Poppins",
   color: "#424651",
   fontWeight: "500",
   textAlign: "center",
@@ -415,9 +416,10 @@ const stepContainerStyle = {
 
 const stepNumberStyle = {
   fontSize: "35px",
+  fontFamily: "Poppins",
+  color: "#424651",
   fontWeight: "bold",
   lineHeight: 1.51,
-  color: "#424651",
   paddingTop: "20px",
   paddingBottom: "20px",
 };
@@ -437,17 +439,19 @@ const documentSectionStyle = {
 
 const documentSectionHeadingStyle = {
   fontSize: "30px",
+  fontFamily: "Poppins",
+  color: "#424651",
   fontWeight: "normal",
   lineHeight: 1.53,
-  color: "#424651",
 };
 
 const documentSectionDescriptionStyle = {
   marginTop: "20px",
   fontSize: "20px",
+  fontFamily: "Poppins",
+  color: "#424651",
   fontWeight: "normal",
   lineHeight: 1.5,
-  color: "#424651",
 };
 
 const fileInputContainerStyle = {
@@ -478,6 +482,8 @@ const removeFileButtonStyle = {
 const fileUploadLabelStyle = {
   display: "flex",
   flex: 1,
+  alignSelf: "center",
+  alignItems: "center",
 };
 
 const fileUploadIconStyle = {
@@ -493,6 +499,7 @@ const fileUploadIconStyle = {
 const fileUploadTextContainerStyle = {
   marginLeft: "70px",
   fontSize: "20px",
+  fontFamily: "Poppins",
   color: "#424651",
   textAlign: "center",
 };
@@ -508,10 +515,12 @@ const fileUploadButtonStyle = {
   paddingLeft: "20px",
   paddingRight: "20px",
   borderRadius: "4px",
+  fontFamily: "Poppins",
 };
 
 const ErrMsgTxt = {
   fontSize: "18px",
+  fontFamily: "Poppins",
   color: "red",
   textAlign: "center",
 };
@@ -523,6 +532,7 @@ const saveContinueButtonStyle = {
 
 const saveContinueButtonTextStyle = {
   fontSize: "20px",
+  fontFamily: "Poppins",
   textTransform: "none",
   backgroundColor: "#3973A5",
   color: "#fff",

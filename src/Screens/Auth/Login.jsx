@@ -14,11 +14,10 @@ import {
 import { withStyles } from "@mui/styles";
 import { useNavigate } from "react-router-dom";
 import { Visibility, VisibilityOff } from "@material-ui/icons";
-import { GoogleLogin, GoogleOAuthProvider } from "@react-oauth/google";
+import { GoogleOAuthProvider } from "@react-oauth/google";
 import { useDispatch, useSelector } from "react-redux";
-import { login } from "../../Service/api";
-import { AuthToken, EmailId, Password, UserId } from "../../redux/slices";
 import IMAGES from "../Images";
+import GoogleSignInButton from "./GoogleSignInButton";
 
 const emailIdValidation = new RegExp(
   /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/i
@@ -29,9 +28,20 @@ const CustomTextField = withStyles({
     "& input::placeholder": {
       fontSize: "16px",
       color: "rgba(66, 70, 81, 0.4)",
+      fontFamily: "Poppins",
     },
   },
 })(TextField);
+
+const CustomCheckbox = withStyles({
+  root: {
+    color: "#ffffff",
+    "&$checked": {
+      color: "#ffffff",
+    },
+  },
+  checked: {},
+})(Checkbox);
 
 export const LogIn = () => {
   const navigate = useNavigate();
@@ -42,6 +52,7 @@ export const LogIn = () => {
   const [isRemembermeChecked, setIsRemembermeChecked] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState(false);
+  const [googleResult, setGoogleResult] = useState("");
 
   const handleCheckboxChange = (event) => {
     const { name, checked } = event.target;
@@ -112,125 +123,123 @@ export const LogIn = () => {
         <form onSubmit={formik.handleSubmit} style={styles.formStyle}>
           <img src={IMAGES.APP_ICON} alt="Icon" style={styles.appIconStyle} />
           <div style={styles.pageContentDev}>
+            {/* Email */}
             <Grid container style={styles.fieldDev}>
-              {/* Email */}
+              <CustomTextField
+                margin="normal"
+                fullWidth
+                id="email"
+                name="email"
+                placeholder="Email"
+                value={formik.values.email}
+                onChange={formik.handleChange}
+                variant="standard"
+                InputProps={{
+                  disableUnderline: true,
+                  style: {
+                    backgroundColor: "white",
+                    borderRadius: "5px",
+                  },
 
-              <div style={{ ...styles.pwdDev2, width: "100%" }}>
-                <CustomTextField
-                  margin="normal"
-                  fullWidth
-                  id="email"
-                  name="email"
-                  placeholder="Email"
-                  value={formik.values.email}
-                  onChange={formik.handleChange}
-                  variant="standard"
-                  InputProps={{
-                    disableUnderline: true,
-                    style: {
-                      backgroundColor: "white",
-                      borderRadius: "5px",
-                    },
-
-                    startAdornment: (
-                      <InputAdornment position="start">
-                        <IconButton
-                          style={{
+                  startAdornment: (
+                    <InputAdornment
+                      position="start"
+                      style={{ marginLeft: "20px" }}
+                    >
+                      <IconButton
+                        style={
+                          {
                             // marginLeft: "10px",
-                            top: -3,
-                            left: -1,
+                            // top: -3,
+                            // left: -1,
+                          }
+                        }
+                      >
+                        <img
+                          src={IMAGES.EMAIL_ICON}
+                          alt="lock"
+                          style={{
+                            width: "20px",
+                            height: "20px",
+                            opacity: 0.4,
                           }}
-                        >
-                          <img
-                            src={IMAGES.EMAIL_ICON}
-                            alt="lock"
-                            style={{
-                              width: "20px",
-                              height: "20px",
-                            }}
-                          />
-                        </IconButton>
-                      </InputAdornment>
-                    ),
-                  }}
-                  InputLabelProps={{
-                    shrink: true,
-                  }}
-                  inputProps={{
-                    // style: styles.customTextField,
-                    style: styles.pwdStyles,
-                  }}
-                />
-              </div>
+                        />
+                      </IconButton>
+                    </InputAdornment>
+                  ),
+                }}
+                InputLabelProps={{
+                  shrink: true,
+                }}
+                inputProps={{
+                  style: styles.pwdStyles,
+                }}
+              />
+              {/* </div> */}
               {formik.touched.email && Boolean(formik.errors.email) ? (
                 <span style={styles.ErrorMsgTxt}>
                   {formik.touched.email && formik.errors.email}
                 </span>
               ) : null}
             </Grid>
-
-            <Grid container style={styles.pwdDev}>
-              {/* Password */}
-              <div style={styles.pwdDev2}>
-                <CustomTextField
-                  type={showPassword ? "text" : "password"}
-                  margin="normal"
-                  fullWidth
-                  id="password"
-                  name="password"
-                  placeholder="Password"
-                  value={formik.values.password}
-                  onChange={(event) => {
-                    formik.handleChange(event);
-                    setPassword(event.target.value);
-                  }}
-                  variant="standard"
-                  InputProps={{
-                    disableUnderline: true,
-                    style: {
-                      backgroundColor: "white",
-                      borderRadius: "5px",
-                    },
-                    startAdornment: (
-                      <InputAdornment position="start">
-                        <IconButton
+            {/* Password */}
+            <Grid container style={styles.fieldDev}>
+              <CustomTextField
+                type={showPassword ? "text" : "password"}
+                margin="normal"
+                fullWidth
+                id="password"
+                name="password"
+                placeholder="Password"
+                value={formik.values.password}
+                onChange={(event) => {
+                  formik.handleChange(event);
+                  setPassword(event.target.value);
+                }}
+                variant="standard"
+                InputProps={{
+                  disableUnderline: true,
+                  style: {
+                    backgroundColor: "white",
+                    borderRadius: "5px",
+                  },
+                  startAdornment: (
+                    <InputAdornment
+                      position="start"
+                      style={{ marginLeft: "20px" }}
+                    >
+                      <IconButton>
+                        <img
+                          src={IMAGES.LOCK_ICON}
+                          alt="lock"
                           style={{
-                            top: -5,
-                            left: -1,
+                            width: "20px",
+                            height: "20px",
+                            opacity: 0.4,
                           }}
-                        >
-                          <img
-                            src={IMAGES.LOCK_ICON}
-                            alt="lock"
-                            style={{
-                              width: "20px",
-                              height: "24px",
-                            }}
-                          />
-                        </IconButton>
-                      </InputAdornment>
-                    ),
-                    endAdornment: (
-                      <InputAdornment position="end">
-                        <IconButton
-                          onClick={() => setShowPassword(!showPassword)}
-                          style={{
-                            top: -5,
-                          }}
-                        >
-                          {showPassword ? <VisibilityOff /> : <Visibility />}
-                        </IconButton>
-                      </InputAdornment>
-                    ),
-                  }}
-                  InputLabelProps={{
-                    shrink: true,
-                  }}
-                  inputProps={{
-                    style: styles.pwdStyles,
-                  }}
-                />
-              </div>
+                        />
+                      </IconButton>
+                    </InputAdornment>
+                  ),
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <IconButton
+                        onClick={() => setShowPassword(!showPassword)}
+                        style={{ marginRight: "10px" }}
+                      >
+                        {showPassword ? <VisibilityOff /> : <Visibility />}
+                      </IconButton>
+                    </InputAdornment>
+                  ),
+                }}
+                InputLabelProps={{
+                  shrink: true,
+                }}
+                inputProps={{
+                  style: styles.pwdStyles,
+                }}
+              />
+              {/* </div> */}
               {formik.touched.password && Boolean(formik.errors.password) ? (
                 <span style={styles.ErrorMsgTxt}>
                   {formik.touched.password && formik.errors.password}
@@ -242,10 +251,14 @@ export const LogIn = () => {
               <Grid item xs={12}>
                 <FormControlLabel
                   control={
-                    <Checkbox
+                    <CustomCheckbox
                       name="RememberMe"
                       checked={isRemembermeChecked}
                       onChange={handleCheckboxChange}
+                      icon={<span style={styles.checkBoxUncheckedstyle} />}
+                      checkedIcon={
+                        <span style={styles.checkBoxcheckedstyle}>✓</span>
+                      }
                     />
                   }
                   label={
@@ -253,6 +266,7 @@ export const LogIn = () => {
                       style={{
                         fontSize: "14px",
                         color: "rgba(66, 70, 81, 0.87)",
+                        fontFamily: "Poppins",
                       }}
                     >
                       Remember me
@@ -270,8 +284,8 @@ export const LogIn = () => {
                   type="submit"
                   style={{
                     ...styles.btnStyle,
-                    lineHeight: "24px",
-                    minHeight: "40px",
+                    // lineHeight: "24px",
+                    // minHeight: "45px",
                   }}
                   disabled={isLoading}
                 >
@@ -293,7 +307,7 @@ export const LogIn = () => {
                 <div
                   style={{
                     display: "flex",
-                    marginTop: "30px",
+                    marginTop: "15px",
                     width: "100%", // Adjust the width as needed
                     backgroundColor: "#f6f6f6",
                     justifyContent: "center",
@@ -306,57 +320,23 @@ export const LogIn = () => {
                 >
                   {/* email,name,phno. */}
                   <GoogleOAuthProvider clientId="496577884812-quv2n4j54nvk6gtrmo4vuv98cmrlf5q4.apps.googleusercontent.com">
-                    <GoogleLogin
-                      size="large"
-                      onSuccess={(credentialResponse) => {
-                        console.log("credentialResponse", credentialResponse);
-                        navigate("/Home");
-                      }}
-                      onError={() => {
-                        console.log("Login Failed");
-                      }}
-                      render={(renderProps) => (
-                        <Button
-                          variant="contained"
-                          color="primary"
-                          onClick={renderProps.onClick}
-                          disabled={renderProps.disabled}
-                          style={{
-                            background: "#026b93",
-                            color: "white",
-                            padding: "10px",
-                            borderRadius: "5px",
-                            border: "none",
-                            cursor: "pointer",
-                            width: "100%",
-                          }}
-                        >
-                          Sign in with Google
-                        </Button>
-                      )}
-                    />
+                    <GoogleSignInButton googleResponce={setGoogleResult} />
                   </GoogleOAuthProvider>
-                  {/* <GoogleLogout
-  clientId="496577884812-quv2n4j54nvk6gtrmo4vuv98cmrlf5q4.apps.googleusercontent.com"
-  buttonText="Sign out"
-  onLogoutSuccess={() => {
-    console.log("Logged out successfully");
-    // Add your logic to handle the sign-out process
-  }}
-/> */}
                 </div>
               </Grid>
               <Grid item xs={12}>
                 <div style={styles.forgotPwdDev}>
-                  <span style={styles.forgotPwdTxt}>Forgot Password?</span>
-                  <span
+                  <Typography style={styles.forgotPwdTxt}>
+                    Forgot Password?
+                  </Typography>
+                  <Typography
                     style={styles.noAccTxt}
                     onClick={() => {
                       navigate("/SignUp");
                     }}
                   >
                     Don't have an account?
-                  </span>
+                  </Typography>
                 </div>
               </Grid>
             </Grid>
@@ -391,9 +371,9 @@ const styles = {
     alignItems: "center",
   },
   appIconStyle: {
-    marginTop: "100px",
-    width: "100px",
-    height: "50px",
+    marginTop: "80px",
+    width: "198px",
+    height: "98px",
   },
   pageContentDev: {
     width: "100%",
@@ -406,19 +386,10 @@ const styles = {
     display: "flex",
     justifyContent: "space-between",
     flexDirection: "row",
-    width: "65%",
+    width: "67%",
     // marginTop: "40px",
   },
-  customTextField: {
-    fontSize: 16,
-    color: "black",
-    padding: "15px",
-    paddingLeft: "0px",
-    borderBottom: "none",
-    backgroundColor: "#fff",
-    borderRadius: "5px",
-    boxShadow: "1px 0px 2px rgba(0, 0, 0, 0.2)",
-  },
+
   pwdDev: {
     display: "flex",
     flexDirection: "column",
@@ -427,48 +398,39 @@ const styles = {
     // backgroundColor: "green",
   },
 
-  pwdDev2: {
-    backgroundColor: "#fff",
-    boxShadow: "0px 0px 2px rgba(0, 0, 0, 0.2)",
-    borderBottom: "none",
-    marginTop: "20px",
-    borderRadius: "5px",
-    paddingLeft: "15px",
-    paddingTop: "1px",
-    paddingBottom: "1px",
-    width: "63%",
-  },
   pwdStyles: {
     fontSize: 16,
-    color: "black",
+    fontFamily: "Poppins",
+    color: "#424651",
     borderBottom: "none",
     backgroundColor: "#fff",
-    marginTop: "-6px",
+    height: "40px",
+    // backgroundColor: "red",
   },
   ErrorMsgTxt: {
     color: "#DC143C",
     fontSize: 12,
-    marginTop: "5px",
+    fontFamily: "Poppins",
+    // marginTop: "5px",
   },
-
   endContent: {
     // display: "flex",
     // flexDirection: "column",
     alignContent: "center",
     width: "65%",
-    marginTop: "20px",
+    // marginTop: "20px",
   },
   btnStyle: {
+    marginTop: "30px",
     width: "100%",
     backgroundColor: "#026b93",
     color: "white",
-    fontSize: "16px",
+    fontSize: "14px",
+    fontFamily: "Poppins",
     fontWeight: "bold",
     textTransform: "none",
-    boxShadow: "0px 0px 2px rgba(0, 0, 0, 0.2)",
-    marginTop: "30px",
-    paddingTop: 10,
-    paddingBottom: 10,
+    boxShadow: "0px 0px 2px rgba(0, 0, 0, 0.09)",
+    padding: "10px",
   },
   forgotPwdDev: {
     display: "flex",
@@ -478,14 +440,18 @@ const styles = {
   },
   forgotPwdTxt: {
     fontSize: "14px",
+    fontFamily: "Poppins",
     alignSelf: "flex-start",
     color: "rgba(66, 70, 81, 0.87)",
+    cursor: "pointer",
   },
   noAccTxt: {
     fontSize: "14px",
+    fontFamily: "Poppins",
     alignSelf: "flex-end",
     textAlign: "end",
     color: "rgba(66, 70, 81, 0.87)",
+    cursor: "pointer",
   },
   googleBtn: {
     background: "#026b93",
@@ -496,5 +462,23 @@ const styles = {
     // backgroundColor: "red",
     cursor: "pointer",
     width: "100%",
+  },
+  checkBoxUncheckedstyle: {
+    border: "1px solid rgba(66, 70, 81, 0.4)",
+    borderRadius: "1px",
+    width: "22px",
+    height: "22px",
+  },
+  checkBoxcheckedstyle: {
+    color: "#424651",
+    border: "1px solid rgba(66, 70, 81, 0.4)",
+    borderRadius: "1px",
+    width: "22px",
+    height: "22px",
+    alignSelf: "center",
+    alignItems: "center",
+    alignContent: "center",
+    justifyContent: "center",
+    display: "flex",
   },
 };

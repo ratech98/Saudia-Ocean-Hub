@@ -1,7 +1,8 @@
 import React from "react";
 import { GoogleLogin, useGoogleLogin } from "@react-oauth/google";
-import { Button } from "@mui/material";
+import { Button, Typography } from "@mui/material";
 import axios from "axios";
+import IMAGES from "../Images";
 
 const googleClientId =
   "496577884812-quv2n4j54nvk6gtrmo4vuv98cmrlf5q4.apps.googleusercontent.com";
@@ -56,45 +57,37 @@ const GoogleSignInButton = ({ googleResponce }) => {
       <Button
         style={{
           width: "100%",
-          backgroundColor: "#026b93",
-          color: "white",
-          fontSize: "14px",
-          fontWeight: "bold",
           textTransform: "none",
+          border: "1.5px solid #026b93",
+          boxShadow: "0px 0px 2px rgba(0, 0, 0, 0.09)",
+          padding: "10px",
         }}
         onClick={() => login()}
       >
-        Sign up with Google
+        <img
+          alt="google"
+          src={IMAGES.GOOGLE}
+          style={{
+            width: "20px",
+            height: "20px",
+            fill: "#3973a5",
+            color: "#3973a5",
+            marginRight: "15px",
+          }}
+        />
+        <Typography
+          style={{
+            color: "#026b93",
+            fontSize: "14px",
+            fontFamily: "Poppins",
+            fontWeight: "bold",
+          }}
+        >
+          Sign up with Google
+        </Typography>
       </Button>
-      ;
     </div>
   );
 };
 
 export default GoogleSignInButton;
-
-{
-  /* <GoogleLogin
-clientId={googleClientId}
-// {...options}
-onSuccess={handleGoogleSignIn}
-onFailure={() => {
-  console.log("Login Failed");
-}}
-render={({ onClick }) => (
-  <Button
-    style={{
-      width: "100%",
-      backgroundColor: "#026b93",
-      color: "white",
-      fontSize: "14px",
-      fontWeight: "bold",
-      textTransform: "none",
-    }}
-    onClick={onClick}
-  >
-    Sign in with Google
-  </Button>
-)}
-/> */
-}

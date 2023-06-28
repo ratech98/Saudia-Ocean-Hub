@@ -484,6 +484,7 @@ export const BoatOfferStep2 = () => {
                 <span
                   style={{
                     fontSize: 24,
+                    fontFamily: "Poppins",
                     color: "#424651",
                     fontWeight: "500",
                     // textAlign: "center",
@@ -536,6 +537,7 @@ export const BoatOfferStep2 = () => {
                       <span
                         style={{
                           fontSize: 18,
+                          fontFamily: "Poppins",
                           color: "#424651",
                           fontWeight: "500",
                           textAlign: "center",
@@ -546,6 +548,7 @@ export const BoatOfferStep2 = () => {
                       <span
                         style={{
                           fontSize: 18,
+                          fontFamily: "Poppins",
                           color: "#f6f6f6",
                           backgroundColor: "#3973a5",
                           paddingTop: "10px",
@@ -561,6 +564,7 @@ export const BoatOfferStep2 = () => {
                       <span
                         style={{
                           fontSize: 12,
+                          fontFamily: "Poppins",
                           color: "#424651",
                           marginTop: "30px",
                         }}
@@ -646,7 +650,8 @@ export const BoatOfferStep2 = () => {
                                   <Typography
                                     style={{
                                       fontSize: 14,
-                                      color: "black",
+                                      fontFamily: "Poppins",
+                                      color: "#424651",
                                       marginLeft: "10px",
                                       fontWeight: "bold",
                                     }}
@@ -657,7 +662,8 @@ export const BoatOfferStep2 = () => {
                                     <Typography
                                       style={{
                                         fontSize: 14,
-                                        color: "black",
+                                        fontFamily: "Poppins",
+                                        color: "#424651",
                                         marginLeft: "10px",
                                       }}
                                     >
@@ -668,7 +674,8 @@ export const BoatOfferStep2 = () => {
                                     <Typography
                                       style={{
                                         fontSize: 14,
-                                        color: "black",
+                                        fontFamily: "Poppins",
+                                        color: "#424651",
                                         marginLeft: "10px",
                                       }}
                                     >
@@ -731,6 +738,8 @@ export const BoatOfferStep2 = () => {
                                     <Typography
                                       style={{
                                         fontSize: 16,
+                                        fontFamily: "Poppins",
+                                        color: "#424651",
                                         cursor: "pointer",
                                         textAlign: "center",
                                       }}
@@ -755,6 +764,8 @@ export const BoatOfferStep2 = () => {
                                     <Typography
                                       style={{
                                         fontSize: 16,
+                                        fontFamily: "Poppins",
+                                        color: "#424651",
                                         cursor: "pointer",
                                         textAlign: "center",
                                       }}
@@ -803,7 +814,12 @@ export const BoatOfferStep2 = () => {
                   }}
                 >
                   <span
-                    style={{ fontSize: 24, fontWeight: 500, color: "black" }}
+                    style={{
+                      fontSize: 24,
+                      fontWeight: 500,
+                      fontFamily: "Poppins",
+                      color: "#424651",
+                    }}
                   >
                     Boat Services
                   </span>{" "}
@@ -844,8 +860,9 @@ export const BoatOfferStep2 = () => {
 
                     <label
                       style={{
-                        color: "black",
                         fontSize: 14,
+                        fontFamily: "Poppins",
+                        color: "#424651",
                         display: "inline-block",
                       }}
                     >
@@ -888,7 +905,12 @@ export const BoatOfferStep2 = () => {
               >
                 <Grid item xs={12}>
                   <span
-                    style={{ fontSize: 24, fontWeight: 500, color: "black" }}
+                    style={{
+                      fontSize: 24,
+                      fontWeight: 500,
+                      fontFamily: "Poppins",
+                      color: "#424651",
+                    }}
                   >
                     Boat Location
                   </span>
@@ -1105,6 +1127,7 @@ const CustomTextField = withStyles({
     "& input::placeholder": {
       fontSize: "16px",
       color: "rgba(66, 70, 81, 0.4)",
+      fontFamily: "Poppins",
     },
   },
   select: {
@@ -1166,7 +1189,8 @@ const headingStyle = {
 
 const headingTextStyle = {
   fontSize: 45,
-  color: "black",
+  fontFamily: "Poppins",
+  color: "#424651",
   fontWeight: "500",
   textAlign: "center",
 };
@@ -1193,7 +1217,8 @@ const stepNumberStyle = {
   fontWeight: "bold",
   lineHeight: 1.51,
   // color: "#424651",
-  color: "black",
+  fontFamily: "Poppins",
+  color: "#424651",
   paddingTop: "20px",
   paddingBottom: "20px",
 };
@@ -1214,6 +1239,7 @@ const NextButtonStyle = {
 const NextButtonTextStyle = {
   borderRadius: "10px",
   fontSize: "18px",
+  fontFamily: "Poppins",
   color: "white",
   textAlign: "center",
   backgroundColor: "#3973A5",
@@ -1226,8 +1252,8 @@ const NextButtonTextStyle = {
 const inputLabelStyles = {
   fontSize: 16,
   fontWeight: 530,
-  // color: "#424651",
-  color: "black",
+  fontFamily: "Poppins",
+  color: "#424651",
   marginBottom: "-15px",
   textAlign: "left",
 };
@@ -1424,6 +1450,7 @@ const saveContinueButtonStyle = {
 };
 const saveContinueButtonTextStyle = {
   fontSize: "20px",
+  fontFamily: "Poppins",
   textTransform: "none",
   backgroundColor: "#3973A5",
   color: "#fff",
@@ -1436,6 +1463,8 @@ const saveContinueButtonTextStyle = {
 };
 const ErrMsgTxt = {
   fontSize: "18px",
+  fontFamily: "Poppins",
+
   color: "red",
   textAlign: "center",
 };

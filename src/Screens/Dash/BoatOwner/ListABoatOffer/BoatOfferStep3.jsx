@@ -21,6 +21,7 @@ const CustomTextField = withStyles({
     "& input::placeholder": {
       fontSize: "16px",
       color: "rgba(66, 70, 81, 0.4)",
+      fontFamily: "Poppins",
     },
   },
 })(TextField);
@@ -537,7 +538,8 @@ export const BoatOfferStep3 = () => {
                 }}
                 inputProps={{
                   fontSize: 16,
-                  color: "black",
+                  fontFamily: "Poppins",
+                  color: "#424651",
                   borderBottom: "none",
                   backgroundColor: "#fff",
                 }}
@@ -617,7 +619,8 @@ export const BoatOfferStep3 = () => {
                     InputLabelProps={{
                       shrink: true,
                       style: {
-                        color: "black",
+                        fontFamily: "Poppins",
+                        color: "#424651",
                         fontSize: 22,
                         fontWeight: "500",
                       },
@@ -1232,22 +1235,6 @@ export const BoatOfferStep3 = () => {
                 >
                   <Add />
                 </IconButton>
-                {/* <Typography
-               
-                  style={{
-                    borderRadius: "10px",
-                    fontSize: "14px",
-                    textTransform: "none",
-                    backgroundColor: "#3973A5",
-                    color: "#fff",
-                    fontWeight: "normal",
-                    lineHeight: 1.5,
-                    padding: "5px",
-                    // paddingBottom: "14px",
-                  }}
-                >
-                  Add Field
-                </Typography> */}
               </div>
             </Grid>
           </div>
@@ -1292,6 +1279,7 @@ const headingStyle = {
 
 const headingTextStyle = {
   fontSize: 45,
+  fontFamily: "Poppins",
   color: "#424651",
   fontWeight: "500",
   textAlign: "center",
@@ -1323,6 +1311,7 @@ const stepNumberStyle = {
   fontSize: "35px",
   fontWeight: "bold",
   lineHeight: 1.51,
+  fontFamily: "Poppins",
   color: "#424651",
   paddingTop: "20px",
   paddingBottom: "20px",
@@ -1346,6 +1335,7 @@ const documentSectionHeadingStyle = {
   fontSize: "30px",
   fontWeight: "normal",
   lineHeight: 1.53,
+  fontFamily: "Poppins",
   color: "#424651",
 };
 
@@ -1366,6 +1356,8 @@ const saveContinueButtonTextStyle = {
   fontSize: "20px",
   textTransform: "none",
   backgroundColor: "#3973A5",
+  fontFamily: "Poppins",
+
   color: "#fff",
   fontWeight: "normal",
   lineHeight: 1.5,
@@ -1376,7 +1368,8 @@ const saveContinueButtonTextStyle = {
 };
 const pwdStyles = {
   fontSize: 16,
-  color: "black",
+  fontFamily: "Poppins",
+  color: "#424651",
   borderBottom: "none",
   backgroundColor: "#fff",
   //   backgroundColor: "red",
@@ -1387,8 +1380,9 @@ const pwdStyles = {
   //   border: "solid 1px rgba(66, 70, 81, 0.2)",
 };
 const ErrMsgTxt = {
-  // marginTop: "10px",
   fontSize: "18px",
+  fontFamily: "Poppins",
+
   color: "red",
   textAlign: "center",
 };

@@ -1,7 +1,42 @@
-import { Container, Typography } from "@mui/material";
+import { Container, Grid, Typography } from "@mui/material";
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import IMAGES from "../Images";
+import Footer from "../../Component/Footer/Footer";
+import { StarRating } from "../../UI kit/5Star/StarRating";
+
+const boatServices = [
+  {
+    service: "Life Jackets",
+  },
+  {
+    service: "Air Conditioning",
+  },
+  {
+    service: "Toilet",
+  },
+  {
+    service: "Wi-Fi",
+  },
+  {
+    service: "Fishing Gear",
+  },
+  {
+    service: "BBQ",
+  },
+  {
+    service: "Hot Drinks",
+  },
+  {
+    service: "Watersport Activities",
+  },
+  {
+    service: "Life Jackets",
+  },
+  {
+    service: "Air Conditioning",
+  },
+];
 
 export const DashBoard = () => {
   const navigate = useNavigate();
@@ -80,17 +115,103 @@ export const DashBoard = () => {
         </span>
       </Container>
       <Container style={styles.docUploadContainer} maxWidth="100%">
-        <div style={{}}>
-          <img
-            alt="add_file"
-            src={IMAGES.ADD_FILES}
+        <div
+          style={{
+            display: "flex",
+            // flexDirection: "row",
+            // alignSelf: "center",
+            alignItems: "center",
+          }}
+        >
+          <div
             style={{
-              flex: 1,
-              backgroundColor: "#f6f6f6",
-              width: "120px",
-              height: "120px",
+              padding: "40px",
+              backgroundColor: "white",
+              // width: "211px",
+              borderRadius: "500px",
+              // height: "211px",
+              alignSelf: "center",
+              alignItems: "center",
+              display: "flex",
             }}
-          />
+          >
+            <img
+              alt="add_file"
+              src={IMAGES.ADD_FILES}
+              style={{
+                flex: 1,
+                backgroundColor: "white",
+                // width: "120px",
+                height: "120px",
+              }}
+            />
+          </div>
+          <div
+            style={{
+              width: "50%",
+              marginLeft: "50px",
+            }}
+          >
+            <Typography style={styles.uploadBoatDocTitleTxt}>
+              Upload your boat documentations
+            </Typography>
+            <Typography style={styles.uploadBoatDocTxt}>
+              To ensure authenticity and build trust, we kindly request boat
+              owners to upload their boat documents during the listing process.
+            </Typography>
+          </div>
+        </div>
+      </Container>
+
+      <Container
+        style={{ ...styles.docUploadContainer, marginLeft: "25%" }}
+        maxWidth="100%"
+      >
+        <div
+          style={{
+            display: "flex",
+            // flexDirection: "row",
+            // alignSelf: "center",
+            alignItems: "center",
+          }}
+        >
+          <div
+            style={{
+              padding: "40px",
+              backgroundColor: "white",
+              // width: "211px",
+              borderRadius: "500px",
+              // height: "211px",
+              alignSelf: "center",
+              alignItems: "center",
+              display: "flex",
+            }}
+          >
+            <img
+              alt="add_file"
+              src={IMAGES.ADD_BOATE_DETAILS}
+              style={{
+                flex: 1,
+                backgroundColor: "white",
+                width: "150px",
+                height: "120px",
+              }}
+            />
+          </div>
+          <div
+            style={{
+              width: "50%",
+              marginLeft: "50px",
+            }}
+          >
+            <Typography style={styles.uploadBoatDocTitleTxt}>
+              Add your boat's details
+            </Typography>
+            <Typography style={styles.uploadBoatDocTxt}>
+              To attract potential guests, we suggest you to showcase your boat,
+              its features, amenities, and unique qualities.
+            </Typography>
+          </div>
         </div>
       </Container>
       <div style={styles.contentContainer}>
@@ -102,7 +223,79 @@ export const DashBoard = () => {
         >
           List Your Boat Now
         </Typography>
+
+        <Typography style={styles.boatOfferTitle}>
+          Best Boat Offers This Week
+        </Typography>
       </div>
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "row",
+          flexWrap: "wrap",
+
+          margin: "0px 230px",
+        }}
+      >
+        {boatServices?.map((item, index) => {
+          return (
+            <div
+              style={{
+                margin: "10px",
+                backgroundColor: "white",
+              }}
+            >
+              <img
+                src={IMAGES.boat1}
+                style={{ width: "450px", height: "260px" }}
+                alt="boat"
+              />
+              <div style={{ padding: "32px" }}>
+                <Typography style={styles.boatName}>Night Light</Typography>
+                <Typography style={styles.boatDrierName}>Jeddah</Typography>
+
+                <StarRating rating={3} />
+                <div
+                  style={{
+                    marginTop: "24px",
+                    display: "flex",
+                    flexDirection: "row",
+                    justifyContent: "space-between",
+                  }}
+                >
+                  <div
+                    style={{
+                      display: "flex",
+                      flexDirection: "row",
+                    }}
+                  >
+                    <img
+                      src={IMAGES.MONEY_CARD}
+                      style={styles.moneyIcon}
+                      alt="money"
+                    />
+                    <Typography style={styles.boatprice}>7200 SAR</Typography>
+                  </div>
+                  <div
+                    style={{
+                      display: "flex",
+                      flexDirection: "row",
+                    }}
+                  >
+                    <img
+                      src={IMAGES.GROUP}
+                      style={styles.groupIcon}
+                      alt="money"
+                    />
+                    <Typography style={styles.boatprice}>15</Typography>
+                  </div>
+                </div>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+      <Footer />
     </div>
   );
 };
@@ -124,8 +317,11 @@ const styles = {
   contentContainer: {
     display: "flex",
     flexDirection: "column",
-    alignItems: "center",
-    backgroundColor: "#f6f6f6",
+    //
+    // backgroundColor: "#f6f6f6",
+    alignSelf: "flex-start",
+    width: "100%",
+    // backgroundColor: "yellow",
   },
   actionButton: {
     fontSize: 24,
@@ -137,11 +333,13 @@ const styles = {
     borderStyle: "solid",
     padding: "10px 50px",
     cursor: "pointer",
+    marginLeft: "65%",
+    alignItems: "center",
+    width: "25%",
   },
   titleOptionTxt: {
     fontSize: 16,
-    // color: "#424651",
-    color: "black",
+    color: "#424651",
     fontWeight: "500",
     cursor: "pointer",
   },
@@ -152,8 +350,8 @@ const styles = {
   },
   subtitleTxt: {
     fontSize: "28px",
-    // color: "#424651",
-    color: "black",
+    color: "#424651",
+
     // fontWeight: "500",
     // cursor: "pointer",
     textAlign: "center",
@@ -163,5 +361,65 @@ const styles = {
     flexDirection: "column",
     marginTop: "57px",
     marginLeft: "10%",
+  },
+  uploadBoatDocTitleTxt: {
+    fontSize: 30,
+    color: "rgba(66, 70, 81, 0.87)",
+    fontFamily: "Poppins",
+    fontWeight: "600",
+    lineHeight: 1.53,
+  },
+  uploadBoatDocTxt: {
+    marginTop: "20px",
+    fontSize: 20,
+    color: "rgba(66, 70, 81, 0.87)",
+    fontFamily: "Poppins",
+    fontWeight: "300",
+    lineHeight: 1.53,
+  },
+  boatOfferTitle: {
+    marginTop: "193px",
+    fontSize: 48,
+    color: "rgba(66, 70, 81, 0.87)",
+    fontFamily: "Poppins",
+    fontWeight: "600",
+    lineHeight: 1.5,
+    textAlign: "center",
+  },
+  boatName: {
+    fontSize: 20,
+    color: "rgba(66, 70, 81, 0.87)",
+    fontFamily: "Poppins",
+    fontWeight: "600",
+    lineHeight: 1.5,
+    textAlign: "left",
+    // marginTop: "24px",
+  },
+  boatDrierName: {
+    fontSize: 20,
+    color: "rgba(66, 70, 81, 0.6)",
+    fontFamily: "Poppins",
+    fontWeight: "normal",
+    lineHeight: 1.5,
+    textAlign: "left",
+    marginTop: "8px",
+  },
+  boatprice: {
+    fontSize: 18,
+    color: "rgba(66, 70, 81, 0.87)",
+    fontFamily: "Poppins",
+    fontWeight: "600",
+    lineHeight: 1.5,
+    textAlign: "left",
+    marginLeft: "10px",
+  },
+  moneyIcon: {
+    width: "28px",
+    height: "30px",
+  },
+  groupIcon: {
+    width: "33px",
+    height: "25px",
+    marginRight: "10px",
   },
 };

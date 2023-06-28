@@ -1,3 +1,4 @@
+import { Typography } from "@mui/material";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -16,11 +17,10 @@ export const UserChoice = () => {
         display: "flex",
         height: "100vh",
         alignItems: "center",
-
         flexDirection: "column",
       }}
     >
-      <span
+      <Typography
         style={{
           paddingTop: "79px",
           fontSize: "40px",
@@ -31,14 +31,13 @@ export const UserChoice = () => {
         }}
       >
         Join Us In Saudia Ocean Hub
-      </span>
+      </Typography>
       <div
         style={{
           marginTop: "77px",
           display: "flex",
           width: "50%",
           justifyContent: "space-between",
-
           flex: 0.1,
           flexDirection: "row",
         }}
@@ -73,7 +72,7 @@ export const UserChoice = () => {
               padding: "20px",
             }}
           >
-            <span
+            <Typography
               style={{
                 fontSize: 24,
                 fontWeight: "500",
@@ -83,7 +82,7 @@ export const UserChoice = () => {
               }}
             >
               I'm a boat owner, offering my boat
-            </span>
+            </Typography>
           </div>
         </div>
 
@@ -118,7 +117,7 @@ export const UserChoice = () => {
               padding: "20px",
             }}
           >
-            <span
+            <Typography
               style={{
                 fontSize: 24,
                 fontWeight: "500",
@@ -128,12 +127,12 @@ export const UserChoice = () => {
               }}
             >
               I'm a customer, looking for a new experience
-            </span>
+            </Typography>
           </div>
         </div>
       </div>
 
-      <div
+      <Typography
         onClick={() => {
           navigate("/SignUp");
         }}
@@ -148,7 +147,7 @@ export const UserChoice = () => {
         }}
       >
         Create Account
-      </div>
+      </Typography>
     </div>
   );
 };

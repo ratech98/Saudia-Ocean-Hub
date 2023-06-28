@@ -15,26 +15,56 @@ import {
   DialogActions,
   Typography,
 } from "@mui/material";
-import { withStyles, makeStyles } from "@mui/styles";
+import { withStyles } from "@mui/styles";
 import { useNavigate } from "react-router-dom";
 import { Visibility, VisibilityOff } from "@material-ui/icons";
 import { countryCodeJson } from "./countryCodeJson";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { EmailId } from "../../redux/slices";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import GoogleSignInButton from "./GoogleSignInButton";
 import { register } from "../../Service/api";
 import IMAGES from "../Images";
+import { makeStyles } from "@material-ui/core/styles";
 
+const start_space_Validation = new RegExp(/^(?!\s).*/);
 const emailIdValidation = new RegExp(
   /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/i
 );
+
+//
+//
+//
+//
+//
+//
+//
+
+const CustomCheckbox = withStyles({
+  root: {
+    color: "#ffffff",
+    "&$checked": {
+      color: "#ffffff",
+    },
+  },
+  checked: {},
+})(Checkbox);
+
+//
+//
+//
+//
+//
+//
+//
+//
 
 const CustomTextField = withStyles({
   root: {
     "& input::placeholder": {
       fontSize: "16px",
       color: "rgba(66, 70, 81, 0.4)",
+      fontFamily: "Poppins",
     },
   },
 })(TextField);
@@ -50,7 +80,7 @@ const regexPatterns = [
 export const SignUp = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  // const user = useSelector((state) => state?.auth);
+  // const classes = useStyles();
   const [showPassword, setShowPassword] = useState(false);
   const [password, setPassword] = useState(false);
   const [strengthIndicator, setStrengthIndicator] = useState(false);
@@ -61,14 +91,9 @@ export const SignUp = () => {
   const [isTermsOfServiceChecked, setIsTermsOfServiceChecked] = useState(false);
   const [termsOfServiceError, setTermsOfServiceError] = useState(false);
   const [googleResult, setGoogleResult] = useState("");
-
-  // const classes = useStyles();
-  // const formMargin = windowWidth <= 500 ? 0 : 50;
   const [errorMessage, setErrorMessage] = useState("");
 
   console.log("googleResult", googleResult);
-
-  // console.log("user", user);
 
   const handleCheckboxChange = (event) => {
     const { name, checked } = event.target;
@@ -222,14 +247,27 @@ export const SignUp = () => {
       <form onSubmit={formik.handleSubmit} style={styles.formStyle}>
         <img src={IMAGES.APP_ICON} alt="Icon" style={styles.appIconStyle} />
         <div style={styles.pageTitleDev}>
-          <span style={styles.pageNameTxt}>Create Account</span>
-          <span style={styles.pageSubNameTxt}>
+          <Typography style={styles.pageNameTxt}>Create Account</Typography>
+          <Typography style={styles.pageSubNameTxt}>
             Open your gate to endless happiness!
-          </span>
+          </Typography>
 
-          <Grid container style={styles.fieldDev}>
+          <Grid container style={styles.firstFieldName}>
             {/* First Name */}
-            <Grid item xs={12} sm={5.5}>
+            <Grid
+              item
+              xs={12}
+              sm={5.8}
+              style={{
+                // backgroundColor: "green",
+                alignSelf: "center",
+                // alignContent: "center",
+                // alignItems: "center",
+                // display: "flex",
+                // margin: "0px",
+                // padding: "0px 10px",
+              }}
+            >
               <CustomTextField
                 variant="standard"
                 margin="normal"
@@ -238,7 +276,12 @@ export const SignUp = () => {
                 name="firstName"
                 placeholder="First Name"
                 value={formik.values.firstName}
-                onChange={formik.handleChange}
+                onChange={(event) => {
+                  const inputValue = event.target.value;
+                  if (start_space_Validation.test(inputValue)) {
+                    formik.setFieldValue("firstName", inputValue);
+                  }
+                }}
                 error={
                   formik.touched.firstName && Boolean(formik.errors.firstName)
                 }
@@ -256,11 +299,22 @@ export const SignUp = () => {
                 inputProps={{
                   style: styles.customTextField,
                 }}
+                style={{
+                  margin: "0px",
+                  borderRadius: "5px",
+                }}
               />
             </Grid>
 
             {/* Last Name */}
-            <Grid item xs={12} sm={5.5}>
+            <Grid
+              item
+              xs={12}
+              sm={5.8}
+              style={{
+                alignSelf: "center",
+              }}
+            >
               <CustomTextField
                 margin="normal"
                 fullWidth
@@ -268,7 +322,12 @@ export const SignUp = () => {
                 name="lastName"
                 placeholder="Last Name"
                 value={formik.values.lastName}
-                onChange={formik.handleChange}
+                onChange={(event) => {
+                  const inputValue = event.target.value;
+                  if (start_space_Validation.test(inputValue)) {
+                    formik.setFieldValue("lastName", inputValue);
+                  }
+                }}
                 error={
                   formik.touched.lastName && Boolean(formik.errors.lastName)
                 }
@@ -287,11 +346,12 @@ export const SignUp = () => {
                 inputProps={{
                   style: styles.customTextField,
                 }}
+                style={{ margin: "0px", borderRadius: "5px" }}
               />
             </Grid>
           </Grid>
 
-          <Grid container style={styles.fieldDev2}>
+          <Grid container style={styles.BoxDev}>
             {/* Email */}
             <CustomTextField
               margin="normal"
@@ -300,7 +360,12 @@ export const SignUp = () => {
               name="email"
               placeholder="Email"
               value={formik.values.email}
-              onChange={formik.handleChange}
+              onChange={(event) => {
+                const inputValue = event.target.value;
+                if (start_space_Validation.test(inputValue)) {
+                  formik.setFieldValue("email", inputValue);
+                }
+              }}
               error={formik.touched.email && Boolean(formik.errors.email)}
               helperText={formik.touched.email && formik.errors.email}
               variant="standard"
@@ -320,95 +385,109 @@ export const SignUp = () => {
             />
 
             {/* Phone Number */}
-            <div style={styles.fieldDev3}>
-              <CustomTextField
-                margin="normal"
-                fullWidth
-                id="cellNo"
-                name="cellNo"
-                placeholder="Phone Number"
-                value={`${formik.values.cellNo}`}
-                onChange={formik.handleChange}
-                variant="standard"
-                InputProps={{
-                  disableUnderline: true,
-                  style: {
-                    backgroundColor: "white",
-                    borderRadius: "5px",
-                    display: "flex",
-                    alignItems: "center",
-                    marginTop: "-8px",
-                  },
-                  startAdornment: (
-                    <div
-                      onClick={handleCountryCodeClick}
-                      style={{
-                        cursor: "pointer",
-                        width: "150px",
-                        justifyContent: "center",
-                        display: "flex",
-                      }}
-                    >
-                      {selectedCountry && (
-                        <>
-                          <span style={{ fontSize: 30, textAlign: "center" }}>
-                            {selectedCountry.flag}
-                          </span>
-                          <img
-                            src={IMAGES.DOWN}
-                            alt="up"
-                            style={{
-                              width: "10px",
-                              height: "10px",
-                              alignSelf: "center",
-                            }}
-                          />
-                          <span
-                            style={{
-                              fontSize: 16,
-                              textAlign: "center",
-                              marginLeft: "20px",
-                            }}
-                          >
-                            {selectedCountry.dial_code}
-                          </span>
-                        </>
-                      )}
-                    </div>
-                  ),
-                }}
-                InputLabelProps={{
-                  shrink: true,
-                }}
-                inputProps={{
-                  style: styles.phoneNoStyles,
-                }}
-              />
+            {/* <div style={styles.fieldDev3}> */}
+            <CustomTextField
+              margin="normal"
+              fullWidth
+              id="cellNo"
+              name="cellNo"
+              placeholder="Phone Number"
+              value={`${formik.values.cellNo}`}
+              onChange={(event) => {
+                const inputValue = event.target.value;
+                if (start_space_Validation.test(inputValue)) {
+                  formik.setFieldValue("cellNo", inputValue);
+                }
+              }}
+              variant="standard"
+              InputProps={{
+                disableUnderline: true,
+                style: {
+                  backgroundColor: "white",
+                  borderRadius: "5px",
+                  display: "flex",
+                  alignItems: "center",
+                  marginTop: "-8px",
+                  marginBottom: "-8px",
+                },
+                startAdornment: (
+                  <div
+                    onClick={handleCountryCodeClick}
+                    style={{
+                      cursor: "pointer",
+                      // width: "150px",
+                      justifyContent: "center",
+                      display: "flex",
+                      paddingLeft: "30px",
+                      paddingRight: "5px",
+                    }}
+                  >
+                    {selectedCountry && (
+                      <>
+                        <Typography
+                          style={{
+                            fontSize: 30,
+                            textAlign: "center",
+                            fontFamily: "Poppins",
+                          }}
+                        >
+                          {selectedCountry.flag}
+                        </Typography>
+                        <img
+                          src={IMAGES.DOWN}
+                          alt="up"
+                          style={{
+                            width: "10px",
+                            height: "10px",
+                            alignSelf: "center",
+                          }}
+                        />
+                        <Typography
+                          style={{
+                            fontSize: "16px",
+                            textAlign: "center",
+                            marginLeft: "20px",
+                            fontFamily: "Poppins",
+                            alignSelf: "center",
+                            color: "#424651",
+                          }}
+                        >
+                          {selectedCountry.dial_code}
+                        </Typography>
+                      </>
+                    )}
+                  </div>
+                ),
+              }}
+              InputLabelProps={{
+                shrink: true,
+              }}
+              inputProps={{
+                style: styles.phoneNoStyles,
+              }}
+              style={{ padding: "0px", borderRadius: "5px" }}
+            />
 
-              {/* Render the country options */}
-              <Dialog
-                open={showModal}
-                onClose={handleCloseModal}
-                scroll="paper"
-              >
-                <DialogTitle>Country Options</DialogTitle>
-                <DialogContent dividers>
-                  {countryCodeJson.map((country) => (
-                    <MenuItem
-                      key={country.code}
-                      value={country.code}
-                      style={{ width: "100%" }}
-                      onClick={() => handleCountryChange(country.code)}
-                    >
-                      {country.name.en}
-                    </MenuItem>
-                  ))}
-                </DialogContent>
-                <DialogActions>
-                  <Button onClick={handleCloseModal}>Close</Button>
-                </DialogActions>
-              </Dialog>
-            </div>
+            {/* Render the country options */}
+            <Dialog open={showModal} onClose={handleCloseModal} scroll="paper">
+              <DialogTitle>Country Options</DialogTitle>
+              <DialogContent dividers>
+                {countryCodeJson.map((country) => (
+                  <MenuItem
+                    key={country.code}
+                    value={country.code}
+                    style={{ width: "100%" }}
+                    onClick={() => handleCountryChange(country.code)}
+                  >
+                    {country.name.en}
+                  </MenuItem>
+                ))}
+              </DialogContent>
+              <DialogActions>
+                <Button onClick={handleCloseModal}>Close</Button>
+              </DialogActions>
+            </Dialog>
+            {/* </div> */}
             {formik.touched.cellNo && Boolean(formik.errors.cellNo) ? (
               <span style={styles.ErrorMsgTxt}>
                 {formik.touched.cellNo && formik.errors.cellNo}
@@ -416,10 +495,10 @@ export const SignUp = () => {
             ) : null}
           </Grid>
 
-          <Grid container style={styles.pwdDev}>
-            <Grid container style={styles.pwdDev2}>
+          <Grid container style={styles.fieldDevLast}>
+            <Grid container style={styles.pwd_confirmDev}>
               {/* Password */}
-              <div style={styles.pwdDev3}>
+              <div style={styles.pwdDev}>
                 <CustomTextField
                   type={showPassword ? "text" : "password"}
                   margin="normal"
@@ -429,8 +508,11 @@ export const SignUp = () => {
                   placeholder="Password"
                   value={formik.values.password}
                   onChange={(event) => {
-                    formik.handleChange(event);
-                    setPassword(event.target.value);
+                    const inputValue = event.target.value;
+                    if (start_space_Validation.test(inputValue)) {
+                      formik.setFieldValue("password", inputValue);
+                      setPassword(inputValue);
+                    }
                   }}
                   variant="standard"
                   InputProps={{
@@ -483,7 +565,12 @@ export const SignUp = () => {
                 name="confirmPassword"
                 placeholder="Confirm Password"
                 value={formik.values.confirmPassword}
-                onChange={formik.handleChange}
+                onChange={(event) => {
+                  const inputValue = event.target.value;
+                  if (start_space_Validation.test(inputValue)) {
+                    formik.setFieldValue("confirmPassword", inputValue);
+                  }
+                }}
                 error={
                   formik.touched.confirmPassword &&
                   Boolean(formik.errors.confirmPassword)
@@ -512,11 +599,12 @@ export const SignUp = () => {
             {password ? (
               <Grid container style={styles.pwdPowerDev}>
                 <div>
-                  <span style={styles.pwdStrengthTxt}>
+                  <Typography style={styles.pwdStrengthTxt}>
                     Password Strength{" "}
-                    <span
+                    <Typography
                       style={{
                         fontSize: 10,
+                        fontFamily: "Poppins",
                         color:
                           strengthIndicator === "red"
                             ? "red"
@@ -534,8 +622,8 @@ export const SignUp = () => {
                         : strengthIndicator === "green"
                         ? "Good"
                         : null}
-                    </span>
-                  </span>
+                    </Typography>
+                  </Typography>
                   <div style={styles.pwdInstructionDev}>
                     <div
                       style={{
@@ -555,52 +643,64 @@ export const SignUp = () => {
                       }}
                     />
                   </div>
-                  <span style={styles.pwdInstructionTxt}>
+                  <Typography style={styles.pwdInstructionTxt}>
                     The minimum password length is 8 characters and must contain
                     at least 1 lowercase letter, 1 capital letter, 1 number, and
                     1 special character.
-                  </span>
+                  </Typography>
                 </div>
               </Grid>
             ) : null}
           </Grid>
 
-          <Grid container style={styles.checkBoxDev}>
+          <Grid container style={styles.BoxDev}>
             <Grid container spacing={2} style={{ marginTop: "-20px" }}>
               <Grid item xs={12}>
                 <FormControlLabel
                   control={
-                    <Checkbox
-                      name="email"
-                      checked={isEmailChecked}
-                      onChange={handleCheckboxChange}
-                    />
+                    <>
+                      <CustomCheckbox
+                        name="email"
+                        checked={isEmailChecked}
+                        onChange={handleCheckboxChange}
+                        icon={<span style={styles.checkBoxUncheckedstyle} />}
+                        checkedIcon={
+                          <span style={styles.checkBoxcheckedstyle}>✓</span>
+                        }
+                      />
+                    </>
                   }
                   label={
-                    <span
+                    <Typography
                       style={{
                         fontSize: "14px",
+                        fontFamily: "Poppins",
                         color: "rgba(66, 70, 81, 0.87)",
                       }}
                     >
                       Receiving emails about latest news, offers and more
-                    </span>
+                    </Typography>
                   }
                 />
               </Grid>
               <Grid item xs={12} style={{ marginTop: "-25px" }}>
                 <FormControlLabel
                   control={
-                    <Checkbox
+                    <CustomCheckbox
                       name="termsOfService"
                       checked={isTermsOfServiceChecked}
                       onChange={handleCheckboxChange}
+                      icon={<span style={styles.checkBoxUncheckedstyle} />}
+                      checkedIcon={
+                        <span style={styles.checkBoxcheckedstyle}>✓</span>
+                      }
                     />
                   }
                   label={
-                    <span
+                    <Typography
                       style={{
                         fontSize: "14px",
+                        fontFamily: "Poppins",
                         color: "rgba(66, 70, 81, 0.87)",
                       }}
                     >
@@ -620,11 +720,17 @@ export const SignUp = () => {
                       >
                         Privacy Policy
                       </span>
-                    </span>
+                    </Typography>
                   }
                 />
                 {termsOfServiceError && (
-                  <span style={{ color: "red", fontSize: "12px" }}>
+                  <span
+                    style={{
+                      color: "red",
+                      fontSize: "12px",
+                      fontFamily: "Poppins",
+                    }}
+                  >
                     Please accept the Terms of Service.
                   </span>
                 )}
@@ -643,7 +749,6 @@ export const SignUp = () => {
             </Button>
             <div style={{ marginTop: "20px" }} />
             <GoogleOAuthProvider clientId="496577884812-quv2n4j54nvk6gtrmo4vuv98cmrlf5q4.apps.googleusercontent.com">
-              {/* <GoogleLogoutButton /> */}
               <GoogleSignInButton googleResponce={setGoogleResult} />
             </GoogleOAuthProvider>
 
@@ -651,22 +756,24 @@ export const SignUp = () => {
               <Typography style={styles.ErrorMsgTxt}>{errorMessage}</Typography>
             )}
             <div style={styles.loginDev}>
-              <span style={styles.alreadyAcc}>Already have an account?</span>
-              <span
+              <Typography style={styles.alreadyAcc}>
+                Already have an account?
+              </Typography>
+              <Typography
                 onClick={() => {
                   navigate("/LogIn");
                 }}
                 style={styles.loginTxt}
               >
                 Log in
-              </span>
+              </Typography>
             </div>
           </Grid>
-          <Grid container style={styles.endContent}></Grid>
+          {/* <Grid container style={styles.endContent}></Grid> */}
         </div>
         <span
           onClick={() => {
-            dispatch(EmailId("er.riyaz2507@gmail.com"));
+            // dispatch(EmailId("er.riyaz2507@gmail.com"));
             navigate("/VerifyOTP");
           }}
           style={styles.loginTxt}
@@ -686,99 +793,89 @@ export const SignUp = () => {
   );
 };
 
-const useStyles = makeStyles((theme) => ({
-  customTextField: {
-    fontSize: 16,
-    color: "black",
-    padding: "15px",
-    borderBottom: "none",
-    backgroundColor: "#fff",
-    borderRadius: "5px",
-    boxShadow: "0px 0px 2px rgba(0, 0, 0, 0.2)",
-  },
-}));
-
 const styles = {
   containerBody: {
     width: "100%",
     // height: "100vh",
     backgroundColor: "#f6f6f6",
+    // backgroundColor: "#454545",
   },
   formStyle: {
-    borderWidth: 1,
-    borderColor: "#dddddd",
-    paddingBottom: "50px",
-    backgroundColor: "#f6f6f6",
-    borderStyle: "solid",
-    borderRadius: "4px",
+    // backgroundColor: "#f6f6f6",
+    //
+    // borderWidth: 1,
+    // borderColor: "#dddddd",
+    // paddingBottom: "50px",
+    // borderStyle: "solid",
+    // borderRadius: "4px",
   },
   appIconStyle: {
-    marginTop: "2%",
-    marginLeft: "5%",
-    width: "100px",
-    height: "50px",
+    // marginTop: "10px",
+    marginLeft: "140px",
+    width: "200px",
+    height: "100px",
+    // backgroundColor: "pink",
   },
   pageTitleDev: {
-    marginTop: "28px",
+    // marginTop: "28px",
     justifyContent: "center",
     alignItems: "center",
     display: "flex",
     flexDirection: "column",
   },
   pageNameTxt: {
-    fontSize: 45,
-    lineHeight: "40px",
-    color: "rgba(66, 70, 81, 0.87)",
+    fontSize: "45px",
+    fontFamily: "Poppins",
+    lineHeight: 0.89,
+    color: "#424651",
     fontWeight: "bold",
     fontStyle: "normal",
     textAlign: "center",
   },
   pageSubNameTxt: {
     marginTop: "11px",
-    fontSize: 30,
-    lineHeight: "40px",
-    color: "rgba(66, 70, 81, 0.87)",
+    fontSize: "30px",
+    fontFamily: "Poppins",
+    lineHeight: 1.33,
     fontWeight: "500",
     fontStyle: "normal",
     textAlign: "center",
+    color: "#424651",
   },
-  fieldDev: {
+  firstFieldName: {
     display: "flex",
     justifyContent: "space-between",
     flexDirection: "row",
-    width: "65%",
+    width: "55%",
     marginTop: "40px",
+    // backgroundColor: "gold",
   },
-  fieldDev2: {
-    display: "flex",
-    flexDirection: "column",
-    alignContent: "center",
-    width: "65%",
-  },
+
   fieldDev3: {
     backgroundColor: "#fff",
     boxShadow: "0px 0px 2px rgba(0, 0, 0, 0.09)",
     borderBottom: "none",
-    marginTop: "15px",
+    marginTop: "10px",
     borderRadius: "5px",
-    paddingTop: "3px",
-    paddingBottom: "3px",
+    // paddingTop: "3px",
+    // paddingBottom: "3px",
+    // backgroundColor: "red",
   },
-  pwdDev: {
+  fieldDevLast: {
     display: "flex",
     flexDirection: "column",
     alignContent: "center",
     width: "100%",
   },
-  pwdDev2: {
+  pwd_confirmDev: {
     display: "flex",
     flexDirection: "column",
     alignContent: "center",
     width: "100%",
-    maxWidth: "65%",
+    maxWidth: "55%",
     margin: "0 auto",
   },
-  pwdDev3: {
+  pwdDev: {
     backgroundColor: "#fff",
     boxShadow: "0px 0px 2px rgba(0, 0, 0, 0.09)",
     borderBottom: "none",
@@ -811,6 +908,7 @@ const styles = {
   pwdStrengthTxt: {
     color: "#424651",
     fontSize: 14,
+    fontFamily: "Poppins",
     fontWeight: "revert",
   },
   pwdInstructionDev: {
@@ -821,59 +919,68 @@ const styles = {
     marginBottom: "10px",
   },
   pwdInstructionTxt: {
-    fontFamily: "revert-layer",
     color: "#424651",
     fontSize: 12,
+    fontFamily: "Poppins",
     fontWeight: "normal",
-    letterSpacing: -1,
-    lineHeight: 0.2,
+    letterSpacing: 0,
+    // lineHeight: 0.2,
   },
   customTextField: {
-    fontSize: 16,
-    color: "black",
-    padding: "15px",
+    fontSize: "16px",
+    fontFamily: "Poppins",
+    color: "#424651",
+    padding: "10px",
     borderBottom: "none",
     backgroundColor: "#fff",
     borderRadius: "5px",
     boxShadow: "0px 0px 2px rgba(0, 0, 0, 0.09)",
+    // backgroundColor: "red",
   },
   phoneNoStyles: {
-    fontSize: 16,
-    color: "black",
+    fontSize: "16px",
+    fontFamily: "Poppins",
+    color: "#424651",
     borderBottom: "none",
     backgroundColor: "#fff",
     borderRadius: "5px",
+    // backgroundColor: "red",
   },
   pwdStyles: {
-    fontSize: 16,
-    color: "black",
+    fontSize: "16px",
+    fontFamily: "Poppins",
+    color: "#424651",
     borderBottom: "none",
     backgroundColor: "#fff",
     marginTop: "-6px",
+    padding: "0px",
   },
   ErrorMsgTxt: {
     color: "#DC143C",
     fontSize: 12,
+    fontFamily: "Poppins",
     marginTop: "5px",
   },
   endContent: {
     display: "flex",
     flexDirection: "column",
     alignContent: "center",
-    width: "65%",
-    marginTop: "15px",
+    width: "55%",
+    // marginTop: "15px",
   },
   btnStyle: {
     width: "100%",
     backgroundColor: "#026b93",
     color: "white",
     fontSize: "14px",
+    fontFamily: "Poppins",
     fontWeight: "bold",
     textTransform: "none",
     boxShadow: "0px 0px 2px rgba(0, 0, 0, 0.09)",
-    // borderRadius: 0,
+    padding: "10px",
   },
   loginDev: {
+    display: "flex",
     marginTop: "15px",
     flexDirection: "row",
     alignSelf: "center",
@@ -881,22 +988,42 @@ const styles = {
   },
   loginTxt: {
     marginLeft: "40px",
-    color: "black",
+    color: "#424651",
     fontSize: "14px",
+    fontFamily: "Poppins",
     fontWeight: "normal",
     textDecoration: "underline",
     textAlign: "center",
   },
   alreadyAcc: {
-    color: "black",
+    color: "#424651",
     fontSize: "14px",
+    fontFamily: "Poppins",
     fontWeight: "normal",
     textAlign: "center",
   },
-  checkBoxDev: {
+  BoxDev: {
     display: "flex",
     flexDirection: "column",
     alignContent: "center",
-    width: "65%",
+    width: "55%",
+  },
+  checkBoxUncheckedstyle: {
+    border: "1px solid rgba(66, 70, 81, 0.4)",
+    borderRadius: "1px",
+    width: "22px",
+    height: "22px",
+  },
+  checkBoxcheckedstyle: {
+    color: "#424651",
+    border: "1px solid rgba(66, 70, 81, 0.4)",
+    borderRadius: "1px",
+    width: "22px",
+    height: "22px",
+    alignSelf: "center",
+    alignItems: "center",
+    alignContent: "center",
+    justifyContent: "center",
+    display: "flex",
   },
 };

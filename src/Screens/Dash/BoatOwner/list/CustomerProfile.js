@@ -10,6 +10,7 @@ import {
   YouTube,
 } from "@material-ui/icons";
 import IMAGES from "../../../Images";
+import { StarRating } from "../../../../UI kit/5Star/StarRating";
 
 const useStyles = makeStyles({
   myListingsContainer: {
@@ -174,32 +175,6 @@ export const CustomerProfile = () => {
   const navigate = useNavigate();
   const classes = useStyles();
 
-  const renderStarRating = (rating) => {
-    const filledStars = Math.floor(rating);
-    const emptyStars = 5 - filledStars;
-
-    return (
-      <div>
-        {[...Array(filledStars)].map((_, index) => (
-          <Star
-            key={`filled-${index}`}
-            style={{ fill: "gold" }}
-            className={classes.starImage}
-          />
-        ))}
-        {[...Array(emptyStars)].map((_, index) => (
-          <StarOutline
-            key={`empty-${index}`}
-            style={{
-              fill: "gold",
-            }}
-            className={classes.starImage}
-          />
-        ))}
-      </div>
-    );
-  };
-
   return (
     <div className={classes.myListingsContainer}>
       <div className={classes.body}>
@@ -310,7 +285,7 @@ export const CustomerProfile = () => {
             >
               Your Review
             </Typography>
-            {renderStarRating(5)}
+            <StarRating rating={3} />
             <Typography
               className={classes.userInfoTxt}
               style={{ marginTop: "50px", textAlign: "center" }}

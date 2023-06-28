@@ -38,10 +38,12 @@ const Navbar = () => {
           <Col sm={2} className="d-flex align-items-center">
             <Nav>
               <Nav.Item>
-                <Nav.Link href="/home">Login</Nav.Link>
+                <Nav.Link href="/LogIn">Login</Nav.Link>
               </Nav.Item>
               <Nav.Item>
-                <Nav.Link eventKey="link-1">SignUp</Nav.Link>
+                <Nav.Link eventKey="link-1" href="/UserChoice">
+                  SignUp
+                </Nav.Link>
               </Nav.Item>
             </Nav>
           </Col>

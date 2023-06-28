@@ -23,6 +23,8 @@ const VerifyOTP = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [errorMsg, setErrorMsg] = useState("");
+  const [showResend, setShowResend] = useState(true);
+  const [countdown, setCountdown] = useState(60);
 
   const handleSubmit = (values) => {
     setErrorMsg("");
@@ -67,11 +69,24 @@ const VerifyOTP = () => {
     }
   };
 
+  const startCountdown = () => {
+    setShowResend(false);
+    let timer = setInterval(() => {
+      setCountdown((prevCount) => prevCount - 1);
+    }, 1000);
+
+    setTimeout(() => {
+      clearInterval(timer);
+      setShowResend(true);
+      setCountdown(60);
+    }, 60000);
+  };
+
   return (
     <div
       style={{
         width: "100%",
-        // height: "100vh",
+        height: "100vh",
         backgroundColor: "#f6f6f6",
         paddingBottom: "100px",
       }}
@@ -80,10 +95,10 @@ const VerifyOTP = () => {
         src={IMAGES.APP_ICON}
         alt="ICON"
         style={{
-          width: "198px",
-          height: "98px",
           marginLeft: "140px",
-          marginTop: "24px",
+          width: "200px",
+          height: "100px",
+          // marginTop: "24px",
         }}
       />
       <div
@@ -91,12 +106,19 @@ const VerifyOTP = () => {
           display: "flex",
         }}
       >
-        <Container sx={{}}>
-          <Grid
-            container
-            direction="column"
-            style={{ backgroundColor: "white" }}
-          >
+        <Container
+          sx={{}}
+          style={{
+            backgroundColor: "white",
+            width: "65%",
+            display: "flex",
+            justifyContent: "center",
+            // alignSelf: "center",
+            // alignItems: "center",
+            // alignContent: "center",
+          }}
+        >
+          <Grid container direction="column">
             <Grid
               item
               sx={{
@@ -104,6 +126,8 @@ const VerifyOTP = () => {
                 display: "flex",
                 cursor: "pointer",
                 alignItems: "center",
+                alignSelf: "flex-start",
+                marginLeft: "10px",
               }}
               onClick={() => {
                 dispatch(EmailId(null));
@@ -115,7 +139,6 @@ const VerifyOTP = () => {
                 style={{
                   width: "14px",
                   height: "18px",
-                  marginLeft: "100px",
                 }}
                 alt="Back"
               />
@@ -144,13 +167,13 @@ const VerifyOTP = () => {
               <img
                 src={IMAGES.VERIFY_ACC}
                 alt="Verify Acc"
-                style={{ width: "292px", height: "255px" }}
+                style={{ width: "260px", height: "220px" }}
               />
 
               <Typography
                 variant="h4"
                 sx={{
-                  marginTop: "24px",
+                  // marginTop: "24px",
                   fontSize: "40px",
                   fontFamily: "inherit",
                   fontWeight: "550",
@@ -181,7 +204,8 @@ const VerifyOTP = () => {
                 container
                 justifyContent="center"
                 alignItems="center"
-                sx={{ marginTop: "48px" }}
+                marginTop={"20px"}
+                // sx={{ marginTop: "48px" }}
               >
                 {inputRefs.map((ref, index) => (
                   <Grid item key={index}>
@@ -212,12 +236,43 @@ const VerifyOTP = () => {
                   {errorMsg}
                 </Typography>
               ) : null}
+
+              {showResend ? (
+                <Typography
+                  variant="contained"
+                  onClick={startCountdown}
+                  style={{
+                    color: "#3973a5",
+                    marginTop: errorMsg ? "18px" : "48px",
+                    textAlign: "center",
+                    borderRadius: "5px",
+                    fontSize: 14,
+                    marginBottom: "25px",
+                  }}
+                >
+                  Resend OTP
+                </Typography>
+              ) : (
+                <Typography
+                  variant="body2"
+                  style={{
+                    color: "#3973a5",
+                    marginTop: errorMsg ? "18px" : "48px",
+                    textAlign: "center",
+                    borderRadius: "5px",
+                    fontSize: 14,
+                    marginBottom: "25px",
+                  }}
+                >
+                  Resend OTP in {countdown} seconds
+                </Typography>
+              )}
+
               <Button
                 variant="contained"
                 onClick={handleSubmit}
                 style={{ backgroundColor: "#3973a5" }}
                 sx={{
-                  marginTop: errorMsg ? "18px" : "48px",
                   color: "white",
                   // padding: "10px",
                   // width: "30%",
