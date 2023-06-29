@@ -2,9 +2,10 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button, Container, Grid, TextField, Typography } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
-import { verifyOtp } from "../../Service/api";
+import { resend_otp, verifyOtp } from "../../Service/api";
 import { EmailId } from "../../redux/slices";
 import IMAGES from "../Images";
+import { toast } from "react-toastify";
 
 const useOtpInputRefs = (length) => {
   const inputRefs = React.useMemo(() => {
@@ -45,6 +46,10 @@ const VerifyOTP = () => {
         } else {
           console.log("enter else");
           setErrorMsg(res?.data?.message);
+          toast.error(res?.data?.message, {
+            position: toast.POSITION.TOP_RIGHT,
+            autoClose: 2000,
+          });
         }
       })
       .catch((err) => {
@@ -70,6 +75,8 @@ const VerifyOTP = () => {
   };
 
   const startCountdown = () => {
+    ResentOTP();
+    setErrorMsg("");
     setShowResend(false);
     let timer = setInterval(() => {
       setCountdown((prevCount) => prevCount - 1);
@@ -80,6 +87,20 @@ const VerifyOTP = () => {
       setShowResend(true);
       setCountdown(60);
     }, 60000);
+  };
+
+  const ResentOTP = () => {
+    let payload = {
+      email: "er.riyaz2507@gmail.com",
+    };
+    console.log("payload", payload);
+    resend_otp(payload)
+      .then((res) => {
+        console.log("res", res);
+      })
+      .catch((err) => {
+        console.log("err", err);
+      });
   };
 
   return (

@@ -7,7 +7,15 @@ import IMAGES from "../Images";
 const googleClientId =
   "496577884812-quv2n4j54nvk6gtrmo4vuv98cmrlf5q4.apps.googleusercontent.com";
 
-const GoogleSignInButton = ({ googleResponce }) => {
+const GoogleSignInButton = ({
+  googleResponce,
+  handle,
+  title = "Sign up with Google",
+  IsEmailChecked,
+  setIsEmailChecked,
+  handleIsEmailChecked,
+}) => {
+  console.log("IsEmailChecked", IsEmailChecked);
   const login = useGoogleLogin({
     onSuccess: async (tokenResponse) => {
       console.log(tokenResponse);
@@ -44,7 +52,7 @@ const GoogleSignInButton = ({ googleResponce }) => {
         .then((res) => res.data);
 
       console.log("userInfo", userInfo);
-      googleResponce(userInfo);
+      handle(userInfo, "GOOGLE");
     },
   });
 
@@ -62,7 +70,15 @@ const GoogleSignInButton = ({ googleResponce }) => {
           boxShadow: "0px 0px 2px rgba(0, 0, 0, 0.09)",
           padding: "10px",
         }}
-        onClick={() => login()}
+        onClick={() => {
+          if (IsEmailChecked) {
+            console.log("enter if");
+            login();
+          } else {
+            console.log("enter else");
+            handleIsEmailChecked();
+          }
+        }}
       >
         <img
           alt="google"
@@ -83,7 +99,7 @@ const GoogleSignInButton = ({ googleResponce }) => {
             fontWeight: "bold",
           }}
         >
-          Sign up with Google
+          {title}
         </Typography>
       </Button>
     </div>

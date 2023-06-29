@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import IMAGES from "../Images";
 import Footer from "../../Component/Footer/Footer";
 import { StarRating } from "../../UI kit/5Star/StarRating";
+import Imagebox from "../../Component/ImageBox/Imagebox";
 
 const boatServices = [
   {
@@ -38,7 +39,7 @@ const boatServices = [
   },
 ];
 
-export const DashBoard = () => {
+export const BoatOwnerDashBoard = () => {
   const navigate = useNavigate();
 
   return (
@@ -49,7 +50,7 @@ export const DashBoard = () => {
             justifyContent: "space-between",
             display: "flex",
             flexDirection: "row",
-            margin: "24px",
+            margin: "0px 24px",
             // backgroundColor: "green",
           }}
         >
@@ -109,6 +110,7 @@ export const DashBoard = () => {
             fontWeight: "bolder",
             fontSize: "30px",
             textAlign: "center",
+            color: "#424651",
           }}
         >
           in 2 Steps
@@ -125,7 +127,7 @@ export const DashBoard = () => {
         >
           <div
             style={{
-              padding: "40px",
+              padding: "25px",
               backgroundColor: "white",
               // width: "211px",
               borderRadius: "500px",
@@ -177,7 +179,7 @@ export const DashBoard = () => {
         >
           <div
             style={{
-              padding: "40px",
+              padding: "30px",
               backgroundColor: "white",
               // width: "211px",
               borderRadius: "500px",
@@ -194,7 +196,7 @@ export const DashBoard = () => {
                 flex: 1,
                 backgroundColor: "white",
                 width: "150px",
-                height: "120px",
+                height: "140px",
               }}
             />
           </div>
@@ -228,73 +230,9 @@ export const DashBoard = () => {
           Best Boat Offers This Week
         </Typography>
       </div>
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "row",
-          flexWrap: "wrap",
 
-          margin: "0px 230px",
-        }}
-      >
-        {boatServices?.map((item, index) => {
-          return (
-            <div
-              style={{
-                margin: "10px",
-                backgroundColor: "white",
-              }}
-            >
-              <img
-                src={IMAGES.boat1}
-                style={{ width: "450px", height: "260px" }}
-                alt="boat"
-              />
-              <div style={{ padding: "32px" }}>
-                <Typography style={styles.boatName}>Night Light</Typography>
-                <Typography style={styles.boatDrierName}>Jeddah</Typography>
-
-                <StarRating rating={3} />
-                <div
-                  style={{
-                    marginTop: "24px",
-                    display: "flex",
-                    flexDirection: "row",
-                    justifyContent: "space-between",
-                  }}
-                >
-                  <div
-                    style={{
-                      display: "flex",
-                      flexDirection: "row",
-                    }}
-                  >
-                    <img
-                      src={IMAGES.MONEY_CARD}
-                      style={styles.moneyIcon}
-                      alt="money"
-                    />
-                    <Typography style={styles.boatprice}>7200 SAR</Typography>
-                  </div>
-                  <div
-                    style={{
-                      display: "flex",
-                      flexDirection: "row",
-                    }}
-                  >
-                    <img
-                      src={IMAGES.GROUP}
-                      style={styles.groupIcon}
-                      alt="money"
-                    />
-                    <Typography style={styles.boatprice}>15</Typography>
-                  </div>
-                </div>
-              </div>
-            </div>
-          );
-        })}
-      </div>
+      <Imagebox />
+      <Imagebox />
       <Footer />
     </div>
   );
@@ -346,7 +284,7 @@ const styles = {
   pageTopContainer: {
     display: "flex",
     flexDirection: "column",
-    marginTop: "57px",
+    marginTop: "30px",
   },
   subtitleTxt: {
     fontSize: "28px",
@@ -359,7 +297,7 @@ const styles = {
   docUploadContainer: {
     display: "flex",
     flexDirection: "column",
-    marginTop: "57px",
+    marginTop: "20px",
     marginLeft: "10%",
   },
   uploadBoatDocTitleTxt: {

@@ -1,16 +1,17 @@
 import React, { useState } from "react";
-import Banner from "../Component/Banner/Banner";
-import Footer from "../Component/Footer/Footer";
+import { Container } from "react-bootstrap";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import Boat_Experience from "../assets/Images/Boating_Experience.png";
 import { FaSearch } from "react-icons/fa";
-import Imagebox from "../Component/ImageBox/Imagebox";
-import { Container } from "react-bootstrap";
-import Rentel_Ellipse from "../assets/Images/Rental_Ellipse.svg";
-import Ellipse from "../assets/Images/Ellipse.svg";
 
-const Rental = () => {
+import Boat_Experience from "../../../assets/Images/removeable/Boating_Experience.png";
+import Rentel_Ellipse from "../../../assets/Images/Rental_Ellipse.svg";
+import Ellipse from "../../../assets/Images/Ellipse.svg";
+import Imagebox from "../../../Component/ImageBox/Imagebox";
+import Banner from "../../../Component/Banner/Banner";
+import Footer from "../../../Component/Footer/Footer";
+
+export const Rental = () => {
   const [extraInputValue, setExtraInputValue] = useState("");
 
   const handleExtraInputChange = (event) => {
@@ -35,7 +36,7 @@ const Rental = () => {
 
   const className = "d-flex justify-content-center";
   const backgroundColor = "#fff";
-  const opacity = 0.6;
+  const opacity = 0.9;
   const showInput = true;
   const inputStyle = {
     width: 1037,
@@ -214,4 +215,3 @@ const Rental = () => {
     </div>
   );
 };
-export default Rental;

@@ -1,4 +1,4 @@
-.card-title{
+.card-title {
   font-family: Poppins;
   font-size: 20px;
   font-weight: 600;
@@ -9,7 +9,7 @@
   text-align: left;
   color: rgba(66, 70, 81, 0.87) !important;
 }
-.place_name{
+.place_name {
   font-family: Poppins;
   font-size: 20px;
   font-weight: normal;
@@ -20,7 +20,7 @@
   text-align: left;
   color: rgba(66, 70, 81, 0.4) !important;
 }
-.money{
+.money {
   font-family: Poppins;
   font-size: 18px;
   font-weight: 600;
@@ -31,7 +31,7 @@
   text-align: left;
   color: rgba(66, 70, 81, 0.87) !important;
 }
-.member{
+.member {
   font-family: Poppins;
   font-size: 18px;
   font-weight: 600;
@@ -40,9 +40,15 @@
   line-height: 1.5;
   letter-spacing: normal;
   text-align: left;
-  color: rgba(66, 70, 81, 0.87)  !important;
+  color: rgba(66, 70, 81, 0.87) !important;
 }
-.star_img{
-  width: 100px;
+
+.star_ratings {
+  display: flex !important;
+  gap: 10px;
   margin-bottom: 20px;
+}
+.moneyIcon {
+  width: "28px";
+  height: "30px";
 }

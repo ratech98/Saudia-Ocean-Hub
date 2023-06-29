@@ -1,17 +1,17 @@
 /* eslint-disable react/jsx-pascal-case */
 import React from "react";
-import Backgroundimg from "../../Asset/Icons/boat1.jpeg";
-import Banner_button from "../../Asset/Icons/boat1.jpeg";
+import Backgroundimg from "../../assets/Images/bg_img.png";
+import Banner_button from "../../assets/Images/Banner_button.png";
 //
-import Journey from "./Component/Journey/Journey";
-import Owner_boat from "./Component/Owner_boat/Owner_boat";
-import Ocian_hub from "./Component/Ocian_Hub/Ocian_hub";
-import Client_review from "./Component/Testimonial/Client_review";
-import Cretified from "./Component/Certificate/Cretified";
-import Footer from "./Component/Footer/Footer";
-import Banner from "./Component/Banner/Banner";
+import Journey from "../../Component/Journey/Journey";
+import Owner_boat from "../../Component/Owner_boat/Owner_boat";
+import Ocian_hub from "../../Component/Ocian_Hub/Ocian_hub";
+import Client_review from "../../Component/Testimonial/Client_review";
+import Cretified from "../../Component/Certificate/Cretified";
+import Footer from "../../Component/Footer/Footer";
+import Banner from "../../Component/Banner/Banner";
 
-export const Home = () => {
+const Home = () => {
   const backgroundImage = Backgroundimg;
   const content =
     "Find all boat trips and certified Scuba professionals within Saudi Arabia in one place";
@@ -77,3 +77,4 @@ export const Home = () => {
     </div>
   );
 };
+export default Home;

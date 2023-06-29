@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useFormik } from "formik";
 import {
   TextField,
@@ -8,7 +8,6 @@ import {
   Checkbox,
   InputAdornment,
   IconButton,
-  CircularProgress,
   Typography,
 } from "@mui/material";
 import { withStyles } from "@mui/styles";
@@ -18,6 +17,18 @@ import { GoogleOAuthProvider } from "@react-oauth/google";
 import { useDispatch, useSelector } from "react-redux";
 import IMAGES from "../Images";
 import GoogleSignInButton from "./GoogleSignInButton";
+import { login } from "../../Service/api";
+import {
+  AuthToken,
+  EmailId,
+  Password,
+  TokenDecodeData,
+  UserId,
+} from "../../redux/slices";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import moment from "moment";
+import jwt_decode from "jwt-decode";
 
 const emailIdValidation = new RegExp(
   /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/i
@@ -61,34 +72,59 @@ export const LogIn = () => {
     }
   };
 
+  // console.log(
+  //   'localStorage.getItem("session")',
+  //   localStorage.getItem("session")
+  // );
+
   const handleSubmit = async (value) => {
+    //
+    //
+    // moment().format("YYYY-MM-DD HH:mm:ss")
+    // localStorage.setItem("session", "GJ");
+
+    //
+    //
+    //
+    //
+    //
+    //
+    //
     setIsLoading(true);
     let payload = {
       email: value?.email,
       password: value?.password,
     };
     console.log("handleSubmit payload", payload);
-    navigate("/VerifyOTP");
-    // login(payload)
-    //   .then((res) => {
-    //     console.log("login res", res);
-    //     if (res?.data?.message === "user not verified") {
-    //       dispatch(EmailId(value?.email));
-    //       dispatch(Password(value?.password));
-    //       navigate("/VerifyOTP");
-    //     } else if (res?.data?.message === "user Login successfully") {
-    //       navigate("/Home");
-    //       dispatch(AuthToken(res?.data?.token));
-    //       dispatch(UserId(res?.data?.user_id));
-    //     } else {
-    //       setErrorMsg(res?.data?.message);
-    //     }
-    //     setIsLoading(false);
-    //   })
-    //   .catch((err) => {
-    //     setIsLoading(false);
-    //     console.log("login err", err);
-    //   });
+
+    login(payload)
+      .then((res) => {
+        console.log("login res", res);
+        if (res?.data?.message === "user not verified") {
+          dispatch(EmailId(value?.email));
+          dispatch(Password(value?.password));
+          navigate("/VerifyOTP");
+        } else if (res?.data?.message === "user Login successfully") {
+          let tokenDecode = jwt_decode(res?.data?.token);
+          dispatch(TokenDecodeData(tokenDecode));
+          tokenDecode?.user_type === "BOAT_OWNER"
+            ? navigate("/boatOwnerDashBoard")
+            : navigate("/rental");
+          dispatch(UserId(res?.data?.user_id));
+          dispatch(AuthToken(res?.data?.token));
+        } else {
+          setErrorMsg(res?.data?.message);
+          // toast.error(res?.data?.message, {
+          //   position: toast.POSITION.TOP_RIGHT,
+          //   autoClose: 2000,
+          // });
+        }
+        setIsLoading(false);
+      })
+      .catch((err) => {
+        setIsLoading(false);
+        console.log("login err", err);
+      });
   };
 
   const formik = useFormik({
@@ -119,11 +155,14 @@ export const LogIn = () => {
   return (
     <>
       <div style={styles.containerBody}>
+        {/* {isLoading ? <Loader loading={isLoading} /> : null} */}
         <div style={styles.backgroundImage}></div>
+
         <form onSubmit={formik.handleSubmit} style={styles.formStyle}>
           <img src={IMAGES.APP_ICON} alt="Icon" style={styles.appIconStyle} />
           <div style={styles.pageContentDev}>
             {/* Email */}
+
             <Grid container style={styles.fieldDev}>
               <CustomTextField
                 margin="normal"
@@ -289,7 +328,7 @@ export const LogIn = () => {
                   }}
                   disabled={isLoading}
                 >
-                  {isLoading ? (
+                  {/* {isLoading ? (
                     <CircularProgress
                       size={24}
                       style={{
@@ -298,9 +337,9 @@ export const LogIn = () => {
                         color: "whitesmoke",
                       }}
                     />
-                  ) : (
-                    "Log in"
-                  )}
+                  ) : ( */}
+                  Log in
+                  {/* )} */}
                 </Button>
               </Grid>
               <Grid item xs={12}>
@@ -320,7 +359,10 @@ export const LogIn = () => {
                 >
                   {/* email,name,phno. */}
                   <GoogleOAuthProvider clientId="496577884812-quv2n4j54nvk6gtrmo4vuv98cmrlf5q4.apps.googleusercontent.com">
-                    <GoogleSignInButton googleResponce={setGoogleResult} />
+                    <GoogleSignInButton
+                      googleResponce={setGoogleResult}
+                      title={"Sign in with google"}
+                    />
                   </GoogleOAuthProvider>
                 </div>
               </Grid>
@@ -332,7 +374,7 @@ export const LogIn = () => {
                   <Typography
                     style={styles.noAccTxt}
                     onClick={() => {
-                      navigate("/SignUp");
+                      navigate("/userChoice");
                     }}
                   >
                     Don't have an account?

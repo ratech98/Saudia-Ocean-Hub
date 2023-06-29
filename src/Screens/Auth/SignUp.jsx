@@ -19,13 +19,15 @@ import { withStyles } from "@mui/styles";
 import { useNavigate } from "react-router-dom";
 import { Visibility, VisibilityOff } from "@material-ui/icons";
 import { countryCodeJson } from "./countryCodeJson";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { EmailId } from "../../redux/slices";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import GoogleSignInButton from "./GoogleSignInButton";
 import { register } from "../../Service/api";
 import IMAGES from "../Images";
 import { makeStyles } from "@material-ui/core/styles";
+import Loader from "../Loader";
+import { toast } from "react-toastify";
 
 const start_space_Validation = new RegExp(/^(?!\s).*/);
 const emailIdValidation = new RegExp(
@@ -81,6 +83,7 @@ export const SignUp = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   // const classes = useStyles();
+  const user = useSelector((state) => state?.auth);
   const [showPassword, setShowPassword] = useState(false);
   const [password, setPassword] = useState(false);
   const [strengthIndicator, setStrengthIndicator] = useState(false);
@@ -92,8 +95,10 @@ export const SignUp = () => {
   const [termsOfServiceError, setTermsOfServiceError] = useState(false);
   const [googleResult, setGoogleResult] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
+  const [loading, setLoading] = useState(false);
 
   console.log("googleResult", googleResult);
+  // console.log("user", user?.userType);
 
   const handleCheckboxChange = (event) => {
     const { name, checked } = event.target;
@@ -151,9 +156,16 @@ export const SignUp = () => {
     }
   }, [password]);
 
-  const handleSubmit = async (value) => {
+  const handleIsEmailChecked = () => {
+    console.log("enter");
+  };
+
+  const handleSubmit = async (value, type) => {
+    console.log("handleSubmit");
     setErrorMessage("");
+
     if (isTermsOfServiceChecked) {
+      setLoading(true);
       let payload = {
         first_name: value?.firstName,
         last_name: value?.lastName,
@@ -162,11 +174,17 @@ export const SignUp = () => {
         country_code: selectedCountry?.dial_code,
         password: value?.password,
         received_email: isEmailChecked,
-        sign_in_type: "EMAIL",
-        user_type: "BOAT_OWNER",
+        sign_in_type: type === "GOOGLE" ? "GOOGLE" : "EMAIL",
+        user_type: user?.userType,
       };
 
-      console.log("handleSubmit payload", payload);
+      // "first_name":"test",
+      // "email":"er.riyaz2507@gmail.com",
+      // "received_email":true,
+      // "sign_in_type":"SOCIAL_LOGIN",
+      // "user_type":"BOAT_OWNER"
+
+      console.log("handle Submit payload", payload);
       register(payload)
         .then((res) => {
           console.log("register res", res);
@@ -178,9 +196,15 @@ export const SignUp = () => {
           } else {
             console.log("res message ====>>>", res?.data?.message);
             setErrorMessage(res?.data?.message);
+            toast.error(res?.data?.message, {
+              position: toast.POSITION.TOP_RIGHT,
+              autoClose: 2000,
+            });
           }
+          setLoading(false);
         })
         .catch((err) => {
+          setLoading(false);
           console.log("register err", err);
         });
     } else {
@@ -244,6 +268,7 @@ export const SignUp = () => {
 
   return (
     <div style={styles.containerBody}>
+      {loading ? <Loader loading={loading} /> : null}
       <form onSubmit={formik.handleSubmit} style={styles.formStyle}>
         <img src={IMAGES.APP_ICON} alt="Icon" style={styles.appIconStyle} />
         <div style={styles.pageTitleDev}>
@@ -723,19 +748,21 @@ export const SignUp = () => {
                     </Typography>
                   }
                 />
-                {termsOfServiceError && (
-                  <span
-                    style={{
-                      color: "red",
-                      fontSize: "12px",
-                      fontFamily: "Poppins",
-                    }}
-                  >
-                    Please accept the Terms of Service.
-                  </span>
-                )}
               </Grid>
             </Grid>
+            {termsOfServiceError && (
+              <Typography
+                style={{
+                  color: "red",
+                  fontSize: "12px",
+                  fontFamily: "Poppins",
+                  marginTop: "-10px",
+                  marginBottom: "10px",
+                }}
+              >
+                Please accept the Terms of Service.
+              </Typography>
+            )}
           </Grid>
 
           <Grid container style={styles.endContent}>
@@ -748,10 +775,24 @@ export const SignUp = () => {
               Create Account
             </Button>
             <div style={{ marginTop: "20px" }} />
+            {/*  */}
+            {/*  */}
+            {/*  */}
+            {/*  */}
+            {/* GOOGLE LOGIN */}
             <GoogleOAuthProvider clientId="496577884812-quv2n4j54nvk6gtrmo4vuv98cmrlf5q4.apps.googleusercontent.com">
-              <GoogleSignInButton googleResponce={setGoogleResult} />
+              <GoogleSignInButton
+                googleResponce={setGoogleResult}
+                handle={handleSubmit}
+                IsEmailChecked={isEmailChecked}
+                setIsEmailChecked={setIsEmailChecked}
+                handleIsEmailChecked={handleIsEmailChecked}
+              />
             </GoogleOAuthProvider>
-
+            {/*  */}
+            {/*  */}
+            {/*  */}
+            {/*  */}
             {errorMessage && (
               <Typography style={styles.ErrorMsgTxt}>{errorMessage}</Typography>
             )}
@@ -780,14 +821,14 @@ export const SignUp = () => {
         >
           Skip VerifyOTP
         </span>
-        <span
+        {/* <span
           onClick={() => {
             navigate("/Home");
           }}
           style={styles.loginTxt}
         >
           Skip DashBoard
-        </span>
+        </span> */}
       </form>
     </div>
   );
@@ -796,12 +837,12 @@ export const SignUp = () => {
 const styles = {
   containerBody: {
     width: "100%",
-    // height: "100vh",
+    height: "100vh",
     backgroundColor: "#f6f6f6",
     // backgroundColor: "#454545",
   },
   formStyle: {
-    // backgroundColor: "#f6f6f6",
+    backgroundColor: "#f6f6f6",
     //
     // borderWidth: 1,
     // borderColor: "#dddddd",
@@ -967,6 +1008,7 @@ const styles = {
     alignContent: "center",
     width: "55%",
     // marginTop: "15px",
+    paddingBottom: "15px",
   },
   btnStyle: {
     width: "100%",

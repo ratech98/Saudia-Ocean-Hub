@@ -1,13 +1,17 @@
+import React, { useEffect, useState } from "react";
 import { Typography } from "@mui/material";
-import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { UserType } from "../../redux/slices/authSlice";
 
 export const UserChoice = () => {
   const [userType, setUserType] = useState("");
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
   const handleUser = (values) => {
     // Handle form submission here
-    console.log(values);
+
     setUserType(values);
   };
 
@@ -44,7 +48,7 @@ export const UserChoice = () => {
       >
         <div
           onClick={() => {
-            handleUser("boat_owner");
+            handleUser("BOAT_OWNER");
           }}
           style={{
             padding: "10px",
@@ -59,7 +63,7 @@ export const UserChoice = () => {
             style={{
               width: "15px",
               height: "15px",
-              backgroundColor: userType === "boat_owner" ? "dimgray" : "white",
+              backgroundColor: userType === "BOAT_OWNER" ? "dimgray" : "white",
               borderRadius: 30,
               border: "solid 1px #707070",
               alignSelf: "flex-end",
@@ -88,7 +92,7 @@ export const UserChoice = () => {
 
         <div
           onClick={() => {
-            handleUser("customer");
+            handleUser("CUSTOMER");
           }}
           style={{
             padding: "10px",
@@ -103,7 +107,7 @@ export const UserChoice = () => {
             style={{
               width: "15px",
               height: "15px",
-              backgroundColor: userType === "customer" ? "dimgray" : "white",
+              backgroundColor: userType === "CUSTOMER" ? "dimgray" : "white",
               borderRadius: 30,
               border: "solid 1px #707070",
               alignSelf: "flex-end",
@@ -134,6 +138,7 @@ export const UserChoice = () => {
 
       <Typography
         onClick={() => {
+          dispatch(UserType(userType));
           navigate("/SignUp");
         }}
         style={{

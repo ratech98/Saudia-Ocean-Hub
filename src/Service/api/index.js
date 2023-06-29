@@ -33,6 +33,22 @@ export function login(data) {
   });
 }
 
+export function resend_otp(data) {
+  console.log(
+    "API.baseUrls[API.currentEnv] + API.authUrls.resend_otp",
+    API.baseUrls[API.currentEnv] + API.authUrls.resend_otp
+  );
+  return axios.post(
+    API.baseUrls[API.currentEnv] + API.authUrls.resend_otp,
+    data,
+    {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }
+  );
+}
+
 export function boat_type(token) {
   return axios.get(API.baseUrls[API.currentEnv] + API.authUrls.boat_type, {
     headers: {

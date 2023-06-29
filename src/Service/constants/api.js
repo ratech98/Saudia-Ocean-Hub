@@ -15,5 +15,6 @@ export const API = {
     boat_type: "boat_type",
     boat_service: "boat_service",
     boat_register: "boat_register",
+    resend_otp: "resend-otp",
   },
 };

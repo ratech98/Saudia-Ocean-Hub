@@ -8,6 +8,9 @@ import { FaMoneyBill } from "react-icons/fa";
 import { FaUsers } from "react-icons/fa";
 import "./Imagebox.css";
 import Star from "../../assets/Images/star.png";
+import StarOff from "../../assets/Images/XMLID_16_.png";
+import IMAGES from "../../Screens/Images";
+import { StarRating } from "../../UI kit/5Star/StarRating";
 
 const Imagebox = () => {
   const imageBox = [
@@ -16,7 +19,7 @@ const Imagebox = () => {
       image: Boat,
       boatName: "Peace Boat",
       placeName: "Russel Madam",
-      star: Star,
+      starCount: 4,
       moneyIcon: FaMoneyBill,
       money: "55000 SAR",
       userGroup: FaUsers,
@@ -27,7 +30,7 @@ const Imagebox = () => {
       image: Boat,
       boatName: "Al Madina Boat",
       placeName: "Yanbu",
-      star: Star,
+      starCount: 4,
       moneyIcon: FaMoneyBill,
       money: "6000 SAR",
       userGroup: FaUsers,
@@ -38,7 +41,7 @@ const Imagebox = () => {
       image: Boat,
       boatName: "Russel Madam",
       placeName: "Riyadh",
-      star: Star,
+      starCount: 5,
       moneyIcon: FaMoneyBill,
       money: "10000 SAR",
       userGroup: FaUsers,
@@ -62,15 +65,19 @@ const Imagebox = () => {
             <Card.Body>
               <Card.Title>{item.boatName}</Card.Title>
               <Card.Text className="place_name">{item.placeName}</Card.Text>
-              <Card.Img className="star_img" src={item.star}></Card.Img>
-              <Row className="justify-content-between ">
+              <div className="star_ratings">
+                <StarRating rating={item.starCount} />
+              </div>
+              <Row className="justify-content-between">
                 <Col>
                   <Row className="gap-3">
                     <Col xs={1}>
                       <Card.Text>
-                        <item.moneyIcon
-                          size={29}
-                          color="rgba(66, 70, 81, 0.87)"
+                        <img
+                          src={IMAGES.MONEY_CARD}
+                          style={{ width: "28px", height: "30px" }}
+                          className="moneyIcon"
+                          alt="money"
                         />
                       </Card.Text>
                     </Col>

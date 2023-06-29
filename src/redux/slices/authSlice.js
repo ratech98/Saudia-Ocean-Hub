@@ -2,10 +2,14 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   isLoading: false,
+  userType: null,
   emailId: null,
   password: null,
+  //
   AuthToken: null,
+  tokenDecodeData: null,
   userId: null,
+
   //
   //
   //
@@ -39,6 +43,9 @@ const authSlice = createSlice({
   initialState,
   name: "auth",
   reducers: {
+    UserType(state, action) {
+      state.userType = action.payload;
+    },
     EmailId(state, action) {
       state.emailId = action.payload;
     },
@@ -47,6 +54,9 @@ const authSlice = createSlice({
     },
     AuthToken(state, action) {
       state.AuthToken = action.payload;
+    },
+    TokenDecodeData(state, action) {
+      state.tokenDecodeData = action.payload;
     },
     UserId(state, action) {
       state.userId = action.payload;
@@ -87,6 +97,7 @@ const authSlice = createSlice({
   },
 });
 export const {
+  UserType,
   EmailId,
   Password,
   AuthToken,
@@ -95,6 +106,7 @@ export const {
   boatTypeList,
   boatServiceList,
   boatRegisterStep2,
+  TokenDecodeData,
 } = authSlice.actions;
 
 export default authSlice.reducer;

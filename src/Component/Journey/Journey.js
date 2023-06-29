@@ -19,7 +19,6 @@ const Journey = () => {
           <div
             style={{
               display: "flex",
-
               width: "100%",
             }}
           >

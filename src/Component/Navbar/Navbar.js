@@ -31,17 +31,17 @@ const Navbar = () => {
                 <Nav.Link eventKey="link-1">For Boat Owners</Nav.Link>
               </Nav.Item>
               <Nav.Item>
-                <Nav.Link eventKey="link-2">For Boat Rentals</Nav.Link>
+                <Nav.Link href="/Rental">For Boat Rentals</Nav.Link>
               </Nav.Item>
             </Nav>
           </Col>
           <Col sm={2} className="d-flex align-items-center">
             <Nav>
               <Nav.Item>
-                <Nav.Link href="/LogIn">Login</Nav.Link>
+                <Nav.Link href="/logIn">Login</Nav.Link>
               </Nav.Item>
               <Nav.Item>
-                <Nav.Link eventKey="link-1" href="/UserChoice">
+                <Nav.Link eventKey="link-1" href="/userChoice">
                   SignUp
                 </Nav.Link>
               </Nav.Item>
