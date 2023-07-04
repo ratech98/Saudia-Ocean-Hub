@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Typography } from "@mui/material";
-import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { UserType } from "../../redux/slices/authSlice";
+import { useNavigate } from "react-router-dom";
 
 export const UserChoice = () => {
   const [userType, setUserType] = useState("");

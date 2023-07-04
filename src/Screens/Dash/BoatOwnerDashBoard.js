@@ -1,10 +1,11 @@
 import { Container, Grid, Typography } from "@mui/material";
 import React from "react";
-import { useNavigate } from "react-router-dom";
+
 import IMAGES from "../Images";
 import Footer from "../../Component/Footer/Footer";
 import { StarRating } from "../../UI kit/5Star/StarRating";
 import Imagebox from "../../Component/ImageBox/Imagebox";
+import { useNavigate } from "react-router-dom";
 
 const boatServices = [
   {
@@ -75,7 +76,7 @@ export const BoatOwnerDashBoard = () => {
             </Typography>
             <Typography
               onClick={() => {
-                navigate("/MyListings");
+                navigate("/myListings");
               }}
               style={styles.titleOptionTxt}
             >
@@ -92,10 +93,20 @@ export const BoatOwnerDashBoard = () => {
               flex: 0.1,
             }}
           >
-            <Typography onClick={() => {}} style={styles.titleOptionTxt}>
+            <Typography
+              onClick={() => {
+                navigate("/logIn");
+              }}
+              style={styles.titleOptionTxt}
+            >
               Log In
             </Typography>
-            <Typography onClick={() => {}} style={styles.titleOptionTxt}>
+            <Typography
+              onClick={() => {
+                navigate("/signUp");
+              }}
+              style={styles.titleOptionTxt}
+            >
               Sign Up
             </Typography>
           </div>

@@ -6,7 +6,11 @@ const StoreAuth = ({ data }) => {
 
   useEffect(() => {
     data(user);
-    console.log("user", user);
+    console.log("StoreAuth ==> user", user);
+    // console.log(
+    //   "StoreAuth ==> localStorage session",
+    //   localStorage.getItem("session")
+    // );
   }, [data, user]);
 };
 

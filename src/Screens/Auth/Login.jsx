@@ -72,12 +72,8 @@ export const LogIn = () => {
     }
   };
 
-  // console.log(
-  //   'localStorage.getItem("session")',
-  //   localStorage.getItem("session")
-  // );
-
-  const handleSubmit = async (value) => {
+  const handleSubmit = async (value, type) => {
+    localStorage.removeItem("session");
     //
     //
     // moment().format("YYYY-MM-DD HH:mm:ss")
@@ -91,15 +87,28 @@ export const LogIn = () => {
     //
     //
     setIsLoading(true);
+
     let payload = {
       email: value?.email,
-      password: value?.password,
     };
+    if (type === "GOOGLE") {
+      payload = {
+        ...payload,
+        sign_in_type: "SOCIAL_LOGIN",
+      };
+    } else {
+      payload = {
+        ...payload,
+        password: value?.password,
+        sign_in_type: "EMAIL",
+      };
+    }
+
     console.log("handleSubmit payload", payload);
 
     login(payload)
       .then((res) => {
-        console.log("login res", res);
+        console.log("login res", res?.data);
         if (res?.data?.message === "user not verified") {
           dispatch(EmailId(value?.email));
           dispatch(Password(value?.password));
@@ -107,17 +116,28 @@ export const LogIn = () => {
         } else if (res?.data?.message === "user Login successfully") {
           let tokenDecode = jwt_decode(res?.data?.token);
           dispatch(TokenDecodeData(tokenDecode));
+
+          dispatch(UserId(res?.data?.user_id));
+          dispatch(AuthToken(res?.data?.token));
+          const currentTime = moment().format("YYYY-MM-DD HH:mm:ss");
+          console.log("currentTime", currentTime);
+          localStorage.setItem("session", currentTime.toString());
+
           tokenDecode?.user_type === "BOAT_OWNER"
             ? navigate("/boatOwnerDashBoard")
             : navigate("/rental");
-          dispatch(UserId(res?.data?.user_id));
-          dispatch(AuthToken(res?.data?.token));
         } else {
-          setErrorMsg(res?.data?.message);
-          // toast.error(res?.data?.message, {
-          //   position: toast.POSITION.TOP_RIGHT,
-          //   autoClose: 2000,
-          // });
+          setErrorMsg(
+            res?.data?.message && Object.keys(res.data.message).length > 0
+              ? res?.data?.message
+              : "LogIn Error"
+          );
+          if (res?.data?.message && Object.keys(res.data.message).length > 0) {
+            toast.error(res?.data?.message, {
+              position: toast.POSITION.TOP_RIGHT,
+              autoClose: 2000,
+            });
+          }
         }
         setIsLoading(false);
       })
@@ -131,6 +151,7 @@ export const LogIn = () => {
     initialValues: {
       email: user?.emailId ?? "",
       password: user?.password ?? "",
+      sign_in_type: "SOCIAL_LOGIN",
     },
 
     onSubmit: (values) => {
@@ -362,6 +383,8 @@ export const LogIn = () => {
                     <GoogleSignInButton
                       googleResponce={setGoogleResult}
                       title={"Sign in with google"}
+                      handle={handleSubmit}
+                      isTermsOfServiceChecked={true}
                     />
                   </GoogleOAuthProvider>
                 </div>
@@ -377,7 +400,7 @@ export const LogIn = () => {
                       navigate("/userChoice");
                     }}
                   >
-                    Don't have an account?
+                    Don`t have an account?
                   </Typography>
                 </div>
               </Grid>

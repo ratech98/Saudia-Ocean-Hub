@@ -12,9 +12,9 @@ export const API = {
     user_register: "user/register",
     verify_otp: "user/otp",
     login: "user/login",
+    resend_otp: "user/resend-otp",
     boat_type: "boat_type",
     boat_service: "boat_service",
     boat_register: "boat_register",
-    resend_otp: "resend-otp",
   },
 };

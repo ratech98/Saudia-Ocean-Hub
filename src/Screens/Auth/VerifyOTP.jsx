@@ -1,6 +1,13 @@
-import React, { useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Button, Container, Grid, TextField, Typography } from "@mui/material";
+import {
+  Alert,
+  Button,
+  Container,
+  Grid,
+  TextField,
+  Typography,
+} from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { resend_otp, verifyOtp } from "../../Service/api";
 import { EmailId } from "../../redux/slices";
@@ -22,6 +29,7 @@ const VerifyOTP = () => {
   const user = useSelector((state) => state?.auth);
   const [userType, setUserType] = useState("");
   const navigate = useNavigate();
+  // const navigate = useHistory();
   const dispatch = useDispatch();
   const [errorMsg, setErrorMsg] = useState("");
   const [showResend, setShowResend] = useState(true);
@@ -91,7 +99,7 @@ const VerifyOTP = () => {
 
   const ResentOTP = () => {
     let payload = {
-      email: "er.riyaz2507@gmail.com",
+      email: user?.emailId,
     };
     console.log("payload", payload);
     resend_otp(payload)
@@ -102,6 +110,81 @@ const VerifyOTP = () => {
         console.log("err", err);
       });
   };
+
+  // useEffect(() => {
+  //   window.addEventListener("beforeunload", handleBackPress);
+  //   return () => {
+  //     window.removeEventListener("beforeunload", handleBackPress);
+  //   };
+  // }, []);
+
+  // const handleBackPress = useCallback((event) => {
+  //   event.preventDefault();
+  //   const confirmation = window.confirm(
+  //     "Hold on! Are you sure you want to exit the app?"
+  //   );
+  //   if (confirmation) {
+  //     // Perform actions when user confirms exit
+  //     // For example, you can call a function to exit the app
+  //     // exitApp();
+  //   }
+  // }, []);
+
+  // useFocusEffect(
+  //   useCallback(() => {
+  //     const onBackPress = () => {
+
+  //       return true;
+  //     };
+  //     BackHandler.addEventListener('hardwareBackPress', onBackPress);
+  //     return () =>
+  //       BackHandler.removeEventListener('hardwareBackPress', onBackPress);
+  //   }, [
+
+  //   ]),
+  // );
+
+  // React.useEffect(
+  //   () =>
+  //     navigate.addListener("beforeRemove", (e) => {
+  //       if (false) {
+  //         // If we don't have unsaved changes, then we don't need to do anything
+  //         return;
+  //       }
+
+  //       // Prevent default behavior of leaving the screen
+  //       e.preventDefault();
+
+  //       // Prompt the user before leaving the screen
+  //       Alert.alert(
+  //         "Discard changes?",
+  //         "You have unsaved changes. Are you sure to discard them and leave the screen?",
+  //         [
+  //           { text: "Don't leave", style: "cancel", onPress: () => {} },
+  //           {
+  //             text: "Discard",
+  //             style: "destructive",
+  //             // If the user confirmed, then we dispatch the action we blocked earlier
+  //             // This will continue the action that had triggered the removal of the screen
+  //             onPress: () => navigate.dispatch(e.data.action),
+  //           },
+  //         ]
+  //       );
+  //     }),
+  //   []
+  // );
+
+  // const handleBeforeRemove = (location) => {
+  //   if (false) {
+  //     // If we don't have unsaved changes, then we don't need to do anything
+  //     return true;
+  //   }
+
+  //   // Prompt the user before leaving the screen
+  //   return window.confirm(
+  //     "You have unsaved changes. Are you sure to discard them and leave the screen?"
+  //   );
+  // };
 
   return (
     <div

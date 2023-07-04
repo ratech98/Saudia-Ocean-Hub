@@ -1,13 +1,7 @@
-import React from "react";
-import { OutsideStack } from "./OutsideStack";
+import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { InsideStack } from "./InsideStack";
-import { DashStack } from "./DashStack";
-import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
-import {
-  BoatOwnerDashBoard,
-  DashBoard,
-} from "../Screens/Dash/BoatOwnerDashBoard";
+import { BrowserRouter, Route, Router, Routes } from "react-router-dom";
+import { BoatOwnerDashBoard } from "../Screens/Dash/BoatOwnerDashBoard";
 import { Rental } from "../Screens/Dash/RentalBoat/Rental";
 import Home from "../Screens/Dash/Home";
 import { LogIn } from "../Screens/Auth/Login";
@@ -20,36 +14,151 @@ import { CustomerProfile } from "../Screens/Dash/BoatOwner/list/CustomerProfile"
 import { UserChoice } from "../Screens/Auth/UserChoice";
 import { SignUp } from "../Screens/Auth/SignUp";
 import VerifyOTP from "../Screens/Auth/VerifyOTP";
+import moment from "moment";
+import PrivateRoutes from "./PrivateRoutes";
+import Protected from "../Protected";
 
-// Redux action for navigation control
-const setNavigation = (targetPage) => ({
-  type: "SET_NAVIGATION",
-  payload: targetPage,
-});
-
-export const RootNavigator = React.forwardRef((props, ref) => {
+export const RootNavigator = React.forwardRef(function RootNavigator(
+  props,
+  ref
+) {
   const user = useSelector((state) => state?.auth);
-  // console.log("AuthToken ", user);
+  const [calculateTime, setCalculateTime] = useState(false);
+
+  useEffect(() => {
+    const sessionTime = localStorage.getItem("session");
+    console.log("sessionTime", sessionTime);
+    if (sessionTime) {
+      const storedTime = moment(sessionTime, "YYYY-MM-DD HH:mm:ss");
+      const currentTime = moment();
+      // minutes // seconds
+      const timeDifference = currentTime.diff(storedTime, "minutes");
+      console.log("timeDifference", timeDifference);
+      if (timeDifference > 1) {
+        localStorage.removeItem("session");
+      } else {
+        setCalculateTime(true);
+      }
+    }
+  }, []);
+
+  console.log("calculateTime", calculateTime);
+
   return (
     <>
+      {/* <div className="App">
+        <Router>
+          <Routes>
+            <Route element={<PrivateRoutes />}>
+              <Route element={<Home />} path="/" exact />
+            </Route>
+            <Route element={<LogIn />} path="/logIn" />
+          </Routes>
+        </Router>
+      </div> */}
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/home" element={<Home />} />
-          <Route path="/userChoice" element={<UserChoice />} />
-          <Route path="/signUp" element={<SignUp />} />
-          <Route path="/logIn" element={<LogIn />} />
-          <Route path="/verifyOTP" element={<VerifyOTP />} />
-          {/*  */}
-          <Route path="/boatOwnerDashBoard" element={<BoatOwnerDashBoard />} />
-          <Route path="/boatOfferStep1" element={<BoatOfferStep1 />} />
-          <Route path="/boatOfferStep2" element={<BoatOfferStep2 />} />
-          <Route path="/boatOfferStep3" element={<BoatOfferStep3 />} />
-          <Route path="/myListings" element={<MyListings />} />
-          <Route path="/requestList" element={<RequestList />} />
-          <Route path="/customerProfile" element={<CustomerProfile />} />
-          <Route path="/rental" element={<Rental />} />
-          <Route path="/logIn" element={<LogIn />} />
+          <>
+            <>
+              <Route path="/signUp" element={<SignUp />} />
+              <Route path="/logIn" element={<LogIn />} />
+              <Route path="/userChoice" element={<UserChoice />} />
+              <Route path="/home" element={<Home />} />
+            </>
+            <Route path="/" element={<Home />} />
+            {/* <Route
+              path="/"
+              element={
+                <Protected isLoggedIn={!calculateTime}>
+                  <Home />
+                </Protected>
+              }
+            /> */}
+
+            {/* <Route
+              path="/home"
+              element={
+                <Protected isLoggedIn={!calculateTime}>
+                  <Home />
+                </Protected>
+              }
+            /> */}
+            {/* <Route
+              path="/userChoice"
+              element={
+                <Protected isLoggedIn={!calculateTime}>
+                  <UserChoice />
+                </Protected>
+              }
+            /> */}
+            {/* <Route
+              path="/signUp"
+              element={
+                <Protected isLoggedIn={!calculateTime}>
+                  <SignUp />
+                </Protected>
+              }
+            /> */}
+
+            {/* <Route
+              path="/logIn"
+              element={
+                <Protected isLoggedIn={!calculateTime}>
+                  <LogIn />
+                </Protected>
+              }
+            /> */}
+            <Route path="/verifyOTP" element={<VerifyOTP />} />
+          </>
+          <>
+            <Route path="/" element={<Rental />} />
+            <Route path="/rental" element={<Rental />} />
+            <Route path="/" element={<BoatOwnerDashBoard />} />
+            <Route
+              path="/boatOwnerDashBoard"
+              element={<BoatOwnerDashBoard />}
+            />
+            {/* <Route
+              path="/"
+              element={
+                <Protected isLoggedIn={calculateTime}>
+                  <BoatOwnerDashBoard />
+                </Protected>
+              }
+            /> */}
+            {/* <Route
+              path="/"
+              element={
+                <Protected isLoggedIn={calculateTime}>
+                  <Rental />
+                </Protected>
+              }
+            /> */}
+            {/* <Route
+              path="/boatOwnerDashBoard"
+              element={
+                <Protected isLoggedIn={calculateTime}>
+                  <BoatOwnerDashBoard />
+                </Protected>
+              }
+            /> */}
+
+            {/* <Route
+              path="/rental"
+              element={
+                <Protected isLoggedIn={calculateTime}>
+                  <Rental />
+                </Protected>
+              }
+            /> */}
+            <Route path="/boatOfferStep1" element={<BoatOfferStep1 />} />
+            <Route path="/boatOfferStep2" element={<BoatOfferStep2 />} />
+            <Route path="/boatOfferStep3" element={<BoatOfferStep3 />} />
+
+            <Route path="/myListings" element={<MyListings />} />
+            <Route path="/requestList" element={<RequestList />} />
+            <Route path="/customerProfile" element={<CustomerProfile />} />
+          </>
         </Routes>
       </BrowserRouter>
     </>
@@ -57,11 +166,4 @@ export const RootNavigator = React.forwardRef((props, ref) => {
 });
 
 {
-  /* {user?.AuthToken !== null ? (
-        <InsideStack />
-      ) : user?.tokenDecodeData?.user_type === "BOAT_OWNER" ? (
-        <DashStack />
-      ) : (
-        <OutsideStack />
-      )} */
 }

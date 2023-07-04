@@ -22,12 +22,11 @@ import { countryCodeJson } from "./countryCodeJson";
 import { useDispatch, useSelector } from "react-redux";
 import { EmailId } from "../../redux/slices";
 import { GoogleOAuthProvider } from "@react-oauth/google";
-import GoogleSignInButton from "./GoogleSignInButton";
 import { register } from "../../Service/api";
 import IMAGES from "../Images";
-import { makeStyles } from "@material-ui/core/styles";
 import Loader from "../Loader";
 import { toast } from "react-toastify";
+import GoogleSignInButton from "./GoogleSignInButton";
 
 const start_space_Validation = new RegExp(/^(?!\s).*/);
 const emailIdValidation = new RegExp(
@@ -97,7 +96,7 @@ export const SignUp = () => {
   const [errorMessage, setErrorMessage] = useState("");
   const [loading, setLoading] = useState(false);
 
-  console.log("googleResult", googleResult);
+  // console.log("googleResult", googleResult);
   // console.log("user", user?.userType);
 
   const handleCheckboxChange = (event) => {
@@ -156,33 +155,28 @@ export const SignUp = () => {
     }
   }, [password]);
 
-  const handleIsEmailChecked = () => {
-    console.log("enter");
-  };
-
   const handleSubmit = async (value, type) => {
-    console.log("handleSubmit");
     setErrorMessage("");
 
     if (isTermsOfServiceChecked) {
       setLoading(true);
       let payload = {
-        first_name: value?.firstName,
-        last_name: value?.lastName,
+        first_name: value?.firstName || value?.name,
         email: value?.email,
-        phone_number: value?.cellNo,
-        country_code: selectedCountry?.dial_code,
-        password: value?.password,
         received_email: isEmailChecked,
-        sign_in_type: type === "GOOGLE" ? "GOOGLE" : "EMAIL",
+        sign_in_type: type === "GOOGLE" ? "SOCIAL_LOGIN" : "EMAIL",
         user_type: user?.userType,
       };
 
-      // "first_name":"test",
-      // "email":"er.riyaz2507@gmail.com",
-      // "received_email":true,
-      // "sign_in_type":"SOCIAL_LOGIN",
-      // "user_type":"BOAT_OWNER"
+      if (type !== "GOOGLE") {
+        payload = {
+          ...payload,
+          last_name: value?.lastName,
+          phone_number: value?.cellNo,
+          country_code: selectedCountry?.dial_code,
+          password: value?.password,
+        };
+      }
 
       console.log("handle Submit payload", payload);
       register(payload)
@@ -190,8 +184,12 @@ export const SignUp = () => {
           console.log("register res", res);
           if (res?.data?.success) {
             if (res?.data?.message === "user registered successfully") {
-              dispatch(EmailId(value?.email));
-              navigate("/VerifyOTP");
+              if (type !== "GOOGLE") {
+                dispatch(EmailId(value?.email));
+                navigate("/verifyOTP");
+              } else {
+                navigate("/logIn");
+              }
             }
           } else {
             console.log("res message ====>>>", res?.data?.message);
@@ -504,6 +502,11 @@ export const SignUp = () => {
                     style={{ width: "100%" }}
                     onClick={() => handleCountryChange(country.code)}
                   >
+                    <Typography
+                      style={{ marginRight: "15px", fontSize: "20px" }}
+                    >
+                      {country.flag}{" "}
+                    </Typography>
                     {country.name.en}
                   </MenuItem>
                 ))}
@@ -784,9 +787,9 @@ export const SignUp = () => {
               <GoogleSignInButton
                 googleResponce={setGoogleResult}
                 handle={handleSubmit}
-                IsEmailChecked={isEmailChecked}
-                setIsEmailChecked={setIsEmailChecked}
-                handleIsEmailChecked={handleIsEmailChecked}
+                isTermsOfServiceChecked={isTermsOfServiceChecked}
+                // setIsEmailChecked={setIsEmailChecked}
+                // handleIsEmailChecked={handleIsEmailChecked}
               />
             </GoogleOAuthProvider>
             {/*  */}
