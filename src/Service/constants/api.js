@@ -1,9 +1,10 @@
 export const API = {
-  currentEnv: "prod",
+  currentEnv: "qa",
   baseUrls: {
     // dev: "",
     // prod: "http://localhost:3002/",
-    prod: "http://localhost:3000/",
+    dev: "http://localhost:3000/",
+    qa: "https://oceanhub.herokuapp.com/",
     //
     // 192.168.5.82
     // localhost

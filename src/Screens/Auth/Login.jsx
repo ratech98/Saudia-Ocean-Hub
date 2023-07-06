@@ -114,14 +114,14 @@ export const LogIn = () => {
           dispatch(Password(value?.password));
           navigate("/VerifyOTP");
         } else if (res?.data?.message === "user Login successfully") {
+            
+          
           let tokenDecode = jwt_decode(res?.data?.token);
           dispatch(TokenDecodeData(tokenDecode));
 
           dispatch(UserId(res?.data?.user_id));
           dispatch(AuthToken(res?.data?.token));
-          const currentTime = moment().format("YYYY-MM-DD HH:mm:ss");
-          console.log("currentTime", currentTime);
-          localStorage.setItem("session", currentTime.toString());
+          localStorage.setItem("session", res?.data?.token);
 
           tokenDecode?.user_type === "BOAT_OWNER"
             ? navigate("/boatOwnerDashBoard")

@@ -22,10 +22,10 @@ const App = () => {
   const [myLoader, setMyLoader] = useState(true);
   const [getSession, setGetSession] = useState(null);
   const [getdata, setGetdata] = useState(null);
+  const [calculateTime, setCalculateTime] = useState(false);
 
   const handleData = (data) => {
     setGetdata(data);
-    setMyLoader(false);
   };
 
   return (
@@ -33,11 +33,15 @@ const App = () => {
       <ToastContainer />
       {myLoader ? (
         <>
-          <StoreAuth data={handleData} />
+          <StoreAuth
+            data={handleData}
+            setCalculateTime={setCalculateTime}
+            setMyLoader={setMyLoader}
+          />
         </>
       ) : (
         <>
-          <RootNavigator />
+          <RootNavigator calculateTime={calculateTime} />
         </>
       )}
     </Provider>
