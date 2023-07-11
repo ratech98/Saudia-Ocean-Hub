@@ -59,7 +59,7 @@ export const BoatOwnerDashBoard = () => {
     } else if (name === "My Listings") {
       navigate("/myListings");
     } else if (name === "List a Boat Offer") {
-      //   navigate("/home");
+      navigate("/home");
     }
   };
   return (
@@ -72,78 +72,7 @@ export const BoatOwnerDashBoard = () => {
         handleBack={handleCallBack}
         showLoginSignUp={auth?.AuthToken ? false : true}
       />
-      {/* <Container style={styles.headerContainer} maxWidth="100%">
-        <div
-          style={{
-            justifyContent: "space-between",
-            display: "flex",
-            flexDirection: "row",
-            margin: "0px 24px",
-            // backgroundColor: "green",
-          }}
-        >
-          <div
-            style={{
-              justifyContent: "space-between",
-              display: "flex",
-              flexDirection: "row",
-              alignItems: "center",
-              flex: 0.5,
-            }}
-          >
-            <img src={IMAGES.APP_ICON} alt="Icon" style={styles.appIcon} />
-            <Typography onClick={() => {}} style={styles.titleOptionTxt}>
-              Home
-            </Typography>
-            <Typography onClick={() => {}} style={styles.titleOptionTxt}>
-              For Boat Owners
-            </Typography>
-            <Typography
-              onClick={() => {
-                navigate("/searchBoat");
-              }}
-              style={styles.titleOptionTxt}
-            >
-              For Boat Rentals
-            </Typography>
-            <Typography
-              onClick={() => {
-                navigate("/myListings");
-              }}
-              style={styles.titleOptionTxt}
-            >
-              My Listings
-            </Typography>
-          </div>
-          <div
-            style={{
-              justifyContent: "space-between",
-              display: "flex",
-              flexDirection: "row",
-              alignItems: "center",
 
-              flex: 0.1,
-            }}
-          >
-            <Typography
-              onClick={() => {
-                navigate("/logIn");
-              }}
-              style={styles.titleOptionTxt}
-            >
-              Log In
-            </Typography>
-            <Typography
-              onClick={() => {
-                navigate("/userChoice");
-              }}
-              style={styles.titleOptionTxt}
-            >
-              Sign Up
-            </Typography>
-          </div>
-        </div>
-      </Container> */}
       <Container style={styles.pageTopContainer} maxWidth="100%">
         <Typography onClick={() => {}} style={styles.subtitleTxt}>
           List Your Boat and Earn Money{" "}
