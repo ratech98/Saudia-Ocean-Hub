@@ -15,6 +15,7 @@ import moment from "moment";
 import { AccessTime, Add, RemoveCircle } from "@material-ui/icons";
 import IMAGES from "../../../Images";
 import CalendarComponent from "../../../Common/Calendar/CalendarComponent";
+import { boat_register } from "../../../../Service/api";
 
 const CustomTextField = withStyles({
   root: {
@@ -50,7 +51,6 @@ export const BoatOfferStep3 = () => {
   const [errorDublicateTime, setErrorDublicateTime] = useState("");
   // const [datePositionIndex, setDatePositionIndex] = useState("");
   const [datePositionIndex, setDatePositionIndex] = useState(null);
-
   const [cancellationPolicy, setCancellationPolicy] = useState([
     {
       id: 1,
@@ -304,12 +304,12 @@ export const BoatOfferStep3 = () => {
   //   }
   // );
   // console.log("-=-=-=-=-=-=-=-=-=-=-=-=-=-", cancellationPolicy);
-  console.log(
-    "dash?.generalDirectorateOfBorderGuardDoc",
-    typeof dash?.generalDirectorateOfBorderGuardDoc
-  );
+  //
+
+  // console.log("selectedDateTime", selectedDateTime);
 
   const handleSumbit = () => {
+    console.log("dash redux data", dash);
     if (!greetingMessage) {
       setGreetingMessageError(true);
     } else {
@@ -326,18 +326,10 @@ export const BoatOfferStep3 = () => {
     }
 
     // const fs = require("fs");
-    let payload = new FormData();
 
-    payload.append("greeting_mesage", greetingMessage || "");
-    payload.append("user_id", dash?.userId || "");
-    payload.append("is_active", "1");
-    payload.append("available_hours", "10");
-    payload.append("price_currency", "SAR");
-    payload.append("marine_pincode", "12211");
-    payload.append("marine_state", "riyadh");
-    payload.append("marine_city", "riyadh");
+    let payload = new FormData();
     if (dash) {
-      payload.append("boat_name", JSON.stringify(dash?.Boat_name ?? ""));
+      payload.append("boat_name", dash?.Boat_name ?? "");
       payload.append("boat_type", dash?.Boat_type ?? "");
       payload.append("boat_year", dash?.Boat_year ?? "");
       payload.append("boat_length", dash?.Boat_length ?? "");
@@ -345,123 +337,81 @@ export const BoatOfferStep3 = () => {
       payload.append("marine_name", dash?.Marine_name ?? "");
       payload.append(
         "marine_address",
-        dash?.Marine_address ?? "Marine_address"
+        "no1, test street dummy address" ?? dash?.Marine_address
       );
       payload.append("latitude", dash?.Marine_address?.lat ?? "");
       payload.append("longtitude", dash?.Marine_address?.lng ?? "");
-      payload.append("price_per_hour", dash?.Boat_price_per_hour ?? "");
-
-      // payload.append("timeslot[]", "12.00pm"); //====================================================
+      payload.append("greeting_mesage", greetingMessage || "");
+      payload.append("is_active", "1");
+      payload.append("available_hours", "10");
       selectedDateTime?.map((dateItem, dateIndex) => {
-        payload.append(
-          `timeslot[${dateIndex}]`,
-          `${moment(dateItem?.date).format("DD.MM.YYYY")}${JSON?.stringify(
-            dateItem?.time
-          )}`
-        );
+        dateItem?.time?.map((timeItem, timeIndex) => {
+          payload.append(
+            `timeslot[]`,
+            `${moment(dateItem?.date).format("DD.MM.YYYY")},${timeItem}`
+          );
+        });
       });
-
-      // payload.append("boat_service[]", "1"); //======================================================
       dash?.Boat_services_selected?.map((serviceItem, serviceIndex) => {
-        payload.append(`boat_service[${serviceIndex}]`, serviceItem);
+        payload.append(`boat_service[]`, serviceIndex);
       });
-
-      // payload.append("cancellationPolicy[1]", "1"); //======================================================
-      cancellationPolicy?.map((cancelPolicyItem, cancelPolicyIndex) => {
-        payload.append(
-          `cancellationPolicy[${cancelPolicyIndex}]`,
-          cancelPolicyItem?.policy
-        );
-      });
-
+      payload.append("marine_pincode", "12211");
+      payload.append("marine_state", "riyadh");
+      payload.append("marine_city", "riyadh");
       //
       //
-      // payload.append(
-      //   "ministry_transport_document",
-      //   dash?.ministryOfTransportDoc ?? ""
-      // );
-      // payload.append(
-      //   "border_guard_document",
-      //   dash?.ministryOfTransportDoc ?? ""
-      // );
-      // payload.append(
-      //   "boat_license_document",
-      //   dash?.ministryOfTransportDoc ?? ""
-      // );
-      // payload.append("image", dash?.userId);
-      // payload.append("front_image", dash?.ministryOfTransportDoc);
-      // payload.append("background_image", dash?.ministryOfTransportDoc);
-      const file = new File(
-        [dash?.generalDirectorateOfBorderGuardDoc],
-        "filename.jpg"
-      );
-      console.log("file", file);
+      //
+      //
+      //
+      //
+      //
       payload.append(
         "ministry_transport_document",
-        dash?.generalDirectorateOfBorderGuardDoc ?? ""
+        dash?.ministryOfTransportDoc
+        // dash?.ministryOfTransportDoc?.name
       );
       payload.append(
         "border_guard_document",
-        dash?.generalDirectorateOfBorderGuardDoc ?? ""
+        dash?.generalDirectorateOfBorderGuardDoc
+        // dash?.generalDirectorateOfBorderGuardDoc?.name
       );
       payload.append(
         "boat_license_document",
-        dash?.generalDirectorateOfBorderGuardDoc ?? ""
+        dash?.boatDocumentationsAndLicenses
+        // dash?.boatDocumentationsAndLicenses?.name
       );
-      payload.append("image[]", dash?.generalDirectorateOfBorderGuardDoc ?? "");
+      payload.append("price_per_hour", dash?.Boat_price_per_hour);
+      payload.append("price_currency", "SAR");
+      cancellationPolicy?.map((cancelPolicyItem, cancelPolicyIndex) => {
+        payload.append(`cancellationPolicy[]`, cancelPolicyItem?.policy);
+      });
       payload.append(
         "background_image",
-        dash?.generalDirectorateOfBorderGuardDoc ?? ""
+        dash?.Boat_backgroung_image
+        // dash?.Boat_backgroung_image?.name
       );
       payload.append(
         "front_image",
-        dash?.generalDirectorateOfBorderGuardDoc ?? ""
+        dash?.Boat_profile_image
+        // dash?.Boat_profile_image?.name
       );
 
-      // payload.append("ministry_transport_document", {
-      //   uri: "dash?.media?.uri",
-      //   type: "dash?.media?.type",
-      //   name: "dash?.media?.fileName",
-      // });
-      // payload.append("border_guard_document", {
-      //   uri: "dash?.media?.uri",
-      //   type: "dash?.media?.type",
-      //   name: "dash?.media?.fileName",
-      // });
-      // payload.append("boat_license_document", {
-      //   uri: "dash?.media?.uri",
-      //   type: "dash?.media?.type",
-      //   name: "dash?.media?.fileName",
-      // });
-      // payload.append("image[]", {
-      //   uri: "dash?.media?.uri",
-      //   type: "dash?.media?.type",
-      //   name: "dash?.media?.fileName",
-      // });
+      dash?.Upload_images_of_your_boat?.map((boatImgItem, boatImgIndex) => {
+        payload.append("image", boatImgItem);
+      });
 
-      // payload.append("background_image", {
-      //   uri: "dash?.media?.uri",
-      //   type: "dash?.media?.type",
-      //   name: "dash?.media?.fileName",
-      // });
-
-      // payload.append("front_image", {
-      //   uri: "dash?.media?.uri",
-      //   type: "dash?.media?.type",
-      //   name: "dash?.media?.fileName",
-      // });
-
+      //print console
       for (const [key, value] of payload.entries()) {
         console.log(key, ":", `'${value}'`);
       }
-
-      // boat_register(dash?.AuthToken, payload)
-      //   .then((res) => {
-      //     console.log("boat_register res=>", res?.data);
-      //   })
-      //   .catch((err) => {
-      //     console.log("boat_register err", err);
-      //   });
+      //API call
+      boat_register(dash?.AuthToken, payload)
+        .then((res) => {
+          console.log("boat_register res=>", res?.data);
+        })
+        .catch((err) => {
+          console.log("boat_register err", err);
+        });
     }
   };
 

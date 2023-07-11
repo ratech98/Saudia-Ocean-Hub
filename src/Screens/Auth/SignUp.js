@@ -14,6 +14,7 @@ import {
   DialogContent,
   DialogActions,
   Typography,
+  Autocomplete,
 } from "@mui/material";
 import { withStyles } from "@mui/styles";
 import { useNavigate } from "react-router-dom";
@@ -263,7 +264,15 @@ export const SignUp = () => {
       "profile email https://www.googleapis.com/auth/user.phonenumbers.read",
     prompt: "select_account",
   };
+  const [searchValue, setSearchValue] = useState("");
 
+  const handleSearchChange = (event) => {
+    setSearchValue(event.target.value);
+  };
+
+  const filteredCountries = countryCodeJson.filter((country) =>
+    country.name.en.toLowerCase().includes(searchValue.toLowerCase())
+  );
   return (
     <div style={styles.containerBody}>
       {loading ? <Loader loading={loading} /> : null}
@@ -492,13 +501,25 @@ export const SignUp = () => {
             />
 
             {/* Render the country options */}
+
             <Dialog open={showModal} onClose={handleCloseModal} scroll="paper">
               <DialogTitle>Country Options</DialogTitle>
-              <DialogContent dividers>
-                {countryCodeJson.map((country) => (
+              <DialogContent
+                dividers
+                style={{ minHeight: "690px", minWidth: "700px" }}
+              >
+                <TextField
+                  label="Search Country"
+                  variant="standard"
+                  value={searchValue}
+                  onChange={handleSearchChange}
+                  fullWidth
+                  style={{ width: "84%" }}
+                />
+                {filteredCountries.map((country) => (
                   <MenuItem
                     key={country.code}
-                    value={country.code}
+                    value={country}
                     style={{ width: "100%" }}
                     onClick={() => handleCountryChange(country.code)}
                   >
@@ -824,13 +845,53 @@ export const SignUp = () => {
         >
           Skip VerifyOTP
         </span>
-        {/* <span
+        <span
           onClick={() => {
-            navigate("/Home");
+            navigate("/boatOwnerDashBoard");
           }}
           style={styles.loginTxt}
         >
-          Skip DashBoard
+          BoatOwner DashBoard
+        </span>
+        <span
+          onClick={() => {
+            navigate("/home");
+          }}
+          style={styles.loginTxt}
+        >
+          Home
+        </span>
+        <span
+          onClick={() => {
+            navigate("/confirmation");
+          }}
+          style={styles.loginTxt}
+        >
+          confirmation screen
+        </span>
+        <span
+          onClick={() => {
+            navigate("/reviewPage");
+          }}
+          style={styles.loginTxt}
+        >
+          reviewPage
+        </span>
+        <span
+          onClick={() => {
+            navigate("/notification");
+          }}
+          style={styles.loginTxt}
+        >
+          notification
+        </span>
+        {/* <span
+          onClick={() => {
+            navigate("/boatViewDetails");
+          }}
+          style={styles.loginTxt}
+        >
+          Boat View Details
         </span> */}
       </form>
     </div>

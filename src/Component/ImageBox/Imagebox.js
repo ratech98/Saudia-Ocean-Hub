@@ -7,7 +7,7 @@ import Col from "react-bootstrap/Col";
 import { FaMoneyBill } from "react-icons/fa";
 import { FaUsers } from "react-icons/fa";
 import "./Imagebox.css";
-import Star from "../../assets/Images/star.png";
+import Star from "../../assets/Images/star.webp";
 import StarOff from "../../assets/Images/XMLID_16_.png";
 import IMAGES from "../../Screens/Images";
 import { StarRating } from "../../UI kit/5Star/StarRating";

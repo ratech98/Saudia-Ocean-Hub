@@ -17,6 +17,11 @@ import VerifyOTP from "../Screens/Auth/VerifyOTP";
 import moment from "moment";
 import PrivateRoutes from "./PrivateRoutes";
 import Protected from "../Protected";
+import { SearchBoat } from "../Screens/Dash/SearchBoat";
+import { Confirmation } from "../Screens/new/Confirmation";
+import { ReviewPage } from "../Screens/new/ReviewPage";
+import { Notification } from "../Screens/new/Notification";
+import { BoatViewDetails } from "../Screens/Dash/BoatViewDetails";
 
 export const RootNavigator = React.forwardRef(function RootNavigator(
   props,
@@ -27,13 +32,13 @@ export const RootNavigator = React.forwardRef(function RootNavigator(
 
   useEffect(() => {
     const sessionTime = localStorage.getItem("session");
-    console.log("sessionTime", sessionTime);
+
     if (sessionTime) {
       const storedTime = moment(sessionTime, "YYYY-MM-DD HH:mm:ss");
       const currentTime = moment();
       // minutes // seconds
       const timeDifference = currentTime.diff(storedTime, "minutes");
-      console.log("timeDifference", timeDifference);
+
       if (timeDifference > 1) {
         localStorage.removeItem("session");
       } else {
@@ -41,8 +46,6 @@ export const RootNavigator = React.forwardRef(function RootNavigator(
       }
     }
   }, []);
-
-  console.log("calculateTime", calculateTime);
 
   return (
     <>
@@ -158,6 +161,12 @@ export const RootNavigator = React.forwardRef(function RootNavigator(
             <Route path="/myListings" element={<MyListings />} />
             <Route path="/requestList" element={<RequestList />} />
             <Route path="/customerProfile" element={<CustomerProfile />} />
+
+            <Route path="/searchBoat" element={<SearchBoat />} />
+            <Route path="/confirmation" element={<Confirmation />} />
+            <Route path="/reviewPage" element={<ReviewPage />} />
+            <Route path="/notification" element={<Notification />} />
+            <Route path="/boatViewDetails" element={<BoatViewDetails />} />
           </>
         </Routes>
       </BrowserRouter>

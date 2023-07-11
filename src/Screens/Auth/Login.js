@@ -65,6 +65,7 @@ export const LogIn = () => {
   const [errorMsg, setErrorMsg] = useState(false);
   const [googleResult, setGoogleResult] = useState("");
 
+  console.log("user", user?.verifyOTPpage);
   const handleCheckboxChange = (event) => {
     const { name, checked } = event.target;
     if (name === "RememberMe") {
@@ -126,6 +127,11 @@ export const LogIn = () => {
           tokenDecode?.user_type === "BOAT_OWNER"
             ? navigate("/boatOwnerDashBoard")
             : navigate("/rental");
+
+          toast.success("Login successfully", {
+            position: toast.POSITION.TOP_RIGHT,
+            autoClose: 2000,
+          });
         } else {
           setErrorMsg(
             res?.data?.message && Object.keys(res.data.message).length > 0
@@ -172,6 +178,20 @@ export const LogIn = () => {
       return errors;
     },
   });
+
+  useEffect(() => {
+    if (user?.verifyOTPpage === "VERIFY_OTP") {
+      window.history.forward();
+      const handleNoBack = () => {
+        window.history.forward();
+      };
+      window.addEventListener("popstate", handleNoBack);
+
+      return () => {
+        window.removeEventListener("popstate", handleNoBack);
+      };
+    }
+  }, []);
 
   return (
     <>

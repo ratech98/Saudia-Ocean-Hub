@@ -34,10 +34,6 @@ export function login(data) {
 }
 
 export function resend_otp(data) {
-  console.log(
-    "API.baseUrls[API.currentEnv] + API.authUrls.resend_otp",
-    API.baseUrls[API.currentEnv] + API.authUrls.resend_otp
-  );
   return axios.post(
     API.baseUrls[API.currentEnv] + API.authUrls.resend_otp,
     data,
@@ -59,7 +55,6 @@ export function boat_type(token) {
 }
 
 export function boat_service(token) {
-  console.log("API", API.baseUrls[API.currentEnv] + API.authUrls.boat_service);
   return axios.get(API.baseUrls[API.currentEnv] + API.authUrls.boat_service, {
     headers: {
       "Content-Type": "application/json",
@@ -69,10 +64,31 @@ export function boat_service(token) {
 }
 
 export function boat_register(token, data) {
-  console.log("API", API.baseUrls[API.currentEnv] + API.authUrls.boat_register);
   return axios.post(
     API.baseUrls[API.currentEnv] + API.authUrls.boat_register,
     data,
+    {
+      headers: {
+        // "Content-Type": "application/json",
+        "Content-Type": "multipart/form-data",
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+}
+
+export function my_listing(token) {
+  return axios.get(API.baseUrls[API.currentEnv] + API.authUrls.my_listing, {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  });
+}
+
+export function boat_list_filter(token) {
+  return axios.get(
+    API.baseUrls[API.currentEnv] + API.authUrls.boat_list_filter,
     {
       headers: {
         "Content-Type": "application/json",

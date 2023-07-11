@@ -10,7 +10,7 @@ import {
 } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { resend_otp, verifyOtp } from "../../Service/api";
-import { EmailId } from "../../redux/slices";
+import { EmailId, verifyOTP } from "../../redux/slices";
 import IMAGES from "../Images";
 import { toast } from "react-toastify";
 
@@ -50,6 +50,8 @@ const VerifyOTP = () => {
           if (!user?.password) {
             dispatch(EmailId(null));
           }
+
+          dispatch(verifyOTP("VERIFY_OTP"));
           navigate("/LogIn");
         } else {
           console.log("enter else");
@@ -105,11 +107,26 @@ const VerifyOTP = () => {
     resend_otp(payload)
       .then((res) => {
         console.log("res", res);
+        inputRefs.forEach((ref) => {
+          ref.current.value = "";
+        });
       })
       .catch((err) => {
         console.log("err", err);
       });
   };
+
+  // useEffect(() => {
+  //   window.history.forward();
+  //   const handleNoBack = () => {
+  //     window.history.forward();
+  //   };
+  //   window.addEventListener("popstate", handleNoBack);
+
+  //   return () => {
+  //     window.removeEventListener("popstate", handleNoBack);
+  //   };
+  // }, []);
 
   // useEffect(() => {
   //   window.addEventListener("beforeunload", handleBackPress);

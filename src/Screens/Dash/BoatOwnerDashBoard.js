@@ -6,6 +6,8 @@ import Footer from "../../Component/Footer/Footer";
 import { StarRating } from "../../UI kit/5Star/StarRating";
 import Imagebox from "../../Component/ImageBox/Imagebox";
 import { useNavigate } from "react-router-dom";
+import { HeaderContent } from "../Common/map/HeaderContent";
+import { useSelector } from "react-redux";
 
 const boatServices = [
   {
@@ -42,10 +44,35 @@ const boatServices = [
 
 export const BoatOwnerDashBoard = () => {
   const navigate = useNavigate();
+  const auth = useSelector((state) => state?.auth);
 
+  console.log("auth", auth);
+  const handleCallBack = (name) => {
+    if (name === "Home") {
+      navigate("/home");
+    } else if (name === "Log In") {
+      navigate("/logIn");
+    } else if (name === "Sign Up") {
+      navigate("/signUP");
+    } else if (name === "Boat Offers") {
+      //   navigate("/home");
+    } else if (name === "My Listings") {
+      navigate("/myListings");
+    } else if (name === "List a Boat Offer") {
+      //   navigate("/home");
+    }
+  };
   return (
     <div style={styles.container}>
-      <Container style={styles.headerContainer} maxWidth="100%">
+      <HeaderContent
+        contentname1={"Home"}
+        contentname2={"For Boat Owners"}
+        contentname3={"For Boat Rentals"}
+        contentname4={"My Listings"}
+        handleBack={handleCallBack}
+        showLoginSignUp={auth?.AuthToken ? false : true}
+      />
+      {/* <Container style={styles.headerContainer} maxWidth="100%">
         <div
           style={{
             justifyContent: "space-between",
@@ -71,7 +98,12 @@ export const BoatOwnerDashBoard = () => {
             <Typography onClick={() => {}} style={styles.titleOptionTxt}>
               For Boat Owners
             </Typography>
-            <Typography onClick={() => {}} style={styles.titleOptionTxt}>
+            <Typography
+              onClick={() => {
+                navigate("/searchBoat");
+              }}
+              style={styles.titleOptionTxt}
+            >
               For Boat Rentals
             </Typography>
             <Typography
@@ -103,7 +135,7 @@ export const BoatOwnerDashBoard = () => {
             </Typography>
             <Typography
               onClick={() => {
-                navigate("/signUp");
+                navigate("/userChoice");
               }}
               style={styles.titleOptionTxt}
             >
@@ -111,7 +143,7 @@ export const BoatOwnerDashBoard = () => {
             </Typography>
           </div>
         </div>
-      </Container>
+      </Container> */}
       <Container style={styles.pageTopContainer} maxWidth="100%">
         <Typography onClick={() => {}} style={styles.subtitleTxt}>
           List Your Boat and Earn Money{" "}
@@ -119,7 +151,7 @@ export const BoatOwnerDashBoard = () => {
         <span
           style={{
             fontWeight: "bolder",
-            fontSize: "30px",
+            fontSize: "38px",
             textAlign: "center",
             color: "#424651",
           }}
@@ -241,10 +273,11 @@ export const BoatOwnerDashBoard = () => {
           Best Boat Offers This Week
         </Typography>
       </div>
-
       <Imagebox />
       <Imagebox />
-      <Footer />
+      <div style={{ marginTop: "200px" }}>
+        <Footer />
+      </div>
     </div>
   );
 };
@@ -298,7 +331,7 @@ const styles = {
     marginTop: "30px",
   },
   subtitleTxt: {
-    fontSize: "28px",
+    fontSize: "38px",
     color: "#424651",
 
     // fontWeight: "500",

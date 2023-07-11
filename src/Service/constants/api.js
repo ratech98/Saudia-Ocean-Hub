@@ -16,5 +16,7 @@ export const API = {
     boat_type: "boat_type",
     boat_service: "boat_service",
     boat_register: "boat_register",
+    my_listing: "my_listing",
+    boat_list_filter: "boat_list",
   },
 };
