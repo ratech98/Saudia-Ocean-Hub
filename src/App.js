@@ -46,6 +46,7 @@ const App = () => {
 
 export default App;
 
+//pull from GJ
 // Set data in local storage
 // localStorage.setItem("key", "value");
 //
