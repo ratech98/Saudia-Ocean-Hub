@@ -8,13 +8,16 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import IMAGES from "../Images";
 import Footer from "../../Component/Footer/Footer";
 import Imagebox from "../../Component/ImageBox/Imagebox";
 import { useNavigate } from "react-router-dom";
 import { withStyles } from "@mui/styles";
 import { Cancel } from "@material-ui/icons";
+import { HeaderContent } from "../Common/map/HeaderContent";
+import { useSelector } from "react-redux";
+import { boat_list_filter } from "../../Service/api";
 
 const CustomTextField = withStyles((theme) => ({
   root: {
@@ -54,24 +57,104 @@ const CustomSearchTextField = withStyles({
 
 export const SearchBoat = () => {
   const navigate = useNavigate();
-  const [selectedCourse, setSelectedCourse] = useState("");
-  const [selectedDuration, setSelectedDuration] = useState("");
+  const [selectedType, setSelectedType] = useState("");
+  const [selectedDate, setSelectedDate] = useState("");
   const [selectedPrice, setSelectedPrice] = useState("");
-  const [selectedRate, setSelectedRate] = useState("");
+  const [selectedCapacity, setSelectedCapaticy] = useState("");
   const [searchValue, setSearchValue] = useState("");
+  const auth = useSelector((state) => state?.auth);
 
-  const class_program = [
+  const [boatListDataDetails, setBoatListDataDetails] = useState([]);
+  const [boatListData, setBoatListData] = useState([]);
+
+  useEffect(() => {
+    let payload = {
+      pageNo: 1,
+    };
+    boat_list_filter(auth?.AuthToken, payload)
+      .then((res) => {
+        console.log("res", res?.data);
+        if (res?.data?.message === "success") {
+          setBoatListDataDetails(res?.data);
+          setBoatListData(res?.data?.parameters);
+        }
+      })
+      .catch((err) => {
+        console.log("error", err);
+      });
+  }, [auth?.AuthToken]);
+
+  console.log("boatListData", boatListData);
+
+  const boat_type = [
     {
-      name: "C++",
+      name: "Fishing Boats",
     },
     {
-      name: "Java",
+      name: "Houseboats",
     },
     {
-      name: "React",
+      name: "Jet Boats",
     },
     {
-      name: "HTML",
+      name: "Wakeboard/ Ski Boats",
+    },
+    {
+      name: "Bowrider Boats",
+    },
+  ];
+
+  const boat_date = [
+    {
+      name: "July",
+    },
+    {
+      name: "August",
+    },
+    {
+      name: "September",
+    },
+    {
+      name: "October",
+    },
+    {
+      name: "November",
+    },
+  ];
+
+  const boat_price = [
+    {
+      name: ">=100",
+    },
+    {
+      name: ">=300",
+    },
+    {
+      name: ">=500",
+    },
+    {
+      name: ">=700",
+    },
+    {
+      name: ">=1000",
+    },
+  ];
+
+  const boat_capacity = [
+    {
+      name: ">=10",
+    },
+    {
+      name: ">=50",
+    },
+    {
+      name: ">=100",
+    },
+    {
+      name: ">=150",
+    },
+    {
+      name: ">=1200",
     },
   ];
 
@@ -80,69 +163,62 @@ export const SearchBoat = () => {
   };
 
   const handleSelection = (event, type) => {
-    if (type === "course") {
-      setSelectedCourse(event.target.value);
-    } else if (type === "duration") {
-      setSelectedDuration(event.target.value);
+    if (type === "type") {
+      setSelectedType(event.target.value);
+    } else if (type === "date") {
+      setSelectedDate(event.target.value);
     } else if (type === "price") {
       setSelectedPrice(event.target.value);
-    } else if (type === "rate") {
-      setSelectedRate(event.target.value);
+    } else if (type === "capacity") {
+      setSelectedCapaticy(event.target.value);
     }
   };
+  const handleHeaderCallBack = (name) => {
+    if (name === "Home") {
+      navigate("/home");
+    } else if (name === "Log In") {
+      navigate("/logIn");
+    } else if (name === "Sign Up") {
+      navigate("/signUP");
+    } else if (name === "Boat Offers") {
+      //   navigate("/home");
+    } else if (name === "My Listings") {
+      navigate("/myListings");
+    } else if (name === "List a Boat Offer") {
+      // navigate("/home");
+    } else {
+      navigate(name);
+    }
+  };
+
+  const handleLoadMore = () => {
+    let payload = {
+      pageNo: boatListDataDetails?.currentpage + 1,
+    };
+    boat_list_filter(auth?.AuthToken, payload)
+      .then((res) => {
+        console.log("res", res?.data);
+        if (res?.data?.message === "success") {
+          setBoatListDataDetails(res?.data);
+          setBoatListData(boatListData?.concat(res?.data?.parameters));
+        }
+      })
+      .catch((err) => {
+        console.log("error", err);
+      });
+  };
+
   return (
     <div style={styles.container}>
-      <Container style={styles.headerContainer} maxWidth="100%">
-        <div style={styles.contentContainer}>
-          <div style={styles.headerLeftSide}>
-            <img src={IMAGES.APP_ICON} alt="Icon" style={styles.appIcon} />
-            <Typography onClick={() => {}} style={styles.titleOptionTxt}>
-              Home
-            </Typography>
-            <Typography onClick={() => {}} style={styles.titleOptionTxt}>
-              For Boat Owners
-            </Typography>
-            <Typography onClick={() => {}} style={styles.titleOptionTxt}>
-              For Boat Rentals
-            </Typography>
-            <Typography
-              onClick={() => {
-                navigate("/myListings");
-              }}
-              style={styles.titleOptionTxt}
-            >
-              My Listings
-            </Typography>
-          </div>
-          <div
-            style={{
-              justifyContent: "space-between",
-              display: "flex",
-              flexDirection: "row",
-              alignItems: "center",
-
-              flex: 0.1,
-            }}
-          >
-            <Typography
-              onClick={() => {
-                navigate("/logIn");
-              }}
-              style={styles.titleOptionTxt}
-            >
-              Log In
-            </Typography>
-            <Typography
-              onClick={() => {
-                navigate("/signUp");
-              }}
-              style={styles.titleOptionTxt}
-            >
-              Sign Up
-            </Typography>
-          </div>
-        </div>
-      </Container>
+      <HeaderContent
+        contentname1={"Home"}
+        contentname2={"Boat Owners"}
+        contentname3={"My Listings"}
+        contentname4={"List a Boat Offer"}
+        handleBack={handleHeaderCallBack}
+        search={"/searchBoat"}
+        showLoginSignUp={auth?.AuthToken ? false : true}
+      />
 
       <div
         style={{
@@ -210,15 +286,16 @@ export const SearchBoat = () => {
         >
           <Grid item xs={12} sm={6} style={{ width: "100%" }}>
             <CustomTextField
+              label={"Boat Type"}
               variant="outlined"
               margin="normal"
               fullWidth
-              id="course"
-              name="course"
-              placeholder="Course"
-              value={selectedCourse || ""}
+              id="type"
+              name="type"
+              placeholder="type"
+              value={selectedType || ""}
               onChange={(e) => {
-                handleSelection(e, "course");
+                handleSelection(e, "type");
               }}
               select
               style={{ width: "100%" }}
@@ -227,8 +304,8 @@ export const SearchBoat = () => {
                 shrink: true,
               }}
             >
-              {class_program?.length > 0 ? (
-                class_program?.map((item, index) => (
+              {boat_type?.length > 0 ? (
+                boat_type?.map((item, index) => (
                   <MenuItem key={index} value={item?.name}>
                     {item?.name}
                   </MenuItem>
@@ -251,29 +328,30 @@ export const SearchBoat = () => {
             }}
           >
             <CustomTextField
+              label={"Date"}
               variant="outlined"
               margin="normal"
               fullWidth
-              id="duration"
-              name="duration"
-              placeholder="duration"
-              value={selectedDuration}
+              id="date"
+              name="date"
+              placeholder="date"
+              value={selectedDate}
               onChange={(e) => {
-                handleSelection(e, "duration");
+                handleSelection(e, "date");
               }}
               select
               InputProps={{ style: textFieldStyles }}
               style={{ width: "60%" }}
             >
-              {class_program?.length > 0 ? (
-                class_program?.map((item, index) => (
+              {boat_date?.length > 0 ? (
+                boat_date?.map((item, index) => (
                   <MenuItem key={index} value={item?.name}>
                     {item?.name}
                   </MenuItem>
                 ))
               ) : (
                 <MenuItem key={"index"} value={"item?.label"}>
-                  Diummy
+                  Dummy
                 </MenuItem>
               )}
             </CustomTextField>
@@ -289,6 +367,7 @@ export const SearchBoat = () => {
         >
           <Grid item xs={12} sm={6} style={{ width: "100%" }}>
             <CustomTextField
+              label={"Price"}
               variant="outlined"
               margin="normal"
               fullWidth
@@ -303,8 +382,8 @@ export const SearchBoat = () => {
               InputProps={{ style: textFieldStyles }}
               style={{ width: "90%" }}
             >
-              {class_program?.length > 0 ? (
-                class_program?.map((item, index) => (
+              {boat_price?.length > 0 ? (
+                boat_price?.map((item, index) => (
                   <MenuItem key={index} value={item?.name}>
                     {item?.name}
                   </MenuItem>
@@ -331,22 +410,23 @@ export const SearchBoat = () => {
             }}
           >
             <CustomTextField
+              label={"Capacity"}
               variant="outlined"
               margin="normal"
               fullWidth
-              id="rate"
-              name="rate"
-              placeholder="Rate"
-              value={selectedRate}
+              id="capacity"
+              name="capacity"
+              placeholder="capacity"
+              value={selectedCapacity}
               onChange={(e) => {
-                handleSelection(e, "rate");
+                handleSelection(e, "capacity");
               }}
               select
               InputProps={{ style: textFieldStyles }}
               style={{ width: "90%" }}
             >
-              {class_program?.length > 0 ? (
-                class_program?.map((item, index) => (
+              {boat_capacity?.length > 0 ? (
+                boat_capacity?.map((item, index) => (
                   <MenuItem key={index} value={item?.name}>
                     {item?.name}
                   </MenuItem>
@@ -361,10 +441,10 @@ export const SearchBoat = () => {
         </div>
       </div>
       <div style={{ marginTop: "100px" }}>
-        {false ? (
+        {boatListData?.length ? (
           <>
-            <Imagebox />
-            <Imagebox />
+            <Imagebox imageBox={boatListData} />
+
             <div
               style={{
                 display: "flex",
@@ -372,21 +452,26 @@ export const SearchBoat = () => {
                 margin: "50px 0px",
               }}
             >
-              <Button
-                variant="outlined"
-                style={{
-                  color: "#3973a5",
-                  width: "10%",
-                  height: "35px",
-                  borderColor: "#3973a5",
-                  borderWidth: "2px",
-                  fontSize: 14,
-                }}
-              >
-                Load more
-              </Button>
+              {boatListDataDetails?.currentpage <
+              boatListDataDetails?.totalPage ? (
+                <Button
+                  variant="outlined"
+                  style={{
+                    color: "#3973a5",
+                    width: "10%",
+                    height: "35px",
+                    borderColor: "#3973a5",
+                    borderWidth: "2px",
+                    fontSize: 14,
+                  }}
+                  onClick={() => {
+                    handleLoadMore();
+                  }}
+                >
+                  Load more
+                </Button>
+              ) : null}
             </div>
-            <Footer />
           </>
         ) : (
           <>
@@ -436,6 +521,7 @@ export const SearchBoat = () => {
             </div>
           </>
         )}
+        <Footer />
       </div>
     </div>
   );
@@ -446,7 +532,8 @@ const styles = {
     display: "flex",
     flexDirection: "column",
     backgroundColor: "#f6f6f6",
-    width: "100%",
+    // width: "100%",
+    width: "100vw",
   },
   headerContainer: {
     width: "100%",

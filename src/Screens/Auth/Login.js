@@ -65,7 +65,8 @@ export const LogIn = () => {
   const [errorMsg, setErrorMsg] = useState(false);
   const [googleResult, setGoogleResult] = useState("");
 
-  console.log("user", user?.verifyOTPpage);
+  console.log("errorMsg", errorMsg);
+  // console.log("user", user?.verifyOTPpage);
   const handleCheckboxChange = (event) => {
     const { name, checked } = event.target;
     if (name === "RememberMe") {
@@ -117,7 +118,6 @@ export const LogIn = () => {
         } else if (res?.data?.message === "user Login successfully") {
           let tokenDecode = jwt_decode(res?.data?.token);
           dispatch(TokenDecodeData(tokenDecode));
-
           dispatch(UserId(res?.data?.user_id));
           dispatch(AuthToken(res?.data?.token));
           const currentTime = moment().format("YYYY-MM-DD HH:mm:ss");
@@ -141,7 +141,7 @@ export const LogIn = () => {
           if (res?.data?.message && Object.keys(res.data.message).length > 0) {
             toast.error(res?.data?.message, {
               position: toast.POSITION.TOP_RIGHT,
-              autoClose: 2000,
+              autoClose: 20000,
             });
           }
         }
@@ -186,7 +186,6 @@ export const LogIn = () => {
         window.history.forward();
       };
       window.addEventListener("popstate", handleNoBack);
-
       return () => {
         window.removeEventListener("popstate", handleNoBack);
       };
@@ -219,6 +218,10 @@ export const LogIn = () => {
                   style: {
                     backgroundColor: "white",
                     borderRadius: "5px",
+                    boxShadow:
+                      formik.touched.email && Boolean(formik.errors.email)
+                        ? "0px 0px 10px red"
+                        : null,
                   },
 
                   startAdornment: (
@@ -255,7 +258,7 @@ export const LogIn = () => {
                   style: styles.pwdStyles,
                 }}
               />
-              {/* </div> */}
+
               {formik.touched.email && Boolean(formik.errors.email) ? (
                 <span style={styles.ErrorMsgTxt}>
                   {formik.touched.email && formik.errors.email}
@@ -281,7 +284,17 @@ export const LogIn = () => {
                   disableUnderline: true,
                   style: {
                     backgroundColor: "white",
+                    borderWidth: 2,
+                    borderColor: "red",
+                    boxShadow:
+                      (formik.touched.password &&
+                        Boolean(formik.errors.password)) ||
+                      errorMsg === "Incorrect pasword, please try again"
+                        ? "0px 0px 10px red"
+                        : null,
+
                     borderRadius: "5px",
+                    // Incorrect pasword, please try again
                   },
                   startAdornment: (
                     <InputAdornment
@@ -316,10 +329,16 @@ export const LogIn = () => {
                   shrink: true,
                 }}
                 inputProps={{
-                  style: styles.pwdStyles,
+                  style: {
+                    ...styles.pwdStyles,
+                  },
                 }}
+                // error={
+                //   formik.touched.password && Boolean(formik.errors.password)
+                // }
+                // helperText={formik.touched.password && formik.errors.password}
               />
-              {/* </div> */}
+
               {formik.touched.password && Boolean(formik.errors.password) ? (
                 <span style={styles.ErrorMsgTxt}>
                   {formik.touched.password && formik.errors.password}
@@ -493,7 +512,7 @@ const styles = {
     // backgroundColor: "red",
   },
   ErrorMsgTxt: {
-    color: "#DC143C",
+    color: "red",
     fontSize: 12,
     fontFamily: "Poppins",
     // marginTop: "5px",

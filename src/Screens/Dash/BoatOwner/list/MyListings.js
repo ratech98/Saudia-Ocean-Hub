@@ -58,13 +58,13 @@ export const MyListings = () => {
 
   const handleCallBack = (name) => {
     if (name === "Home") {
-      navigate("/home");
+      navigate("/boatOwnerDashBoard");
     } else if (name === "Boat Offers") {
-      navigate("/home");
+      // navigate("/home");
     } else if (name === "My Listings") {
       navigate("/myListings");
     } else if (name === "List a Boat Offer") {
-      navigate("/home");
+      // navigate("/home");
     }
   };
 
@@ -75,7 +75,7 @@ export const MyListings = () => {
         contentname2={"Boat Offers"}
         contentname3={"My Listings"}
         contentname4={"List a Boat Offer"}
-        handleCallBack={handleCallBack}
+        handleBack={handleCallBack}
       />
       <div className={classes.myListingsContainer}>
         <div className={classes.body}>
@@ -106,7 +106,7 @@ export const MyListings = () => {
           >
             {myList?.map((item, index) => (
               <>
-                {console.log("item", "localhost:3000/" + item?.front_image)}
+                {console.log("item", item)}
                 <div
                   key={item.id}
                   className="boatListBody"
@@ -120,7 +120,8 @@ export const MyListings = () => {
                 >
                   <img
                     alt="boat"
-                    src={{ uri: "localhost:3000/" + item?.front_image }}
+                    // src={{ uri: "localhost:3000/" + item?.front_image }}
+                    src={IMAGES.boat3}
                     style={{ width: "276px", height: "210px" }}
                     onError={(err) => {
                       console.log("err", err);
@@ -150,7 +151,7 @@ export const MyListings = () => {
                         marginBottom: "10px",
                       }}
                     >
-                      {item.boatName}
+                      {item.boat_name}
                     </Typography>
 
                     {renderStarRating(item?.star ?? 0)}
@@ -183,7 +184,7 @@ export const MyListings = () => {
                           color: "#424651",
                         }}
                       >
-                        {item.SAR}
+                        {item.price_per_hour} {item.price_currency}
                         <span
                           style={{ marginLeft: "10px", fontWeight: "bold" }}
                         >
@@ -203,7 +204,7 @@ export const MyListings = () => {
                       alignItems: "flex-end",
                     }}
                   >
-                    {item?.date}
+                    {item?.date ?? "date"}
                     <div
                       style={{
                         display: "flex",

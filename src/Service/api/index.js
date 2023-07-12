@@ -86,9 +86,18 @@ export function my_listing(token) {
   });
 }
 
-export function boat_list_filter(token) {
+export function boat_list_filter(token, payload) {
+  console.log("payload", payload);
+  console.log(
+    "  API ====>>>   boat_list_filter,",
+    `${API.baseUrls[API.currentEnv] + API.authUrls.boat_list_filter}?page=${
+      payload?.pageNo
+    }&limit=10`
+  );
   return axios.get(
-    API.baseUrls[API.currentEnv] + API.authUrls.boat_list_filter,
+    `${API.baseUrls[API.currentEnv] + API.authUrls.boat_list_filter}?page=${
+      payload?.pageNo
+    }&limit=10`,
     {
       headers: {
         "Content-Type": "application/json",

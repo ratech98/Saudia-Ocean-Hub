@@ -1,5 +1,5 @@
 import { Container, Grid, Typography } from "@mui/material";
-import React from "react";
+import React, { useEffect } from "react";
 
 import IMAGES from "../Images";
 import Footer from "../../Component/Footer/Footer";
@@ -46,10 +46,21 @@ export const BoatOwnerDashBoard = () => {
   const navigate = useNavigate();
   const auth = useSelector((state) => state?.auth);
 
+  // useEffect(() => {
+  //   window.history.forward();
+  //   const handleNoBack = () => {
+  //     window.history.forward();
+  //   };
+  //   window.addEventListener("popstate", handleNoBack);
+  //   return () => {
+  //     window.removeEventListener("popstate", handleNoBack);
+  //   };
+  // }, []);
+
   console.log("auth", auth);
-  const handleCallBack = (name) => {
+  const handleHeaderCallBack = (name) => {
     if (name === "Home") {
-      navigate("/home");
+      // navigate("/home");
     } else if (name === "Log In") {
       navigate("/logIn");
     } else if (name === "Sign Up") {
@@ -59,7 +70,9 @@ export const BoatOwnerDashBoard = () => {
     } else if (name === "My Listings") {
       navigate("/myListings");
     } else if (name === "List a Boat Offer") {
-      navigate("/home");
+      // navigate("/home");
+    } else {
+      navigate(name);
     }
   };
   return (
@@ -69,7 +82,8 @@ export const BoatOwnerDashBoard = () => {
         contentname2={"For Boat Owners"}
         contentname3={"For Boat Rentals"}
         contentname4={"My Listings"}
-        handleBack={handleCallBack}
+        handleBack={handleHeaderCallBack}
+        search={"/searchBoat"}
         showLoginSignUp={auth?.AuthToken ? false : true}
       />
 
