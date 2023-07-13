@@ -27,6 +27,7 @@ import {
 } from "../../../../redux/slices";
 import IMAGES from "../../../Images";
 import Map from "../../../Common/map/Map";
+import { toast } from "react-toastify";
 
 const start_space_Validation = new RegExp(/^(?!\s).*/);
 
@@ -51,13 +52,6 @@ export const BoatOfferStep2 = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const modalRef = useRef(null);
 
-  console.log("selectedBoatServices", selectedBoatServices);
-  console.log(
-    "showCustomService",
-    showCustomService,
-    "customService",
-    customService
-  );
   const defaultProps = {
     center: {
       lat: 10.99835602,
@@ -168,6 +162,15 @@ export const BoatOfferStep2 = () => {
       const fileExtension = file.name.split(".").pop().toLowerCase();
       return allowedExtensions.includes(fileExtension);
     });
+    if (selectedImages.length !== files.length) {
+      toast.error(
+        "Invalid file extension. Please select a file with extensions: jpg, jpeg, png",
+        {
+          position: toast.POSITION.TOP_RIGHT,
+          autoClose: 20000,
+        }
+      );
+    }
     setSelectedFiles([...selectedFiles, ...selectedImages]);
   };
 
@@ -239,19 +242,18 @@ export const BoatOfferStep2 = () => {
   function handleDrop(event) {
     event.preventDefault();
     const files = event.dataTransfer.files;
-    console.log("files", files);
+
     handleFileSelect(files);
 
     const allowedExtensions = ["jpg", "jpeg", "png"];
     const selectedFile = files[0];
     const fileName = files[0]?.name;
     const fileExtension = fileName.split(".").pop().toLowerCase();
-    console.log("selectedFile", selectedFile);
+
     if (allowedExtensions.includes(fileExtension)) {
       const reader = new FileReader();
       reader.onload = function (e) {
         const fileData = e.target.result;
-        console.log("fileData", fileData);
       };
     }
   }
@@ -354,7 +356,7 @@ export const BoatOfferStep2 = () => {
                     ))
                   ) : (
                     <MenuItem key={"index"} value={"item?.label"}>
-                      Diummy
+                      Dummy
                     </MenuItem>
                   )}
                 </CustomTextField>
@@ -516,9 +518,11 @@ export const BoatOfferStep2 = () => {
                     <div
                       style={{
                         marginTop: "10px",
-                        borderStyle: "dashed",
-                        border: "1px dashed",
-                        borderColor: "gray",
+                        border:
+                          selectedFiles.length <= 0 && imgUploadError
+                            ? "1px dashed red"
+                            : "1px dashed gray",
+                        // border: "1px dashed gray",
                         borderRadius: "20px",
                         alignItems: "center",
                         alignContent: "center",
@@ -588,7 +592,7 @@ export const BoatOfferStep2 = () => {
                     </div>
                   </div>
                 </label>
-                {imgUploadError ? (
+                {selectedFiles.length <= 0 && imgUploadError ? (
                   <Typography style={ErrMsgTxt}>
                     Please upload your Images
                   </Typography>
@@ -1034,8 +1038,10 @@ export const BoatOfferStep2 = () => {
                           Boolean(formik.errors.Marine_Address)
                         }
                         helperText={
-                          formik.touched.Marine_Address &&
-                          formik.errors.Marine_Address
+                          !selectedMarker
+                            ? formik.touched.Marine_Address &&
+                              formik.errors.Marine_Address
+                            : null
                         }
                         InputProps={{
                           style: textFieldStyles,
@@ -1043,33 +1049,7 @@ export const BoatOfferStep2 = () => {
                       />
                     </Grid>
                   </Grid>
-                  {/* <AnyReactComponent
-                        lat={59.955413}
-                        lng={30.337844}
-                        text="My Marker"
-                      /> */}
 
-                  {/* <GoogleMapReact
-                      bootstrapURLKeys={{
-                        key: "AIzaSyCCbOGygkchkcXDrWQwO2yQhFrPhli4z3s",
-                      }}
-                      defaultCenter={{
-                        lat: 20.146220361679458,
-                        lng: 40.2568970541965,
-                      }}
-                      defaultZoom={15}
-                      onClick={handleMapClick}
-                      options={mapOptions}
-                      // yesIWantToUseGoogleMapApiInternals
-                    >
-                      {selectedAddress && (
-                        <AnyReactComponent
-                          lat={selectedAddress?.lat}
-                          lng={selectedAddress?.lng}
-                          text="My Marker"
-                        />
-                      )}
-                    </GoogleMapReact> */}
                   <div style={{ height: "500px", width: "100%" }}>
                     <Map
                       markers={markers}
@@ -1078,7 +1058,7 @@ export const BoatOfferStep2 = () => {
                     />
                   </div>
 
-                  {mapLocError ? (
+                  {!selectedMarker && mapLocError ? (
                     <Typography
                       style={{
                         ...ErrMsgTxt,

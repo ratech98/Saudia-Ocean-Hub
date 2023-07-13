@@ -173,6 +173,7 @@ export const SearchBoat = () => {
       setSelectedCapaticy(event.target.value);
     }
   };
+
   const handleHeaderCallBack = (name) => {
     if (name === "Home") {
       navigate("/home");
@@ -195,6 +196,29 @@ export const SearchBoat = () => {
     let payload = {
       pageNo: boatListDataDetails?.currentpage + 1,
     };
+    boat_list_filter(auth?.AuthToken, payload)
+      .then((res) => {
+        console.log("res", res?.data);
+        if (res?.data?.message === "success") {
+          setBoatListDataDetails(res?.data);
+          setBoatListData(boatListData?.concat(res?.data?.parameters));
+        }
+      })
+      .catch((err) => {
+        console.log("error", err);
+      });
+  };
+
+  const handleFilterSearch = () => {
+    let payload = {
+      pageNo: boatListDataDetails?.currentpage + 1,
+    };
+    if (selectedType) {
+      payload = {
+        ...payload,
+        type: selectedType,
+      };
+    }
     boat_list_filter(auth?.AuthToken, payload)
       .then((res) => {
         console.log("res", res?.data);
@@ -255,6 +279,7 @@ export const SearchBoat = () => {
           ) : null}
           |
           <Button
+            onClick={handleFilterSearch}
             variant="contained"
             style={{
               backgroundColor: "#3973a5",
@@ -293,7 +318,7 @@ export const SearchBoat = () => {
               id="type"
               name="type"
               placeholder="type"
-              value={selectedType || ""}
+              value={selectedType}
               onChange={(e) => {
                 handleSelection(e, "type");
               }}

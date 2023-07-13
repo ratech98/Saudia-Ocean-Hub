@@ -27,6 +27,7 @@ const IMAGES = {
   STAR: require("../assets/Images/star.webp"),
   CAMERA: require("../assets/Images/camera.png"),
   UP_ARROW_IMG: require("../assets/Images/UpArrowImg.png"),
+  PDF: require("../assets/Images/pdf.png"),
   //
   //
   //

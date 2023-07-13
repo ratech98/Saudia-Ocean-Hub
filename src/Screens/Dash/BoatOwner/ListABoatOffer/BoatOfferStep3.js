@@ -16,6 +16,13 @@ import { AccessTime, Add, RemoveCircle } from "@material-ui/icons";
 import IMAGES from "../../../Images";
 import CalendarComponent from "../../../Common/Calendar/CalendarComponent";
 import { boat_register } from "../../../../Service/api";
+import { toast } from "react-toastify";
+import {
+  boatRegisterStep1,
+  boatRegisterStep2,
+  boatServiceList,
+  boatTypeList,
+} from "../../../../redux/slices";
 
 const CustomTextField = withStyles({
   root: {
@@ -37,6 +44,8 @@ export const BoatOfferStep3 = () => {
   const dispatch = useDispatch();
   const dash = useSelector((state) => state?.auth);
   const [greetingMessage, setGreetingMessage] = useState("");
+  const [youTubeLink, setYouTubeLink] = useState("");
+
   const [selectedDateTime, setSelectedDateTime] = useState([]);
   const [currentlySelectedDate, setCurrentlySelectedDate] = useState(null);
   const [modalOpen, setModalOpen] = useState(false);
@@ -294,19 +303,6 @@ export const BoatOfferStep3 = () => {
       return updatedSelectedDateTime;
     });
   };
-  //
-  // console.log(" step 3 auth", dash);
-  // const fileObject = new File(
-  //   [dash?.generalDirectorateOfBorderGuardDoc],
-  //   dash?.generalDirectorateOfBorderGuardDoc.name,
-  //   {
-  //     type: dash?.generalDirectorateOfBorderGuardDoc.type,
-  //   }
-  // );
-  // console.log("-=-=-=-=-=-=-=-=-=-=-=-=-=-", cancellationPolicy);
-  //
-
-  // console.log("selectedDateTime", selectedDateTime);
 
   const handleSumbit = () => {
     console.log("dash redux data", dash);
@@ -324,8 +320,6 @@ export const BoatOfferStep3 = () => {
     } else {
       setSelectedDateTimeError(false);
     }
-
-    // const fs = require("fs");
 
     let payload = new FormData();
     if (dash) {
@@ -387,13 +381,11 @@ export const BoatOfferStep3 = () => {
       });
       payload.append(
         "background_image",
-        dash?.Boat_backgroung_image
-        // dash?.Boat_backgroung_image?.name
+        dash?.Boat_backgroung_image ?? dash?.Upload_images_of_your_boat[0]
       );
       payload.append(
         "front_image",
-        dash?.Boat_profile_image
-        // dash?.Boat_profile_image?.name
+        dash?.Boat_profile_image ?? dash?.Upload_images_of_your_boat[0]
       );
 
       dash?.Upload_images_of_your_boat?.map((boatImgItem, boatImgIndex) => {
@@ -408,6 +400,44 @@ export const BoatOfferStep3 = () => {
       boat_register(dash?.AuthToken, payload)
         .then((res) => {
           console.log("boat_register res=>", res?.data);
+          if (res?.data?.message === "boat successfully registered") {
+            dispatch(boatTypeList(null));
+            dispatch(boatServiceList(null));
+            dispatch(
+              boatRegisterStep1({
+                ministryOfTransportDoc: null,
+                generalDirectorateOfBorderGuardDoc: null,
+                boatDocumentationsAndLicenses: null,
+              })
+            );
+            dispatch(
+              boatRegisterStep2({
+                Boat_name: null,
+                Boat_type: null,
+                Boat_year: null,
+                Boat_length: null,
+                Boat_max_capacity: null,
+                Boat_price_per_hour: null,
+                Upload_images_of_your_boat: null,
+                Boat_services_selected: null,
+                Marine_name: null,
+                Marine_address: null,
+                Boat_backgroung_image: null,
+                Boat_profile_image: null,
+              })
+            );
+
+            toast.success("Boat successfully registered", {
+              position: toast.POSITION.TOP_RIGHT,
+              autoClose: 2000,
+            });
+            navigate("/boatOwnerDashBoard");
+          } else {
+            toast.error(res?.data?.message, {
+              position: toast.POSITION.TOP_RIGHT,
+              autoClose: 20000,
+            });
+          }
         })
         .catch((err) => {
           console.log("boat_register err", err);
@@ -495,7 +525,7 @@ export const BoatOfferStep3 = () => {
                 }}
               />
             </Grid>
-            {greetingMessageError ? (
+            {!greetingMessage && greetingMessageError ? (
               <Typography
                 style={{
                   ...ErrMsgTxt,
@@ -969,17 +999,6 @@ export const BoatOfferStep3 = () => {
                       style={{
                         display: "flex",
                         justifyContent: "flex-end",
-                        // alignItems: "center",
-                        // alignSelf: "center",
-                        // alignContent: "center",
-                        // backgroundColor: "red",
-                        // flex: 1,
-                        // position: "absolute",
-                        // top: 0,
-                        // bottom: 0,
-                        // alignContent: "flex-end",
-                        // alignItems: "flex-end",
-                        // alignSelf: "flex-end",
                       }}
                     >
                       {currentlySelectedDate ? (
@@ -1034,7 +1053,7 @@ export const BoatOfferStep3 = () => {
                   ) : null}
                 </div>
               </div>
-              {selectedDateTimeError ? (
+              {selectedDateTime?.length <= 0 && selectedDateTimeError ? (
                 <Typography
                   style={{
                     ...ErrMsgTxt,
@@ -1060,13 +1079,20 @@ export const BoatOfferStep3 = () => {
                   marginTop: "20px",
                 }}
               >
-                <div style={{ display: "flex" }} onClick={handleCopyLink}>
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    width: "100%",
+                  }}
+                >
                   <img
                     alt="LINK"
                     src={IMAGES.LINK}
                     style={{ width: 31, height: 31 }}
+                    onClick={handleCopyLink}
                   />
-                  <Typography style={{ userSelect: "all", marginLeft: "10px" }}>
+                  {/* <Typography style={{ userSelect: "all", marginLeft: "10px" }}>
                     <Link
                       // href="#"
                       href="https://www.youtube.com/watch?v=M7cr9U-jtzY&t=4338s"
@@ -1076,7 +1102,41 @@ export const BoatOfferStep3 = () => {
                     >
                       https://www.youtube.com/watch?v=M7cr9U-jtzY&t=4338s
                     </Link>
-                  </Typography>
+                  </Typography> */}
+                  <CustomTextField
+                    margin="normal"
+                    fullWidth
+                    id="YouTube"
+                    name="YouTube"
+                    placeholder="Share a YouTube link for a short boat demo"
+                    value={youTubeLink}
+                    onChange={(event) => {
+                      if (start_space_Validation.test(event.target.value)) {
+                        setYouTubeLink(event.target.value);
+                      }
+                    }}
+                    variant="standard"
+                    InputProps={{
+                      disableUnderline: true,
+                      style: {
+                        backgroundColor: "white",
+                        borderRadius: "5px",
+                        paddingLeft: 20,
+                        height: "1px",
+                        width: "90%",
+                      },
+                    }}
+                    InputLabelProps={{
+                      shrink: true,
+                    }}
+                    inputProps={{
+                      fontSize: 16,
+                      fontFamily: "Poppins",
+                      color: "#424651",
+                      borderBottom: "none",
+                      backgroundColor: "#fff",
+                    }}
+                  />
                 </div>
                 {isLinkCopied && (
                   <img

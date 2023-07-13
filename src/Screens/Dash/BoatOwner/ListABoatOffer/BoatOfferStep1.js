@@ -1,32 +1,24 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { TextField, Button, Grid, Typography } from "@mui/material";
-import { withStyles, makeStyles } from "@mui/styles";
+import { Button, Typography } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import IMAGES from "../../../Images";
 import { boatRegisterStep1 } from "../../../../redux/slices";
 import { HeaderContent } from "../../../Common/map/HeaderContent";
 import Footer from "../../../../Component/Footer/Footer";
+import { toast } from "react-toastify";
 
 export const BoatOfferStep1 = () => {
+  const dash = useSelector((state) => state?.auth);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const dash = useSelector((state) => state?.auth);
   const [errorMsg, setErrorMsg] = useState("");
-  const [errorMsgShowIn, setErrorMsgShowIn] = useState("");
   const [ministryOfTransDoc, setMinistryOfTransDoc] = useState("");
-  const [ministryOfTransName, setMinistryOfTransName] = useState("");
   const [generalDireOfBorderGuardDoc, setGeneralDireOfBorderGuardDoc] =
-    useState("");
-  const [generalDireOfBorderGuardName, setGeneralDireOfBorderGuardName] =
     useState("");
   const [
     boatDocumentationsAndLicensesDoc,
     setBoatDocumentationsAndLicensesDoc,
-  ] = useState("");
-  const [
-    boatDocumentationsAndLicensesName,
-    setBoatDocumentationsAndLicensesName,
   ] = useState("");
 
   //
@@ -37,38 +29,41 @@ export const BoatOfferStep1 = () => {
   //
   const handleFileSelect = (files, fileType) => {
     if (files && files[0]) {
-      // console.log("handleDrop", event.target.files[0]);
-      const allowedExtensions = ["jpg", "jpeg", "png", "pdf", "docx"];
+      const allowedExtensions = ["jpg", "jpeg", "png", "pdf"];
       const selectedFile = files[0];
       const fileName = files[0]?.name;
       const fileExtension = fileName.split(".").pop().toLowerCase();
       console.log("selectedFile", selectedFile);
       if (allowedExtensions.includes(fileExtension)) {
-        const reader = new FileReader();
-        reader.onload = function (e) {
-          const fileData = e.target.result;
+        // const reader = new FileReader();
+        // reader.onload = function (e) {
+        // const fileData = e.target.result;
 
-          switch (fileType) {
-            case "ministryOfTrans":
-              setMinistryOfTransName(fileName);
-              setMinistryOfTransDoc(selectedFile);
-              break;
-            case "generalDireOfBorderGuard":
-              setGeneralDireOfBorderGuardName(fileName);
-              setGeneralDireOfBorderGuardDoc(selectedFile);
-              break;
-            case "boatDocumentationsAndLicenses":
-              setBoatDocumentationsAndLicensesName(fileName);
-              setBoatDocumentationsAndLicensesDoc(selectedFile);
-              break;
-            default:
-              break;
-          }
-        };
-        reader.readAsDataURL(selectedFile);
+        switch (fileType) {
+          case "ministryOfTrans":
+            setMinistryOfTransDoc(selectedFile);
+            break;
+          case "generalDireOfBorderGuard":
+            setGeneralDireOfBorderGuardDoc(selectedFile);
+            break;
+          case "boatDocumentationsAndLicenses":
+            setBoatDocumentationsAndLicensesDoc(selectedFile);
+            break;
+          default:
+            break;
+        }
+        // };
+        // reader.readAsDataURL(selectedFile);
       } else {
         console.log(
-          "Invalid file extension. Please select a file with extensions: jpg, jpeg, png"
+          "Invalid file extension. Please select a file with extensions: jpg, jpeg, png, pdf"
+        );
+        toast.error(
+          "Invalid file extension. Please select a file with extensions: jpg, jpeg, png, pdf",
+          {
+            position: toast.POSITION.TOP_RIGHT,
+            autoClose: 20000,
+          }
         );
       }
     }
@@ -97,19 +92,17 @@ export const BoatOfferStep1 = () => {
     event.preventDefault();
   }
 
-  const removeFile = () => {
-    setMinistryOfTransDoc("");
+  const removeFile = (fileName) => {
+    if (fileName === "ministry") {
+      setMinistryOfTransDoc("");
+    }
+    if (fileName === "general") {
+      setGeneralDireOfBorderGuardDoc("");
+    }
+    if (fileName === "boat") {
+      setBoatDocumentationsAndLicensesDoc("");
+    }
   };
-
-  const ColorButton = withStyles((theme) => ({
-    root: {
-      color: theme.palette.getContrastText("#3973A5"),
-      backgroundColor: "#3973A5",
-      "&:hover": {
-        backgroundColor: "#205682",
-      },
-    },
-  }))(Button);
 
   const handleDoubleClick = (fileInputId) => {
     const fileInput = document.getElementById(fileInputId);
@@ -121,7 +114,6 @@ export const BoatOfferStep1 = () => {
   const handleButtonClick = () => {
     // Clear error message
     setErrorMsg("");
-    setErrorMsgShowIn("");
 
     if (ministryOfTransDoc !== "") {
       if (generalDireOfBorderGuardDoc !== "") {
@@ -136,15 +128,12 @@ export const BoatOfferStep1 = () => {
 
           navigate("/BoatOfferStep2");
         } else {
-          setErrorMsgShowIn("BoatLicense");
           setErrorMsg("Please select an image");
         }
       } else {
-        setErrorMsgShowIn("General");
         setErrorMsg("Please select an image");
       }
     } else {
-      setErrorMsgShowIn("Ministry");
       setErrorMsg("Please select an image");
     }
   };
@@ -165,43 +154,8 @@ export const BoatOfferStep1 = () => {
     }
   };
 
-  // const [imageData, setImageData] = useState(null);
-  // console.log("imageData", imageData);
-  // const handleFormSubmit = () => {
-  //   const fileInput = document.getElementById("imageInput");
-  //   const file = fileInput.files[0];
-
-  //   if (file) {
-  //     const reader = new FileReader();
-
-  //     reader.onloadend = () => {
-  //       const dataUrl = reader.result;
-  //       setImageData(dataUrl);
-
-  //       // Call your API function here, passing the image data
-  //       // For example:
-  //       // sendImageDataToServer(dataUrl);
-  //     };
-
-  //     reader.readAsDataURL(file);
-  //   }
-  // };
   return (
     <>
-      {/* <div>
-        <form>
-          <input type="file" accept="image/*" id="imageInput" />
-          <button type="button" onClick={handleFormSubmit}>
-            Submit
-          </button>
-        </form>
-        {imageData && (
-          <div>
-            <h2>Image Preview:</h2>
-            <img src={imageData} alt="Preview" />
-          </div>
-        )}
-      </div> */}
       <HeaderContent
         contentname1={"Home"}
         contentname2={"Boat Offers"}
@@ -229,11 +183,31 @@ export const BoatOfferStep1 = () => {
                 Please upload all official documentations issued/licensed by The
                 Ministry of Transport.
               </Typography>
-              <div style={fileInputContainerStyle}>
+              <div
+                style={{
+                  ...fileInputContainerStyle,
+                  border:
+                    ministryOfTransDoc === "" && errorMsg
+                      ? "2px dashed red"
+                      : "1px dashed rgba(66, 70, 81, 0.3)",
+                }}
+              >
                 {ministryOfTransDoc ? (
                   <div style={uploadedFileContainerStyle}>
-                    <Typography>{ministryOfTransName}</Typography>
-                    <Button onClick={removeFile} style={removeFileButtonStyle}>
+                    {ministryOfTransDoc?.type === "application/pdf" ? (
+                      <img alt="pdf" src={IMAGES.PDF} style={showSelectedImg} />
+                    ) : (
+                      <img
+                        alt="img"
+                        src={URL.createObjectURL(ministryOfTransDoc)}
+                        style={showSelectedImg}
+                      />
+                    )}
+                    <Typography>{ministryOfTransDoc?.name}</Typography>
+                    <Button
+                      onClick={() => removeFile("ministry")}
+                      style={removeFileButtonStyle}
+                    >
                       Remove File
                     </Button>
                   </div>
@@ -289,11 +263,31 @@ export const BoatOfferStep1 = () => {
                 Please upload all official documentations issued/licensed by The
                 General Directorate of Border Guard
               </Typography>
-              <div style={fileInputContainerStyle}>
+              <div
+                style={{
+                  ...fileInputContainerStyle,
+                  border:
+                    generalDireOfBorderGuardDoc === "" && errorMsg
+                      ? "2px dashed red"
+                      : "1px dashed rgba(66, 70, 81, 0.3)",
+                }}
+              >
                 {generalDireOfBorderGuardDoc ? (
                   <div style={uploadedFileContainerStyle}>
-                    <Typography>{generalDireOfBorderGuardName}</Typography>
-                    <Button onClick={removeFile} style={removeFileButtonStyle}>
+                    {generalDireOfBorderGuardDoc?.type === "application/pdf" ? (
+                      <img alt="pdf" src={IMAGES.PDF} style={showSelectedImg} />
+                    ) : (
+                      <img
+                        alt="img"
+                        src={URL.createObjectURL(generalDireOfBorderGuardDoc)}
+                        style={showSelectedImg}
+                      />
+                    )}
+                    <Typography>{generalDireOfBorderGuardDoc?.name}</Typography>
+                    <Button
+                      onClick={() => removeFile("general")}
+                      style={removeFileButtonStyle}
+                    >
                       Remove File
                     </Button>
                   </div>
@@ -354,11 +348,36 @@ export const BoatOfferStep1 = () => {
                 Please upload the boat's documentations, licenses, and
                 permission to sail
               </Typography>
-              <div style={fileInputContainerStyle}>
+              <div
+                style={{
+                  ...fileInputContainerStyle,
+                  border:
+                    boatDocumentationsAndLicensesDoc === "" && errorMsg
+                      ? "2px dashed red"
+                      : "1px dashed rgba(66, 70, 81, 0.3)",
+                }}
+              >
                 {boatDocumentationsAndLicensesDoc ? (
                   <div style={uploadedFileContainerStyle}>
-                    <Typography>{boatDocumentationsAndLicensesName}</Typography>
-                    <Button onClick={removeFile} style={removeFileButtonStyle}>
+                    {boatDocumentationsAndLicensesDoc?.type ===
+                    "application/pdf" ? (
+                      <img alt="pdf" src={IMAGES.PDF} style={showSelectedImg} />
+                    ) : (
+                      <img
+                        alt="img"
+                        src={URL.createObjectURL(
+                          boatDocumentationsAndLicensesDoc
+                        )}
+                        style={showSelectedImg}
+                      />
+                    )}
+                    <Typography>
+                      {boatDocumentationsAndLicensesDoc?.name}
+                    </Typography>
+                    <Button
+                      onClick={() => removeFile("boat")}
+                      style={removeFileButtonStyle}
+                    >
                       Remove File
                     </Button>
                   </div>
@@ -525,12 +544,14 @@ const fileInputContainerStyle = {
   paddingLeft: "40px",
   paddingRight: "40px",
   justifyContent: "center",
+  height: "193px",
 };
 
 const uploadedFileContainerStyle = {
   flex: 1,
   display: "flex",
   alignItems: "center",
+  justifyContent: "center",
 };
 
 const removeFileButtonStyle = {
@@ -604,4 +625,10 @@ const saveContinueButtonTextStyle = {
   paddingLeft: "40px",
   paddingRight: "40px",
   borderRadius: "15px",
+};
+
+const showSelectedImg = {
+  width: "100px",
+  height: "100px",
+  marginRight: "100px",
 };

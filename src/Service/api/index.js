@@ -87,17 +87,26 @@ export function my_listing(token) {
 }
 
 export function boat_list_filter(token, payload) {
-  console.log("payload", payload);
+  console.log("payload", payload?.type);
   console.log(
-    "  API ====>>>   boat_list_filter,",
-    `${API.baseUrls[API.currentEnv] + API.authUrls.boat_list_filter}?page=${
-      payload?.pageNo
-    }&limit=10`
+    "boat_list_filter API ====>>>   ,",
+    payload?.type
+      ? `${API.baseUrls[API.currentEnv] + API.authUrls.boat_list_filter}?type=${
+          payload?.type
+        }page=${payload?.pageNo}&limit=10`
+      : `${API.baseUrls[API.currentEnv] + API.authUrls.boat_list_filter}?page=${
+          payload?.pageNo
+        }&limit=10`
+    // localhost:3000/boat_list?type=fishing&page=1&limit=10
   );
   return axios.get(
-    `${API.baseUrls[API.currentEnv] + API.authUrls.boat_list_filter}?page=${
-      payload?.pageNo
-    }&limit=10`,
+    payload?.type
+      ? `${API.baseUrls[API.currentEnv] + API.authUrls.boat_list_filter}?type=${
+          payload?.type
+        }page=${payload?.pageNo}&limit=10`
+      : `${API.baseUrls[API.currentEnv] + API.authUrls.boat_list_filter}?page=${
+          payload?.pageNo
+        }&limit=10`,
     {
       headers: {
         "Content-Type": "application/json",

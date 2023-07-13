@@ -65,8 +65,6 @@ export const LogIn = () => {
   const [errorMsg, setErrorMsg] = useState(false);
   const [googleResult, setGoogleResult] = useState("");
 
-  console.log("errorMsg", errorMsg);
-  // console.log("user", user?.verifyOTPpage);
   const handleCheckboxChange = (event) => {
     const { name, checked } = event.target;
     if (name === "RememberMe") {
@@ -218,9 +216,9 @@ export const LogIn = () => {
                   style: {
                     backgroundColor: "white",
                     borderRadius: "5px",
-                    boxShadow:
+                    border:
                       formik.touched.email && Boolean(formik.errors.email)
-                        ? "0px 0px 10px red"
+                        ? "1px solid red"
                         : null,
                   },
 
@@ -286,11 +284,11 @@ export const LogIn = () => {
                     backgroundColor: "white",
                     borderWidth: 2,
                     borderColor: "red",
-                    boxShadow:
+                    border:
                       (formik.touched.password &&
                         Boolean(formik.errors.password)) ||
                       errorMsg === "Incorrect pasword, please try again"
-                        ? "0px 0px 10px red"
+                        ? "1px solid red"
                         : null,
 
                     borderRadius: "5px",
@@ -333,10 +331,6 @@ export const LogIn = () => {
                     ...styles.pwdStyles,
                   },
                 }}
-                // error={
-                //   formik.touched.password && Boolean(formik.errors.password)
-                // }
-                // helperText={formik.touched.password && formik.errors.password}
               />
 
               {formik.touched.password && Boolean(formik.errors.password) ? (
@@ -383,23 +377,10 @@ export const LogIn = () => {
                   type="submit"
                   style={{
                     ...styles.btnStyle,
-                    // lineHeight: "24px",
-                    // minHeight: "45px",
                   }}
                   disabled={isLoading}
                 >
-                  {/* {isLoading ? (
-                    <CircularProgress
-                      size={24}
-                      style={{
-                        position: "absolute",
-                        transform: "translate(-50%, -50%)",
-                        color: "whitesmoke",
-                      }}
-                    />
-                  ) : ( */}
                   Log in
-                  {/* )} */}
                 </Button>
               </Grid>
               <Grid item xs={12}>
@@ -491,7 +472,6 @@ const styles = {
     justifyContent: "space-between",
     flexDirection: "row",
     width: "67%",
-    // marginTop: "40px",
   },
 
   pwdDev: {
@@ -499,7 +479,6 @@ const styles = {
     flexDirection: "column",
     alignContent: "center",
     width: "100%",
-    // backgroundColor: "green",
   },
 
   pwdStyles: {
@@ -509,20 +488,15 @@ const styles = {
     borderBottom: "none",
     backgroundColor: "#fff",
     height: "40px",
-    // backgroundColor: "red",
   },
   ErrorMsgTxt: {
-    color: "red",
+    color: "#DC143C",
     fontSize: 12,
     fontFamily: "Poppins",
-    // marginTop: "5px",
   },
   endContent: {
-    // display: "flex",
-    // flexDirection: "column",
     alignContent: "center",
     width: "65%",
-    // marginTop: "20px",
   },
   btnStyle: {
     marginTop: "30px",

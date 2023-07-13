@@ -517,7 +517,6 @@ export const SignUp = () => {
             />
 
             {/* Render the country options */}
-
             <Dialog open={showModal} onClose={handleCloseModal} scroll="paper">
               <DialogTitle>Country Options</DialogTitle>
               <DialogContent
@@ -1096,8 +1095,8 @@ const styles = {
     padding: "0px",
   },
   ErrorMsgTxt: {
-    color: "red",
-    fontSize: 12,
+    color: "#DC143C",
+    fontSize: 11,
     fontFamily: "Poppins",
     marginTop: "5px",
   },

@@ -158,8 +158,6 @@ export const BoatOwnerDashBoard = () => {
         <div
           style={{
             display: "flex",
-            // flexDirection: "row",
-            // alignSelf: "center",
             alignItems: "center",
           }}
         >
@@ -167,9 +165,7 @@ export const BoatOwnerDashBoard = () => {
             style={{
               padding: "30px",
               backgroundColor: "white",
-              // width: "211px",
               borderRadius: "500px",
-              // height: "211px",
               alignSelf: "center",
               alignItems: "center",
               display: "flex",

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Container } from "react-bootstrap";
 import Card from "react-bootstrap/Card";
 import Boat from "../../assets/Images/boat_carousal_1.png";
@@ -12,42 +12,55 @@ import StarOff from "../../assets/Images/XMLID_16_.png";
 import IMAGES from "../../Screens/Images";
 import { StarRating } from "../../UI kit/5Star/StarRating";
 
-const Imagebox = ({ imageBox }) => {
-  // const imageBox = [
-  //   {
-  //     id: 1,
-  //     image: Boat,
-  //     boatName: "Peace Boat",
-  //     placeName: "Russel Madam",
-  //     starCount: 4,
-  //     moneyIcon: FaMoneyBill,
-  //     money: "55000 SAR",
-  //     userGroup: FaUsers,
-  //     member: "15",
-  //   },
-  //   {
-  //     id: 2,
-  //     image: Boat,
-  //     boatName: "Al Madina Boat",
-  //     placeName: "Yanbu",
-  //     starCount: 4,
-  //     moneyIcon: FaMoneyBill,
-  //     money: "6000 SAR",
-  //     userGroup: FaUsers,
-  //     member: "15",
-  //   },
-  //   {
-  //     id: 3,
-  //     image: Boat,
-  //     boatName: "Russel Madam",
-  //     placeName: "Riyadh",
-  //     starCount: 5,
-  //     moneyIcon: FaMoneyBill,
-  //     money: "10000 SAR",
-  //     userGroup: FaUsers,
-  //     member: "12",
-  //   },
-  // ];
+const localImageBox = [
+  {
+    id: 1,
+    image: Boat,
+    boat_name: "Peace Boat",
+    marine_city: "Russel Madam",
+    starCount: 4,
+    moneyIcon: FaMoneyBill,
+    price_per_hour: "55000",
+    price_currency: "SAR",
+    userGroup: FaUsers,
+    boat_max_capacity: "15",
+  },
+  {
+    id: 2,
+    image: Boat,
+    boat_name: "Al Madina Boat",
+    marine_city: "Yanbu",
+    starCount: 4,
+    moneyIcon: FaMoneyBill,
+    price_per_hour: "6000",
+    price_currency: "SAR",
+    userGroup: FaUsers,
+    boat_max_capacity: "15",
+  },
+  {
+    id: 3,
+    image: Boat,
+    boat_name: "Russel Madam",
+    marine_city: "Riyadh",
+    starCount: 5,
+    moneyIcon: FaMoneyBill,
+    price_per_hour: "5000",
+    price_currency: "SAR",
+    userGroup: FaUsers,
+    boat_max_capacity: "12",
+  },
+];
+
+const Imagebox = ({ imageBox = null }) => {
+  const [showdata, setShowData] = useState([]);
+
+  useEffect(() => {
+    if (imageBox === null) {
+      setShowData(localImageBox);
+    } else {
+      setShowData(imageBox);
+    }
+  }, [imageBox]);
 
   return (
     <div>
@@ -55,10 +68,12 @@ const Imagebox = ({ imageBox }) => {
         className="d-flex flex-wrap justify-content-between"
         style={{ marginTop: 30 }}
       >
-        {imageBox?.map((item) => (
+        {showdata?.map((item) => (
           <>
-            {console.log("item", item)}
-            <Card style={{ borderRadius: 0, width: 400 }} key={item?.id}>
+            <Card
+              style={{ borderRadius: 0, width: 400, marginTop: "50px" }}
+              key={item?.id}
+            >
               <Card.Img
                 variant="top"
                 src={IMAGES?.boat1 ?? item?.image}
