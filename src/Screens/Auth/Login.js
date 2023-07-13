@@ -64,7 +64,7 @@ export const LogIn = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState(false);
   const [googleResult, setGoogleResult] = useState("");
-
+  const errors = {};
   const handleCheckboxChange = (event) => {
     const { name, checked } = event.target;
     if (name === "RememberMe") {
@@ -103,9 +103,7 @@ export const LogIn = () => {
         sign_in_type: "EMAIL",
       };
     }
-
     console.log("handleSubmit payload", payload);
-
     login(payload)
       .then((res) => {
         console.log("login res", res?.data);
@@ -151,6 +149,7 @@ export const LogIn = () => {
       });
   };
 
+  console.log(" errors.email", errors.email);
   const formik = useFormik({
     initialValues: {
       email: user?.emailId ?? "",
@@ -158,13 +157,67 @@ export const LogIn = () => {
       sign_in_type: "SOCIAL_LOGIN",
     },
 
-    onSubmit: (values) => {
-      handleSubmit(values);
+    onSubmit: (value) => {
+      localStorage.removeItem("session");
+
+      setIsLoading(true);
+
+      let payload = {
+        email: value?.email,
+        password: value?.password,
+        sign_in_type: "EMAIL",
+      };
+      console.log("handleSubmit payload", payload);
+      login(payload)
+        .then((res) => {
+          console.log("login res", res?.data);
+          if (res?.data?.message === "user not verified") {
+            dispatch(EmailId(value?.email));
+            dispatch(Password(value?.password));
+            navigate("/VerifyOTP");
+          } else if (res?.data?.message === "user Login successfully") {
+            let tokenDecode = jwt_decode(res?.data?.token);
+            dispatch(TokenDecodeData(tokenDecode));
+            dispatch(UserId(res?.data?.user_id));
+            dispatch(AuthToken(res?.data?.token));
+            const currentTime = moment().format("YYYY-MM-DD HH:mm:ss");
+            console.log("currentTime", currentTime);
+            localStorage.setItem("session", currentTime.toString());
+
+            tokenDecode?.user_type === "BOAT_OWNER"
+              ? navigate("/boatOwnerDashBoard")
+              : navigate("/rental");
+
+            toast.success("Login successfully", {
+              position: toast.POSITION.TOP_RIGHT,
+              autoClose: 2000,
+            });
+          } else {
+            // errors.email = res?.data?.message;
+            setErrorMsg(
+              res?.data?.message && Object.keys(res.data.message).length > 0
+                ? res?.data?.message
+                : "LogIn Error"
+            );
+            if (
+              res?.data?.message &&
+              Object.keys(res.data.message).length > 0
+            ) {
+              toast.error(res?.data?.message, {
+                position: toast.POSITION.TOP_RIGHT,
+                autoClose: 4000,
+              });
+            }
+          }
+          setIsLoading(false);
+        })
+        .catch((err) => {
+          setIsLoading(false);
+          console.log("login err", err);
+        });
     },
 
     validate: (values) => {
-      const errors = {};
-
       if (values.email === "") {
         errors.email = "Please enter your email";
       } else if (!values.email.match(emailIdValidation)) {
