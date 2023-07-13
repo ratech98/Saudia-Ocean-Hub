@@ -6,7 +6,6 @@ import { LocationOn } from "@material-ui/icons";
 const Map = ({ markers, selectedMarker, onSelectMarker }) => {
   const selectedMarkerLat = selectedMarker?.lat ?? 20.146220361679458;
   const selectedMarkerLng = selectedMarker?.lng ?? 40.2568970541965;
-  console.log("selectedMarker", selectedMarker);
 
   const handleMarkerClick = async ({ lat, lng }) => {
     try {

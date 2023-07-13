@@ -14,6 +14,7 @@ import {
   DialogContent,
   DialogActions,
   Typography,
+  Autocomplete,
 } from "@mui/material";
 import { withStyles } from "@mui/styles";
 import { useNavigate } from "react-router-dom";
@@ -87,7 +88,7 @@ export const SignUp = () => {
   const [password, setPassword] = useState(false);
   const [strengthIndicator, setStrengthIndicator] = useState(false);
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
-  const [selectedCountry, setSelectedCountry] = useState(countryCodeJson[0]); // Set the initial selected country
+  const [selectedCountry, setSelectedCountry] = useState(countryCodeJson[189]); // Set the initial selected country
   const [showModal, setShowModal] = useState(false);
   const [isEmailChecked, setIsEmailChecked] = useState(false);
   const [isTermsOfServiceChecked, setIsTermsOfServiceChecked] = useState(false);
@@ -98,6 +99,8 @@ export const SignUp = () => {
 
   // console.log("googleResult", googleResult);
   // console.log("user", user?.userType);
+
+  console.log("countryCodeJson", countryCodeJson);
 
   const handleCheckboxChange = (event) => {
     const { name, checked } = event.target;
@@ -114,6 +117,7 @@ export const SignUp = () => {
     const selectedCountry = countryCodeJson.find(
       (country) => country.code === countryCode
     );
+
     setSelectedCountry(selectedCountry);
     setShowModal(false);
   };
@@ -196,7 +200,7 @@ export const SignUp = () => {
             setErrorMessage(res?.data?.message);
             toast.error(res?.data?.message, {
               position: toast.POSITION.TOP_RIGHT,
-              autoClose: 2000,
+              autoClose: 20000,
             });
           }
           setLoading(false);
@@ -263,7 +267,15 @@ export const SignUp = () => {
       "profile email https://www.googleapis.com/auth/user.phonenumbers.read",
     prompt: "select_account",
   };
+  const [searchValue, setSearchValue] = useState("");
 
+  const handleSearchChange = (event) => {
+    setSearchValue(event.target.value);
+  };
+
+  const filteredCountries = countryCodeJson.filter((country) =>
+    country.name.en.toLowerCase().includes(searchValue.toLowerCase())
+  );
   return (
     <div style={styles.containerBody}>
       {loading ? <Loader loading={loading} /> : null}
@@ -282,13 +294,7 @@ export const SignUp = () => {
               xs={12}
               sm={5.8}
               style={{
-                // backgroundColor: "green",
                 alignSelf: "center",
-                // alignContent: "center",
-                // alignItems: "center",
-                // display: "flex",
-                // margin: "0px",
-                // padding: "0px 10px",
               }}
             >
               <CustomTextField
@@ -314,13 +320,20 @@ export const SignUp = () => {
                   style: {
                     backgroundColor: "white",
                     borderRadius: "5px",
+                    border:
+                      formik.touched.firstName &&
+                      Boolean(formik.errors.firstName)
+                        ? "1px solid red"
+                        : null,
                   },
                 }}
                 InputLabelProps={{
                   shrink: true,
                 }}
                 inputProps={{
-                  style: styles.customTextField,
+                  style: {
+                    ...styles.customTextField,
+                  },
                 }}
                 style={{
                   margin: "0px",
@@ -361,6 +374,10 @@ export const SignUp = () => {
                   style: {
                     backgroundColor: "white",
                     borderRadius: "5px",
+                    border:
+                      formik.touched.lastName && Boolean(formik.errors.lastName)
+                        ? "1px solid red"
+                        : null,
                   },
                 }}
                 InputLabelProps={{
@@ -397,6 +414,10 @@ export const SignUp = () => {
                 style: {
                   backgroundColor: "white",
                   borderRadius: "5px",
+                  border:
+                    formik.touched.email && Boolean(formik.errors.email)
+                      ? "1px solid red"
+                      : null,
                 },
               }}
               InputLabelProps={{
@@ -432,13 +453,17 @@ export const SignUp = () => {
                   alignItems: "center",
                   marginTop: "-8px",
                   marginBottom: "-8px",
+                  border:
+                    formik.touched.cellNo && Boolean(formik.errors.cellNo)
+                      ? "1px solid red"
+                      : null,
                 },
                 startAdornment: (
                   <div
                     onClick={handleCountryCodeClick}
                     style={{
                       cursor: "pointer",
-                      // width: "150px",
+
                       justifyContent: "center",
                       display: "flex",
                       paddingLeft: "30px",
@@ -494,13 +519,27 @@ export const SignUp = () => {
             {/* Render the country options */}
             <Dialog open={showModal} onClose={handleCloseModal} scroll="paper">
               <DialogTitle>Country Options</DialogTitle>
-              <DialogContent dividers>
-                {countryCodeJson.map((country) => (
+              <DialogContent
+                dividers
+                style={{ minHeight: "690px", minWidth: "700px" }}
+              >
+                <TextField
+                  label="Search Country"
+                  variant="standard"
+                  value={searchValue}
+                  onChange={handleSearchChange}
+                  fullWidth
+                  style={{ width: "84%" }}
+                />
+                {filteredCountries.map((country, index) => (
                   <MenuItem
                     key={country.code}
-                    value={country.code}
+                    value={country}
                     style={{ width: "100%" }}
-                    onClick={() => handleCountryChange(country.code)}
+                    onClick={() => {
+                      console.log("index", country);
+                      handleCountryChange(country.code);
+                    }}
                   >
                     <Typography
                       style={{ marginRight: "15px", fontSize: "20px" }}
@@ -526,7 +565,15 @@ export const SignUp = () => {
           <Grid container style={styles.fieldDevLast}>
             <Grid container style={styles.pwd_confirmDev}>
               {/* Password */}
-              <div style={styles.pwdDev}>
+              <div
+                style={{
+                  ...styles.pwdDev,
+                  border:
+                    formik.touched.password && Boolean(formik.errors.password)
+                      ? "1px solid red"
+                      : null,
+                }}
+              >
                 <CustomTextField
                   type={showPassword ? "text" : "password"}
                   margin="normal"
@@ -545,6 +592,7 @@ export const SignUp = () => {
                   variant="standard"
                   InputProps={{
                     disableUnderline: true,
+
                     style: {
                       backgroundColor: "white",
                       borderRadius: "5px",
@@ -574,7 +622,9 @@ export const SignUp = () => {
                     shrink: true,
                   }}
                   inputProps={{
-                    style: styles.pwdStyles,
+                    style: {
+                      ...styles.pwdStyles,
+                    },
                   }}
                 />
               </div>
@@ -613,6 +663,11 @@ export const SignUp = () => {
                   style: {
                     backgroundColor: "white",
                     borderRadius: "5px",
+                    border:
+                      formik.touched.confirmPassword &&
+                      Boolean(formik.errors.confirmPassword)
+                        ? "1px solid red"
+                        : null,
                   },
                 }}
                 InputLabelProps={{
@@ -815,7 +870,7 @@ export const SignUp = () => {
           </Grid>
           {/* <Grid container style={styles.endContent}></Grid> */}
         </div>
-        <span
+        {/* <span
           onClick={() => {
             // dispatch(EmailId("er.riyaz2507@gmail.com"));
             navigate("/VerifyOTP");
@@ -824,13 +879,53 @@ export const SignUp = () => {
         >
           Skip VerifyOTP
         </span>
-        {/* <span
+        <span
           onClick={() => {
-            navigate("/Home");
+            navigate("/boatOwnerDashBoard");
           }}
           style={styles.loginTxt}
         >
-          Skip DashBoard
+          BoatOwner DashBoard
+        </span>
+        <span
+          onClick={() => {
+            navigate("/home");
+          }}
+          style={styles.loginTxt}
+        >
+          Home
+        </span>
+        <span
+          onClick={() => {
+            navigate("/confirmation");
+          }}
+          style={styles.loginTxt}
+        >
+          confirmation screen
+        </span>
+        <span
+          onClick={() => {
+            navigate("/reviewPage");
+          }}
+          style={styles.loginTxt}
+        >
+          reviewPage
+        </span>
+        <span
+          onClick={() => {
+            navigate("/notification");
+          }}
+          style={styles.loginTxt}
+        >
+          notification
+        </span> */}
+        {/* <span
+          onClick={() => {
+            navigate("/boatViewDetails");
+          }}
+          style={styles.loginTxt}
+        >
+          Boat View Details
         </span> */}
       </form>
     </div>
@@ -1001,7 +1096,7 @@ const styles = {
   },
   ErrorMsgTxt: {
     color: "#DC143C",
-    fontSize: 12,
+    fontSize: 11,
     fontFamily: "Poppins",
     marginTop: "5px",
   },

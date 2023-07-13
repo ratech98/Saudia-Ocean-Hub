@@ -1,10 +1,10 @@
-.copyright{
+.copyright {
   height: 60px;
   padding: 19px;
   background-color: #026b93;
   text-align: center;
 }
-.copyright p{
+.copyright p {
   font-family: Poppins;
   font-size: 16px;
   font-weight: normal;
@@ -19,9 +19,8 @@
   background-color: #f6f6f6;
   padding: 9px;
   border-radius: 10px;
-
 }
-.footer-links .nav-links{
+.footer-links .nav-links {
   font-family: Poppins;
   font-size: 24px;
   font-weight: normal;
@@ -32,10 +31,10 @@
   text-align: left;
   color: #424651;
 }
-.footer-links.nav{
+.footer-links.nav {
   padding: 20px 0px;
 }
-.footer{
+.footer {
   height: 187px;
   padding-top: 40px;
   border: solid 0.5px rgba(66, 70, 81, 0.2);

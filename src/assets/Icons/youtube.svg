@@ -3,6 +3,7 @@
     <style>
       .cls-1 {
         fill: #026b93;
+        <!-- fill:'rgba(66, 70, 81, 0.6)' -->
       }
     </style>
   </defs>

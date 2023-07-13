@@ -22,6 +22,12 @@ const IMAGES = {
   GOOGLE: require("../assets/Images/google.png"),
   ADD_BOATE_DETAILS: require("../assets/Images/addBoatDetails.webp"),
   GROUP: require("../assets/Images/malesGroup.png"),
+  NO_RESULT: require("../assets/Images/noResults.jpg"),
+  CONFIRM_TICK: require("../assets/Images/confirmTick.webp"),
+  STAR: require("../assets/Images/star.webp"),
+  CAMERA: require("../assets/Images/camera.png"),
+  UP_ARROW_IMG: require("../assets/Images/UpArrowImg.png"),
+  PDF: require("../assets/Images/pdf.png"),
   //
   //
   //

@@ -18,7 +18,6 @@ import { withStyles } from "@mui/styles";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { Clear, MoreVert } from "@material-ui/icons";
-
 import { useDispatch, useSelector } from "react-redux";
 import { boat_service, boat_type } from "../../../../Service/api";
 import {
@@ -28,8 +27,27 @@ import {
 } from "../../../../redux/slices";
 import IMAGES from "../../../Images";
 import Map from "../../../Common/map/Map";
+import { toast } from "react-toastify";
 
 const start_space_Validation = new RegExp(/^(?!\s).*/);
+
+const boat_type_options = [
+  {
+    name: "Fishing Boats",
+  },
+  {
+    name: "Houseboats",
+  },
+  {
+    name: "Jet Boats",
+  },
+  {
+    name: "Wakeboard/ Ski Boats",
+  },
+  {
+    name: "Bowrider Boats",
+  },
+];
 
 export const BoatOfferStep2 = () => {
   const navigate = useNavigate();
@@ -45,7 +63,6 @@ export const BoatOfferStep2 = () => {
   const [openModal, setOpenModal] = useState(false);
   const [backgroungImage, setBackgroungImage] = useState(false);
   const [profileImg, setProfileImg] = useState(false);
-
   const [imgUploadError, setImgUploadError] = useState(false);
   const [boatServiceError, setBoatServiceError] = useState(false);
   const [mapLocError, setMapLocError] = useState(false);
@@ -61,8 +78,6 @@ export const BoatOfferStep2 = () => {
     zoom: 11,
   };
 
-  // console.log(" step 2 auth", auth);
-  console.log("dash?.boatType?.length ", dash?.boatType);
   const handleMapClick = async ({ lat, lng }) => {
     try {
       const response = await axios.get(
@@ -80,14 +95,12 @@ export const BoatOfferStep2 = () => {
     setSelectedAddress({ lat, lng });
   };
 
-  // console.log("selectedAddress", selectedAddress);
-  // console.log("dash", dash?.boatService);
-  // console.log("auth", auth);
+  console.log("selectedFiles", selectedFiles);
 
   useEffect(() => {
     boat_type(auth?.AuthToken)
       .then((res) => {
-        console.log("boat_type res", res);
+        console.log("boat_type res", res?.data);
         if (res?.data?.success) {
           dispatch(boatTypeList(res?.data?.parameters));
         } else {
@@ -98,7 +111,7 @@ export const BoatOfferStep2 = () => {
       });
     boat_service(auth?.AuthToken)
       .then((res) => {
-        console.log("boat_service res", res);
+        console.log("boat_service res", res?.data);
         if (res?.data?.success) {
           dispatch(boatServiceList(res?.data?.parameters));
         } else {
@@ -161,14 +174,35 @@ export const BoatOfferStep2 = () => {
     setCustomService(e.target.value);
   };
 
-  const handleFileSelect = (files, fileType) => {
+  const handleFileSelect = (files) => {
     const selectedImages = Array.from(files).filter((file) => {
       const allowedExtensions = ["jpg", "jpeg", "png"];
       const fileExtension = file.name.split(".").pop().toLowerCase();
       return allowedExtensions.includes(fileExtension);
     });
+    if (selectedImages.length !== files.length) {
+      toast.error(
+        "Invalid file extension. Please select a file with extensions: jpg, jpeg, png",
+        {
+          position: toast.POSITION.TOP_RIGHT,
+          autoClose: 20000,
+        }
+      );
+    }
     setSelectedFiles([...selectedFiles, ...selectedImages]);
   };
+
+  // if (file) {
+  //   const reader = new FileReader();
+  //   reader.onloadend = () => {
+  //     const dataUrl = reader.result;
+  //     setImageData(dataUrl);
+  //     // Call your API function here, passing the image data
+  //     // For example:
+  //     // sendImageDataToServer(dataUrl);
+  //   };
+  //   reader.readAsDataURL(file);
+  // }
 
   const removeImage = (index) => {
     const updatedFiles = [...selectedFiles];
@@ -223,21 +257,22 @@ export const BoatOfferStep2 = () => {
     },
   });
 
-  function handleDrop(event, handlebyName) {
+  function handleDrop(event) {
     event.preventDefault();
     const files = event.dataTransfer.files;
-    switch (handlebyName) {
-      case "ministryOfTrans":
-        handleFileSelect(files, "ministryOfTrans");
-        break;
-      case "generalDireOfBorderGuard":
-        handleFileSelect(files, "generalDireOfBorderGuard");
-        break;
-      case "boatDocumentationsAndLicenses":
-        handleFileSelect(files, "boatDocumentationsAndLicenses");
-        break;
-      default:
-        break;
+
+    handleFileSelect(files);
+
+    const allowedExtensions = ["jpg", "jpeg", "png"];
+    const selectedFile = files[0];
+    const fileName = files[0]?.name;
+    const fileExtension = fileName.split(".").pop().toLowerCase();
+
+    if (allowedExtensions.includes(fileExtension)) {
+      const reader = new FileReader();
+      reader.onload = function (e) {
+        const fileData = e.target.result;
+      };
     }
   }
 
@@ -264,7 +299,6 @@ export const BoatOfferStep2 = () => {
 
   // Handle marker selection
   const handleSelectMarker = (marker) => {
-    console.log("handleSelectMarker", marker);
     setSelectedMarker(marker);
     setSelectedAddress(marker);
   };
@@ -332,17 +366,25 @@ export const BoatOfferStep2 = () => {
                   select
                   InputProps={{ style: textFieldStyles }}
                 >
-                  {dash?.boatType?.length > 0 ? (
+                  {/* {dash?.boatType?.length > 0 ? (
                     dash.boatType.map((item, index) => (
                       <MenuItem key={index} value={item?.label}>
                         {item?.label}
                       </MenuItem>
                     ))
                   ) : (
-                    <MenuItem key={"index"} value={"item?.label"}>
-                      Diummy
+                    <> */}
+                  {boat_type_options?.map((item, index) => (
+                    <MenuItem
+                      key={index}
+                      value={item.name}
+                      selected={formik.values.boatType === item.name}
+                    >
+                      {item?.name}
                     </MenuItem>
-                  )}
+                  ))}
+                  {/* </>
+                  )} */}
                 </CustomTextField>
               </Grid>
 
@@ -496,15 +538,17 @@ export const BoatOfferStep2 = () => {
                 <label htmlFor="fileInput">
                   <div
                     id="dropArea"
-                    onDrop={(e) => handleDrop(e, "generalDireOfBorderGuard")}
+                    onDrop={(e) => handleDrop(e)}
                     onDragOver={handleDragOver}
                   >
                     <div
                       style={{
                         marginTop: "10px",
-                        borderStyle: "dashed",
-                        border: "1px dashed",
-                        borderColor: "gray",
+                        border:
+                          selectedFiles.length <= 0 && imgUploadError
+                            ? "1px dashed red"
+                            : "1px dashed gray",
+                        // border: "1px dashed gray",
                         borderRadius: "20px",
                         alignItems: "center",
                         alignContent: "center",
@@ -524,7 +568,7 @@ export const BoatOfferStep2 = () => {
                         id="fileInput"
                         multiple
                         onChange={(event) =>
-                          handleFileSelect(event.target.files, "image")
+                          handleFileSelect(event.target.files)
                         }
                         style={{ display: "none" }}
                       />
@@ -574,7 +618,7 @@ export const BoatOfferStep2 = () => {
                     </div>
                   </div>
                 </label>
-                {imgUploadError ? (
+                {selectedFiles.length <= 0 && imgUploadError ? (
                   <Typography style={ErrMsgTxt}>
                     Please upload your Images
                   </Typography>
@@ -622,9 +666,9 @@ export const BoatOfferStep2 = () => {
                               onMouseOver={(e) => {
                                 setShowCut(index);
                               }}
-                              onMouseOut={(e) => {
-                                setShowCut("");
-                              }}
+                              // onMouseOut={(e) => {
+                              //   setShowCut("");
+                              // }}
                             >
                               <img
                                 alt="user selected img"
@@ -744,11 +788,29 @@ export const BoatOfferStep2 = () => {
                                         textAlign: "center",
                                       }}
                                       onClick={() => {
+                                        console.log("item", item);
                                         setOpenModal(false);
                                         setBackgroungImage(index);
                                         dispatch(
                                           boatRegisterStep2({
+                                            Boat_name: auth?.Boat_name,
+                                            Boat_type: auth?.Boat_type,
+                                            Boat_year: auth?.Boat_year,
+                                            Boat_length: auth?.Boat_length,
+                                            Boat_max_capacity:
+                                              auth?.Boat_max_capacity,
+                                            Boat_price_per_hour:
+                                              auth?.Boat_price_per_hour,
+                                            Upload_images_of_your_boat:
+                                              auth?.Upload_images_of_your_boat,
+                                            Boat_services_selected:
+                                              auth?.Boat_services_selected,
+                                            Marine_name: auth?.Marine_name,
+                                            Marine_address:
+                                              auth?.Marine_address,
                                             Boat_backgroung_image: item,
+                                            Boat_profile_image:
+                                              auth?.Boat_profile_image,
                                           })
                                         );
                                       }}
@@ -772,8 +834,26 @@ export const BoatOfferStep2 = () => {
                                       onClick={() => {
                                         setOpenModal(false);
                                         setProfileImg(index);
+                                        console.log("auth", auth);
                                         dispatch(
                                           boatRegisterStep2({
+                                            Boat_name: auth?.Boat_name,
+                                            Boat_type: auth?.Boat_type,
+                                            Boat_year: auth?.Boat_year,
+                                            Boat_length: auth?.Boat_length,
+                                            Boat_max_capacity:
+                                              auth?.Boat_max_capacity,
+                                            Boat_price_per_hour:
+                                              auth?.Boat_price_per_hour,
+                                            Upload_images_of_your_boat:
+                                              auth?.Upload_images_of_your_boat,
+                                            Boat_services_selected:
+                                              auth?.Boat_services_selected,
+                                            Marine_name: auth?.Marine_name,
+                                            Marine_address:
+                                              auth?.Marine_address,
+                                            Boat_backgroung_image:
+                                              auth?.Boat_backgroung_image,
                                             Boat_profile_image: item,
                                           })
                                         );
@@ -822,8 +902,9 @@ export const BoatOfferStep2 = () => {
                     }}
                   >
                     Boat Services
-                  </span>{" "}
-                  {boatServiceError ? (
+                  </span>
+
+                  {boatServiceError && selectedBoatServices?.length === 0 ? (
                     <Typography
                       style={{
                         ...ErrMsgTxt,
@@ -983,8 +1064,10 @@ export const BoatOfferStep2 = () => {
                           Boolean(formik.errors.Marine_Address)
                         }
                         helperText={
-                          formik.touched.Marine_Address &&
-                          formik.errors.Marine_Address
+                          !selectedMarker
+                            ? formik.touched.Marine_Address &&
+                              formik.errors.Marine_Address
+                            : null
                         }
                         InputProps={{
                           style: textFieldStyles,
@@ -992,33 +1075,7 @@ export const BoatOfferStep2 = () => {
                       />
                     </Grid>
                   </Grid>
-                  {/* <AnyReactComponent
-                        lat={59.955413}
-                        lng={30.337844}
-                        text="My Marker"
-                      /> */}
 
-                  {/* <GoogleMapReact
-                      bootstrapURLKeys={{
-                        key: "AIzaSyCCbOGygkchkcXDrWQwO2yQhFrPhli4z3s",
-                      }}
-                      defaultCenter={{
-                        lat: 20.146220361679458,
-                        lng: 40.2568970541965,
-                      }}
-                      defaultZoom={15}
-                      onClick={handleMapClick}
-                      options={mapOptions}
-                      // yesIWantToUseGoogleMapApiInternals
-                    >
-                      {selectedAddress && (
-                        <AnyReactComponent
-                          lat={selectedAddress?.lat}
-                          lng={selectedAddress?.lng}
-                          text="My Marker"
-                        />
-                      )}
-                    </GoogleMapReact> */}
                   <div style={{ height: "500px", width: "100%" }}>
                     <Map
                       markers={markers}
@@ -1027,7 +1084,7 @@ export const BoatOfferStep2 = () => {
                     />
                   </div>
 
-                  {mapLocError ? (
+                  {!selectedMarker && mapLocError ? (
                     <Typography
                       style={{
                         ...ErrMsgTxt,
@@ -1089,6 +1146,8 @@ export const BoatOfferStep2 = () => {
                             Boat_services_selected: selectedBoatServices,
                             Marine_name: formik.values.Marine_Name,
                             Marine_address: selectedAddress,
+                            Boat_backgroung_image: auth?.Boat_backgroung_image,
+                            Boat_profile_image: auth?.Boat_profile_image,
                           })
                         );
                         navigate("/BoatOfferStep3");
@@ -1178,6 +1237,8 @@ const containerStyle = {
   display: "flex",
   flexDirection: "column",
   backgroundColor: "#f6f6f6",
+  // display: "grid",
+  // placeItems: "center",
 };
 
 const headingStyle = {

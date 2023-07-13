@@ -15,6 +15,11 @@ import { UserChoice } from "../Screens/Auth/UserChoice";
 import { SignUp } from "../Screens/Auth/SignUp";
 import VerifyOTP from "../Screens/Auth/VerifyOTP";
 import moment from "moment";
+import { SearchBoat } from "../Screens/Dash/SearchBoat";
+import { Confirmation } from "../Screens/new/Confirmation";
+import { ReviewPage } from "../Screens/new/ReviewPage";
+import { Notification } from "../Screens/new/Notification";
+import { BoatViewDetails } from "../Screens/Dash/BoatViewDetails";
 import { AuthPage } from "../Screens/Auth";
 import Loader from "../Screens/Loader";
 import jwt_decode from "jwt-decode";
@@ -79,7 +84,7 @@ export const RootNavigator = React.forwardRef(function RootNavigator(
     <BrowserRouter>
       <Routes>
         <>
-          <Route
+          {/* <Route
             path="/"
             element={
               <PrivateRoute session={props?.calculateTime}>
@@ -87,7 +92,7 @@ export const RootNavigator = React.forwardRef(function RootNavigator(
               </PrivateRoute>
             }
           />
-          <Route path="/logIn" element={<LogIn />} />
+
           <Route
             path="/rental"
             element={
@@ -103,7 +108,11 @@ export const RootNavigator = React.forwardRef(function RootNavigator(
                 <BoatOwnerDashBoard />
               </PrivateRoute>
             }
-          />
+          /> */}
+          <Route path="/rental" element={<Rental />} />
+          <Route path="/" element={<Home />} />
+          <Route path="/logIn" element={<LogIn />} />
+          <Route path="/boatOwnerDashBoard" element={<BoatOwnerDashBoard />} />
           <Route path="/boatOfferStep1" element={<BoatOfferStep1 />} />
           <Route path="/boatOfferStep2" element={<BoatOfferStep2 />} />
           <Route path="/boatOfferStep3" element={<BoatOfferStep3 />} />
@@ -114,6 +123,12 @@ export const RootNavigator = React.forwardRef(function RootNavigator(
           <Route path="/signUp" element={<SignUp />} />
           <Route path="/userChoice" element={<UserChoice />} />
           <Route path="/verifyOTP" element={<VerifyOTP />} />
+
+          <Route path="/searchBoat" element={<SearchBoat />} />
+          <Route path="/confirmation" element={<Confirmation />} />
+          <Route path="/reviewPage" element={<ReviewPage />} />
+          <Route path="/notification" element={<Notification />} />
+          <Route path="/boatViewDetails" element={<BoatViewDetails />} />
         </>
       </Routes>
     </BrowserRouter>

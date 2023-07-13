@@ -1,11 +1,13 @@
 import { Container, Grid, Typography } from "@mui/material";
-import React from "react";
+import React, { useEffect } from "react";
 
 import IMAGES from "../Images";
 import Footer from "../../Component/Footer/Footer";
 import { StarRating } from "../../UI kit/5Star/StarRating";
 import Imagebox from "../../Component/ImageBox/Imagebox";
 import { useNavigate } from "react-router-dom";
+import { HeaderContent } from "../Common/map/HeaderContent";
+import { useSelector } from "react-redux";
 
 const boatServices = [
   {
@@ -42,76 +44,49 @@ const boatServices = [
 
 export const BoatOwnerDashBoard = () => {
   const navigate = useNavigate();
+  const auth = useSelector((state) => state?.auth);
 
+  // useEffect(() => {
+  //   window.history.forward();
+  //   const handleNoBack = () => {
+  //     window.history.forward();
+  //   };
+  //   window.addEventListener("popstate", handleNoBack);
+  //   return () => {
+  //     window.removeEventListener("popstate", handleNoBack);
+  //   };
+  // }, []);
+
+  console.log("auth", auth);
+  const handleHeaderCallBack = (name) => {
+    if (name === "Home") {
+      // navigate("/home");
+    } else if (name === "Log In") {
+      navigate("/logIn");
+    } else if (name === "Sign Up") {
+      navigate("/signUP");
+    } else if (name === "Boat Offers") {
+      //   navigate("/home");
+    } else if (name === "My Listings") {
+      navigate("/myListings");
+    } else if (name === "List a Boat Offer") {
+      // navigate("/home");
+    } else {
+      navigate(name);
+    }
+  };
   return (
     <div style={styles.container}>
-      <Container style={styles.headerContainer} maxWidth="100%">
-        <div
-          style={{
-            justifyContent: "space-between",
-            display: "flex",
-            flexDirection: "row",
-            margin: "0px 24px",
-            // backgroundColor: "green",
-          }}
-        >
-          <div
-            style={{
-              justifyContent: "space-between",
-              display: "flex",
-              flexDirection: "row",
-              alignItems: "center",
-              flex: 0.5,
-            }}
-          >
-            <img src={IMAGES.APP_ICON} alt="Icon" style={styles.appIcon} />
-            <Typography onClick={() => {}} style={styles.titleOptionTxt}>
-              Home
-            </Typography>
-            <Typography onClick={() => {}} style={styles.titleOptionTxt}>
-              For Boat Owners
-            </Typography>
-            <Typography onClick={() => {}} style={styles.titleOptionTxt}>
-              For Boat Rentals
-            </Typography>
-            <Typography
-              onClick={() => {
-                navigate("/myListings");
-              }}
-              style={styles.titleOptionTxt}
-            >
-              My Listings
-            </Typography>
-          </div>
-          <div
-            style={{
-              justifyContent: "space-between",
-              display: "flex",
-              flexDirection: "row",
-              alignItems: "center",
+      <HeaderContent
+        contentname1={"Home"}
+        contentname2={"For Boat Owners"}
+        contentname3={"For Boat Rentals"}
+        contentname4={"My Listings"}
+        handleBack={handleHeaderCallBack}
+        search={"/searchBoat"}
+        showLoginSignUp={auth?.AuthToken ? false : true}
+      />
 
-              flex: 0.1,
-            }}
-          >
-            <Typography
-              onClick={() => {
-                navigate("/logIn");
-              }}
-              style={styles.titleOptionTxt}
-            >
-              Log In
-            </Typography>
-            <Typography
-              onClick={() => {
-                navigate("/signUp");
-              }}
-              style={styles.titleOptionTxt}
-            >
-              Sign Up
-            </Typography>
-          </div>
-        </div>
-      </Container>
       <Container style={styles.pageTopContainer} maxWidth="100%">
         <Typography onClick={() => {}} style={styles.subtitleTxt}>
           List Your Boat and Earn Money{" "}
@@ -119,7 +94,7 @@ export const BoatOwnerDashBoard = () => {
         <span
           style={{
             fontWeight: "bolder",
-            fontSize: "30px",
+            fontSize: "38px",
             textAlign: "center",
             color: "#424651",
           }}
@@ -183,8 +158,6 @@ export const BoatOwnerDashBoard = () => {
         <div
           style={{
             display: "flex",
-            // flexDirection: "row",
-            // alignSelf: "center",
             alignItems: "center",
           }}
         >
@@ -192,9 +165,7 @@ export const BoatOwnerDashBoard = () => {
             style={{
               padding: "30px",
               backgroundColor: "white",
-              // width: "211px",
               borderRadius: "500px",
-              // height: "211px",
               alignSelf: "center",
               alignItems: "center",
               display: "flex",
@@ -241,10 +212,11 @@ export const BoatOwnerDashBoard = () => {
           Best Boat Offers This Week
         </Typography>
       </div>
-
       <Imagebox />
       <Imagebox />
-      <Footer />
+      <div style={{ marginTop: "200px" }}>
+        <Footer />
+      </div>
     </div>
   );
 };
@@ -298,7 +270,7 @@ const styles = {
     marginTop: "30px",
   },
   subtitleTxt: {
-    fontSize: "28px",
+    fontSize: "38px",
     color: "#424651",
 
     // fontWeight: "500",

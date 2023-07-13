@@ -64,7 +64,7 @@ export const LogIn = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState(false);
   const [googleResult, setGoogleResult] = useState("");
-
+  const errors = {};
   const handleCheckboxChange = (event) => {
     const { name, checked } = event.target;
     if (name === "RememberMe") {
@@ -103,9 +103,7 @@ export const LogIn = () => {
         sign_in_type: "EMAIL",
       };
     }
-
     console.log("handleSubmit payload", payload);
-
     login(payload)
       .then((res) => {
         console.log("login res", res?.data);
@@ -118,7 +116,6 @@ export const LogIn = () => {
           
           let tokenDecode = jwt_decode(res?.data?.token);
           dispatch(TokenDecodeData(tokenDecode));
-
           dispatch(UserId(res?.data?.user_id));
           dispatch(AuthToken(res?.data?.token));
           localStorage.setItem("session", res?.data?.token);
@@ -126,6 +123,11 @@ export const LogIn = () => {
           tokenDecode?.user_type === "BOAT_OWNER"
             ? navigate("/boatOwnerDashBoard")
             : navigate("/rental");
+
+          toast.success("Login successfully", {
+            position: toast.POSITION.TOP_RIGHT,
+            autoClose: 2000,
+          });
         } else {
           setErrorMsg(
             res?.data?.message && Object.keys(res.data.message).length > 0
@@ -135,7 +137,7 @@ export const LogIn = () => {
           if (res?.data?.message && Object.keys(res.data.message).length > 0) {
             toast.error(res?.data?.message, {
               position: toast.POSITION.TOP_RIGHT,
-              autoClose: 2000,
+              autoClose: 20000,
             });
           }
         }
@@ -147,6 +149,7 @@ export const LogIn = () => {
       });
   };
 
+  console.log(" errors.email", errors.email);
   const formik = useFormik({
     initialValues: {
       email: user?.emailId ?? "",
@@ -154,13 +157,67 @@ export const LogIn = () => {
       sign_in_type: "SOCIAL_LOGIN",
     },
 
-    onSubmit: (values) => {
-      handleSubmit(values);
+    onSubmit: (value) => {
+      localStorage.removeItem("session");
+
+      setIsLoading(true);
+
+      let payload = {
+        email: value?.email,
+        password: value?.password,
+        sign_in_type: "EMAIL",
+      };
+      console.log("handleSubmit payload", payload);
+      login(payload)
+        .then((res) => {
+          console.log("login res", res?.data);
+          if (res?.data?.message === "user not verified") {
+            dispatch(EmailId(value?.email));
+            dispatch(Password(value?.password));
+            navigate("/VerifyOTP");
+          } else if (res?.data?.message === "user Login successfully") {
+            let tokenDecode = jwt_decode(res?.data?.token);
+            dispatch(TokenDecodeData(tokenDecode));
+            dispatch(UserId(res?.data?.user_id));
+            dispatch(AuthToken(res?.data?.token));
+            const currentTime = moment().format("YYYY-MM-DD HH:mm:ss");
+            console.log("currentTime", currentTime);
+            localStorage.setItem("session", currentTime.toString());
+
+            tokenDecode?.user_type === "BOAT_OWNER"
+              ? navigate("/boatOwnerDashBoard")
+              : navigate("/rental");
+
+            toast.success("Login successfully", {
+              position: toast.POSITION.TOP_RIGHT,
+              autoClose: 2000,
+            });
+          } else {
+            // errors.email = res?.data?.message;
+            setErrorMsg(
+              res?.data?.message && Object.keys(res.data.message).length > 0
+                ? res?.data?.message
+                : "LogIn Error"
+            );
+            if (
+              res?.data?.message &&
+              Object.keys(res.data.message).length > 0
+            ) {
+              toast.error(res?.data?.message, {
+                position: toast.POSITION.TOP_RIGHT,
+                autoClose: 4000,
+              });
+            }
+          }
+          setIsLoading(false);
+        })
+        .catch((err) => {
+          setIsLoading(false);
+          console.log("login err", err);
+        });
     },
 
     validate: (values) => {
-      const errors = {};
-
       if (values.email === "") {
         errors.email = "Please enter your email";
       } else if (!values.email.match(emailIdValidation)) {
@@ -172,6 +229,19 @@ export const LogIn = () => {
       return errors;
     },
   });
+
+  useEffect(() => {
+    if (user?.verifyOTPpage === "VERIFY_OTP") {
+      window.history.forward();
+      const handleNoBack = () => {
+        window.history.forward();
+      };
+      window.addEventListener("popstate", handleNoBack);
+      return () => {
+        window.removeEventListener("popstate", handleNoBack);
+      };
+    }
+  }, []);
 
   return (
     <>
@@ -199,6 +269,10 @@ export const LogIn = () => {
                   style: {
                     backgroundColor: "white",
                     borderRadius: "5px",
+                    border:
+                      formik.touched.email && Boolean(formik.errors.email)
+                        ? "1px solid red"
+                        : null,
                   },
 
                   startAdornment: (
@@ -235,7 +309,7 @@ export const LogIn = () => {
                   style: styles.pwdStyles,
                 }}
               />
-              {/* </div> */}
+
               {formik.touched.email && Boolean(formik.errors.email) ? (
                 <span style={styles.ErrorMsgTxt}>
                   {formik.touched.email && formik.errors.email}
@@ -261,7 +335,17 @@ export const LogIn = () => {
                   disableUnderline: true,
                   style: {
                     backgroundColor: "white",
+                    borderWidth: 2,
+                    borderColor: "red",
+                    border:
+                      (formik.touched.password &&
+                        Boolean(formik.errors.password)) ||
+                      errorMsg === "Incorrect pasword, please try again"
+                        ? "1px solid red"
+                        : null,
+
                     borderRadius: "5px",
+                    // Incorrect pasword, please try again
                   },
                   startAdornment: (
                     <InputAdornment
@@ -296,10 +380,12 @@ export const LogIn = () => {
                   shrink: true,
                 }}
                 inputProps={{
-                  style: styles.pwdStyles,
+                  style: {
+                    ...styles.pwdStyles,
+                  },
                 }}
               />
-              {/* </div> */}
+
               {formik.touched.password && Boolean(formik.errors.password) ? (
                 <span style={styles.ErrorMsgTxt}>
                   {formik.touched.password && formik.errors.password}
@@ -344,23 +430,10 @@ export const LogIn = () => {
                   type="submit"
                   style={{
                     ...styles.btnStyle,
-                    // lineHeight: "24px",
-                    // minHeight: "45px",
                   }}
                   disabled={isLoading}
                 >
-                  {/* {isLoading ? (
-                    <CircularProgress
-                      size={24}
-                      style={{
-                        position: "absolute",
-                        transform: "translate(-50%, -50%)",
-                        color: "whitesmoke",
-                      }}
-                    />
-                  ) : ( */}
                   Log in
-                  {/* )} */}
                 </Button>
               </Grid>
               <Grid item xs={12}>
@@ -452,7 +525,6 @@ const styles = {
     justifyContent: "space-between",
     flexDirection: "row",
     width: "67%",
-    // marginTop: "40px",
   },
 
   pwdDev: {
@@ -460,7 +532,6 @@ const styles = {
     flexDirection: "column",
     alignContent: "center",
     width: "100%",
-    // backgroundColor: "green",
   },
 
   pwdStyles: {
@@ -470,20 +541,15 @@ const styles = {
     borderBottom: "none",
     backgroundColor: "#fff",
     height: "40px",
-    // backgroundColor: "red",
   },
   ErrorMsgTxt: {
     color: "#DC143C",
     fontSize: 12,
     fontFamily: "Poppins",
-    // marginTop: "5px",
   },
   endContent: {
-    // display: "flex",
-    // flexDirection: "column",
     alignContent: "center",
     width: "65%",
-    // marginTop: "20px",
   },
   btnStyle: {
     marginTop: "30px",

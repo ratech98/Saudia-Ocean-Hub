@@ -4,6 +4,7 @@ const initialState = {
   isLoading: false,
   userType: null,
   emailId: null,
+  verifyOTPpage: null,
   password: null,
   //
   AuthToken: null,
@@ -48,6 +49,9 @@ const authSlice = createSlice({
     },
     EmailId(state, action) {
       state.emailId = action.payload;
+    },
+    verifyOTP(state, action) {
+      state.verifyOTPpage = action.payload;
     },
     Password(state, action) {
       state.password = action.payload;
@@ -99,6 +103,7 @@ const authSlice = createSlice({
 export const {
   UserType,
   EmailId,
+  verifyOTP,
   Password,
   AuthToken,
   UserId,

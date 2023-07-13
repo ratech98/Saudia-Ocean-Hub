@@ -34,10 +34,6 @@ export function login(data) {
 }
 
 export function resend_otp(data) {
-  console.log(
-    "API.baseUrls[API.currentEnv] + API.authUrls.resend_otp",
-    API.baseUrls[API.currentEnv] + API.authUrls.resend_otp
-  );
   return axios.post(
     API.baseUrls[API.currentEnv] + API.authUrls.resend_otp,
     data,
@@ -59,7 +55,6 @@ export function boat_type(token) {
 }
 
 export function boat_service(token) {
-  console.log("API", API.baseUrls[API.currentEnv] + API.authUrls.boat_service);
   return axios.get(API.baseUrls[API.currentEnv] + API.authUrls.boat_service, {
     headers: {
       "Content-Type": "application/json",
@@ -69,10 +64,106 @@ export function boat_service(token) {
 }
 
 export function boat_register(token, data) {
-  console.log("API", API.baseUrls[API.currentEnv] + API.authUrls.boat_register);
   return axios.post(
     API.baseUrls[API.currentEnv] + API.authUrls.boat_register,
     data,
+    {
+      headers: {
+        // "Content-Type": "application/json",
+        "Content-Type": "multipart/form-data",
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+}
+
+export function my_listing(token) {
+  return axios.get(API.baseUrls[API.currentEnv] + API.authUrls.my_listing, {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  });
+}
+
+export function boat_list_filter(token, payload) {
+  console.log(
+    "check",
+    payload?.boat_type && payload?.price && payload?.capacity //type,price,capacity
+      ? `${API.baseUrls[API.currentEnv] + API.authUrls.boat_list_filter}?type=${
+          payload?.boat_type
+        }&price=${payload?.price}&capacity=${payload?.capacity}&page=${
+          payload?.pageNo
+        }&limit=${10}`
+      : payload?.boat_type && payload?.price //type,price
+      ? `${API.baseUrls[API.currentEnv] + API.authUrls.boat_list_filter}?type=${
+          payload?.boat_type
+        }&price=${payload?.price}&page=${payload?.pageNo}&limit=${10}`
+      : payload?.boat_type && payload?.capacity //type,capacity
+      ? `${API.baseUrls[API.currentEnv] + API.authUrls.boat_list_filter}?type=${
+          payload?.boat_type
+        }&capacity=${payload?.capacity}&page=${payload?.pageNo}&limit=${10}`
+      : payload?.price && payload?.capacity //price,capacity
+      ? `${
+          API.baseUrls[API.currentEnv] + API.authUrls.boat_list_filter
+        }?price=${payload?.price}&capacity=${payload?.capacity}&page=${
+          payload?.pageNo
+        }&limit=${10}`
+      : payload?.boat_type
+      ? `${API.baseUrls[API.currentEnv] + API.authUrls.boat_list_filter}?type=${
+          payload?.boat_type
+        }&page=${payload?.pageNo}&limit=${10}`
+      : payload?.price
+      ? `${
+          API.baseUrls[API.currentEnv] + API.authUrls.boat_list_filter
+        }?price=${payload?.price}&page=${payload?.pageNo}&limit=${10}`
+      : payload?.capacity
+      ? `${
+          API.baseUrls[API.currentEnv] + API.authUrls.boat_list_filter
+        }?capacity=${payload?.capacity}&page=${payload?.pageNo}&limit=${10}`
+      : `${API.baseUrls[API.currentEnv] + API.authUrls.boat_list_filter}?page=${
+          payload?.pageNo
+        }&limit=${10}`
+  );
+  console.log("payload", payload);
+
+  return axios.get(
+    payload?.boat_type && payload?.price && payload?.capacity //type,price,capacity
+      ? `${API.baseUrls[API.currentEnv] + API.authUrls.boat_list_filter}?type=${
+          payload?.boat_type
+        }&price=${payload?.price}&capacity=${payload?.capacity}&page=${
+          payload?.pageNo
+        }&limit=${10}`
+      : payload?.boat_type && payload?.price //type,price
+      ? `${API.baseUrls[API.currentEnv] + API.authUrls.boat_list_filter}?type=${
+          payload?.boat_type
+        }&price=${payload?.price}&page=${payload?.pageNo}&limit=${10}`
+      : payload?.boat_type && payload?.capacity //type,capacity
+      ? `${API.baseUrls[API.currentEnv] + API.authUrls.boat_list_filter}?type=${
+          payload?.boat_type
+        }&capacity=${payload?.capacity}&page=${payload?.pageNo}&limit=${10}`
+      : payload?.boat_type && payload?.capacity //price,capacity
+      ? `${
+          API.baseUrls[API.currentEnv] + API.authUrls.boat_list_filter
+        }?price=${payload?.price}&capacity=${payload?.capacity}&page=${
+          payload?.pageNo
+        }&limit=${10}`
+      : payload?.boat_type
+      ? `${API.baseUrls[API.currentEnv] + API.authUrls.boat_list_filter}?type=${
+          payload?.boat_type
+        }&page=${payload?.pageNo}&limit=${10}`
+      : payload?.price
+      ? `${
+          API.baseUrls[API.currentEnv] + API.authUrls.boat_list_filter
+        }?price=${payload?.price}&page=${payload?.pageNo}&limit=${10}`
+      : payload?.capacity
+      ? `${
+          API.baseUrls[API.currentEnv] + API.authUrls.boat_list_filter
+        }?capacity=${payload?.capacity}&page=${payload?.pageNo}&limit=${10}`
+      : `${API.baseUrls[API.currentEnv] + API.authUrls.boat_list_filter}?page=${
+          payload?.pageNo
+        }&limit=${10}`,
+
     {
       headers: {
         "Content-Type": "application/json",
