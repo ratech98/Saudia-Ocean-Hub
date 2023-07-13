@@ -393,7 +393,6 @@ export const SearchBoat = () => {
             InputProps={{ style: textFieldStyles }}
             style={{ width: "85%" }}
           >
-            {" "}
             {boat_price?.length > 0 ? (
               boat_price?.map((item, index) => (
                 <MenuItem key={index} value={item?.name}>
@@ -402,7 +401,7 @@ export const SearchBoat = () => {
               ))
             ) : (
               <MenuItem key={"index"} value={"item?.label"}>
-                Diummy
+                Dummy
               </MenuItem>
             )}
           </CustomTextField>
@@ -439,7 +438,7 @@ export const SearchBoat = () => {
               ))
             ) : (
               <MenuItem key={"index"} value={"item?.label"}>
-                Diummy
+                Dummy
               </MenuItem>
             )}
           </CustomTextField>
@@ -581,21 +580,6 @@ const styles = {
     alignItems: "center",
     flex: 0.5,
   },
-  //
-  //
-  //
-  //
-  //
-  //
-  //
-  //
-  //
-  //
-  //
-  //
-  //
-  //
-
   actionButton: {
     fontSize: 24,
     color: "#026b93",
@@ -619,9 +603,6 @@ const styles = {
   subtitleTxt: {
     fontSize: "28px",
     color: "#424651",
-
-    // fontWeight: "500",
-    // cursor: "pointer",
     textAlign: "center",
   },
   docUploadContainer: {
@@ -661,7 +642,6 @@ const styles = {
     fontWeight: "600",
     lineHeight: 1.5,
     textAlign: "left",
-    // marginTop: "24px",
   },
   boatDrierName: {
     fontSize: 20,
