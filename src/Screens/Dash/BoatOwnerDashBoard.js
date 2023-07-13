@@ -257,6 +257,8 @@ const styles = {
     marginLeft: "65%",
     alignItems: "center",
     width: "25%",
+    alignSelf: "center,",
+    textAlign: "center",
   },
   titleOptionTxt: {
     fontSize: 16,

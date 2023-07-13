@@ -29,6 +29,7 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import moment from "moment";
 import jwt_decode from "jwt-decode";
+import Loader from "../Loader";
 
 const emailIdValidation = new RegExp(
   /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/i
@@ -112,8 +113,6 @@ export const LogIn = () => {
           dispatch(Password(value?.password));
           navigate("/VerifyOTP");
         } else if (res?.data?.message === "user Login successfully") {
-            
-          
           let tokenDecode = jwt_decode(res?.data?.token);
           dispatch(TokenDecodeData(tokenDecode));
           dispatch(UserId(res?.data?.user_id));
@@ -246,7 +245,7 @@ export const LogIn = () => {
   return (
     <>
       <div style={styles.containerBody}>
-        {/* {isLoading ? <Loader loading={isLoading} /> : null} */}
+        {isLoading ? <Loader loading={isLoading} /> : null}
         <div style={styles.backgroundImage}></div>
 
         <form onSubmit={formik.handleSubmit} style={styles.formStyle}>

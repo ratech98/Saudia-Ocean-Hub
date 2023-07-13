@@ -28,6 +28,7 @@ const IMAGES = {
   CAMERA: require("../assets/Images/camera.png"),
   UP_ARROW_IMG: require("../assets/Images/UpArrowImg.png"),
   PDF: require("../assets/Images/pdf.png"),
+  CANCEL: require("../assets/Images/cancel.webp"),
   //
   //
   //

@@ -99,8 +99,7 @@ export const SignUp = () => {
 
   // console.log("googleResult", googleResult);
   // console.log("user", user?.userType);
-
-  console.log("countryCodeJson", countryCodeJson);
+  // console.log("countryCodeJson", countryCodeJson);
 
   const handleCheckboxChange = (event) => {
     const { name, checked } = event.target;

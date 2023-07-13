@@ -63,15 +63,38 @@ const Imagebox = ({ imageBox = null }) => {
   }, [imageBox]);
 
   return (
-    <div>
-      <Container
-        className="d-flex flex-wrap justify-content-between"
-        style={{ marginTop: 30 }}
+    <div
+      style={{
+        display: "flex",
+        width: "100%",
+        // backgroundColor: "darkmagenta",
+      }}
+    >
+      <div
+        // className="d-flex flex-wrap justify-content-between"
+        style={{
+          // margin: "0px 0px 0px 125px",
+          // margin: "0px 129px",
+          // marginLeft: "125px",
+          // margin: "50px 0px 140px 0px",
+          marginTop: "50px",
+          margin: "0px 140px",
+          // marginRight: "140px",
+          // backgroundColor: "green",
+          display: "flex",
+          flexWrap: "wrap",
+        }}
       >
-        {showdata?.map((item) => (
+        {showdata?.map((item, index) => (
           <>
             <Card
-              style={{ borderRadius: 0, width: 400, marginTop: "50px" }}
+              style={{
+                borderRadius: 0,
+                width: 400,
+                marginTop: "55px",
+                marginLeft: "55px",
+                // margin: "0 0 24px",
+              }}
               key={item?.id}
             >
               <Card.Img
@@ -132,7 +155,7 @@ const Imagebox = ({ imageBox = null }) => {
             </Card>
           </>
         ))}
-      </Container>
+      </div>
     </div>
   );
 };
