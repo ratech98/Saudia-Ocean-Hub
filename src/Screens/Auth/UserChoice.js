@@ -10,8 +10,6 @@ export const UserChoice = () => {
   const dispatch = useDispatch();
 
   const handleUser = (values) => {
-    // Handle form submission here
-
     setUserType(values);
   };
 
