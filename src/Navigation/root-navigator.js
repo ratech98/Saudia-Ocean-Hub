@@ -84,34 +84,14 @@ export const RootNavigator = React.forwardRef(function RootNavigator(
     <BrowserRouter>
       <Routes>
         <>
-          {/* <Route
-            path="/"
-            element={
-              <PrivateRoute session={props?.calculateTime}>
-                <Home />
-              </PrivateRoute>
-            }
-          />
-
-          <Route
-            path="/rental"
-            element={
-              <PrivateRoute session={props?.calculateTime}>
-                <Rental />
-              </PrivateRoute>
-            }
-          />
-          <Route
-            path="/boatOwnerDashBoard"
-            element={
-              <PrivateRoute session={props?.calculateTime}>
-                <BoatOwnerDashBoard />
-              </PrivateRoute>
-            }
-          /> */}
-          <Route path="/rental" element={<Rental />} />
           <Route path="/" element={<Home />} />
+          <Route path="/userChoice" element={<UserChoice />} />
+          <Route path="/signUp" element={<SignUp />} />
           <Route path="/logIn" element={<LogIn />} />
+          <Route path="/verifyOTP" element={<VerifyOTP />} />
+          ForgotPassword ResetPwdVerifyOTP ChangePassword
+          {/*  */}
+          <Route path="/rental" element={<Rental />} />
           <Route path="/boatOwnerDashBoard" element={<BoatOwnerDashBoard />} />
           <Route path="/boatOfferStep1" element={<BoatOfferStep1 />} />
           <Route path="/boatOfferStep2" element={<BoatOfferStep2 />} />
@@ -119,11 +99,6 @@ export const RootNavigator = React.forwardRef(function RootNavigator(
           <Route path="/myListings" element={<MyListings />} />
           <Route path="/requestList" element={<RequestList />} />
           <Route path="/customerProfile" element={<CustomerProfile />} />
-
-          <Route path="/signUp" element={<SignUp />} />
-          <Route path="/userChoice" element={<UserChoice />} />
-          <Route path="/verifyOTP" element={<VerifyOTP />} />
-
           <Route path="/searchBoat" element={<SearchBoat />} />
           <Route path="/confirmation" element={<Confirmation />} />
           <Route path="/reviewPage" element={<ReviewPage />} />

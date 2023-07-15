@@ -60,7 +60,6 @@ export const LogIn = () => {
   const dispatch = useDispatch();
   const user = useSelector((state) => state?.auth);
   const [showPassword, setShowPassword] = useState(false);
-  const [password, setPassword] = useState(false);
   const [isRemembermeChecked, setIsRemembermeChecked] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState(false);
@@ -152,7 +151,7 @@ export const LogIn = () => {
   const formik = useFormik({
     initialValues: {
       email: user?.emailId ?? "",
-      password: user?.password ?? "",
+      password: user?.password ?? "12345678",
       sign_in_type: "SOCIAL_LOGIN",
     },
 
@@ -180,9 +179,7 @@ export const LogIn = () => {
             dispatch(UserId(res?.data?.user_id));
             dispatch(AuthToken(res?.data?.token));
             const currentTime = moment().format("YYYY-MM-DD HH:mm:ss");
-            console.log("currentTime", currentTime);
             localStorage.setItem("session", currentTime.toString());
-
             tokenDecode?.user_type === "BOAT_OWNER"
               ? navigate("/boatOwnerDashBoard")
               : navigate("/rental");
@@ -327,7 +324,6 @@ export const LogIn = () => {
                 value={formik.values.password}
                 onChange={(event) => {
                   formik.handleChange(event);
-                  setPassword(event.target.value);
                 }}
                 variant="standard"
                 InputProps={{
@@ -463,7 +459,12 @@ export const LogIn = () => {
               </Grid>
               <Grid item xs={12}>
                 <div style={styles.forgotPwdDev}>
-                  <Typography style={styles.forgotPwdTxt}>
+                  <Typography
+                    style={styles.forgotPwdTxt}
+                    onClick={() => {
+                      navigate("/forgotPassword");
+                    }}
+                  >
                     Forgot Password?
                   </Typography>
                   <Typography

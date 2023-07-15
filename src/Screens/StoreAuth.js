@@ -25,7 +25,7 @@ const StoreAuth = ({ data, setCalculateTime, setMyLoader }) => {
       }
     };
     setMyLoader(false);
-    // getCurrentSession();
+    getCurrentSession();
   }, [data, setCalculateTime, setMyLoader]);
 };
 

@@ -1,11 +1,17 @@
-import React, { useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Button, Container, Grid, TextField, Typography } from "@mui/material";
+import {
+  Alert,
+  Button,
+  Container,
+  Grid,
+  TextField,
+  Typography,
+} from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
-import { resend_otp, verifyOtp } from "../../Service/api";
-import { EmailId, verifyOTP } from "../../redux/slices";
-import IMAGES from "../Images";
+
 import { toast } from "react-toastify";
+import IMAGES from "../../Images";
 
 const useOtpInputRefs = (length) => {
   const inputRefs = React.useMemo(() => {
@@ -17,10 +23,12 @@ const useOtpInputRefs = (length) => {
   return inputRefs;
 };
 
-const VerifyOTP = () => {
+export const ResetPwdVerifyOTP = () => {
   const inputRefs = useOtpInputRefs(6);
   const user = useSelector((state) => state?.auth);
+  const [userType, setUserType] = useState("");
   const navigate = useNavigate();
+  // const navigate = useHistory();
   const dispatch = useDispatch();
   const [errorMsg, setErrorMsg] = useState("");
   const [showResend, setShowResend] = useState(true);
@@ -34,28 +42,28 @@ const VerifyOTP = () => {
       otp: otp,
     };
     console.log("payload", payload);
-    verifyOtp(payload)
-      .then((res) => {
-        console.log("res", res);
-        if (res?.data?.message === "User Verified successfully") {
-          if (!user?.password) {
-            dispatch(EmailId(null));
-          }
-
-          dispatch(verifyOTP("VERIFY_OTP"));
-          navigate("/LogIn");
-        } else {
-          console.log("enter else");
-          setErrorMsg(res?.data?.message);
-          toast.error(res?.data?.message, {
-            position: toast.POSITION.TOP_RIGHT,
-            autoClose: 2000,
-          });
-        }
-      })
-      .catch((err) => {
-        console.log("err", err);
-      });
+    navigate("/changePassword");
+    // verifyOtp(payload)
+    //   .then((res) => {
+    //     console.log("res", res);
+    //     if (res?.data?.message === "User Verified successfully") {
+    //       if (!user?.password) {
+    //         dispatch(EmailId(null));
+    //       }
+    //       dispatch(verifyOTP("VERIFY_OTP"));
+    //       navigate("/LogIn");
+    //     } else {
+    //       console.log("enter else");
+    //       setErrorMsg(res?.data?.message);
+    //       toast.error(res?.data?.message, {
+    //         position: toast.POSITION.TOP_RIGHT,
+    //         autoClose: 2000,
+    //       });
+    //     }
+    //   })
+    //   .catch((err) => {
+    //     console.log("err", err);
+    //   });
   };
 
   const handleInputChange = (event, index) => {
@@ -81,7 +89,7 @@ const VerifyOTP = () => {
     setShowResend(false);
     let timer = setInterval(() => {
       setCountdown((prevCount) => prevCount - 1);
-    }, 1000);
+    }, 3000);
 
     setTimeout(() => {
       clearInterval(timer);
@@ -95,16 +103,16 @@ const VerifyOTP = () => {
       email: user?.emailId,
     };
     console.log("payload", payload);
-    resend_otp(payload)
-      .then((res) => {
-        console.log("res", res);
-        inputRefs.forEach((ref) => {
-          ref.current.value = "";
-        });
-      })
-      .catch((err) => {
-        console.log("err", err);
-      });
+    // resend_otp(payload)
+    //   .then((res) => {
+    //     console.log("res", res);
+    //     inputRefs.forEach((ref) => {
+    //       ref.current.value = "";
+    //     });
+    //   })
+    //   .catch((err) => {
+    //     console.log("err", err);
+    //   });
   };
 
   return (
@@ -123,6 +131,7 @@ const VerifyOTP = () => {
           marginLeft: "140px",
           width: "200px",
           height: "100px",
+          // marginTop: "24px",
         }}
       />
       <div
@@ -138,6 +147,9 @@ const VerifyOTP = () => {
             width: "65%",
             display: "flex",
             justifyContent: "center",
+            // alignSelf: "center",
+            // alignItems: "center",
+            // alignContent: "center",
           }}
         >
           <Grid container direction="column">
@@ -152,7 +164,7 @@ const VerifyOTP = () => {
                 marginLeft: "10px",
               }}
               onClick={() => {
-                dispatch(EmailId(null));
+                // dispatch(EmailId(null));
                 navigate(-1);
               }}
             >
@@ -186,30 +198,31 @@ const VerifyOTP = () => {
                 alignItems: "center",
               }}
             >
-              <img
+              {/* <img
                 src={IMAGES.VERIFY_ACC}
                 alt="Verify Acc"
                 style={{ width: "260px", height: "220px" }}
-              />
+              /> */}
 
-              <Typography
+              {/* <Typography
                 variant="h4"
                 sx={{
+                
                   fontSize: "40px",
                   fontFamily: "Poppins",
                   fontWeight: "550",
-
+                  // color: "rgba(66, 70, 81, 0.87)",
                   color: "black",
                   textAlign: "center",
                 }}
               >
                 Please Verify Account
-              </Typography>
+              </Typography> */}
 
               <Typography
                 variant="subtitle1"
                 sx={{
-                  marginTop: "8px",
+                  margin: "50px 0px",
                   fontSize: "22px",
                   fontFamily: "Poppins",
                   fontWeight: "normal",
@@ -218,7 +231,7 @@ const VerifyOTP = () => {
                 }}
               >
                 Enter the six-digit code we sent to your email to verify your
-                new account
+                authentication
               </Typography>
 
               <Grid
@@ -226,6 +239,7 @@ const VerifyOTP = () => {
                 justifyContent="center"
                 alignItems="center"
                 marginTop={"20px"}
+                // sx={{ marginTop: "48px" }}
               >
                 {inputRefs.map((ref, index) => (
                   <Grid item key={index}>
@@ -267,7 +281,7 @@ const VerifyOTP = () => {
                     textAlign: "center",
                     borderRadius: "5px",
                     fontSize: 14,
-                    marginBottom: "25px",
+                    marginBot: "25px",
                   }}
                 >
                   Resend OTP
@@ -294,6 +308,8 @@ const VerifyOTP = () => {
                 style={{ backgroundColor: "#3973a5" }}
                 sx={{
                   color: "white",
+                  // padding: "10px",
+                  // width: "30%",
                   textAlign: "center",
                   borderRadius: "5px",
                   fontSize: 24,
@@ -311,5 +327,3 @@ const VerifyOTP = () => {
     </div>
   );
 };
-
-export default VerifyOTP;

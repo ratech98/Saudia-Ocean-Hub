@@ -147,8 +147,8 @@ const styles = {
     alignItems: "center",
   },
   profileImg: {
-    width: "67px",
-    height: "67px",
+    width: "57px",
+    height: "57px",
   },
   Icon: {
     width: "30px",
