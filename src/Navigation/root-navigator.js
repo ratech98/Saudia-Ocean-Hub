@@ -23,42 +23,35 @@ import { BoatViewDetails } from "../Screens/Dash/BoatViewDetails";
 import { AuthPage } from "../Screens/Auth";
 import Loader from "../Screens/Loader";
 import jwt_decode from "jwt-decode";
+import { ForgotPassword } from "../Screens/Auth/password/ForgotPassword";
+import { ChangePassword } from "../Screens/Auth/password/ChangePassword";
+import { VerifyForgotPwdOTP } from "../Screens/Auth/password/VerifyForgotPwdOTP";
 
-const PrivateRoute = ({ children, session }) => {
+const PrivateRoute = ({ children, session, type }) => {
+  console.log("type", type);
+  console.log("children", children);
   const [calculateTime, setCalculateTime] = useState(false);
   const [loading, setLoading] = useState(true);
   const [landingPage, setLandingpage] = useState(false);
 
   useEffect(() => {
-    // const token = localStorage.getItem("session");
-    // console.log("token", token);
-    // let tokenDecode = jwt_decode(token);
-    // console.log(tokenDecode);
-    // const currentTimestamp = Math.floor(Date.now() / 1000);
-    // console.log("currentTimeStamp", currentTimestamp);
-    // console.log(currentTimestamp < tokenDecode?.exp);
     const getCurrentSession = async () => {
       const token = localStorage.getItem("session");
       console.log("token", token);
       if (token) {
         let tokenDecode = jwt_decode(token);
-        // jwt.verify(token, "OCEAN_HUB@2023!#", function (err, tokenDecode) {
+        console.log("tokenDecode", tokenDecode);
         const currentTimestamp = Math.floor(Date.now() / 1000);
         if (currentTimestamp < tokenDecode.exp) {
-          console.log("entry");
           setCalculateTime(true);
           setLoading(false);
         } else {
           setLoading(false);
           setCalculateTime(false);
         }
-        // });
       } else {
         setLoading(false);
         setCalculateTime(true);
-        // console.log("ennry else");
-        // setLandingpage(true);
-        // return <Navigate to="/home" />;
       }
     };
 
@@ -89,21 +82,62 @@ export const RootNavigator = React.forwardRef(function RootNavigator(
           <Route path="/signUp" element={<SignUp />} />
           <Route path="/logIn" element={<LogIn />} />
           <Route path="/verifyOTP" element={<VerifyOTP />} />
-          ForgotPassword ResetPwdVerifyOTP ChangePassword
+          <Route path="/forgotPassword" element={<ForgotPassword />} />
+          <Route path="/changePassword" element={<ChangePassword />} />
+          <Route path="/verifyForgotPwdOTP" element={<VerifyForgotPwdOTP />} />
+          {/* ForgotPassword ResetPwdVerifyOTP ChangePassword */}
           {/*  */}
-          <Route path="/rental" element={<Rental />} />
-          <Route path="/boatOwnerDashBoard" element={<BoatOwnerDashBoard />} />
-          <Route path="/boatOfferStep1" element={<BoatOfferStep1 />} />
-          <Route path="/boatOfferStep2" element={<BoatOfferStep2 />} />
-          <Route path="/boatOfferStep3" element={<BoatOfferStep3 />} />
+          <Route
+            path="/rental"
+            element={
+              <PrivateRoute type="BOAT_OWNER">
+                <Rental />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/boatOwnerDashBoard"
+            element={
+              <PrivateRoute type="BOAT_OWNER">
+                <BoatOwnerDashBoard />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/boatOfferStep1"
+            element={
+              <PrivateRoute type="BOAT_OWNER">
+                <BoatOfferStep1 />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/boatOfferStep2"
+            element={
+              <PrivateRoute type="BOAT_OWNER">
+                <BoatOfferStep2 />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/boatOfferStep3"
+            element={
+              <PrivateRoute type="BOAT_OWNER">
+                <BoatOfferStep3 />
+              </PrivateRoute>
+            }
+          />
           <Route path="/myListings" element={<MyListings />} />
+
+          {/*  */}
           <Route path="/requestList" element={<RequestList />} />
           <Route path="/customerProfile" element={<CustomerProfile />} />
-          <Route path="/searchBoat" element={<SearchBoat />} />
           <Route path="/confirmation" element={<Confirmation />} />
           <Route path="/reviewPage" element={<ReviewPage />} />
           <Route path="/notification" element={<Notification />} />
-          <Route path="/boatViewDetails" element={<BoatViewDetails />} />
+          {/* <Route path="/boatViewDetails" element={<BoatViewDetails />} /> */}
+          {/* common */}
+          <Route path="/searchBoat" element={<SearchBoat />} />
         </>
       </Routes>
     </BrowserRouter>

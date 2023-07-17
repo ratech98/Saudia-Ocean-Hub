@@ -1,5 +1,5 @@
 /* eslint-disable react/jsx-pascal-case */
-import React from "react";
+import React, { useEffect } from "react";
 import Backgroundimg from "../../assets/Images/bg_img.png";
 import Banner_button from "../../assets/Images/Banner_button.png";
 //
@@ -10,9 +10,12 @@ import Client_review from "../../Component/Testimonial/Client_review";
 import Cretified from "../../Component/Certificate/Cretified";
 import Footer from "../../Component/Footer/Footer";
 import Banner from "../../Component/Banner/Banner";
+import { useNavigate } from "react-router-dom";
+// import { useHistory } from "react-router-dom";
 
 const Home = () => {
   const backgroundImage = Backgroundimg;
+
   const content =
     "Find all boat trips and certified Scuba professionals within Saudi Arabia in one place";
   const title = "Welcome to the only ocean hub in Saudi Arabia";

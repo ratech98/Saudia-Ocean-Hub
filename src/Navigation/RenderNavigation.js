@@ -15,22 +15,10 @@ export const RenderRoutes = () => {
           // console.log("Pages List", r);
 
           if (r.isPrivate && auth?.AuthToken) {
-            console.log(
-              "con 1[r.isPrivate && auth?.AuthToken] page name",
-              r.name
-            );
             return <Route key={i} path={r.path} element={r.element} />;
           } else if (!r.isPrivate && !auth?.AuthToken) {
-            console.log(
-              "con 2[!r.isPrivate && !auth?.AuthToken] page name",
-              r.name
-            );
             return <Route key={i} path={r.path} element={r.element} />;
           } else if (!r.isPrivate && auth?.AuthToken) {
-            console.log(
-              "con 3[!r.isPrivate && auth?.AuthToken] page name",
-              r.name
-            );
             return <Route key={i} path={"/"} element={r.element} />;
           } else return <Route key={i} path={"/"} element={r.element} />;
         })}

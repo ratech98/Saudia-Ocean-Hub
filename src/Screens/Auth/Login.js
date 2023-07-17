@@ -137,7 +137,7 @@ export const LogIn = () => {
   const formik = useFormik({
     initialValues: {
       email: user?.emailId ?? "",
-      password: user?.password ?? "",
+      password: user?.password ?? "12345678",
       sign_in_type: "SOCIAL_LOGIN",
     },
 
@@ -165,7 +165,7 @@ export const LogIn = () => {
             dispatch(UserId(res?.data?.user_id));
             dispatch(AuthToken(res?.data?.token));
             const currentTime = moment().format("YYYY-MM-DD HH:mm:ss");
-            localStorage.setItem("session", currentTime.toString());
+            localStorage.setItem("session", res?.data?.token);
             tokenDecode?.user_type === "BOAT_OWNER"
               ? navigate("/boatOwnerDashBoard")
               : navigate("/rental");

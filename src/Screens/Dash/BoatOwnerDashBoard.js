@@ -5,7 +5,7 @@ import IMAGES from "../Images";
 import Footer from "../../Component/Footer/Footer";
 import { StarRating } from "../../UI kit/5Star/StarRating";
 import Imagebox from "../../Component/ImageBox/Imagebox";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { HeaderContent } from "../Common/map/HeaderContent";
 import { useSelector } from "react-redux";
 
@@ -45,6 +45,21 @@ const boatServices = [
 export const BoatOwnerDashBoard = () => {
   const navigate = useNavigate();
   const auth = useSelector((state) => state?.auth);
+  const location = useLocation();
+
+  useEffect(() => {
+    const handleBackButton = (event) => {
+      // Prevent the default behavior of the back button
+      event.preventDefault();
+      // Force the user back to the current route
+      navigate(location.pathname);
+    };
+    window.addEventListener("popstate", handleBackButton);
+    return () => {
+      // Clean up the event listener when the component unmounts
+      window.removeEventListener("popstate", handleBackButton);
+    };
+  }, [location.pathname, navigate]);
 
   // useEffect(() => {
   //   window.history.forward();
@@ -57,7 +72,6 @@ export const BoatOwnerDashBoard = () => {
   //   };
   // }, []);
 
-  console.log("auth", auth);
   const handleHeaderCallBack = (name) => {
     if (name === "Home") {
       // navigate("/home");

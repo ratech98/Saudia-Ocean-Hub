@@ -2,17 +2,20 @@ import React, { useEffect, useState } from "react";
 import { Container } from "react-bootstrap";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import { FaSearch } from "react-icons/fa";
-
 import Boat_Experience from "../../../assets/Images/removeable/Boating_Experience.png";
 import Rentel_Ellipse from "../../../assets/Images/Rental_Ellipse.svg";
 import Ellipse from "../../../assets/Images/Ellipse.svg";
 import Imagebox from "../../../Component/ImageBox/Imagebox";
 import Banner from "../../../Component/Banner/Banner";
 import Footer from "../../../Component/Footer/Footer";
+import { useLocation, useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 export const Rental = () => {
   const [extraInputValue, setExtraInputValue] = useState("");
+  const navigate = useNavigate();
+  const auth = useSelector((state) => state?.auth);
+  const location = useLocation();
 
   const handleExtraInputChange = (event) => {
     setExtraInputValue(event.target.value);
@@ -59,6 +62,21 @@ export const Rental = () => {
     textAlign: "left",
     color: "rgba(66, 70, 81, 0.4)",
   };
+
+  useEffect(() => {
+    const handleBackButton = (event) => {
+      // Prevent the default behavior of the back button
+      event.preventDefault();
+
+      // Force the user back to the current route
+      navigate(location.pathname);
+    };
+    window.addEventListener("popstate", handleBackButton);
+    return () => {
+      // Clean up the event listener when the component unmounts
+      window.removeEventListener("popstate", handleBackButton);
+    };
+  }, [location.pathname, navigate]);
   return (
     <div style={{ backgroundColor: "#f6f6f6" }}>
       <Banner

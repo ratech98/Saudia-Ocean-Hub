@@ -23,8 +23,8 @@ const App = () => {
   return (
     <Provider store={store}>
       <ToastContainer />
-
-      {myLoader ? (
+      <RootNavigator calculateTime={calculateTime} />
+      {/* {myLoader ? (
         <>
           <StoreAuth
             data={handleData}
@@ -34,12 +34,11 @@ const App = () => {
         </>
       ) : (
         <>
-          {/* <RootNavigator calculateTime={calculateTime} /> */}
           <BrowserRouter>
             <AuthWrapper />
           </BrowserRouter>
         </>
-      )}
+      )} */}
     </Provider>
   );
 };
