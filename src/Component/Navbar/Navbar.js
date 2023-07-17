@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import "./Navabr.css";
 import Logo from "../../assets/Logo/logo.png";
 import Container from "react-bootstrap/Container";
@@ -7,9 +7,42 @@ import Col from "react-bootstrap/Col";
 import Nav from "react-bootstrap/Nav";
 import { useNavigate } from "react-router-dom";
 import IMAGES from "../../Screens/Images";
+import { useDispatch } from "react-redux";
+import { AuthToken, TokenDecodeData, UserId } from "../../redux/slices";
 
 const Navbar = ({ showLoginSignUp }) => {
   const navigate = useNavigate();
+  const [openModal, setOpenModal] = useState(false);
+  const dispatch = useDispatch();
+
+  const handleOpenModal = () => {
+    setOpenModal(true);
+  };
+  const handleClose = () => {
+    setOpenModal(false);
+  };
+
+  const handleLogout = () => {
+    dispatch(TokenDecodeData(null));
+    dispatch(UserId(null));
+    dispatch(AuthToken(null));
+    localStorage.removeItem("session");
+    navigate("/logIn");
+    setOpenModal(false);
+  };
+
+  const modalStyle = {
+    display: openModal ? "block" : "none",
+    position: "fixed",
+    zIndex: 1,
+    left: 0,
+    top: 0,
+    width: "100%",
+    height: "100%",
+    overflow: "auto",
+    backgroundColor: "rgba(0, 0, 0, 0.4)",
+  };
+
   return (
     <div className="navbar">
       <Container className="w-100 d-inline">
@@ -68,12 +101,29 @@ const Navbar = ({ showLoginSignUp }) => {
                   alt="iocn"
                   src={IMAGES.PROFILE_ICON}
                   style={styles.profileImg}
+                  onClick={() => {
+                    handleOpenModal();
+                  }}
                 />
               </div>
             )}
           </Col>
         </Row>
       </Container>
+      {openModal ? (
+        <div style={modalStyle}>
+          <div style={modalContentStyle}>
+            <h2>Logout Confirmation</h2>
+            <p>Are you sure you want to logout?</p>
+            <button style={logoutButtonStyle} onClick={handleLogout}>
+              Logout
+            </button>
+            <button style={cancelButtonStyle} onClick={handleClose}>
+              Cancel
+            </button>
+          </div>
+        </div>
+      ) : null}
     </div>
   );
 };
@@ -128,4 +178,34 @@ const styles = {
     marginRight: "30px",
     // textAlign: "center",
   },
+};
+
+const modalContentStyle = {
+  backgroundColor: "#fefefe",
+  margin: "15% auto",
+  padding: "20px",
+  border: "1px solid #888",
+  width: "300px",
+};
+
+const buttonStyle = {
+  marginBottom: "10px",
+  marginRight: "10px",
+  padding: "10px 20px",
+  borderRadius: "4px",
+  border: "none",
+  cursor: "pointer",
+  fontSize: "16px",
+};
+
+const logoutButtonStyle = {
+  ...buttonStyle,
+  backgroundColor: "#f44336",
+  color: "white",
+};
+
+const cancelButtonStyle = {
+  ...buttonStyle,
+  backgroundColor: "#ccc",
+  color: "black",
 };
