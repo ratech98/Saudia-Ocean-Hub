@@ -1070,7 +1070,13 @@ export const BoatOfferStep2 = () => {
                             : null
                         }
                         InputProps={{
-                          style: textFieldStyles,
+                          style: {
+                            borderRadius: "15px",
+                            border:
+                              !selectedMarker && mapLocError
+                                ? ".1px solid red"
+                                : ".1px solid rgba(66, 70, 81, 0.2)",
+                          },
                         }}
                       />
                     </Grid>
