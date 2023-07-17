@@ -137,7 +137,7 @@ export const LogIn = () => {
   const formik = useFormik({
     initialValues: {
       email: user?.emailId ?? "",
-      password: user?.password ?? "12345678",
+      password: user?.password ?? "",
       sign_in_type: "SOCIAL_LOGIN",
     },
 

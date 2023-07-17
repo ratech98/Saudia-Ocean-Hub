@@ -1,10 +1,10 @@
 import { Typography } from "@mui/material";
 import React, { useState } from "react";
 import IMAGES from "../../Images";
-import LogOut from "../../Dash/LogOut";
-import Button from "@material-ui/core/Button";
-import { Modal } from "react-bootstrap";
-import { makeStyles } from "@material-ui/core/styles";
+import LogOutModal from "../../Dash/LogOutModal";
+import { useDispatch } from "react-redux";
+import { AuthToken, TokenDecodeData, UserId } from "../../../redux/slices";
+import { useNavigate } from "react-router-dom";
 
 export const HeaderContent = ({
   handleBack,
@@ -17,24 +17,37 @@ export const HeaderContent = ({
   search,
   showLoginSignUp = false,
 }) => {
-  const [openModal, setOpenModal] = useState(true);
-  const classes = useStyles();
-  const [open, setOpen] = useState(false);
+  const [openModal, setOpenModal] = useState(false);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
-  const handleOpen = () => {
-    setOpen(true);
+  const handleOpenModal = () => {
+    setOpenModal(true);
   };
-
   const handleClose = () => {
-    setOpen(false);
+    setOpenModal(false);
   };
 
   const handleLogout = () => {
-    // Code to handle the logout functionality
-    handleClose();
+    dispatch(TokenDecodeData(null));
+    dispatch(UserId(null));
+    dispatch(AuthToken(null));
+    localStorage.removeItem("session");
+    navigate("/logIn");
+    setOpenModal(false);
   };
 
-  console.log("open Modal condition ", open);
+  const modalStyle = {
+    display: openModal ? "block" : "none",
+    position: "fixed",
+    zIndex: 1,
+    left: 0,
+    top: 0,
+    width: "100%",
+    height: "100%",
+    overflow: "auto",
+    backgroundColor: "rgba(0, 0, 0, 0.4)",
+  };
   return (
     <>
       <div style={styles.root}>
@@ -145,42 +158,32 @@ export const HeaderContent = ({
                 alt="iocn"
                 src={IMAGES.PROFILE_ICON}
                 style={styles.profileImg}
-                onClick={handleOpen}
+                onClick={() => {
+                  handleOpenModal();
+                }}
               />
             </div>
           )}
         </div>
+        {openModal ? (
+          <div style={modalStyle}>
+            <div style={modalContentStyle}>
+              <h2>Logout Confirmation</h2>
+              <p>Are you sure you want to logout?</p>
+              <button style={logoutButtonStyle} onClick={handleLogout}>
+                Logout
+              </button>
+              <button style={cancelButtonStyle} onClick={handleClose}>
+                Cancel
+              </button>
+            </div>
+          </div>
+        ) : null}
       </div>
-      {/* {openModal ? ( */}
-      <Modal className={classes.modal} open={open} onClose={handleClose}>
-        <div className={classes.modalContent}>
-          <h2>Logout Confirmation</h2>
-          <p>Are you sure you want to logout?</p>
-          <Button variant="contained" color="secondary" onClick={handleLogout}>
-            Logout
-          </Button>
-          <Button variant="contained" onClick={handleClose}>
-            Cancel
-          </Button>
-        </div>
-      </Modal>
-      {/* ) : null} */}
     </>
   );
 };
 
-const useStyles = makeStyles((theme) => ({
-  modal: {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  modalContent: {
-    backgroundColor: theme.palette.background.paper,
-    boxShadow: theme.shadows[5],
-    padding: theme.spacing(2, 4, 3),
-  },
-}));
 const styles = {
   root: {
     display: "flex",
@@ -229,4 +232,34 @@ const styles = {
     marginRight: "30px",
     // textAlign: "center",
   },
+};
+
+const modalContentStyle = {
+  backgroundColor: "#fefefe",
+  margin: "15% auto",
+  padding: "20px",
+  border: "1px solid #888",
+  width: "300px",
+};
+
+const buttonStyle = {
+  marginBottom: "10px",
+  marginRight: "10px",
+  padding: "10px 20px",
+  borderRadius: "4px",
+  border: "none",
+  cursor: "pointer",
+  fontSize: "16px",
+};
+
+const logoutButtonStyle = {
+  ...buttonStyle,
+  backgroundColor: "#f44336",
+  color: "white",
+};
+
+const cancelButtonStyle = {
+  ...buttonStyle,
+  backgroundColor: "#ccc",
+  color: "black",
 };
