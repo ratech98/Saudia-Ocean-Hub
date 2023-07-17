@@ -73,21 +73,8 @@ export const LogIn = () => {
   };
 
   const handleSubmit = async (value, type) => {
-    localStorage.removeItem("session");
-    //
-    //
-    // moment().format("YYYY-MM-DD HH:mm:ss")
-    // localStorage.setItem("session", "GJ");
-
-    //
-    //
-    //
-    //
-    //
-    //
-    //
+    // localStorage.removeItem("session");
     setIsLoading(true);
-
     let payload = {
       email: value?.email,
     };
@@ -147,11 +134,10 @@ export const LogIn = () => {
       });
   };
 
-  console.log(" errors.email", errors.email);
   const formik = useFormik({
     initialValues: {
       email: user?.emailId ?? "",
-      password: user?.password ?? "12345678",
+      password: user?.password ?? "",
       sign_in_type: "SOCIAL_LOGIN",
     },
 
@@ -238,6 +224,8 @@ export const LogIn = () => {
       };
     }
   }, []);
+
+  console.log("user?.verifyOTPpage ", user?.verifyOTPpage);
 
   return (
     <>
@@ -462,6 +450,7 @@ export const LogIn = () => {
                   <Typography
                     style={styles.forgotPwdTxt}
                     onClick={() => {
+                      dispatch(EmailId(formik.values.email));
                       navigate("/forgotPassword");
                     }}
                   >

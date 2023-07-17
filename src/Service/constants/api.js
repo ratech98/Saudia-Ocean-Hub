@@ -19,5 +19,8 @@ export const API = {
     boat_register: "boat_register",
     my_listing: "my_listing",
     boat_list_filter: "boat_list",
+    forgot_password_request: "forgot-password-request",
+    verify_forgotpass_otp: "verify-forgotpass-otp",
+    set_password: "set-password",
   },
 };

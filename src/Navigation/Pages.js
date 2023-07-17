@@ -5,7 +5,7 @@ import VerifyOTP from "../Screens/Auth/VerifyOTP";
 import { BoatOwnerDashBoard } from "../Screens/Dash/BoatOwnerDashBoard";
 import { ForgotPassword } from "../Screens/Auth/password/ForgotPassword";
 import Home from "../Screens/Dash/Home";
-import { ResetPwdVerifyOTP } from "../Screens/Auth/password/ResetPwdVerifyOTP";
+import { VerifyForgotPwdOTP } from "../Screens/Auth/password/VerifyForgotPwdOTP";
 import { ChangePassword } from "../Screens/Auth/password/ChangePassword";
 import { BoatOfferStep1 } from "../Screens/Dash/BoatOwner/ListABoatOffer/BoatOfferStep1";
 import { BoatOfferStep2 } from "../Screens/Dash/BoatOwner/ListABoatOffer/BoatOfferStep2";
@@ -57,9 +57,9 @@ export const Pages = [
     isPrivate: false,
   },
   {
-    path: "/resetPwdVerifyOTP",
-    name: "ResetPwdVerifyOTP",
-    element: <ResetPwdVerifyOTP />,
+    path: "/VerifyForgotPwdOTP",
+    name: "VerifyForgotPwdOTP",
+    element: <VerifyForgotPwdOTP />,
     isPrivate: false,
   },
   {

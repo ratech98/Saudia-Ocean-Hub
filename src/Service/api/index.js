@@ -45,6 +45,41 @@ export function resend_otp(data) {
   );
 }
 
+export function forgot_password_request(data) {
+  return axios.post(
+    API.baseUrls[API.currentEnv] + API.authUrls.forgot_password_request,
+    data,
+    {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }
+  );
+}
+export function verify_forgotpass_otp(data) {
+  return axios.post(
+    API.baseUrls[API.currentEnv] + API.authUrls.verify_forgotpass_otp,
+    data,
+    {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }
+  );
+}
+
+export function set_new__password(data) {
+  return axios.post(
+    API.baseUrls[API.currentEnv] + API.authUrls.set_password,
+    data,
+    {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }
+  );
+}
+
 export function boat_type(token) {
   return axios.get(API.baseUrls[API.currentEnv] + API.authUrls.boat_type, {
     headers: {

@@ -115,9 +115,7 @@ export const BoatOwnerDashBoard = () => {
             style={{
               padding: "25px",
               backgroundColor: "white",
-              // width: "211px",
               borderRadius: "500px",
-              // height: "211px",
               alignSelf: "center",
               alignItems: "center",
               display: "flex",
@@ -129,7 +127,6 @@ export const BoatOwnerDashBoard = () => {
               style={{
                 flex: 1,
                 backgroundColor: "white",
-                // width: "120px",
                 height: "120px",
               }}
             />

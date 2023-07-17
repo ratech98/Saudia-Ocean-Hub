@@ -1,47 +1,47 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button, Container, Grid, TextField, Typography } from "@mui/material";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import IMAGES from "../../Images";
 import { toast } from "react-toastify";
+import { forgot_password_request } from "../../../Service/api";
+import { EmailId } from "../../../redux/slices";
 
 const start_space_Validation = new RegExp(/^(?!\s).*/);
 
 export const ForgotPassword = () => {
-  const user = useSelector((state) => state?.auth);
-  const [emailAddress, setEmailAddress] = useState("");
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const user = useSelector((state) => state?.auth);
+  const [emailAddress, setEmailAddress] = useState(user?.emailId ?? "");
   const [errorMsg, setErrorMsg] = useState("");
 
   const handleSubmit = (values) => {
     setErrorMsg("");
-
     let payload = {
-      email: user?.emailId,
+      email: emailAddress,
     };
-    console.log("payload", payload);
-    navigate("/resetPwdVerifyOTP");
-    // verifyOtp(payload)
-    //   .then((res) => {
-    //     console.log("res", res);
-    //     if (res?.data?.message === "User Verified successfully") {
-    //       if (!user?.password) {
-    //         dispatch(EmailId(null));
-    //       }
-    //       dispatch(verifyOTP("VERIFY_OTP"));
-    //       navigate("/LogIn");
-    //     } else {
-    //       console.log("enter else");
-    //       setErrorMsg(res?.data?.message);
-    //       toast.error(res?.data?.message, {
-    //         position: toast.POSITION.TOP_RIGHT,
-    //         autoClose: 2000,
-    //       });
-    //     }
-    //   })
-    //   .catch((err) => {
-    //     console.log("err", err);
-    //   });
+    console.log("forgot pwd request payload", payload);
+    forgot_password_request(payload)
+      .then((res) => {
+        console.log("forgot pwd request res", res);
+        if (res?.data?.message === "otp send to email") {
+          toast.success(res?.data?.message, {
+            position: toast.POSITION.TOP_RIGHT,
+            autoClose: 2000,
+          });
+          navigate("/verifyForgotPwdOTP");
+        } else {
+          setErrorMsg(res?.data?.message);
+          toast.error(res?.data?.message, {
+            position: toast.POSITION.TOP_RIGHT,
+            autoClose: 2000,
+          });
+        }
+      })
+      .catch((err) => {
+        console.log("forgot pwd request err", err);
+      });
   };
 
   return (

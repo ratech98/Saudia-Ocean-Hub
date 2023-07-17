@@ -14,6 +14,7 @@ import IMAGES from "../../Images";
 import { toast } from "react-toastify";
 import { withStyles } from "@mui/styles";
 import { Visibility, VisibilityOff } from "@material-ui/icons";
+import { set_new__password } from "../../../Service/api";
 
 const start_space_Validation = new RegExp(/^(?!\s).*/);
 
@@ -71,33 +72,57 @@ export const ChangePassword = () => {
 
   const handleSubmit = (values) => {
     setErrorMsg("");
+    if (password !== "") {
+      if (password?.length >= 8) {
+        if (confirmPassword === password) {
+          let payload = {
+            email: user?.emailId,
+            password: password,
+          };
+          console.log("payload", payload);
 
-    let payload = {
-      email: user?.emailId,
-    };
-    console.log("payload", payload);
-    navigate("/logIn");
-    // verifyOtp(payload)
-    //   .then((res) => {
-    //     console.log("res", res);
-    //     if (res?.data?.message === "User Verified successfully") {
-    //       if (!user?.password) {
-    //         dispatch(EmailId(null));
-    //       }
-    //       dispatch(verifyOTP("VERIFY_OTP"));
-    //       navigate("/LogIn");
-    //     } else {
-    //       console.log("enter else");
-    //       setErrorMsg(res?.data?.message);
-    //       toast.error(res?.data?.message, {
-    //         position: toast.POSITION.TOP_RIGHT,
-    //         autoClose: 2000,
-    //       });
-    //     }
-    //   })
-    //   .catch((err) => {
-    //     console.log("err", err);
-    //   });
+          set_new__password(payload)
+            .then((res) => {
+              console.log("res", res);
+              if (res?.data?.message === "Password updated successfully") {
+                toast.success(res?.data?.message, {
+                  position: toast.POSITION.TOP_RIGHT,
+                  autoClose: 2000,
+                });
+                navigate("/logIn");
+              } else {
+                console.log("enter else");
+                setErrorMsg(res?.data?.message);
+                toast.error(res?.data?.message, {
+                  position: toast.POSITION.TOP_RIGHT,
+                  autoClose: 2000,
+                });
+              }
+            })
+            .catch((err) => {
+              console.log("err", err);
+            });
+        } else {
+          toast.error(
+            "Please enter your confirm password, Password must be same",
+            {
+              position: toast.POSITION.TOP_RIGHT,
+              autoClose: 2000,
+            }
+          );
+        }
+      } else {
+        toast.error("The minimum password length is 8 characters ", {
+          position: toast.POSITION.TOP_RIGHT,
+          autoClose: 2000,
+        });
+      }
+    } else {
+      toast.error("Please enter your password", {
+        position: toast.POSITION.TOP_RIGHT,
+        autoClose: 2000,
+      });
+    }
   };
 
   return (
@@ -296,36 +321,32 @@ export const ChangePassword = () => {
                           setConfirmPassword(inputValue);
                         }
                       }}
-                      // error={
-                      //   formik.touched.confirmPassword &&
-                      //   Boolean(formik.errors.confirmPassword)
-                      // }
-                      // helperText={
-                      //   formik.touched.confirmPassword &&
-                      //   formik.errors.confirmPassword
-                      // }
                       variant="standard"
                       InputProps={{
                         disableUnderline: true,
                         style: {
                           backgroundColor: "white",
                           borderRadius: "5px",
-                          // border:
-                          //   formik.touched.confirmPassword &&
-                          //   Boolean(formik.errors.confirmPassword)
-                          //     ? "1px solid red"
-                          //     : null,
                         },
                       }}
                       InputLabelProps={{
                         shrink: true,
                       }}
                       inputProps={{
-                        style: styles.customTextField,
+                        style: {
+                          ...styles.customTextField,
+                        },
                       }}
                     />
                   </Grid>
-
+                  {/* // error={
+                      //   formik.touched.confirmPassword &&
+                      //   Boolean(formik.errors.confirmPassword)
+                      // }
+                      // helperText={
+                      //   formik.touched.confirmPassword &&
+                      //   formik.errors.confirmPassword
+                      // } */}
                   {password ? (
                     <Grid container style={styles.pwdPowerDev}>
                       <div>
@@ -446,16 +467,16 @@ const styles = {
   },
   pwdDev: {
     backgroundColor: "#fff",
-    // boxShadow: "0px 0px 2px rgba(0, 0, 0, 0.09)",
-    // borderBottom: "none",
     marginTop: "20px",
     borderRadius: "5px",
     paddingLeft: "15px",
-    // paddingTop: "1px",
-    // paddingBottom: "1px",
-
     border: "1px solid rgba(66, 70, 81, 0.4)",
     // backgroundColor: "red",
+    // boxShadow: "0px 0px 2px rgba(0, 0, 0, 0.09)",
+    // borderBottom: "none",
+    // paddingTop: "1px",
+    // paddingBottom: "1px",
+    // height: "30px",
   },
   //
   //
@@ -510,10 +531,14 @@ const styles = {
     color: "#424651",
     padding: "10px",
     borderBottom: "none",
-    backgroundColor: "#fff",
-    borderRadius: "5px",
-    boxShadow: "0px 0px 2px rgba(0, 0, 0, 0.09)",
+
     // backgroundColor: "red",
+    backgroundColor: "#fff",
+    marginTop: "20px",
+    borderRadius: "5px",
+    paddingLeft: "15px",
+    border: "1px solid rgba(66, 70, 81, 0.4)",
+    height: "30px",
   },
   phoneNoStyles: {
     fontSize: "16px",

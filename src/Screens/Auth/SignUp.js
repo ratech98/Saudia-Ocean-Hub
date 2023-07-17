@@ -246,10 +246,10 @@ export const SignUp = () => {
       if (!values.password) {
         errors.password = "Please enter your password";
       } else if (values.password?.length < 8) {
-        errors.password = "The minimum password length is 8 characters ";
+        errors.password = "The minimum password length is 8 characters";
       }
       if (!values.confirmPassword) {
-        errors.confirmPassword = " Please enter your confirm password";
+        errors.confirmPassword = "Please enter your confirm password";
       } else if (values.password !== values.confirmPassword) {
         errors.confirmPassword = "Password must be same";
       }

@@ -1,17 +1,10 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import {
-  Alert,
-  Button,
-  Container,
-  Grid,
-  TextField,
-  Typography,
-} from "@mui/material";
+import { Button, Container, Grid, TextField, Typography } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
-
 import { toast } from "react-toastify";
 import IMAGES from "../../Images";
+import { verify_forgotpass_otp } from "../../../Service/api";
 
 const useOtpInputRefs = (length) => {
   const inputRefs = React.useMemo(() => {
@@ -23,10 +16,9 @@ const useOtpInputRefs = (length) => {
   return inputRefs;
 };
 
-export const ResetPwdVerifyOTP = () => {
+export const VerifyForgotPwdOTP = () => {
   const inputRefs = useOtpInputRefs(6);
   const user = useSelector((state) => state?.auth);
-  const [userType, setUserType] = useState("");
   const navigate = useNavigate();
   // const navigate = useHistory();
   const dispatch = useDispatch();
@@ -41,29 +33,28 @@ export const ResetPwdVerifyOTP = () => {
       email: user?.emailId,
       otp: otp,
     };
-    console.log("payload", payload);
-    navigate("/changePassword");
-    // verifyOtp(payload)
-    //   .then((res) => {
-    //     console.log("res", res);
-    //     if (res?.data?.message === "User Verified successfully") {
-    //       if (!user?.password) {
-    //         dispatch(EmailId(null));
-    //       }
-    //       dispatch(verifyOTP("VERIFY_OTP"));
-    //       navigate("/LogIn");
-    //     } else {
-    //       console.log("enter else");
-    //       setErrorMsg(res?.data?.message);
-    //       toast.error(res?.data?.message, {
-    //         position: toast.POSITION.TOP_RIGHT,
-    //         autoClose: 2000,
-    //       });
-    //     }
-    //   })
-    //   .catch((err) => {
-    //     console.log("err", err);
-    //   });
+    console.log("verify_forgotpass_otp payload", payload);
+
+    verify_forgotpass_otp(payload)
+      .then((res) => {
+        console.log("verify_forgotpass_otp res", res);
+        if (res?.data?.message === "otp verified successfully") {
+          toast.success(res?.data?.message, {
+            position: toast.POSITION.TOP_RIGHT,
+            autoClose: 2000,
+          });
+          navigate("/changePassword");
+        } else {
+          setErrorMsg(res?.data?.message);
+          toast.error(res?.data?.message, {
+            position: toast.POSITION.TOP_RIGHT,
+            autoClose: 2000,
+          });
+        }
+      })
+      .catch((err) => {
+        console.log("verify_forgotpass_otp err", err);
+      });
   };
 
   const handleInputChange = (event, index) => {
@@ -313,7 +304,7 @@ export const ResetPwdVerifyOTP = () => {
                   textAlign: "center",
                   borderRadius: "5px",
                   fontSize: 24,
-                  marginBottom: "25px",
+                  margin: "50px 0px",
                   paddingLeft: "100px",
                   paddingRight: "100px",
                 }}
