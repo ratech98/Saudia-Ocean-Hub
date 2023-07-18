@@ -32,15 +32,6 @@ const start_space_Validation = new RegExp(/^(?!\s).*/);
 const emailIdValidation = new RegExp(
   /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/i
 );
-
-//
-//
-//
-//
-//
-//
-//
-
 const CustomCheckbox = withStyles({
   root: {
     color: "#ffffff",
@@ -50,15 +41,6 @@ const CustomCheckbox = withStyles({
   },
   checked: {},
 })(Checkbox);
-
-//
-//
-//
-//
-//
-//
-//
-//
 
 const CustomTextField = withStyles({
   root: {
@@ -81,7 +63,6 @@ const regexPatterns = [
 export const SignUp = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  // const classes = useStyles();
   const user = useSelector((state) => state?.auth);
   const [showPassword, setShowPassword] = useState(false);
   const [password, setPassword] = useState(false);
@@ -95,38 +76,8 @@ export const SignUp = () => {
   const [googleResult, setGoogleResult] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const [loading, setLoading] = useState(false);
-
-  // console.log("googleResult", googleResult);
-  // console.log("user", user?.userType);
-  // console.log("countryCodeJson", countryCodeJson);
-
-  const handleCheckboxChange = (event) => {
-    const { name, checked } = event.target;
-    if (name === "email") {
-      setIsEmailChecked(checked);
-    } else if (name === "termsOfService") {
-      setIsTermsOfServiceChecked(checked);
-      setTermsOfServiceError(false);
-    }
-  };
-
-  const handleCountryChange = (values) => {
-    const countryCode = values;
-    const selectedCountry = countryCodeJson.find(
-      (country) => country.code === countryCode
-    );
-
-    setSelectedCountry(selectedCountry);
-    setShowModal(false);
-  };
-
-  const handleCountryCodeClick = () => {
-    setShowModal(true);
-  };
-
-  const handleCloseModal = () => {
-    setShowModal(false);
-  };
+  const [searchValue, setSearchValue] = useState("");
+  let errors = {};
 
   //window Size Calculation
   useEffect(() => {
@@ -157,61 +108,6 @@ export const SignUp = () => {
     }
   }, [password]);
 
-  const handleSubmit = async (value, type) => {
-    setErrorMessage("");
-
-    if (isTermsOfServiceChecked) {
-      setLoading(true);
-      let payload = {
-        first_name: value?.firstName || value?.name,
-        email: value?.email,
-        received_email: isEmailChecked,
-        sign_in_type: type === "GOOGLE" ? "SOCIAL_LOGIN" : "EMAIL",
-        user_type: user?.userType,
-      };
-
-      if (type !== "GOOGLE") {
-        payload = {
-          ...payload,
-          last_name: value?.lastName,
-          phone_number: value?.cellNo,
-          country_code: selectedCountry?.dial_code,
-          password: value?.password,
-        };
-      }
-
-      console.log("handle Submit payload", payload);
-      register(payload)
-        .then((res) => {
-          console.log("register res", res);
-          if (res?.data?.success) {
-            if (res?.data?.message === "user registered successfully") {
-              if (type !== "GOOGLE") {
-                dispatch(EmailId(value?.email));
-                navigate("/verifyOTP");
-              } else {
-                navigate("/logIn");
-              }
-            }
-          } else {
-            console.log("res message ====>>>", res?.data?.message);
-            setErrorMessage(res?.data?.message);
-            toast.error(res?.data?.message, {
-              position: toast.POSITION.TOP_RIGHT,
-              autoClose: 20000,
-            });
-          }
-          setLoading(false);
-        })
-        .catch((err) => {
-          setLoading(false);
-          console.log("register err", err);
-        });
-    } else {
-      setTermsOfServiceError(true);
-    }
-  };
-
   const formik = useFormik({
     initialValues: {
       firstName: "",
@@ -227,8 +123,6 @@ export const SignUp = () => {
     },
 
     validate: (values) => {
-      const errors = {};
-
       if (!values.firstName) {
         errors.firstName = "Please enter first name";
       }
@@ -258,22 +152,106 @@ export const SignUp = () => {
     },
   });
 
-  // 496577884812-quv2n4j54nvk6gtrmo4vuv98cmrlf5q4.apps.googleusercontent.com
-  const googleClientId = "YOUR_GOOGLE_CLIENT_ID";
-  const options = {
-    scope:
-      "profile email https://www.googleapis.com/auth/user.phonenumbers.read",
-    prompt: "select_account",
+  const handleCheckboxChange = (event) => {
+    const { name, checked } = event.target;
+    if (name === "email") {
+      setIsEmailChecked(checked);
+    } else if (name === "termsOfService") {
+      setIsTermsOfServiceChecked(checked);
+      setTermsOfServiceError(false);
+    }
   };
-  const [searchValue, setSearchValue] = useState("");
+
+  const handleSubmit = async (value, type) => {
+    setErrorMessage("");
+    formik.setErrors({});
+    if (isTermsOfServiceChecked) {
+      setLoading(true);
+      let payload = {
+        first_name: value?.firstName || value?.name,
+        email: value?.email,
+        received_email: isEmailChecked,
+        sign_in_type: type === "GOOGLE" ? "SOCIAL_LOGIN" : "EMAIL",
+        user_type: user?.userType,
+      };
+
+      if (type !== "GOOGLE") {
+        payload = {
+          ...payload,
+          last_name: value?.lastName,
+          phone_number: value?.cellNo,
+          country_code: selectedCountry?.dial_code,
+          password: value?.password,
+        };
+      }
+
+      // console.log("handle Submit payload", payload);
+      register(payload)
+        .then((res) => {
+          // console.log("register res", res);
+
+          if (res?.data?.message === "user registered successfully") {
+            if (type !== "GOOGLE") {
+              dispatch(EmailId(value?.email));
+              navigate("/verifyOTP");
+            } else {
+              navigate("/logIn");
+            }
+          } else {
+            if (res?.data?.message === "user already registered") {
+              formik.setFieldError("email", res?.data?.message);
+            } else if (
+              res?.data?.message === "Phone Number already registered"
+            ) {
+              formik.setFieldError("cellNo", res?.data?.message);
+            }
+            // console.log("res?.data?.message", res?.data?.message);
+            // setErrorMessage(res?.data?.message);
+            toast.error(res?.data?.message, {
+              position: toast.POSITION.TOP_RIGHT,
+              autoClose: 20000,
+            });
+          }
+          setLoading(false);
+        })
+        .catch((err) => {
+          setLoading(false);
+          console.log("register API error", err);
+          toast.error("Something went wrong. Please try again later.", {
+            position: toast.POSITION.TOP_RIGHT,
+            autoClose: 2000,
+          });
+        });
+    } else {
+      setTermsOfServiceError(true);
+    }
+  };
+
+  const handleCountryChange = (values) => {
+    const countryCode = values;
+    const selectedCountry = countryCodeJson.find(
+      (country) => country.code === countryCode
+    );
+    setSelectedCountry(selectedCountry);
+    setShowModal(false);
+  };
 
   const handleSearchChange = (event) => {
     setSearchValue(event.target.value);
   };
 
+  const handleCountryCodeClick = () => {
+    setShowModal(true);
+  };
+
+  const handleCloseModal = () => {
+    setShowModal(false);
+  };
+
   const filteredCountries = countryCodeJson.filter((country) =>
     country.name.en.toLowerCase().includes(searchValue.toLowerCase())
   );
+
   return (
     <div style={styles.containerBody}>
       {loading ? <Loader loading={loading} /> : null}
@@ -535,7 +513,6 @@ export const SignUp = () => {
                     value={country}
                     style={{ width: "100%" }}
                     onClick={() => {
-                      console.log("index", country);
                       handleCountryChange(country.code);
                     }}
                   >
@@ -809,11 +786,11 @@ export const SignUp = () => {
             {termsOfServiceError && (
               <Typography
                 style={{
-                  color: "red",
+                  color: "#DC143C",
                   fontSize: "12px",
                   fontFamily: "Poppins",
                   marginTop: "-10px",
-                  marginBottom: "10px",
+                  // marginBottom: "10px",
                 }}
               >
                 Please accept the Terms of Service.
@@ -831,10 +808,7 @@ export const SignUp = () => {
               Create Account
             </Button>
             <div style={{ marginTop: "20px" }} />
-            {/*  */}
-            {/*  */}
-            {/*  */}
-            {/*  */}
+
             {/* GOOGLE LOGIN */}
             <GoogleOAuthProvider clientId="496577884812-quv2n4j54nvk6gtrmo4vuv98cmrlf5q4.apps.googleusercontent.com">
               <GoogleSignInButton
@@ -845,10 +819,7 @@ export const SignUp = () => {
                 // handleIsEmailChecked={handleIsEmailChecked}
               />
             </GoogleOAuthProvider>
-            {/*  */}
-            {/*  */}
-            {/*  */}
-            {/*  */}
+
             {errorMessage && (
               <Typography style={styles.ErrorMsgTxt}>{errorMessage}</Typography>
             )}
@@ -1103,7 +1074,7 @@ const styles = {
     flexDirection: "column",
     alignContent: "center",
     width: "55%",
-    // marginTop: "15px",
+    marginTop: "15px",
     paddingBottom: "15px",
   },
   btnStyle: {

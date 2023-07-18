@@ -302,7 +302,7 @@ export const SearchBoat = () => {
           </div>
         </div>
       </div>
-      <div style={styles.suggestionBoxContent}>
+      <div style={{ ...styles.suggestionBoxContent }}>
         <Grid item xs={12} sm={6} style={{ width: "40%" }}>
           <CustomTextField
             label={"Trip / Watersport Types"}
@@ -549,7 +549,8 @@ const styles = {
   },
   suggestionBoxContent: {
     display: "flex",
-    margin: "24px 160px 0px",
+    // margin: "24px 160px 0px",
+    margin: "24px 140px 0px",
     flexDirection: "row",
     justifyContent: "space-between",
   },

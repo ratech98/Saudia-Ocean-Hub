@@ -93,7 +93,7 @@ const Imagebox = ({ imageBox = null }) => {
                 borderRadius: 0,
                 width: 400,
                 marginTop: "55px",
-                marginLeft: "55px",
+                marginRight: "55px",
                 // margin: "0 0 24px",
               }}
               key={item?.id}

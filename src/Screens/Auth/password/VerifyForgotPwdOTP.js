@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import IMAGES from "../../Images";
 import { verify_forgotpass_otp } from "../../../Service/api";
+import Loader from "../../Loader";
 
 const useOtpInputRefs = (length) => {
   const inputRefs = React.useMemo(() => {
@@ -25,42 +26,60 @@ export const VerifyForgotPwdOTP = () => {
   const [errorMsg, setErrorMsg] = useState("");
   const [showResend, setShowResend] = useState(true);
   const [countdown, setCountdown] = useState(60);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleSubmit = (values) => {
+    setIsLoading(true);
     setErrorMsg("");
     const otp = inputRefs.map((ref) => ref.current.value).join("");
-    let payload = {
-      email: user?.emailId,
-      otp: otp,
-    };
-    console.log("verify_forgotpass_otp payload", payload);
+    if (otp?.length >= 6) {
+      let payload = {
+        email: user?.emailId,
+        otp: otp,
+      };
+      console.log("verify_forgotpass_otp payload", payload);
 
-    verify_forgotpass_otp(payload)
-      .then((res) => {
-        console.log("verify_forgotpass_otp res", res);
-        if (res?.data?.message === "otp verified successfully") {
-          toast.success(res?.data?.message, {
+      verify_forgotpass_otp(payload)
+        .then((res) => {
+          console.log("verify_forgotpass_otp res", res);
+          if (res?.data?.message === "otp verified successfully") {
+            toast.success(res?.data?.message, {
+              position: toast.POSITION.TOP_RIGHT,
+              autoClose: 2000,
+            });
+            navigate("/changePassword");
+            setIsLoading(false);
+          } else {
+            setErrorMsg(res?.data?.message);
+            toast.error(res?.data?.message, {
+              position: toast.POSITION.TOP_RIGHT,
+              autoClose: 2000,
+            });
+            setIsLoading(false);
+          }
+        })
+        .catch((err) => {
+          console.log("verify_forgotpass_otp err", err);
+          setIsLoading(false);
+          toast.error("Something went wrong. Please try again later.", {
             position: toast.POSITION.TOP_RIGHT,
             autoClose: 2000,
           });
-          navigate("/changePassword");
-        } else {
-          setErrorMsg(res?.data?.message);
-          toast.error(res?.data?.message, {
-            position: toast.POSITION.TOP_RIGHT,
-            autoClose: 2000,
-          });
-        }
-      })
-      .catch((err) => {
-        console.log("verify_forgotpass_otp err", err);
+        });
+    } else {
+      setIsLoading(false);
+      toast.error("Please enter your OTP", {
+        position: toast.POSITION.TOP_RIGHT,
+        autoClose: 2000,
       });
+    }
   };
 
   const handleInputChange = (event, index) => {
     const value = event.target.value;
     if (value.length === 1 && index < inputRefs.length - 1) {
       inputRefs[index + 1].current.focus();
+      setErrorMsg("");
     }
   };
 
@@ -72,21 +91,6 @@ export const VerifyForgotPwdOTP = () => {
         inputRefs[index].current.value = "";
       }
     }
-  };
-
-  const startCountdown = () => {
-    ResentOTP();
-    setErrorMsg("");
-    setShowResend(false);
-    let timer = setInterval(() => {
-      setCountdown((prevCount) => prevCount - 1);
-    }, 3000);
-
-    setTimeout(() => {
-      clearInterval(timer);
-      setShowResend(true);
-      setCountdown(60);
-    }, 60000);
   };
 
   const ResentOTP = () => {
@@ -115,6 +119,7 @@ export const VerifyForgotPwdOTP = () => {
         paddingBottom: "100px",
       }}
     >
+      {isLoading ? <Loader loading={isLoading} /> : null}
       <img
         src={IMAGES.APP_ICON}
         alt="ICON"
@@ -138,9 +143,6 @@ export const VerifyForgotPwdOTP = () => {
             width: "65%",
             display: "flex",
             justifyContent: "center",
-            // alignSelf: "center",
-            // alignItems: "center",
-            // alignContent: "center",
           }}
         >
           <Grid container direction="column">
@@ -155,7 +157,6 @@ export const VerifyForgotPwdOTP = () => {
                 marginLeft: "10px",
               }}
               onClick={() => {
-                // dispatch(EmailId(null));
                 navigate(-1);
               }}
             >
@@ -189,27 +190,6 @@ export const VerifyForgotPwdOTP = () => {
                 alignItems: "center",
               }}
             >
-              {/* <img
-                src={IMAGES.VERIFY_ACC}
-                alt="Verify Acc"
-                style={{ width: "260px", height: "220px" }}
-              /> */}
-
-              {/* <Typography
-                variant="h4"
-                sx={{
-                
-                  fontSize: "40px",
-                  fontFamily: "Poppins",
-                  fontWeight: "550",
-                  // color: "rgba(66, 70, 81, 0.87)",
-                  color: "black",
-                  textAlign: "center",
-                }}
-              >
-                Please Verify Account
-              </Typography> */}
-
               <Typography
                 variant="subtitle1"
                 sx={{
@@ -247,7 +227,9 @@ export const VerifyForgotPwdOTP = () => {
                         fontSize: "20px",
                         textAlign: "center",
                       }}
-                      onChange={(event) => handleInputChange(event, index)}
+                      onChange={(event) => {
+                        handleInputChange(event, index);
+                      }}
                       onKeyDown={(event) => handleInputBackspace(event, index)}
                     />
                   </Grid>
@@ -262,7 +244,7 @@ export const VerifyForgotPwdOTP = () => {
                 </Typography>
               ) : null}
 
-              {showResend ? (
+              {/* {showResend ? (
                 <Typography
                   variant="contained"
                   onClick={startCountdown}
@@ -291,26 +273,38 @@ export const VerifyForgotPwdOTP = () => {
                 >
                   Resend OTP in {countdown} seconds
                 </Typography>
-              )}
+              )} */}
 
-              <Button
-                variant="contained"
-                onClick={handleSubmit}
-                style={{ backgroundColor: "#3973a5" }}
-                sx={{
-                  color: "white",
-                  // padding: "10px",
-                  // width: "30%",
-                  textAlign: "center",
-                  borderRadius: "5px",
-                  fontSize: 24,
-                  margin: "50px 0px",
-                  paddingLeft: "100px",
-                  paddingRight: "100px",
+              <div
+                style={{
+                  // backgroundColor: "red",
+                  display: "flex",
+                  justifyContent: "flex-end",
+                  alignContent: "flex-end",
+                  alignItems: "flex-end",
+                  // alignSelf: "flex-end",
+                  // height: "300px",
                 }}
               >
-                Verify & Continue
-              </Button>
+                <Button
+                  variant="contained"
+                  onClick={handleSubmit}
+                  style={{ backgroundColor: "#3973a5" }}
+                  sx={{
+                    color: "white",
+                    // padding: "10px",
+                    // width: "30%",
+                    textAlign: "center",
+                    borderRadius: "5px",
+                    fontSize: 24,
+                    margin: "50px 0px",
+                    paddingLeft: "100px",
+                    paddingRight: "100px",
+                  }}
+                >
+                  Verify & Continue
+                </Button>
+              </div>
             </Grid>
           </Grid>
         </Container>
