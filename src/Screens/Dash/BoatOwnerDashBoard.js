@@ -148,11 +148,12 @@ export const BoatOwnerDashBoard = () => {
         </div>
       </Container>
 
-      <Container style={{ ...styles.docUploadContainer, marginLeft: "25%" }}>
+      <Container style={{ ...styles.docUploadContainer }}>
         <div
           style={{
             display: "flex",
             alignItems: "center",
+            marginLeft: "20%",
           }}
         >
           <div
@@ -295,7 +296,7 @@ const styles = {
     lineHeight: 1.53,
   },
   boatOfferTitle: {
-    marginTop: "193px",
+    marginTop: "80px",
     fontSize: 48,
     color: "rgba(66, 70, 81, 0.87)",
     fontFamily: "Poppins",

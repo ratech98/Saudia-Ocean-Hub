@@ -64,7 +64,6 @@ export const Rental = () => {
   };
 
   useEffect(() => {
-    console.log("location.pathname", location.pathname);
     const handleBackButton = (event) => {
       event.preventDefault();
       navigate(location.pathname);
@@ -75,8 +74,14 @@ export const Rental = () => {
       window.removeEventListener("popstate", handleBackButton);
     };
   }, [location.pathname, navigate]);
+
   return (
-    <div style={{ backgroundColor: "#f6f6f6" }}>
+    <div
+      style={{
+        backgroundColor: "#f6f6f6",
+        // backgroundColor: "yellow",
+      }}
+    >
       <Banner
         backgroundImage={backgroundImage}
         title={title}
@@ -90,40 +95,62 @@ export const Rental = () => {
         extraInputValue={extraInputValue}
         handleExtraInputChange={handleExtraInputChange}
       />
-      <Container style={{ paddingTop: 140 }}>
-        <div className="d-flex justify-content-between">
-          <h5
-            style={{
-              fontFamily: "Poppins",
-              fontSize: 38,
-              fontWeight: 600,
-              fontStretch: "normal",
-              fontStyle: "normal",
-              lineHeight: 1.74,
-              letterSpacing: "normal",
-              textAlign: "left",
-              color: "rgba(66, 70, 81, 0.87)",
-            }}
-          >
-            Discover Some Boat Offers{" "}
-          </h5>
-          <h6
-            style={{
-              fontFamily: "Poppins",
-              fontSize: 24,
-              fontWeight: 500,
-              fontStretch: "normal",
-              fontStyle: "normal",
-              lineHeight: 2.75,
-              letterSpacing: "normal",
-              textAlign: "center",
-              color: "rgba(66, 70, 81, 0.6)",
-            }}
-          >
-            show more
-          </h6>
-        </div>
-      </Container>
+      {/* <Container
+        style={{
+          paddingTop: 80,
+          margin: 0,
+          display: "flex",
+          flex: 1,
+          backgroundColor: "blue",
+          width: "100%",
+        }}
+      > */}
+      <div
+        //   className="d-flex-1 justify-content-between"
+        style={{
+          //   backgroundColor: "red",
+          display: "flex",
+          flex: 1,
+          paddingTop: 80,
+          // width: window.innerWidth,
+          paddingRight: 30,
+          paddingLeft: 30,
+
+          justifyContent: "space-between",
+        }}
+      >
+        <h5
+          style={{
+            fontFamily: "Poppins",
+            fontSize: 38,
+            fontWeight: 600,
+            fontStretch: "normal",
+            fontStyle: "normal",
+            lineHeight: 1.74,
+            letterSpacing: "normal",
+            textAlign: "left",
+            color: "rgba(66, 70, 81, 0.87)",
+          }}
+        >
+          Discover Some Boat Offers{" "}
+        </h5>
+        <h6
+          style={{
+            fontFamily: "Poppins",
+            fontSize: 24,
+            fontWeight: 500,
+            fontStretch: "normal",
+            fontStyle: "normal",
+            lineHeight: 2.75,
+            letterSpacing: "normal",
+            textAlign: "center",
+            color: "rgba(66, 70, 81, 0.6)",
+          }}
+        >
+          show more
+        </h6>
+      </div>
+      {/* </Container> */}
 
       <div
         style={{
