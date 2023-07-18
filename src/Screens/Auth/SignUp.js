@@ -163,6 +163,7 @@ export const SignUp = () => {
   };
 
   const handleSubmit = async (value, type) => {
+    console.log("type", type);
     setErrorMessage("");
     formik.setErrors({});
     if (isTermsOfServiceChecked) {
@@ -198,7 +199,10 @@ export const SignUp = () => {
               navigate("/logIn");
             }
           } else {
-            if (res?.data?.message === "user already registered") {
+            if (
+              res?.data?.message === "user already registered" &&
+              type !== "GOOGLE"
+            ) {
               formik.setFieldError("email", res?.data?.message);
             } else if (
               res?.data?.message === "Phone Number already registered"

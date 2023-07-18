@@ -206,8 +206,8 @@ export const BoatOwnerDashBoard = () => {
           Best Boat Offers This Week
         </Typography>
       </div>
-      <Imagebox />
-      <Imagebox />
+      <Imagebox imageBox={boatListData} />
+
       <div style={{ marginTop: "200px" }}>
         <Footer />
       </div>
@@ -340,3 +340,38 @@ const styles = {
     marginRight: "10px",
   },
 };
+
+const boatListData = [
+  {
+    id: 1,
+    boat_name: "Jagadeesh",
+    marine_city: "Durrat Al Arus",
+    price_per_hour: "8",
+    price_currency: "SAR",
+    boat_max_capacity: "100",
+  },
+  {
+    id: 2,
+    boat_name: "Bhadur",
+    marine_city: "Al Fanateer Beach",
+    price_per_hour: "8",
+    price_currency: "SAR",
+    boat_max_capacity: "100",
+  },
+  {
+    id: 3,
+    boat_name: "Farasan",
+    marine_city: "Umluj Beach",
+    price_per_hour: "8",
+    price_currency: "SAR",
+    boat_max_capacity: "100",
+  },
+  {
+    id: 4,
+    boat_name: "Al Saif",
+    marine_city: "Indigo Beach",
+    price_per_hour: "8",
+    price_currency: "SAR",
+    boat_max_capacity: "100",
+  },
+];

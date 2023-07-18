@@ -28,6 +28,7 @@ const Navbar = ({ showLoginSignUp }) => {
     dispatch(UserId(null));
     dispatch(AuthToken(null));
     localStorage.removeItem("session");
+    localStorage.removeItem("persist:root");
     navigate("/logIn");
     setOpenModal(false);
   };

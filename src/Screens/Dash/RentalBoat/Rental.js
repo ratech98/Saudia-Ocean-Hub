@@ -124,8 +124,18 @@ export const Rental = () => {
           </h6>
         </div>
       </Container>
-      {/* <Imagebox /> */}
-      <div style={{ margin: "0px" }}>
+
+      <div
+        style={{
+          // display: "flex",
+          margin: "0px 0px",
+          // backgroundColor: "red",
+          // alignSelf: "center",
+          // alignItems: "center",
+          // justifyContent: "center",
+          // alignContent: "center",
+        }}
+      >
         <Imagebox imageBox={boatListData} />
       </div>
       <Container style={{}}>

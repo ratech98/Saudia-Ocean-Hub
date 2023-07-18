@@ -1,7 +1,6 @@
 import { Typography } from "@mui/material";
 import React, { useState } from "react";
 import IMAGES from "../../Images";
-import LogOutModal from "../../Dash/LogOutModal";
 import { useDispatch } from "react-redux";
 import { AuthToken, TokenDecodeData, UserId } from "../../../redux/slices";
 import { useNavigate } from "react-router-dom";
@@ -33,6 +32,7 @@ export const HeaderContent = ({
     dispatch(UserId(null));
     dispatch(AuthToken(null));
     localStorage.removeItem("session");
+    localStorage.removeItem("persist:root");
     navigate("/logIn");
     setOpenModal(false);
   };
