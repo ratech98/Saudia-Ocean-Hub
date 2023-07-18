@@ -89,6 +89,7 @@ const Imagebox = ({ imageBox = null }) => {
           <>
             <Card
               style={{
+                // backgroundColor: "green",
                 borderRadius: 0,
                 width: 400,
                 marginTop: "55px",

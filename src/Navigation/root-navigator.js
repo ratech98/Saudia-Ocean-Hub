@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import { BoatOwnerDashBoard } from "../Screens/Dash/BoatOwnerDashBoard";
 import { Rental } from "../Screens/Dash/RentalBoat/Rental";
@@ -26,25 +26,29 @@ import jwt_decode from "jwt-decode";
 import { ForgotPassword } from "../Screens/Auth/password/ForgotPassword";
 import { ChangePassword } from "../Screens/Auth/password/ChangePassword";
 import { VerifyForgotPwdOTP } from "../Screens/Auth/password/VerifyForgotPwdOTP";
+import { AuthToken, TokenDecodeData, UserId } from "../redux/slices";
 
 const PrivateRoute = ({ children, session, type }) => {
-  console.log("type", type);
-  console.log("children", children);
   const [calculateTime, setCalculateTime] = useState(false);
   const [loading, setLoading] = useState(true);
   const [landingPage, setLandingpage] = useState(false);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const getCurrentSession = async () => {
       const token = localStorage.getItem("session");
-      console.log("token", token);
+
       if (token) {
         let tokenDecode = jwt_decode(token);
         console.log("tokenDecode", tokenDecode);
         const currentTimestamp = Math.floor(Date.now() / 1000);
+        console.log("auth condition", currentTimestamp < tokenDecode.exp);
         if (currentTimestamp < tokenDecode.exp) {
           setCalculateTime(true);
           setLoading(false);
+          dispatch(TokenDecodeData(tokenDecode));
+          dispatch(UserId(tokenDecode?.user_id));
+          dispatch(AuthToken(token));
         } else {
           setLoading(false);
           setCalculateTime(false);

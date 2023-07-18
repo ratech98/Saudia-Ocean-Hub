@@ -23,6 +23,7 @@ import {
   boatServiceList,
   boatTypeList,
 } from "../../../../redux/slices";
+import Loader from "../../../Loader";
 
 const CustomTextField = withStyles({
   root: {
@@ -45,7 +46,6 @@ export const BoatOfferStep3 = () => {
   const dash = useSelector((state) => state?.auth);
   const [greetingMessage, setGreetingMessage] = useState("");
   const [youTubeLink, setYouTubeLink] = useState("");
-
   const [selectedDateTime, setSelectedDateTime] = useState([]);
   const [currentlySelectedDate, setCurrentlySelectedDate] = useState(null);
   const [modalOpen, setModalOpen] = useState(false);
@@ -60,6 +60,8 @@ export const BoatOfferStep3 = () => {
   const [errorDublicateTime, setErrorDublicateTime] = useState("");
   // const [datePositionIndex, setDatePositionIndex] = useState("");
   const [datePositionIndex, setDatePositionIndex] = useState(null);
+  const [loader, setLoader] = useState(false);
+
   const [cancellationPolicy, setCancellationPolicy] = useState([
     {
       id: 1,
@@ -304,8 +306,8 @@ export const BoatOfferStep3 = () => {
     });
   };
 
-  const handleSumbit = () => {
-    console.log("dash redux data", dash);
+  const handleSubmit = () => {
+    setLoader(true);
     if (!greetingMessage) {
       setGreetingMessageError(true);
     } else {
@@ -432,15 +434,18 @@ export const BoatOfferStep3 = () => {
               autoClose: 2000,
             });
             navigate("/boatOwnerDashBoard");
+            setLoader(false);
           } else {
             toast.error(res?.data?.message, {
               position: toast.POSITION.TOP_RIGHT,
               autoClose: 20000,
             });
+            setLoader(false);
           }
         })
         .catch((err) => {
           console.log("boat_register err", err);
+          setLoader(false);
         });
     }
   };
@@ -462,6 +467,7 @@ export const BoatOfferStep3 = () => {
 
   return (
     <div style={containerStyle}>
+      {loader ? <Loader loading={loader} /> : null}
       <div style={headingStyle}>
         <Typography style={headingTextStyle}>
           Show off your boat in few clicks!
@@ -1255,12 +1261,10 @@ export const BoatOfferStep3 = () => {
               variant="contained"
               color="primary"
               onClick={() => {
-                handleSumbit();
-                // navigate("/BoatOfferStep2");
+                handleSubmit();
               }}
               style={{
                 ...saveContinueButtonTextStyle,
-                // backgroundColor:
               }}
             >
               Save & Continue

@@ -116,7 +116,7 @@ export const BoatOwnerDashBoard = () => {
           in 2 Steps
         </span>
       </Container>
-      <Container style={styles.docUploadContainer} maxWidth="100%">
+      <Container style={styles.docUploadContainer}>
         <div
           style={{
             display: "flex",
@@ -162,10 +162,7 @@ export const BoatOwnerDashBoard = () => {
         </div>
       </Container>
 
-      <Container
-        style={{ ...styles.docUploadContainer, marginLeft: "25%" }}
-        maxWidth="100%"
-      >
+      <Container style={{ ...styles.docUploadContainer, marginLeft: "25%" }}>
         <div
           style={{
             display: "flex",
