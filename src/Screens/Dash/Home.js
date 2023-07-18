@@ -14,6 +14,7 @@ import { useNavigate } from "react-router-dom";
 // import { useHistory } from "react-router-dom";
 
 const Home = () => {
+  const navigate = useNavigate();
   const backgroundImage = Backgroundimg;
 
   const content =
@@ -59,6 +60,14 @@ const Home = () => {
 
   return (
     <div>
+      <span
+        onClick={() => {
+          navigate("/boatBookingRequest");
+        }}
+      >
+        boatBookingRequest
+      </span>
+
       <Banner
         backgroundImage={backgroundImage}
         content={content}

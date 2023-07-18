@@ -26,6 +26,7 @@ import jwt_decode from "jwt-decode";
 import { ForgotPassword } from "../Screens/Auth/password/ForgotPassword";
 import { ChangePassword } from "../Screens/Auth/password/ChangePassword";
 import { VerifyForgotPwdOTP } from "../Screens/Auth/password/VerifyForgotPwdOTP";
+import { BoatBookingRequest } from "../Screens/new/BoatBookingRequest";
 
 const PrivateRoute = ({ children, session, type }) => {
   console.log("type", type);
@@ -129,15 +130,17 @@ export const RootNavigator = React.forwardRef(function RootNavigator(
           />
           <Route path="/myListings" element={<MyListings />} />
 
-          {/*  */}
+          {/* <Route path="/boatViewDetails" element={<BoatViewDetails />} /> */}
+          {/* common */}
+          <Route path="/searchBoat" element={<SearchBoat />} />
+
+          {/*  new */}
           <Route path="/requestList" element={<RequestList />} />
           <Route path="/customerProfile" element={<CustomerProfile />} />
           <Route path="/confirmation" element={<Confirmation />} />
           <Route path="/reviewPage" element={<ReviewPage />} />
           <Route path="/notification" element={<Notification />} />
-          {/* <Route path="/boatViewDetails" element={<BoatViewDetails />} /> */}
-          {/* common */}
-          <Route path="/searchBoat" element={<SearchBoat />} />
+          <Route path="/boatBookingRequest" element={<BoatBookingRequest />} />
         </>
       </Routes>
     </BrowserRouter>
