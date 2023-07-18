@@ -1,7 +1,6 @@
 import { Typography } from "@mui/material";
 import React, { useState } from "react";
 import IMAGES from "../../Images";
-import LogOutModal from "../../Dash/LogOutModal";
 import { useDispatch } from "react-redux";
 import { AuthToken, TokenDecodeData, UserId } from "../../../redux/slices";
 import { useNavigate } from "react-router-dom";
@@ -33,6 +32,7 @@ export const HeaderContent = ({
     dispatch(UserId(null));
     dispatch(AuthToken(null));
     localStorage.removeItem("session");
+    localStorage.removeItem("persist:root");
     navigate("/logIn");
     setOpenModal(false);
   };
@@ -205,23 +205,23 @@ const styles = {
     alignItems: "center",
   },
   profileImg: {
-    width: "57px",
-    height: "57px",
+    width: "35px",
+    height: "35px",
   },
   Icon: {
     width: "30px",
     height: "30px",
   },
   searchIcon: {
-    width: "30px",
-    height: "30px",
+    width: "25px",
+    height: "25px",
     marginRight: "35px",
   },
   diplayTxtContent: {
     display: "flex",
   },
   titleTxt: {
-    fontSize: "24px",
+    fontSize: "18px",
     fontWeight: "normal",
     fontFamily: "Poppins",
     fontStretch: "normal",

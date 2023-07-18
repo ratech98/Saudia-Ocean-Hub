@@ -6,6 +6,7 @@ import IMAGES from "../../Images";
 import { toast } from "react-toastify";
 import { forgot_password_request } from "../../../Service/api";
 import { EmailId } from "../../../redux/slices";
+import Loader from "../../Loader";
 
 const start_space_Validation = new RegExp(/^(?!\s).*/);
 
@@ -15,9 +16,11 @@ export const ForgotPassword = () => {
   const user = useSelector((state) => state?.auth);
   const [emailAddress, setEmailAddress] = useState(user?.emailId ?? "");
   const [errorMsg, setErrorMsg] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleSubmit = (values) => {
     setErrorMsg("");
+    setIsLoading(true);
     let payload = {
       email: emailAddress,
     };
@@ -31,16 +34,23 @@ export const ForgotPassword = () => {
             autoClose: 2000,
           });
           navigate("/verifyForgotPwdOTP");
+          setIsLoading(false);
         } else {
           setErrorMsg(res?.data?.message);
           toast.error(res?.data?.message, {
             position: toast.POSITION.TOP_RIGHT,
             autoClose: 2000,
           });
+          setIsLoading(false);
         }
       })
       .catch((err) => {
         console.log("forgot pwd request err", err);
+        setIsLoading(false);
+        toast.error("Something went wrong. Please try again later.", {
+          position: toast.POSITION.TOP_RIGHT,
+          autoClose: 2000,
+        });
       });
   };
 
@@ -53,6 +63,7 @@ export const ForgotPassword = () => {
         paddingBottom: "100px",
       }}
     >
+      {isLoading ? <Loader loading={isLoading} /> : null}
       <img
         src={IMAGES.APP_ICON}
         alt="ICON"
@@ -183,6 +194,17 @@ export const ForgotPassword = () => {
                     },
                   }}
                 />
+                {errorMsg ? (
+                  <Typography
+                    style={{
+                      // marginTop: "48px",
+                      color: "#DC143C",
+                      fontSize: 12,
+                    }}
+                  >
+                    {errorMsg}
+                  </Typography>
+                ) : null}
               </div>
               <Button
                 variant="contained"
@@ -201,14 +223,6 @@ export const ForgotPassword = () => {
               >
                 Continue
               </Button>
-
-              {errorMsg ? (
-                <Typography
-                  style={{ marginTop: "48px", color: "#DC143C", fontSize: 12 }}
-                >
-                  {errorMsg}
-                </Typography>
-              ) : null}
             </Grid>
           </Grid>
         </Container>

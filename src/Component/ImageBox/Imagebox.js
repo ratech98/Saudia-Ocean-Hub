@@ -64,35 +64,47 @@ const Imagebox = ({ imageBox = null }) => {
 
   return (
     <div
-      style={{
-        display: "flex",
-        width: "100%",
-        // backgroundColor: "darkmagenta",
-      }}
+      style={
+        {
+          // display: "flex",
+          // width: "100%",
+          // backgroundColor: "darkmagenta",
+          // width: "100%",
+          // alignSelf: "center",
+          // alignItems: "center",
+          // justifyContent: "center",
+          // alignContent: "center",
+        }
+      }
     >
       <div
-        // className="d-flex flex-wrap justify-content-between"
         style={{
-          // margin: "0px 0px 0px 125px",
-          // margin: "0px 129px",
-          // marginLeft: "125px",
-          // margin: "50px 0px 140px 0px",
           marginTop: "50px",
-          margin: "0px 140px",
-          // marginRight: "140px",
+          // margin: "0px 140px 140px 0px",
+          // margin: "50px 140px 0px",
+          paddingLeft: "110px",
+          paddingRight: "100px",
           // backgroundColor: "green",
           display: "flex",
           flexWrap: "wrap",
+          // alignSelf: "center",
+          // alignItems: "center",
+          // justifyContent: "center",
+          // alignContent: "center",
         }}
       >
         {showdata?.map((item, index) => (
           <>
             <Card
               style={{
+                // backgroundColor: "goldenrod",
                 borderRadius: 0,
                 width: 400,
-                marginTop: "55px",
-                marginLeft: "55px",
+                // marginTop: "55px",
+                // marginRight: "55px"
+                // marginRight: "27.5px",
+                // marginLeft: "27.5px",
+                margin: "50px 42.5px",
                 // margin: "0 0 24px",
               }}
               key={item?.id}
@@ -107,7 +119,7 @@ const Imagebox = ({ imageBox = null }) => {
                 <Card.Text className="place_name">
                   {item?.marine_city}
                 </Card.Text>
-                {/* default value */}
+
                 <div className="star_ratings">
                   <StarRating rating={5} />
                 </div>

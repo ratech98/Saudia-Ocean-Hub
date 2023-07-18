@@ -10,13 +10,13 @@ import Client_review from "../../Component/Testimonial/Client_review";
 import Cretified from "../../Component/Certificate/Cretified";
 import Footer from "../../Component/Footer/Footer";
 import Banner from "../../Component/Banner/Banner";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 // import { useHistory } from "react-router-dom";
 
 const Home = () => {
   const navigate = useNavigate();
   const backgroundImage = Backgroundimg;
-
+  const location = useLocation();
   const content =
     "Find all boat trips and certified Scuba professionals within Saudi Arabia in one place";
   const title = "Welcome to the only ocean hub in Saudi Arabia";
@@ -57,6 +57,21 @@ const Home = () => {
     width: 350,
     height: 81,
   };
+
+  useEffect(() => {
+    const handleBackButton = (event) => {
+      // Prevent the default behavior of the back button
+      event.preventDefault();
+
+      // Force the user back to the current route
+      navigate(location.pathname);
+    };
+    window.addEventListener("popstate", handleBackButton);
+    return () => {
+      // Clean up the event listener when the component unmounts
+      window.removeEventListener("popstate", handleBackButton);
+    };
+  }, [location.pathname, navigate]);
 
   return (
     <div>

@@ -302,7 +302,7 @@ export const SearchBoat = () => {
           </div>
         </div>
       </div>
-      <div style={styles.suggestionBoxContent}>
+      <div style={{ ...styles.suggestionBoxContent }}>
         <Grid item xs={12} sm={6} style={{ width: "40%" }}>
           <CustomTextField
             label={"Trip / Watersport Types"}
@@ -375,7 +375,6 @@ export const SearchBoat = () => {
             )}
           </CustomTextField>
         </Grid>
-
         <Grid item xs={12} sm={6} style={{ width: "20%" }}>
           <CustomTextField
             label={"Price"}
@@ -428,7 +427,7 @@ export const SearchBoat = () => {
             }}
             select
             InputProps={{ style: textFieldStyles }}
-            style={{ width: "90%" }}
+            style={{ width: "100%" }}
           >
             {boat_capacity?.length > 0 ? (
               boat_capacity?.map((item, index) => (
@@ -444,7 +443,20 @@ export const SearchBoat = () => {
           </CustomTextField>
         </Grid>
       </div>
-      <div style={{ marginTop: "0px" }}>
+      <div
+        style={{
+          margin: "0px",
+          // backgroundColor: "red",
+          // display: "flex",
+          // flexDirection: "column",
+          // alignSelf: "center",
+          // alignItems: "center",
+          // justifyContent: "center",
+          // alignContent: "center",
+          // display: "flex",
+          // width: "100%",
+        }}
+      >
         {boatListData?.length ? (
           <>
             <Imagebox imageBox={boatListData} />
@@ -483,8 +495,8 @@ export const SearchBoat = () => {
             </div>
           </>
         )}
-        <Footer />
       </div>
+      <Footer />
     </div>
   );
 };
@@ -549,7 +561,8 @@ const styles = {
   },
   suggestionBoxContent: {
     display: "flex",
-    margin: "24px 160px 0px",
+    // margin: "24px 160px 0px",
+    margin: "24px 140px 0px",
     flexDirection: "row",
     justifyContent: "space-between",
   },

@@ -49,28 +49,14 @@ export const BoatOwnerDashBoard = () => {
 
   useEffect(() => {
     const handleBackButton = (event) => {
-      // Prevent the default behavior of the back button
       event.preventDefault();
-      // Force the user back to the current route
       navigate(location.pathname);
     };
     window.addEventListener("popstate", handleBackButton);
     return () => {
-      // Clean up the event listener when the component unmounts
       window.removeEventListener("popstate", handleBackButton);
     };
   }, [location.pathname, navigate]);
-
-  // useEffect(() => {
-  //   window.history.forward();
-  //   const handleNoBack = () => {
-  //     window.history.forward();
-  //   };
-  //   window.addEventListener("popstate", handleNoBack);
-  //   return () => {
-  //     window.removeEventListener("popstate", handleNoBack);
-  //   };
-  // }, []);
 
   const handleHeaderCallBack = (name) => {
     if (name === "Home") {
@@ -116,7 +102,7 @@ export const BoatOwnerDashBoard = () => {
           in 2 Steps
         </span>
       </Container>
-      <Container style={styles.docUploadContainer} maxWidth="100%">
+      <Container style={styles.docUploadContainer}>
         <div
           style={{
             display: "flex",
@@ -141,7 +127,7 @@ export const BoatOwnerDashBoard = () => {
               style={{
                 flex: 1,
                 backgroundColor: "white",
-                height: "120px",
+                height: "80px",
               }}
             />
           </div>
@@ -162,10 +148,7 @@ export const BoatOwnerDashBoard = () => {
         </div>
       </Container>
 
-      <Container
-        style={{ ...styles.docUploadContainer, marginLeft: "25%" }}
-        maxWidth="100%"
-      >
+      <Container style={{ ...styles.docUploadContainer, marginLeft: "25%" }}>
         <div
           style={{
             display: "flex",
@@ -188,8 +171,8 @@ export const BoatOwnerDashBoard = () => {
               style={{
                 flex: 1,
                 backgroundColor: "white",
-                width: "150px",
-                height: "140px",
+                width: "95px",
+                height: "85px",
               }}
             />
           </div>
@@ -223,8 +206,8 @@ export const BoatOwnerDashBoard = () => {
           Best Boat Offers This Week
         </Typography>
       </div>
-      <Imagebox />
-      <Imagebox />
+      <Imagebox imageBox={boatListData} />
+
       <div style={{ marginTop: "200px" }}>
         <Footer />
       </div>
@@ -297,7 +280,7 @@ const styles = {
     marginLeft: "10%",
   },
   uploadBoatDocTitleTxt: {
-    fontSize: 30,
+    fontSize: 25,
     color: "rgba(66, 70, 81, 0.87)",
     fontFamily: "Poppins",
     fontWeight: "600",
@@ -305,7 +288,7 @@ const styles = {
   },
   uploadBoatDocTxt: {
     marginTop: "20px",
-    fontSize: 20,
+    fontSize: 17,
     color: "rgba(66, 70, 81, 0.87)",
     fontFamily: "Poppins",
     fontWeight: "300",
@@ -357,3 +340,38 @@ const styles = {
     marginRight: "10px",
   },
 };
+
+const boatListData = [
+  {
+    id: 1,
+    boat_name: "Jagadeesh",
+    marine_city: "Durrat Al Arus",
+    price_per_hour: "8",
+    price_currency: "SAR",
+    boat_max_capacity: "100",
+  },
+  {
+    id: 2,
+    boat_name: "Bhadur",
+    marine_city: "Al Fanateer Beach",
+    price_per_hour: "8",
+    price_currency: "SAR",
+    boat_max_capacity: "100",
+  },
+  {
+    id: 3,
+    boat_name: "Farasan",
+    marine_city: "Umluj Beach",
+    price_per_hour: "8",
+    price_currency: "SAR",
+    boat_max_capacity: "100",
+  },
+  {
+    id: 4,
+    boat_name: "Al Saif",
+    marine_city: "Indigo Beach",
+    price_per_hour: "8",
+    price_currency: "SAR",
+    boat_max_capacity: "100",
+  },
+];

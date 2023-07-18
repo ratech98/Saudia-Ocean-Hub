@@ -64,16 +64,14 @@ export const Rental = () => {
   };
 
   useEffect(() => {
+    console.log("location.pathname", location.pathname);
     const handleBackButton = (event) => {
-      // Prevent the default behavior of the back button
       event.preventDefault();
-
-      // Force the user back to the current route
       navigate(location.pathname);
+      //   navigate(-1);
     };
     window.addEventListener("popstate", handleBackButton);
     return () => {
-      // Clean up the event listener when the component unmounts
       window.removeEventListener("popstate", handleBackButton);
     };
   }, [location.pathname, navigate]);
@@ -125,7 +123,22 @@ export const Rental = () => {
             show more
           </h6>
         </div>
-        <Imagebox />
+      </Container>
+
+      <div
+        style={{
+          // display: "flex",
+          margin: "0px 0px",
+          // backgroundColor: "red",
+          // alignSelf: "center",
+          // alignItems: "center",
+          // justifyContent: "center",
+          // alignContent: "center",
+        }}
+      >
+        <Imagebox imageBox={boatListData} />
+      </div>
+      <Container style={{}}>
         <Row style={{ marginTop: 150 }}>
           <Col>
             <div
@@ -233,3 +246,38 @@ export const Rental = () => {
     </div>
   );
 };
+
+const boatListData = [
+  {
+    id: 1,
+    boat_name: "Jagadeesh",
+    marine_city: "Durrat Al Arus",
+    price_per_hour: "8",
+    price_currency: "SAR",
+    boat_max_capacity: "100",
+  },
+  {
+    id: 2,
+    boat_name: "Bhadur",
+    marine_city: "Al Fanateer Beach",
+    price_per_hour: "8",
+    price_currency: "SAR",
+    boat_max_capacity: "100",
+  },
+  {
+    id: 3,
+    boat_name: "Farasan",
+    marine_city: "Umluj Beach",
+    price_per_hour: "8",
+    price_currency: "SAR",
+    boat_max_capacity: "100",
+  },
+  // {
+  //   id: 4,
+  //   boat_name: "Al Saif",
+  //   marine_city: "Indigo Beach",
+  //   price_per_hour: "8",
+  //   price_currency: "SAR",
+  //   boat_max_capacity: "100",
+  // },
+];

@@ -1,6 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
+import {
+  BrowserRouter,
+  Navigate,
+  Route,
+  Routes,
+  useLocation,
+  useNavigate,
+} from "react-router-dom";
 import { BoatOwnerDashBoard } from "../Screens/Dash/BoatOwnerDashBoard";
 import { Rental } from "../Screens/Dash/RentalBoat/Rental";
 import Home from "../Screens/Dash/Home";
@@ -26,26 +33,30 @@ import jwt_decode from "jwt-decode";
 import { ForgotPassword } from "../Screens/Auth/password/ForgotPassword";
 import { ChangePassword } from "../Screens/Auth/password/ChangePassword";
 import { VerifyForgotPwdOTP } from "../Screens/Auth/password/VerifyForgotPwdOTP";
+import { AuthToken, TokenDecodeData, UserId } from "../redux/slices";
 import { BoatBookingRequest } from "../Screens/new/BoatBookingRequest";
 
 const PrivateRoute = ({ children, session, type }) => {
-  console.log("type", type);
-  console.log("children", children);
+  const navigate = useNavigate();
+
   const [calculateTime, setCalculateTime] = useState(false);
   const [loading, setLoading] = useState(true);
-  const [landingPage, setLandingpage] = useState(false);
 
   useEffect(() => {
     const getCurrentSession = async () => {
       const token = localStorage.getItem("session");
-      console.log("token", token);
+
       if (token) {
         let tokenDecode = jwt_decode(token);
-        console.log("tokenDecode", tokenDecode);
         const currentTimestamp = Math.floor(Date.now() / 1000);
+        console.log("auth condition", currentTimestamp < tokenDecode.exp);
         if (currentTimestamp < tokenDecode.exp) {
-          setCalculateTime(true);
-          setLoading(false);
+          if (tokenDecode.user_type === type) {
+            setCalculateTime(true);
+            setLoading(false);
+          } else {
+            navigate(-1);
+          }
         } else {
           setLoading(false);
           setCalculateTime(false);
@@ -57,7 +68,7 @@ const PrivateRoute = ({ children, session, type }) => {
     };
 
     getCurrentSession();
-  }, []);
+  }, [navigate, type]);
 
   return loading ? (
     <Loader />
@@ -91,7 +102,7 @@ export const RootNavigator = React.forwardRef(function RootNavigator(
           <Route
             path="/rental"
             element={
-              <PrivateRoute type="BOAT_OWNER">
+              <PrivateRoute type="CUSTOMER">
                 <Rental />
               </PrivateRoute>
             }

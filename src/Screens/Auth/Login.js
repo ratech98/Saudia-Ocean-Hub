@@ -11,7 +11,7 @@ import {
   Typography,
 } from "@mui/material";
 import { withStyles } from "@mui/styles";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { Visibility, VisibilityOff } from "@material-ui/icons";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import { useDispatch, useSelector } from "react-redux";
@@ -57,6 +57,7 @@ const CustomCheckbox = withStyles({
 
 export const LogIn = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const dispatch = useDispatch();
   const user = useSelector((state) => state?.auth);
   const [showPassword, setShowPassword] = useState(false);
@@ -72,9 +73,50 @@ export const LogIn = () => {
     }
   };
 
+  const formik = useFormik({
+    initialValues: {
+      email: user?.emailId ?? "",
+      password: user?.password ?? "",
+      sign_in_type: "SOCIAL_LOGIN",
+    },
+
+    onSubmit: (value) => {
+      handleSubmit(value);
+    },
+
+    validate: (values) => {
+      if (values.email === "") {
+        errors.email = "Please enter your email";
+      } else if (!values.email.match(emailIdValidation)) {
+        errors.email = "Invalid email address";
+      }
+      if (!values.password) {
+        errors.password = "Please enter your password";
+      }
+      return errors;
+    },
+  });
+
+  useEffect(() => {
+    const handleBackButton = (event) => {
+      // Prevent the default behavior of the back button
+      event.preventDefault();
+
+      // Force the user back to the current route
+      navigate(location.pathname);
+    };
+    window.addEventListener("popstate", handleBackButton);
+    return () => {
+      // Clean up the event listener when the component unmounts
+      window.removeEventListener("popstate", handleBackButton);
+    };
+  }, [location.pathname, navigate]);
+
   const handleSubmit = async (value, type) => {
-    // localStorage.removeItem("session");
+    localStorage.removeItem("session");
     setIsLoading(true);
+    setErrorMsg(false);
+    formik.setErrors({});
     let payload = {
       email: value?.email,
     };
@@ -114,118 +156,65 @@ export const LogIn = () => {
             autoClose: 2000,
           });
         } else {
-          setErrorMsg(
-            res?.data?.message && Object.keys(res.data.message).length > 0
-              ? res?.data?.message
-              : "LogIn Error"
-          );
+          if (res?.data?.message === "User not register") {
+            formik.setFieldError("email", res?.data?.message);
+          } else if (
+            res?.data?.message === "Incorrect pasword, please try again"
+          ) {
+            formik.setFieldError("password", res?.data?.message);
+          }
           if (res?.data?.message && Object.keys(res.data.message).length > 0) {
             toast.error(res?.data?.message, {
               position: toast.POSITION.TOP_RIGHT,
               autoClose: 20000,
             });
           }
+          // setErrorMsg(
+          //   res?.data?.message && Object.keys(res.data.message).length > 0
+          //     ? res?.data?.message
+          //     : "LogIn Error"
+          // );
         }
         setIsLoading(false);
       })
       .catch((err) => {
         setIsLoading(false);
         console.log("login err", err);
+        toast.error("Something went wrong. Please try again later.", {
+          position: toast.POSITION.TOP_RIGHT,
+          autoClose: 2000,
+        });
       });
   };
 
-  const formik = useFormik({
-    initialValues: {
-      email: user?.emailId ?? "",
-      password: user?.password ?? "",
-      sign_in_type: "SOCIAL_LOGIN",
-    },
-
-    onSubmit: (value) => {
-      localStorage.removeItem("session");
-
-      setIsLoading(true);
-
-      let payload = {
-        email: value?.email,
-        password: value?.password,
-        sign_in_type: "EMAIL",
-      };
-      console.log("handleSubmit payload", payload);
-      login(payload)
-        .then((res) => {
-          console.log("login res", res?.data);
-          if (res?.data?.message === "user not verified") {
-            dispatch(EmailId(value?.email));
-            dispatch(Password(value?.password));
-            navigate("/VerifyOTP");
-          } else if (res?.data?.message === "user Login successfully") {
-            let tokenDecode = jwt_decode(res?.data?.token);
-            dispatch(TokenDecodeData(tokenDecode));
-            dispatch(UserId(res?.data?.user_id));
-            dispatch(AuthToken(res?.data?.token));
-            const currentTime = moment().format("YYYY-MM-DD HH:mm:ss");
-            localStorage.setItem("session", res?.data?.token);
-            tokenDecode?.user_type === "BOAT_OWNER"
-              ? navigate("/boatOwnerDashBoard")
-              : navigate("/rental");
-
-            toast.success("Login successfully", {
-              position: toast.POSITION.TOP_RIGHT,
-              autoClose: 2000,
-            });
-          } else {
-            // errors.email = res?.data?.message;
-            setErrorMsg(
-              res?.data?.message && Object.keys(res.data.message).length > 0
-                ? res?.data?.message
-                : "LogIn Error"
-            );
-            if (
-              res?.data?.message &&
-              Object.keys(res.data.message).length > 0
-            ) {
-              toast.error(res?.data?.message, {
-                position: toast.POSITION.TOP_RIGHT,
-                autoClose: 4000,
-              });
-            }
-          }
-          setIsLoading(false);
-        })
-        .catch((err) => {
-          setIsLoading(false);
-          console.log("login err", err);
-        });
-    },
-
-    validate: (values) => {
-      if (values.email === "") {
-        errors.email = "Please enter your email";
-      } else if (!values.email.match(emailIdValidation)) {
-        errors.email = "Invalid email address";
-      }
-      if (!values.password) {
-        errors.password = "Please enter your password";
-      }
-      return errors;
-    },
-  });
+  // useEffect(() => {
+  //   if (user?.verifyOTPpage === "VERIFY_OTP") {
+  //     window.history.forward();
+  //     const handleNoBack = () => {
+  //       window.history.forward();
+  //     };
+  //     window.addEventListener("popstate", handleNoBack);
+  //     return () => {
+  //       window.removeEventListener("popstate", handleNoBack);
+  //     };
+  //   }
+  // }, []);
 
   useEffect(() => {
     if (user?.verifyOTPpage === "VERIFY_OTP") {
-      window.history.forward();
-      const handleNoBack = () => {
-        window.history.forward();
+      const handleBackButton = (event) => {
+        // Prevent the default behavior of the back button
+        event.preventDefault();
+        // Force the user back to the current route
+        navigate(location.pathname);
       };
-      window.addEventListener("popstate", handleNoBack);
+      window.addEventListener("popstate", handleBackButton);
       return () => {
-        window.removeEventListener("popstate", handleNoBack);
+        // Clean up the event listener when the component unmounts
+        window.removeEventListener("popstate", handleBackButton);
       };
     }
-  }, []);
-
-  console.log("user?.verifyOTPpage ", user?.verifyOTPpage);
+  }, [location.pathname, navigate]);
 
   return (
     <>
