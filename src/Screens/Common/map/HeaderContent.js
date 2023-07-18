@@ -205,23 +205,23 @@ const styles = {
     alignItems: "center",
   },
   profileImg: {
-    width: "57px",
-    height: "57px",
+    width: "35px",
+    height: "35px",
   },
   Icon: {
     width: "30px",
     height: "30px",
   },
   searchIcon: {
-    width: "30px",
-    height: "30px",
+    width: "25px",
+    height: "25px",
     marginRight: "35px",
   },
   diplayTxtContent: {
     display: "flex",
   },
   titleTxt: {
-    fontSize: "24px",
+    fontSize: "18px",
     fontWeight: "normal",
     fontFamily: "Poppins",
     fontStretch: "normal",

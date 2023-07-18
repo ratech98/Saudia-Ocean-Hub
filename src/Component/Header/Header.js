@@ -1,13 +1,14 @@
 import React from "react";
 import Navbar from "../Navbar/Navbar";
 import { HeaderContent } from "../../Screens/Common/map/HeaderContent";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 const Header = () => {
   const opacity = 1;
   const navigate = useNavigate();
   const auth = useSelector((state) => state?.auth);
+  const location = useLocation();
 
   const handleHeaderCallBack = (name) => {
     if (name === "Home") {
@@ -30,7 +31,9 @@ const Header = () => {
     <div>
       <Navbar
         opacity={opacity}
-        showLoginSignUp={auth?.AuthToken ? false : true}
+        showLoginSignUp={
+          location.pathname === "/" ? true : auth?.AuthToken ? false : true
+        }
       />
       {/* <HeaderContent
         contentname1={"Home"}

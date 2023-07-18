@@ -64,16 +64,14 @@ export const Rental = () => {
   };
 
   useEffect(() => {
+    console.log("location.pathname", location.pathname);
     const handleBackButton = (event) => {
-      // Prevent the default behavior of the back button
       event.preventDefault();
-
-      // Force the user back to the current route
       navigate(location.pathname);
+      //   navigate(-1);
     };
     window.addEventListener("popstate", handleBackButton);
     return () => {
-      // Clean up the event listener when the component unmounts
       window.removeEventListener("popstate", handleBackButton);
     };
   }, [location.pathname, navigate]);

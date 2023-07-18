@@ -49,28 +49,14 @@ export const BoatOwnerDashBoard = () => {
 
   useEffect(() => {
     const handleBackButton = (event) => {
-      // Prevent the default behavior of the back button
       event.preventDefault();
-      // Force the user back to the current route
       navigate(location.pathname);
     };
     window.addEventListener("popstate", handleBackButton);
     return () => {
-      // Clean up the event listener when the component unmounts
       window.removeEventListener("popstate", handleBackButton);
     };
   }, [location.pathname, navigate]);
-
-  // useEffect(() => {
-  //   window.history.forward();
-  //   const handleNoBack = () => {
-  //     window.history.forward();
-  //   };
-  //   window.addEventListener("popstate", handleNoBack);
-  //   return () => {
-  //     window.removeEventListener("popstate", handleNoBack);
-  //   };
-  // }, []);
 
   const handleHeaderCallBack = (name) => {
     if (name === "Home") {
@@ -141,7 +127,7 @@ export const BoatOwnerDashBoard = () => {
               style={{
                 flex: 1,
                 backgroundColor: "white",
-                height: "120px",
+                height: "80px",
               }}
             />
           </div>
@@ -185,8 +171,8 @@ export const BoatOwnerDashBoard = () => {
               style={{
                 flex: 1,
                 backgroundColor: "white",
-                width: "150px",
-                height: "140px",
+                width: "95px",
+                height: "85px",
               }}
             />
           </div>
@@ -294,7 +280,7 @@ const styles = {
     marginLeft: "10%",
   },
   uploadBoatDocTitleTxt: {
-    fontSize: 30,
+    fontSize: 25,
     color: "rgba(66, 70, 81, 0.87)",
     fontFamily: "Poppins",
     fontWeight: "600",
@@ -302,7 +288,7 @@ const styles = {
   },
   uploadBoatDocTxt: {
     marginTop: "20px",
-    fontSize: 20,
+    fontSize: 17,
     color: "rgba(66, 70, 81, 0.87)",
     fontFamily: "Poppins",
     fontWeight: "300",

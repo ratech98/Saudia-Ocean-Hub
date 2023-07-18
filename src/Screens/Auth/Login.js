@@ -97,6 +97,21 @@ export const LogIn = () => {
     },
   });
 
+  useEffect(() => {
+    const handleBackButton = (event) => {
+      // Prevent the default behavior of the back button
+      event.preventDefault();
+
+      // Force the user back to the current route
+      navigate(location.pathname);
+    };
+    window.addEventListener("popstate", handleBackButton);
+    return () => {
+      // Clean up the event listener when the component unmounts
+      window.removeEventListener("popstate", handleBackButton);
+    };
+  }, [location.pathname, navigate]);
+
   const handleSubmit = async (value, type) => {
     localStorage.removeItem("session");
     setIsLoading(true);
