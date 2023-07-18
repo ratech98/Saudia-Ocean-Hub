@@ -25,14 +25,10 @@ const Banner = ({
   const [windowHeight, setWindowHeight] = useState(window.innerHeight);
 
   useEffect(() => {
-    // Update the window height when the window is resized
     const handleResize = () => {
       setWindowHeight(window.innerHeight);
     };
-
     window.addEventListener("resize", handleResize);
-
-    // Clean up the event listener
     return () => {
       window.removeEventListener("resize", handleResize);
     };

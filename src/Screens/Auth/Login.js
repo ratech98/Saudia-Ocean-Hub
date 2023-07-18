@@ -11,7 +11,7 @@ import {
   Typography,
 } from "@mui/material";
 import { withStyles } from "@mui/styles";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { Visibility, VisibilityOff } from "@material-ui/icons";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import { useDispatch, useSelector } from "react-redux";
@@ -58,6 +58,7 @@ const CustomCheckbox = withStyles({
 export const LogIn = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const location = useLocation();
   const user = useSelector((state) => state?.auth);
   const [showPassword, setShowPassword] = useState(false);
   const [isRemembermeChecked, setIsRemembermeChecked] = useState(false);
@@ -71,6 +72,21 @@ export const LogIn = () => {
       setIsRemembermeChecked(checked);
     }
   };
+
+  useEffect(() => {
+    const handleBackButton = (event) => {
+      // Prevent the default behavior of the back button
+      event.preventDefault();
+
+      // Force the user back to the current route
+      navigate(location.pathname);
+    };
+    window.addEventListener("popstate", handleBackButton);
+    return () => {
+      // Clean up the event listener when the component unmounts
+      window.removeEventListener("popstate", handleBackButton);
+    };
+  }, [location.pathname, navigate]);
 
   const handleSubmit = async (value, type) => {
     // localStorage.removeItem("session");

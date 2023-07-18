@@ -5,13 +5,14 @@ import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Nav from "react-bootstrap/Nav";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import IMAGES from "../../Screens/Images";
 import { useDispatch } from "react-redux";
 import { AuthToken, TokenDecodeData, UserId } from "../../redux/slices";
 
 const Navbar = ({ showLoginSignUp }) => {
   const navigate = useNavigate();
+  const location = useLocation();
   const [openModal, setOpenModal] = useState(false);
   const dispatch = useDispatch();
 
@@ -42,7 +43,7 @@ const Navbar = ({ showLoginSignUp }) => {
     overflow: "auto",
     backgroundColor: "rgba(0, 0, 0, 0.4)",
   };
-
+  console.log("location", location.pathname);
   return (
     <div className="navbar">
       <Container className="w-100 d-inline">
@@ -62,10 +63,12 @@ const Navbar = ({ showLoginSignUp }) => {
                 <Nav.Link href="/">Home</Nav.Link>
               </Nav.Item>
               <Nav.Item>
-                <Nav.Link eventKey="link-1">For Boat Owners</Nav.Link>
+                <Nav.Link href="/logIn" eventKey="link-1">
+                  For Boat Owners
+                </Nav.Link>
               </Nav.Item>
               <Nav.Item>
-                <Nav.Link href="/Rental">For Boat Rentals</Nav.Link>
+                <Nav.Link href="/logIn">For Boat Rentals</Nav.Link>
               </Nav.Item>
             </Nav>
           </Col>
@@ -151,17 +154,19 @@ const styles = {
     alignItems: "center",
   },
   profileImg: {
-    width: "57px",
-    height: "57px",
+    width: "35px",
+    height: "35px",
+
+    opacity: 5,
   },
   Icon: {
     width: "30px",
     height: "30px",
   },
   searchIcon: {
-    width: "30px",
-    height: "30px",
-    marginRight: "35px",
+    width: "25px",
+    height: "25px",
+    marginRight: "25px",
   },
   diplayTxtContent: {
     display: "flex",
