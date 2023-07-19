@@ -1,0 +1,96 @@
+/* .client_review {
+  padding: 201px 0 200.1px;
+  background-image: linear-gradient(to bottom, #70a8c0, #3c85a7 29%, #03487a 74%, #03487a);
+} */
+
+.client_review_title h2 {
+  font-family: Poppins;
+  font-size: 48px;
+  font-weight: 600;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 0.48;
+  letter-spacing: normal;
+  text-align: center;
+  color: rgba(246, 246, 246, 0.87);
+}
+
+.review_card img {
+  width: 99px;
+  height: 99px;
+  margin-top: -45px;
+}
+
+.review_card h4 {
+  padding-top: 40px;
+  padding-bottom: 10px;
+  font-family: Poppins;
+  font-size: 21px;
+  font-weight: 600;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.48;
+  letter-spacing: normal;
+  text-align: left;
+  color: #424651;
+}
+
+.review_card p {
+  font-family: Poppins;
+  font-size: 15px;
+  font-weight: 300;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.53;
+  letter-spacing: normal;
+  text-align: left;
+  color: #424651;
+}
+
+.review_card h5 {
+  font-family: Poppins;
+  font-size: 18px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.5;
+  letter-spacing: normal;
+  color: #424651;
+  padding-top:20px;
+}
+
+.review_card {
+  padding: 0px 40px;
+  border-radius: 15px;
+  background-color: rgba(246, 246, 246, 0.7);
+  transition: transform 0.3s ease;
+  margin-bottom: 40px;
+}
+
+.scrollable-row {
+  overflow-x: auto;
+  display: flex;
+  flex-wrap: nowrap;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  scroll-padding: 0px 20px; /* Added padding on left and right */
+  scroll-snap-align: start; /* Ensures each card snaps to the start position */
+}
+
+.review_card {
+  flex-shrink: 0;
+  width: 300px; 
+  margin-right: 20px;
+  transition: transform 0.3s ease;
+}
+
+.scrollable-row::-webkit-scrollbar {
+  display: none;
+}
+
+.flex-nowrap {
+  flex-wrap: nowrap;
+}
+.review_card.fully-visible {
+  margin-top: 50px;
+}
