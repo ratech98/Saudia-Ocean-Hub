@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   Grid,
@@ -10,11 +10,11 @@ import {
 } from "@mui/material";
 import { HeaderContent } from "../Common/map/HeaderContent";
 import Footer from "../../Component/Footer/Footer";
-import IMAGES from "../Images";
-import { Edit, Room } from "@material-ui/icons";
-import { Col, Container, Row } from "react-bootstrap";
+import { Edit } from "@material-ui/icons";
+import { Container } from "react-bootstrap";
 import moment from "moment";
 import { withStyles } from "@mui/styles";
+import WeekDays from "../Common/WeekDays";
 
 const start_space_Validation = new RegExp(/^(?!\s).*/);
 
@@ -52,6 +52,99 @@ export const BoatBookingRequest = () => {
   const [selecteNoOfInfants, setSelecteNoOfInfants] = useState(1);
   const [specialRequests, setSpecialRequests] = useState("");
 
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  const [startDate, setStartDate] = useState(1);
+  const [endDate, setEndDate] = useState(7);
+  const [dateList, setDateList] = useState([]);
+
+  const [weekDays, setWeekDays] = useState([]);
+
+  useEffect(() => {
+    const generateWeekDays = () => {
+      const days = [
+        "Saturday",
+        "Sunday",
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday",
+      ];
+      const currentDate = new Date();
+      const currentDayIndex = currentDate.getDay();
+
+      // Find the index of Saturday
+      const saturdayIndex = days.indexOf("Saturday");
+
+      // Calculate the number of days to subtract from the start day to reach Saturday
+      const numberOfDays = (currentDayIndex + 7 - saturdayIndex) % 7;
+
+      // Generate the week days array starting from Saturday and ending at Friday
+      const newWeekDays = [];
+
+      let dayCount = 1;
+      let currentWeekDays = [];
+      for (let i = numberOfDays; dayCount <= 30; i = (i + 1) % 7) {
+        currentWeekDays.push({
+          index: i,
+          day: days[i],
+          date: moment().add(dayCount - 1, "days"), // Use moment.js to calculate the current date
+        });
+
+        if (i === 6) {
+          // Saturday, start a new week
+          newWeekDays.push({
+            name: `${Math.ceil(dayCount / 7)}th week`,
+            days: currentWeekDays,
+          });
+          currentWeekDays = [];
+        }
+
+        dayCount++;
+      }
+
+      return newWeekDays;
+    };
+
+    const weekDays = generateWeekDays();
+    setWeekDays(weekDays);
+  }, []);
+
+  console.log("weekDays", weekDays);
+  // console.log("dateList", dateList);
+
+  const handleNextWeek = () => {
+    setStartDate(endDate + 1);
+    setEndDate(endDate + 7);
+  };
+
+  const handlePreviousWeek = () => {
+    setStartDate(startDate - 7);
+    setEndDate(endDate - 7);
+  };
+
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+
   const handleCallBack = (name) => {
     if (name === "Home") {
       navigate("/home");
@@ -61,7 +154,7 @@ export const BoatBookingRequest = () => {
     }
   };
 
-  const renderDateSelection = (date, index) => {
+  const renderDateSelection = (item, index) => {
     return (
       <div
         style={{
@@ -87,7 +180,7 @@ export const BoatBookingRequest = () => {
             width: "100%",
           }}
         >
-          SAT
+          {item?.day}
         </Typography>
         <Typography
           style={{
@@ -195,7 +288,7 @@ export const BoatBookingRequest = () => {
           <Container
             style={{
               margin: "0px",
-              width: "65%",
+              width: "70%",
               padding: "56px 57px",
               backgroundColor: "white",
             }}
@@ -236,11 +329,24 @@ export const BoatBookingRequest = () => {
                 {moment().format("MMMM YYYY")}
               </Typography>
             </div>
-            <div style={{ display: "flex", flexWrap: "wrap" }}>
-              {dateList?.map((item, index) => {
-                return renderDateSelection(item, index);
+            <button onClick={handlePreviousWeek}>Previous</button>
+            <div
+              style={{
+                display: "flex",
+                flexWrap: "wrap",
+                // backgroundColor: "red",
+              }}
+            >
+              {weekDays?.map((item, index) => {
+                if (index === 0) {
+                  return <WeekDays item={item} index={index} />;
+                } else {
+                  return null;
+                }
               })}
             </div>
+            <button onClick={handleNextWeek}>Next</button>
+
             <div
               style={{ display: "flex", flexWrap: "wrap", marginTop: "48px" }}
             >
@@ -273,7 +379,7 @@ export const BoatBookingRequest = () => {
           <Container
             style={{
               margin: "0px",
-              width: "34%",
+              width: "29%",
               padding: "56px 57px",
               backgroundColor: "white",
             }}
@@ -601,14 +707,13 @@ const styles = {
 };
 
 const dateList = [
-  { id: 1 },
-  { id: 2 },
-  { id: 3 },
-  { id: 4 },
-  { id: 1 },
-  { id: 2 },
-  { id: 3 },
-  { id: 4 },
+  { id: 1, day: "SAT" },
+  { id: 2, day: "SUN" },
+  { id: 3, day: "MON" },
+  { id: 4, day: "TUE" },
+  { id: 5, day: "WED" },
+  { id: 6, day: "THU" },
+  { id: 7, day: "FRI" },
 ];
 
 const howLongList = [
