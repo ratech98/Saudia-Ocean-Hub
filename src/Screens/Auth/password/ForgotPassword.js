@@ -34,6 +34,7 @@ export const ForgotPassword = () => {
             autoClose: 2000,
           });
           navigate("/verifyForgotPwdOTP");
+          dispatch(EmailId(emailAddress));
           setIsLoading(false);
         } else {
           setErrorMsg(res?.data?.message);
