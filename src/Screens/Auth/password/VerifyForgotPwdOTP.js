@@ -221,16 +221,24 @@ export const VerifyForgotPwdOTP = () => {
                       inputProps={{ maxLength: 1 }}
                       inputRef={ref}
                       style={{
-                        width: "40px",
-                        height: "40px",
-                        marginRight: "10px",
+                        width: "50px",
+                        // height: "40px",
+                        marginRight: "20px",
                         fontSize: "20px",
                         textAlign: "center",
+                        borderRadius: "5px",
                       }}
                       onChange={(event) => {
                         handleInputChange(event, index);
                       }}
                       onKeyDown={(event) => handleInputBackspace(event, index)}
+                      InputProps={{
+                        style: {
+                          textAlign: "center",
+                          borderRadius: "5px",
+                          border: errorMsg ? ".1px ridge red" : null,
+                        },
+                      }}
                     />
                   </Grid>
                 ))}
@@ -240,7 +248,7 @@ export const VerifyForgotPwdOTP = () => {
                 <Typography
                   style={{ marginTop: "48px", color: "#DC143C", fontSize: 12 }}
                 >
-                  {errorMsg}
+                  {"Invalid Otp, Please try again"}
                 </Typography>
               ) : null}
 

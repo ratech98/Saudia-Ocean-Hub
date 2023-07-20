@@ -60,7 +60,7 @@ export const BoatOwnerDashBoard = () => {
 
   const handleHeaderCallBack = (name) => {
     if (name === "Home") {
-      // navigate("/home");
+      navigate(-1);
     } else if (name === "Log In") {
       navigate("/logIn");
     } else if (name === "Sign Up") {
@@ -71,8 +71,8 @@ export const BoatOwnerDashBoard = () => {
       navigate("/myListings");
     } else if (name === "List a Boat Offer") {
       // navigate("/home");
-    } else {
-      navigate(name);
+    } else if (name === "/searchBoat") {
+      navigate("/searchBoat");
     }
   };
   return (

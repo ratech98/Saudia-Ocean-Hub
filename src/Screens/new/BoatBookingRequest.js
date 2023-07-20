@@ -10,11 +10,12 @@ import {
 } from "@mui/material";
 import { HeaderContent } from "../Common/map/HeaderContent";
 import Footer from "../../Component/Footer/Footer";
-import { Edit } from "@material-ui/icons";
+import { ArrowBack, ArrowForward, Done, Edit } from "@material-ui/icons";
 import { Container } from "react-bootstrap";
 import moment from "moment";
 import { withStyles } from "@mui/styles";
 import WeekDays from "../Common/WeekDays";
+import IMAGES from "../Images";
 
 const start_space_Validation = new RegExp(/^(?!\s).*/);
 
@@ -25,6 +26,37 @@ const CustomTextField = withStyles({
       borderWidth: ".5px",
       borderStyle: "solid",
       position: "relative",
+    },
+    "& input::placeholder": {
+      fontSize: "16px",
+      color: "rgba(66, 70, 81, 0.4)",
+      fontFamily: "Poppins",
+    },
+  },
+  select: {
+    position: "absolute",
+    top: "50%",
+    right: "8px",
+    transform: "translateY(-50%)",
+    pointerEvents: "none",
+  },
+})(TextField);
+
+const CustomTextFieldFor = withStyles({
+  root: {
+    "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline": {
+      borderColor: "transparent", // Set the border color to transparent
+    },
+    "& .MuiOutlinedInput-notchedOutline": {
+      borderColor: "transparent", // Set the border color to transparent
+    },
+    "& .MuiInputBase-root": {
+      "&::before": {
+        borderColor: "transparent", // Set the border color to transparent
+      },
+      "&::after": {
+        borderColor: "transparent", // Set the border color to transparent
+      },
     },
     "& input::placeholder": {
       fontSize: "16px",
@@ -53,21 +85,27 @@ export const BoatBookingRequest = () => {
   const [specialRequests, setSpecialRequests] = useState("");
 
   //
-  //
-  //
-  //
-  //
-  //
-  //
-  //
-  //
-  //
-  //
-  //
-  const [startDate, setStartDate] = useState(1);
-  const [endDate, setEndDate] = useState(7);
-  const [dateList, setDateList] = useState([]);
+  const [personName, setPersonName] = useState("Omar Abdallah");
+  const [cityName, setCityName] = useState("Riyadh, KSA");
+  const [phoneNo, setPhoneNo] = useState("62 188 7922");
+  const [email, setEmail] = useState("OmarAbdallah@gmail.com");
 
+  const [editPersonalInfo, setEditPersonalInfo] = useState(false);
+
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+
+  const [moveWeeks, setMoveWeeks] = useState(0);
   const [weekDays, setWeekDays] = useState([]);
 
   useEffect(() => {
@@ -84,6 +122,7 @@ export const BoatBookingRequest = () => {
       const currentDate = new Date();
       const currentDayIndex = currentDate.getDay();
 
+      console.log("currentDayIndex", currentDayIndex);
       // Find the index of Saturday
       const saturdayIndex = days.indexOf("Saturday");
 
@@ -95,11 +134,28 @@ export const BoatBookingRequest = () => {
 
       let dayCount = 1;
       let currentWeekDays = [];
-      for (let i = numberOfDays; dayCount <= 30; i = (i + 1) % 7) {
+
+      // Add missed week days with "isValid": false
+      for (let i = 0; i < numberOfDays; i++) {
         currentWeekDays.push({
           index: i,
-          day: days[i],
-          date: moment().add(dayCount - 1, "days"), // Use moment.js to calculate the current date
+          day: moment()
+            .subtract(numberOfDays - i, "days")
+            .format("ddd"),
+          date: moment().subtract(numberOfDays - i, "days"),
+          isValid: false,
+        });
+      }
+
+      // Add current week days with "isValid": true
+      for (let i = numberOfDays; dayCount <= 35; i = (i + 1) % 7) {
+        currentWeekDays.push({
+          index: i,
+          day: moment()
+            .add(dayCount - 1, "days")
+            .format("ddd"),
+          date: moment().add(dayCount - 1, "days"),
+          isValid: true,
         });
 
         if (i === 6) {
@@ -125,13 +181,11 @@ export const BoatBookingRequest = () => {
   // console.log("dateList", dateList);
 
   const handleNextWeek = () => {
-    setStartDate(endDate + 1);
-    setEndDate(endDate + 7);
+    setMoveWeeks((moveWeeks) => moveWeeks + 1);
   };
 
   const handlePreviousWeek = () => {
-    setStartDate(startDate - 7);
-    setEndDate(endDate - 7);
+    setMoveWeeks((moveWeeks) => moveWeeks - 1);
   };
 
   //
@@ -147,52 +201,11 @@ export const BoatBookingRequest = () => {
 
   const handleCallBack = (name) => {
     if (name === "Home") {
-      navigate("/home");
+      navigate(-1);
     } else if (name === "Boat Offers") {
     } else if (name === "My Listings") {
     } else if (name === "List a Boat Offer") {
     }
-  };
-
-  const renderDateSelection = (item, index) => {
-    return (
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          padding: "20px 27px",
-          borderRadius: "20px",
-          alignItems: "center",
-          justifyContent: "center",
-          marginRight: "24px",
-          marginTop: "32px",
-          border: "solid 1px rgba(66, 70, 81, 0.36)",
-          backgroundColor: selectedDate === index ? "#4f82af" : "white",
-        }}
-        onClick={() => {
-          setSelectedDate(index);
-        }}
-      >
-        <Typography
-          style={{
-            ...styles.lableTxt,
-            color: selectedDate === index ? "white" : "#424651",
-            width: "100%",
-          }}
-        >
-          {item?.day}
-        </Typography>
-        <Typography
-          style={{
-            ...styles.lableTxt,
-            color: selectedDate === index ? "white" : "#424651",
-            width: "100%",
-          }}
-        >
-          07
-        </Typography>
-      </div>
-    );
   };
 
   const renderStartTime = (time, index) => {
@@ -297,29 +310,146 @@ export const BoatBookingRequest = () => {
               <Typography style={styles.contentTitleTxt}>
                 Personal Information
               </Typography>
-              <IconButton style={{ marginLeft: "64px" }}>
-                <Edit />
+              <IconButton
+                style={{ marginLeft: "64px" }}
+                onClick={() => {
+                  setEditPersonalInfo(!editPersonalInfo);
+                }}
+              >
+                {editPersonalInfo ? <Edit /> : <Done />}
               </IconButton>
             </div>
             <div style={{ ...styles.rowStyle, marginTop: "40px" }}>
               <Typography style={styles.lableTxt}>Name</Typography>
-              <Typography style={styles.personInfoTxt}>
-                Omar Abdallah
-              </Typography>
+              {editPersonalInfo ? (
+                <Typography style={styles.personInfoTxt}>
+                  {personName}
+                </Typography>
+              ) : (
+                <TextField
+                  variant="outlined"
+                  margin="normal"
+                  fullWidth
+                  id="name"
+                  name="name"
+                  placeholder="Name"
+                  value={personName}
+                  onChange={(event) => {
+                    const inputValue = event.target.value;
+                    if (start_space_Validation.test(inputValue)) {
+                      setPersonName(inputValue);
+                    }
+                  }}
+                  InputProps={{
+                    style: {
+                      borderRadius: "15px",
+                      borderWidth: ".1px",
+                      borderColor: "rgba(66, 70, 81, 0.2)",
+                      // border: "1px solid rgba(66, 70, 81, 0.4)",
+                      width: "50%",
+                      alignSelf: "center",
+                    },
+                  }}
+                  style={{ margin: "0px", padding: "0px" }}
+                />
+              )}
             </div>
             <div style={styles.rowStyle}>
               <Typography style={styles.lableTxt}>City</Typography>
-              <Typography style={styles.personInfoTxt}>Riyadh, KSA</Typography>
+              {editPersonalInfo ? (
+                <Typography style={styles.personInfoTxt}>{cityName}</Typography>
+              ) : (
+                <TextField
+                  variant="outlined"
+                  margin="normal"
+                  fullWidth
+                  id="cityName"
+                  name="cityName"
+                  placeholder="City Name"
+                  value={cityName}
+                  onChange={(event) => {
+                    const inputValue = event.target.value;
+                    if (start_space_Validation.test(inputValue)) {
+                      setCityName(inputValue);
+                    }
+                  }}
+                  InputProps={{
+                    style: {
+                      borderRadius: "15px",
+                      borderWidth: ".1px",
+                      borderColor: "rgba(66, 70, 81, 0.2)",
+                      // border: "1px solid rgba(66, 70, 81, 0.4)",
+                      width: "50%",
+                      alignSelf: "center",
+                    },
+                  }}
+                  style={{ margin: "0px", padding: "0px" }}
+                />
+              )}
             </div>
             <div style={styles.rowStyle}>
               <Typography style={styles.lableTxt}>Phone</Typography>
-              <Typography style={styles.personInfoTxt}>62 188 7922</Typography>
+              {editPersonalInfo ? (
+                <Typography style={styles.personInfoTxt}>{phoneNo}</Typography>
+              ) : (
+                <TextField
+                  variant="outlined"
+                  margin="normal"
+                  fullWidth
+                  id="phoneNo"
+                  name="phoneNo"
+                  placeholder="Phone Number"
+                  value={phoneNo}
+                  onChange={(event) => {
+                    const inputValue = event.target.value;
+                    if (start_space_Validation.test(inputValue)) {
+                      setPhoneNo(inputValue);
+                    }
+                  }}
+                  InputProps={{
+                    style: {
+                      borderRadius: "15px",
+                      borderWidth: ".1px",
+                      borderColor: "rgba(66, 70, 81, 0.2)",
+                      width: "50%",
+                      alignSelf: "center",
+                    },
+                  }}
+                  style={{ margin: "0px", padding: "0px" }}
+                />
+              )}
             </div>
             <div style={styles.rowStyle}>
               <Typography style={styles.lableTxt}>E-mail</Typography>
-              <Typography style={styles.personInfoTxt}>
-                OmarAbdallah@gmail.com
-              </Typography>
+              {editPersonalInfo ? (
+                <Typography style={styles.personInfoTxt}>{email}</Typography>
+              ) : (
+                <TextField
+                  variant="outlined"
+                  margin="normal"
+                  fullWidth
+                  id="email"
+                  name="email"
+                  placeholder="Email"
+                  value={email}
+                  onChange={(event) => {
+                    const inputValue = event.target.value;
+                    if (start_space_Validation.test(inputValue)) {
+                      setEmail(inputValue);
+                    }
+                  }}
+                  InputProps={{
+                    style: {
+                      borderRadius: "15px",
+                      borderWidth: ".1px",
+                      borderColor: "rgba(66, 70, 81, 0.2)",
+                      width: "50%",
+                      alignSelf: "center",
+                    },
+                  }}
+                  style={{ margin: "0px", padding: "0px" }}
+                />
+              )}
             </div>
             <div style={{ ...styles.rowStyle, marginTop: "116px" }}>
               <Typography style={styles.contentTitleTxt}>
@@ -329,7 +459,27 @@ export const BoatBookingRequest = () => {
                 {moment().format("MMMM YYYY")}
               </Typography>
             </div>
-            <button onClick={handlePreviousWeek}>Previous</button>
+            <div
+              style={{
+                // backgroundColor: "red",
+                justifyContent: "space-between",
+                display: "flex",
+              }}
+            >
+              <IconButton
+                onClick={handlePreviousWeek}
+                disabled={moveWeeks === 0 ? true : false}
+              >
+                <ArrowBack />
+              </IconButton>
+
+              <IconButton
+                onClick={handleNextWeek}
+                disabled={moveWeeks + 1 < weekDays.length ? false : true}
+              >
+                <ArrowForward />
+              </IconButton>
+            </div>
             <div
               style={{
                 display: "flex",
@@ -338,14 +488,20 @@ export const BoatBookingRequest = () => {
               }}
             >
               {weekDays?.map((item, index) => {
-                if (index === 0) {
-                  return <WeekDays item={item} index={index} />;
+                if (index === moveWeeks) {
+                  return (
+                    <WeekDays
+                      item={item}
+                      index={index}
+                      setSelectedDate={setSelectedDate}
+                      selectedDate={selectedDate}
+                    />
+                  );
                 } else {
                   return null;
                 }
               })}
             </div>
-            <button onClick={handleNextWeek}>Next</button>
 
             <div
               style={{ display: "flex", flexWrap: "wrap", marginTop: "48px" }}
@@ -379,18 +535,48 @@ export const BoatBookingRequest = () => {
           <Container
             style={{
               margin: "0px",
-              width: "29%",
-              padding: "56px 57px",
+              width: "35%",
+              padding: "0px",
               backgroundColor: "white",
             }}
           >
+            <img
+              alt="youtube video link"
+              src={IMAGES.boat1}
+              style={{ width: "100%", height: "30%" }}
+            />
             <div
               style={{
-                width: "5%",
+                // width: "100%",
                 // backgroundColor: "red"
+                // padding: "56px 57px",
+                padding: "0px 57px",
               }}
             >
-              <Typography style={styles.contentTitleTxt}>youtube</Typography>
+              <div style={styles.rowStyle}>
+                <Typography style={styles.titleTxt}>Night Light -</Typography>
+                <Typography style={styles.titleTxt}>Jeddah</Typography>
+              </div>
+              <div style={styles.rowStyle}>
+                <Typography style={styles.lableTxt}>Guests</Typography>
+                <Typography style={styles.personInfoTxt}>7</Typography>
+              </div>
+              <div style={styles.rowStyle}>
+                <Typography style={styles.lableTxt}>Duration</Typography>
+                <Typography style={styles.personInfoTxt}>
+                  less than 3 h
+                </Typography>
+              </div>
+              <div style={styles.rowStyle}>
+                <Typography style={styles.lableTxt}>Check in</Typography>
+                <Typography style={styles.personInfoTxt}>
+                  13 Jan- 10 AM
+                </Typography>
+              </div>
+              <div style={styles.rowStyle}>
+                <Typography style={styles.lableTxt}>Total Price:</Typography>
+                <Typography style={styles.personInfoTxt}>600.0 SAR</Typography>
+              </div>
             </div>
           </Container>
         </div>
@@ -703,6 +889,11 @@ const styles = {
     // width: "50%",
     marginTop: "25px",
     borderRadius: "10px",
+  },
+  borderRemove: {
+    border: "none !important",
+    outline: "none !important",
+    width: "50%",
   },
 };
 

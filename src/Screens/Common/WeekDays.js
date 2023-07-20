@@ -2,212 +2,53 @@ import React from "react";
 import { Typography } from "@mui/material";
 import moment from "moment";
 
-const WeekDays = ({ item, index }) => {
-  console.log("item", item);
+const WeekDays = ({ item, index, setSelectedDate, selectedDate }) => {
   return (
     <>
-      <div
-        style={{
-          ...styles.headerContent,
-          //   backgroundColor: selectedDate === index ? "#4f82af" : "white",
-        }}
-        onClick={() => {
-          //   setSelectedDate(index);
-        }}
-      >
-        <Typography
-          style={{
-            ...styles.lableTxt,
-            // color: selectedDate === index ? "white" : "#424651",
-            width: "100%",
-          }}
-        >
-          SAT
-        </Typography>
-        <Typography
-          style={{
-            ...styles.lableTxt,
-            // color: selectedDate === index ? "white" : "#424651",
-            width: "100%",
-          }}
-        >
-          {moment(item?.date).format("D")}
-        </Typography>
-      </div>
-      {/*  */}
-      <div
-        style={{
-          ...styles.headerContent,
-          //   backgroundColor: selectedDate === index ? "#4f82af" : "white",
-        }}
-        onClick={() => {
-          //   setSelectedDate(index);
-        }}
-      >
-        <Typography
-          style={{
-            ...styles.lableTxt,
-            // color: selectedDate === index ? "white" : "#424651",
-            width: "100%",
-          }}
-        >
-          SUN
-        </Typography>
-        <Typography
-          style={{
-            ...styles.lableTxt,
-            // color: selectedDate === index ? "white" : "#424651",
-            width: "100%",
-          }}
-        >
-          {moment(item?.date).format("D")}
-        </Typography>
-      </div>
-      {/*  */}
-      {/* <div
-        style={{
-          ...styles.headerContent,
-          //   backgroundColor: selectedDate === index ? "#4f82af" : "white",
-        }}
-        onClick={() => {
-          //   setSelectedDate(index);
-        }}
-      >
-        <Typography
-          style={{
-            ...styles.lableTxt,
-            // color: selectedDate === index ? "white" : "#424651",
-            width: "100%",
-          }}
-        >
-          MON
-        </Typography>
-        <Typography
-          style={{
-            ...styles.lableTxt,
-            // color: selectedDate === index ? "white" : "#424651",
-            width: "100%",
-          }}
-        >
-          07
-        </Typography>
-      </div> */}
-      {/*  */}
-      {/* <div
-        style={{
-          ...styles.headerContent,
-          //   backgroundColor: selectedDate === index ? "#4f82af" : "white",
-        }}
-        onClick={() => {
-          //   setSelectedDate(index);
-        }}
-      >
-        <Typography
-          style={{
-            ...styles.lableTxt,
-            // color: selectedDate === index ? "white" : "#424651",
-            width: "100%",
-          }}
-        >
-          TUE
-        </Typography>
-        <Typography
-          style={{
-            ...styles.lableTxt,
-            // color: selectedDate === index ? "white" : "#424651",
-            width: "100%",
-          }}
-        >
-          07
-        </Typography>
-      </div> */}
-      {/*  */}
-      {/* <div
-        style={{
-          ...styles.headerContent,
-          //   backgroundColor: selectedDate === index ? "#4f82af" : "white",
-        }}
-        onClick={() => {
-          //   setSelectedDate(index);
-        }}
-      >
-        <Typography
-          style={{
-            ...styles.lableTxt,
-            // color: selectedDate === index ? "white" : "#424651",
-            width: "100%",
-          }}
-        >
-          WED
-        </Typography>
-        <Typography
-          style={{
-            ...styles.lableTxt,
-            // color: selectedDate === index ? "white" : "#424651",
-            width: "100%",
-          }}
-        >
-          07
-        </Typography>
-      </div> */}
-      {/*  */}
-      {/* <div
-        style={{
-          ...styles.headerContent,
-          //   backgroundColor: selectedDate === index ? "#4f82af" : "white",
-        }}
-        onClick={() => {
-          //   setSelectedDate(index);
-        }}
-      >
-        <Typography
-          style={{
-            ...styles.lableTxt,
-            // color: selectedDate === index ? "white" : "#424651",
-            width: "100%",
-          }}
-        >
-          THU
-        </Typography>
-        <Typography
-          style={{
-            ...styles.lableTxt,
-            // color: selectedDate === index ? "white" : "#424651",
-            width: "100%",
-          }}
-        >
-          07
-        </Typography>
-      </div> */}
-      {/*  */}
-      {/* <div
-        style={{
-          ...styles.headerContent,
-          //   backgroundColor: selectedDate === index ? "#4f82af" : "white",
-        }}
-        onClick={() => {
-          //   setSelectedDate(index);
-        }}
-      >
-        <Typography
-          style={{
-            ...styles.lableTxt,
-            // color: selectedDate === index ? "white" : "#424651",
-            width: "100%",
-          }}
-        >
-          FRI
-        </Typography>
-        <Typography
-          style={{
-            ...styles.lableTxt,
-            // color: selectedDate === index ? "white" : "#424651",
-            width: "100%",
-          }}
-        >
-          07
-        </Typography>
-      </div> */}
+      {item?.days?.map((weekDay, weekIndex) => {
+        return (
+          <div
+            style={{
+              ...styles.headerContent,
+              backgroundColor: weekDay?.isValid
+                ? selectedDate === weekDay?.date
+                  ? "#3973a5"
+                  : "white"
+                : "#ececec",
+            }}
+            onClick={() => {
+              if (weekDay?.isValid) {
+                setSelectedDate(weekDay?.date);
+              }
+            }}
+          >
+            <Typography
+              style={{
+                ...styles.lableTxt,
+                color: weekDay?.isValid
+                  ? selectedDate === weekDay?.date
+                    ? "white"
+                    : "#424651"
+                  : "#c6c6c6",
+              }}
+            >
+              {weekDay?.day}
+            </Typography>
+            <Typography
+              style={{
+                ...styles.lableTxt,
+                color: weekDay?.isValid
+                  ? selectedDate === weekDay?.date
+                    ? "white"
+                    : "#424651"
+                  : "#c6c6c6",
+              }}
+            >
+              {moment(weekDay?.date).format("D")}
+            </Typography>
+          </div>
+        );
+      })}
     </>
   );
 };
@@ -225,6 +66,20 @@ const styles = {
     marginRight: "24px",
     marginTop: "32px",
     border: "solid 1px rgba(66, 70, 81, 0.36)",
+  },
+  lableTxt: {
+    fontFamily: "Poppins",
+    fontSize: "20px",
+    fontWeight: "normal",
+    fontStretch: "normal",
+    fontStyle: "normal",
+    lineHeight: 1.15,
+    letterSpacing: "normal",
+    textAlign: "center",
+    color: "#424651;",
+    // width: "50%",
+    // backgroundColor: "red",
+    width: "100%",
   },
 };
 

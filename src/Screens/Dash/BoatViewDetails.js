@@ -11,7 +11,7 @@ export const BoatViewDetails = () => {
 
   const handleCallBack = (name) => {
     if (name === "Home") {
-      navigate("/home");
+      navigate(-1);
     } else if (name === "Boat Offers") {
       //   navigate("/home");
     } else if (name === "My Listings") {

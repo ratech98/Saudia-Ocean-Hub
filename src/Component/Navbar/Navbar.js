@@ -9,6 +9,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import IMAGES from "../../Screens/Images";
 import { useDispatch } from "react-redux";
 import { AuthToken, TokenDecodeData, UserId } from "../../redux/slices";
+import { Typography } from "@mui/material";
 
 const Navbar = ({ showLoginSignUp }) => {
   const navigate = useNavigate();
@@ -44,7 +45,7 @@ const Navbar = ({ showLoginSignUp }) => {
     overflow: "auto",
     backgroundColor: "rgba(0, 0, 0, 0.4)",
   };
-  console.log("location", location.pathname);
+  // console.log("location", location.pathname);
   return (
     <div className="navbar">
       <Container className="w-100 d-inline">
@@ -61,15 +62,17 @@ const Navbar = ({ showLoginSignUp }) => {
           <Col sm={7} className="d-flex align-items-center">
             <Nav>
               <Nav.Item>
-                <Nav.Link href="/">Home</Nav.Link>
+                {/* navigate(-1); */}
+                <Nav.Link href={navigate(-1)}>Home</Nav.Link>
+                {/* <Typography>Home</Typography> */}
               </Nav.Item>
               <Nav.Item>
-                <Nav.Link href="/logIn" eventKey="link-1">
+                <Nav.Link href="" eventKey="link-1">
                   For Boat Owners
                 </Nav.Link>
               </Nav.Item>
               <Nav.Item>
-                <Nav.Link href="/logIn">For Boat Rentals</Nav.Link>
+                <Nav.Link href="">For Boat Rentals</Nav.Link>
               </Nav.Item>
             </Nav>
           </Col>

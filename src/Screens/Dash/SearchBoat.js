@@ -171,7 +171,7 @@ export const SearchBoat = () => {
 
   const handleHeaderCallBack = (name) => {
     if (name === "Home") {
-      navigate("/boatOwnerDashBoard");
+      navigate(-1);
     } else if (name === "Log In") {
       navigate("/logIn");
     } else if (name === "Sign Up") {

@@ -140,7 +140,7 @@ export const BoatOfferStep1 = () => {
 
   const handleCallBack = (name) => {
     if (name === "Home") {
-      navigate("/home");
+      navigate(-1);
     } else if (name === "Log In") {
       navigate("/logIn");
     } else if (name === "Sign Up") {

@@ -216,6 +216,7 @@ const styles = {
     width: "25px",
     height: "25px",
     marginRight: "35px",
+    cursor: "pointer",
   },
   diplayTxtContent: {
     display: "flex",
@@ -231,6 +232,7 @@ const styles = {
     color: "#424651",
     marginRight: "30px",
     // textAlign: "center",
+    cursor: "pointer",
   },
 };
 
