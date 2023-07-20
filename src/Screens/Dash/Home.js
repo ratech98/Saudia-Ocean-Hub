@@ -94,6 +94,12 @@ const Home = () => {
         className={className}
         showInput={showInput}
         buttonStyle={buttonStyle}
+        link1={"Home"}
+        link2={"For Boat Owners"}
+        link3={"For Boat Rental"}
+        // href1={"Home"}
+        // href2={"For Boat Owners"}
+        // href3={"For Boat Rental"}
       />
       <Journey />
       <Owner_boat />

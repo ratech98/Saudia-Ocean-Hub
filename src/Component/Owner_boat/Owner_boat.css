@@ -1,8 +1,14 @@
-.boat_owners{
-  background-image: linear-gradient(to bottom, #70a8c0, #3c85a7 29%, #03487a 74%, #03487a);
+.boat_owners {
+  background-image: linear-gradient(
+    to bottom,
+    #70a8c0,
+    #3c85a7 29%,
+    #03487a 74%,
+    #03487a
+  );
   padding: 150px 120px 50px 120px !important;
 }
-.boat_owners_title h5{
+.boat_owners_title h5 {
   font-family: Poppins;
   font-size: 30px;
   font-weight: 500;
@@ -13,7 +19,7 @@
   text-align: start;
   color: #f6f6f6;
 }
-.boat_owners_title h2{
+.boat_owners_title h2 {
   margin-top: 50px;
   font-family: Poppins;
   font-size: 45px;
@@ -25,7 +31,7 @@
   text-align: left;
   color: #f6f6f6;
 }
-.boat_owners_desc{
+.boat_owners_desc {
   margin-top: 50px;
   font-family: Poppins;
   font-size: 20px;
@@ -37,7 +43,7 @@
   text-align: left;
   color: #f6f6f6;
 }
-.boat_owner_btn{
+.boat_owner_btn {
   margin-top: 50px;
   font-family: Poppins;
   font-size: 30px;
@@ -51,15 +57,15 @@
   border-radius: 45px !important;
   background: transparent !important;
   border-color: #f6f6f6 !important;
-  width: 220px;
-  height: 50px;
-
+  width: auto;
+  height: 75px;
+  padding: 15px;
 }
 .img-fluid {
   max-width: 100%;
   height: -webkit-fill-available !important;
 }
-.boat_owners_desc p{
+.boat_owners_desc p {
   font-family: Poppins;
   font-size: 20px;
   font-weight: 600;

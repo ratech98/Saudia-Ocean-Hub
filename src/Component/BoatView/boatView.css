@@ -1,0 +1,65 @@
+.imageScroll{
+    width:800px;
+}
+.boatViewImage{
+    width:200px;
+    height:150px;
+}
+.imageScroll::-webkit-scrollbar{
+    display: none;
+}
+.boatView{
+    padding-top: 30px;
+   
+}
+.boat-view-scroll{
+    overflow-x: auto;
+}
+.review{
+   margin-top: -75px;
+   width: 350px;
+   height :207px;
+   text-align: center;
+}
+.book-btn{
+    width: 250px; 
+    background-color: #3973A5 !important; 
+    border-color: #3973A5 !important;
+}
+.review_count{
+        width: 111px;
+        height: 25px;
+        font-family: Poppins;
+        font-size: 15px;
+        font-weight: normal;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: 1.5;
+        padding-top: 5px;
+        letter-spacing: normal;
+        text-align: left;
+        color: rgba(66, 70, 81, 0.8);
+      
+}
+.price{
+    font-size: 18px;
+    color: rgba(66, 70, 81, 0.8);
+}
+.Sar{
+  font-family: Poppins;
+  font-size: 20px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.46;
+  letter-spacing: normal;
+  text-align: left;
+  color: #424651;
+
+}
+.Sar_hour{
+    font-size: 16px;
+    text-align: left;
+    color: #424651;
+    font-weight: 600;
+}

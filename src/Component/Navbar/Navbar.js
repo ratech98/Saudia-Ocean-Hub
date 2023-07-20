@@ -6,12 +6,28 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Nav from "react-bootstrap/Nav";
 import { useLocation, useNavigate } from "react-router-dom";
-import IMAGES from "../../Screens/Images";
-import { useDispatch } from "react-redux";
+import searchIcon from "../../assets/Icons/search.svg";
+import mail from "../../assets/Icons/mail-svgrepo-com.png";
+import bell from "../../assets/Icons/bell.svg";
+import Ellipse from "../../assets/Images/bg_img.png";
 import { AuthToken, TokenDecodeData, UserId } from "../../redux/slices";
-import { Typography } from "@mui/material";
+import { useDispatch } from "react-redux";
 
-const Navbar = ({ showLoginSignUp }) => {
+const Navbar = ({
+  link1,
+  link2,
+  link3,
+  showItem,
+  href1,
+  href2,
+  href3,
+  showLogin = true,
+  showProfile,
+  num,
+  num1,
+  backgroundColor,
+  showLoginSignUp,
+}) => {
   const navigate = useNavigate();
   const location = useLocation();
   const [openModal, setOpenModal] = useState(false);
@@ -45,9 +61,13 @@ const Navbar = ({ showLoginSignUp }) => {
     overflow: "auto",
     backgroundColor: "rgba(0, 0, 0, 0.4)",
   };
-  // console.log("location", location.pathname);
   return (
-    <div className="navbar">
+    <div
+      className="navbar"
+      style={{
+        backgroundColor: `${backgroundColor}`,
+      }}
+    >
       <Container className="w-100 d-inline">
         <Row>
           <Col sm={3}>
@@ -59,25 +79,33 @@ const Navbar = ({ showLoginSignUp }) => {
               </Nav.Item>
             </Nav>
           </Col>
-          <Col sm={7} className="d-flex align-items-center">
+          <Col sm={num} className="d-flex align-items-center">
             <Nav>
               <Nav.Item>
-                {/* navigate(-1); */}
                 <Nav.Link href={navigate(-1)}>Home</Nav.Link>
-                {/* <Typography>Home</Typography> */}
               </Nav.Item>
               <Nav.Item>
-                <Nav.Link href="" eventKey="link-1">
-                  For Boat Owners
+                <Nav.Link eventKey="link-1" href={href1}>
+                  {link1}
                 </Nav.Link>
               </Nav.Item>
               <Nav.Item>
-                <Nav.Link href="">For Boat Rentals</Nav.Link>
+                <Nav.Link href={href2}>{link2}</Nav.Link>
               </Nav.Item>
+              {showItem && (
+                <Nav>
+                  <Nav.Item>
+                    <Nav.Link href={href3}>{link3}</Nav.Link>
+                  </Nav.Item>
+                </Nav>
+              )}
             </Nav>
           </Col>
-          <Col sm={2} className="d-flex align-items-center">
-            {showLoginSignUp ? (
+          <Col
+            sm={num1}
+            className="d-flex align-items-center justify-content-end"
+          >
+            {showLogin && (
               <Nav>
                 <Nav.Item>
                   <Nav.Link href="/logIn">Login</Nav.Link>
@@ -88,133 +116,42 @@ const Navbar = ({ showLoginSignUp }) => {
                   </Nav.Link>
                 </Nav.Item>
               </Nav>
-            ) : (
-              <div style={styles.rowContent}>
-                <img
-                  alt="iocn"
-                  src={IMAGES.SEARCH}
-                  style={styles.searchIcon}
-                  onClick={() => {
-                    navigate("/searchBoat");
-                  }}
-                />
-                <img
-                  alt="iocn"
-                  src={IMAGES.EMAIL_ICON}
-                  style={styles.searchIcon}
-                />
-                <img alt="iocn" src={IMAGES.BELL} style={styles.searchIcon} />
-                <img
-                  alt="iocn"
-                  src={IMAGES.PROFILE_ICON}
-                  style={styles.profileImg}
-                  onClick={() => {
-                    handleOpenModal();
-                  }}
-                />
+            )}
+            {showProfile && (
+              <div className="d-flex">
+                <Nav>
+                  <Nav.Item>
+                    <Nav.Link>
+                      <img
+                        src={searchIcon}
+                        className="search_img"
+                        alt="search"
+                      />
+                    </Nav.Link>
+                  </Nav.Item>
+                  <Nav.Item>
+                    <Nav.Link>
+                      <img src={mail} className="mail_img" alt="mail" />
+                    </Nav.Link>
+                  </Nav.Item>
+                  <Nav.Item>
+                    <Nav.Link>
+                      <img src={bell} className="bell_img" alt="mail" />
+                    </Nav.Link>
+                  </Nav.Item>
+                  <Nav.Item>
+                    <Nav.Link>
+                      <img src={Ellipse} className="ellipse_img" alt="mail" />
+                    </Nav.Link>
+                  </Nav.Item>
+                </Nav>
               </div>
             )}
           </Col>
         </Row>
       </Container>
-      {openModal ? (
-        <div style={modalStyle}>
-          <div style={modalContentStyle}>
-            <h2>Logout Confirmation</h2>
-            <p>Are you sure you want to logout?</p>
-            <button style={logoutButtonStyle} onClick={handleLogout}>
-              Logout
-            </button>
-            <button style={cancelButtonStyle} onClick={handleClose}>
-              Cancel
-            </button>
-          </div>
-        </div>
-      ) : null}
     </div>
   );
 };
 
 export default Navbar;
-
-const styles = {
-  root: {
-    display: "flex",
-    backgroundColor: "#f6f6f6",
-    width: "100%",
-  },
-  body: {
-    width: "100%",
-    display: "flex",
-    padding: "24px 100px",
-    justifyContent: "space-between",
-  },
-  appIcon: {
-    width: "198px",
-    height: "98px",
-  },
-  rowContent: {
-    display: "flex",
-    alignItems: "center",
-  },
-  profileImg: {
-    width: "35px",
-    height: "35px",
-
-    opacity: 5,
-  },
-  Icon: {
-    width: "30px",
-    height: "30px",
-  },
-  searchIcon: {
-    width: "25px",
-    height: "25px",
-    marginRight: "25px",
-  },
-  diplayTxtContent: {
-    display: "flex",
-  },
-  titleTxt: {
-    fontSize: "24px",
-    fontWeight: "normal",
-    fontFamily: "Poppins",
-    fontStretch: "normal",
-    fontStyle: "normal",
-    lineHeight: 1.5,
-    letterSpacing: "normal",
-    color: "#424651",
-    marginRight: "30px",
-    // textAlign: "center",
-  },
-};
-
-const modalContentStyle = {
-  backgroundColor: "#fefefe",
-  margin: "15% auto",
-  padding: "20px",
-  border: "1px solid #888",
-  width: "300px",
-};
-
-const buttonStyle = {
-  marginBottom: "10px",
-  marginRight: "10px",
-  padding: "10px 20px",
-  borderRadius: "4px",
-  border: "none",
-  cursor: "pointer",
-  fontSize: "16px",
-};
-
-const logoutButtonStyle = {
-  ...buttonStyle,
-  backgroundColor: "#f44336",
-  color: "white",
-};
-
-const cancelButtonStyle = {
-  ...buttonStyle,
-  backgroundColor: "#ccc",
-  color: "black",
-};

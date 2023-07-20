@@ -47,6 +47,8 @@ export const BoatOwnerDashBoard = () => {
   const auth = useSelector((state) => state?.auth);
   const location = useLocation();
 
+  console.log("auth", auth);
+
   useEffect(() => {
     const handleBackButton = (event) => {
       event.preventDefault();

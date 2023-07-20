@@ -3,7 +3,16 @@ import "./Client_review.css";
 import Container from "react-bootstrap/Container";
 import Ellipse from "../../assets/Images/Ellipse.svg";
 
-const Client_review = () => {
+const Client_review = ({
+  backgroundColors,
+  clientPadding,
+  Client_Title_Show,
+  scrollingTop,
+  reviewCard_color,
+  reviewCard_width,
+  reviewCard_height,
+  reviewCard_center,
+}) => {
   const Testimonial = [
     {
       id: 1,
@@ -49,82 +58,34 @@ const Client_review = () => {
     },
   ];
 
-  const scrollableRowRef = useRef(null);
-
-  const checkVisibility = () => {
-    const scrollableRow = scrollableRowRef.current;
-    const cards = scrollableRow.getElementsByClassName("review_card");
-
-    const scrollLeft = scrollableRow.scrollLeft;
-    const containerWidth = scrollableRow.offsetWidth;
-
-    Array.from(cards).forEach((card, index) => {
-      const cardRect = card.getBoundingClientRect();
-
-      const isLastCard = index === Testimonial.length - 1;
-
-      if (isLastCard) {
-        const isFullyVisible =
-          cardRect.left >= 0 && cardRect.right <= window.innerWidth;
-        if (isFullyVisible) {
-          card.style.marginTop = "100px";
-        } else {
-          card.style.marginTop = "";
-        }
-      } else {
-        const isPartiallyVisible =
-          cardRect.left < window.innerWidth && cardRect.right > 0;
-        if (isPartiallyVisible) {
-          const cardLeft =
-            cardRect.left - scrollableRow.getBoundingClientRect().left;
-          const cardRight = cardLeft + card.offsetWidth;
-          if (
-            cardLeft < scrollLeft &&
-            cardRight > scrollLeft + containerWidth
-          ) {
-            card.style.marginLeft = `${scrollLeft - cardLeft}px`;
-          } else {
-            card.style.marginLeft = "";
-          }
-          card.style.marginTop = "";
-        } else {
-          card.style.marginLeft = "";
-          card.style.marginTop = "";
-        }
-      }
-    });
-  };
-
-  useEffect(() => {
-    checkVisibility();
-
-    const handleScroll = () => {
-      checkVisibility();
-    };
-
-    window.addEventListener("scroll", handleScroll);
-
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, []);
-
   return (
-    <div className="client_review">
+    <div
+      className="client_review"
+      style={{ backgroundColor: backgroundColors, padding: clientPadding }}
+    >
       <Container fluid className="container-padding">
-        <div className="text-center client_review_title">
-          <h2>What Our Customers Are Saying</h2>
-        </div>
-        <div className="scrollable-row" ref={scrollableRowRef}>
+        {Client_Title_Show && (
+          <div className="text-center client_review_title">
+            <h2>What Our Customers Are Saying</h2>
+          </div>
+        )}
+        <div className="scrollable-row" style={{ paddingTop: scrollingTop }}>
           {Testimonial.map((item) => (
             <div key={item.id} className="flex-nowrap">
-              <div className="review_card">
+              <div
+                className="review_card"
+                style={{
+                  backgroundColor: reviewCard_color,
+                  width: reviewCard_width,
+                  height: reviewCard_height,
+                }}
+              >
                 <div className="">
                   <img src={item.image} alt="client_img" />
                 </div>
                 <h4>{item.name}</h4>
                 <p>{item.place}</p>
-                <h5>{item.review}</h5>
+                <h5 style={{ textAlign: reviewCard_center }}>{item.review}</h5>
               </div>
             </div>
           ))}

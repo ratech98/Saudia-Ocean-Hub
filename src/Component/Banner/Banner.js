@@ -21,6 +21,17 @@ const Banner = ({
   showInput,
   inputStyle,
   buttonStyle,
+  link1,
+  link2,
+  link3,
+  showItem,
+  href1,
+  href2,
+  href3,
+  showLogin,
+  showProfile,
+  num,
+  num1,
 }) => {
   const [windowHeight, setWindowHeight] = useState(window.innerHeight);
 
@@ -28,7 +39,9 @@ const Banner = ({
     const handleResize = () => {
       setWindowHeight(window.innerHeight);
     };
+
     window.addEventListener("resize", handleResize);
+
     return () => {
       window.removeEventListener("resize", handleResize);
     };
@@ -45,7 +58,20 @@ const Banner = ({
         height: windowHeight,
       }}
     >
-      <Header />
+      <Header
+        link1={link1}
+        link2={link2}
+        link3={link3}
+        showItem={showItem}
+        href1={href1}
+        href2={href2}
+        href3={href3}
+        showLogin={showLogin}
+        showProfile={showProfile}
+        num={num}
+        num1={num1}
+        backgroundColor={backgroundColor}
+      />
       <Container className="">
         <div className={`pt-5 ${className}`}>
           <div>

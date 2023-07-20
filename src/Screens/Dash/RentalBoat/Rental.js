@@ -17,6 +17,7 @@ export const Rental = () => {
   const auth = useSelector((state) => state?.auth);
   const location = useLocation();
 
+  console.log("auth", auth);
   const handleExtraInputChange = (event) => {
     setExtraInputValue(event.target.value);
   };
@@ -64,7 +65,6 @@ export const Rental = () => {
   };
 
   useEffect(() => {
-    console.log("location.pathname", location.pathname);
     const handleBackButton = (event) => {
       event.preventDefault();
       navigate(location.pathname);
@@ -75,6 +75,7 @@ export const Rental = () => {
       window.removeEventListener("popstate", handleBackButton);
     };
   }, [location.pathname, navigate]);
+
   return (
     <div style={{ backgroundColor: "#f6f6f6" }}>
       <Banner
@@ -89,6 +90,7 @@ export const Rental = () => {
         showInput={showInput}
         extraInputValue={extraInputValue}
         handleExtraInputChange={handleExtraInputChange}
+        showLogin={auth?.AuthToken ? false : true}
       />
       <Container style={{ paddingTop: 140 }}>
         <div className="d-flex justify-content-between">

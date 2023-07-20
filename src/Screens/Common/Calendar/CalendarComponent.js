@@ -11,10 +11,21 @@ const CalendarComponent = ({
 }) => {
   const [selectedDate, setSelectedDate] = useState(null);
   const maxSelectableDate = new Date();
-  maxSelectableDate.setDate(maxSelectableDate.getDate() + 365); // Add days
+  maxSelectableDate.setDate(maxSelectableDate.getDate() + 365); 
+
+  
+  const dummyRandomDates = [
+    new Date("2023-07-25"), 
+    new Date("2023-08-10"),
+    new Date("2023-08-04"),
+    new Date("2023-08-01"),
+    new Date("2023-08-03"),
+    new Date("2023-08-09"), 
+   
+  ];
 
   useEffect(() => {
-    if (selectedDateTime.length > 0) {
+    if (selectedDateTime?.length > 0) {
       setSelectedDate(selectedDateTime[0].date);
     } else {
       setSelectedDate(null);
@@ -30,17 +41,17 @@ const CalendarComponent = ({
   };
 
   const isDaySelected = (date) => {
-    return selectedDateTime.some((selectedDay) =>
+    return selectedDateTime && selectedDateTime.some((selectedDay) =>
       isSameDay(selectedDay.date, date)
     );
   };
 
   const handleDateSelect = (date) => {
-    const isDateSelected = selectedDateTime.some((selectedDay) =>
+    const isDateSelected = selectedDateTime && selectedDateTime.some((selectedDay) =>
       isSameDay(selectedDay.date, date)
     );
     if (!isDateSelected) {
-      const updatedDays = [...selectedDateTime, { date, time: ["10:00 AM"] }];
+      const updatedDays = [...(selectedDateTime || []), { date, time: ["10:00 AM"] }];
       setSelectedDateTime(updatedDays);
     }
     setSelectedDate(date);
@@ -50,7 +61,6 @@ const CalendarComponent = ({
   const isTargetDate = (date) => {
     if (errorShow) {
       const targetDate = errorShow;
-      // new Date("Wed Jun 21 2023 00:00:00 GMT+0530");
       return isSameDay(targetDate, date);
     }
   };
@@ -64,9 +74,11 @@ const CalendarComponent = ({
         selectRange={false}
         tileClassName={({ date }) => {
           if (isDaySelected(date) && !isTargetDate(date)) {
-            return "selected-day";
+            return "react-calendar__tile--selected-day";
           } else if (isTargetDate(date)) {
-            return "target-date";
+            return "react-calendar__tile--target-date";
+          } else if (dummyRandomDates.some((randomDate) => isSameDay(randomDate, date))) {
+            return "react-calendar__tile--random-date";
           }
           return null;
         }}
