@@ -9,72 +9,58 @@ import Imagebox from "../../../Component/ImageBox/Imagebox";
 import Banner from "../../../Component/Banner/Banner";
 import Footer from "../../../Component/Footer/Footer";
 import { useLocation, useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { BoatDetailCard } from "../../new/BoatDetailCard";
+import { boat_list_filter } from "../../../Service/api";
+import { search_boat_id } from "../../../redux/slices";
 
 export const Rental = () => {
-  const [extraInputValue, setExtraInputValue] = useState("");
   const navigate = useNavigate();
-  const auth = useSelector((state) => state?.auth);
+  const dispatch = useDispatch();
   const location = useLocation();
+  const auth = useSelector((state) => state?.auth);
+  const [extraInputValue, setExtraInputValue] = useState("");
+  const [boatListData, setBoatListData] = useState([]);
+  const [isLoading, setIsLoading] = useState("");
+  const [boatListDataDetails, setBoatListDataDetails] = useState("");
 
   const handleExtraInputChange = (event) => {
     setExtraInputValue(event.target.value);
   };
-  const backgroundImage = Boat_Experience;
-  const title = "Best Boating Experience in Saudi Arabia";
-  const showButton = false;
-  const titleStyle = {
-    width: 660,
-    height: 133,
-    fontFamily: "Poppins",
-    fontSize: 48,
-    fontWeight: "bold",
-    fontStretch: "normal",
-    fontStyle: "normal",
-    lineHeight: 1.38,
-    letterSpacing: "normal",
-    textAlign: "center",
-    // color: 'rgba(66, 70, 81, 0.87)',
-  };
-
-  const className = "d-flex justify-content-center";
-  const backgroundColor = "#fff";
-  const opacity = 0.9;
-  const showInput = true;
-  const inputStyle = {
-    width: 1037,
-    height: 70,
-    marginTop: 50,
-    paddingLeft: 27,
-    // paddingTop: 27,
-    // paddingBottom: 27,
-    borderRadius: 10,
-    backgroundColor: "#fff",
-    border: "none",
-    backgroundImage: "url(${FaSearch})",
-    fontFamily: "Poppins",
-    fontSize: 24,
-    fontWeight: "normal",
-    fontStretch: "normal",
-    fontStyle: "normal",
-    lineHeight: 2.75,
-    letterSpacing: "normal",
-    textAlign: "left",
-    color: "rgba(66, 70, 81, 0.4)",
-  };
 
   useEffect(() => {
-    console.log("location.pathname", location.pathname);
-    const handleBackButton = (event) => {
-      event.preventDefault();
-      navigate(location.pathname);
-      //   navigate(-1);
+    setIsLoading(true);
+    let payload = {
+      pageNo: 1,
     };
-    window.addEventListener("popstate", handleBackButton);
+    boat_list_filter(auth?.AuthToken, payload)
+      .then((res) => {
+        console.log("res", res?.data);
+        if (res?.data?.message === "success") {
+          setBoatListDataDetails(res?.data);
+          setBoatListData(res?.data?.parameters);
+        }
+        setIsLoading(false);
+      })
+      .catch((err) => {
+        console.log("error", err);
+        setIsLoading(false);
+      });
+  }, []);
+
+  useEffect(() => {
+    const blockBackButton = (e) => {
+      e.preventDefault();
+
+      navigate(location.pathname);
+    };
+    window.history.pushState(null, null, window.location.pathname);
+    window.addEventListener("popstate", blockBackButton);
     return () => {
-      window.removeEventListener("popstate", handleBackButton);
+      window.removeEventListener("popstate", blockBackButton);
     };
   }, [location.pathname, navigate]);
+
   return (
     <div style={{ backgroundColor: "#f6f6f6" }}>
       <Banner
@@ -89,6 +75,7 @@ export const Rental = () => {
         showInput={showInput}
         extraInputValue={extraInputValue}
         handleExtraInputChange={handleExtraInputChange}
+        presentPage={"Home"}
       />
       <Container style={{ paddingTop: 140 }}>
         <div className="d-flex justify-content-between">
@@ -136,7 +123,42 @@ export const Rental = () => {
           // alignContent: "center",
         }}
       >
-        <Imagebox imageBox={boatListData} />
+        {/* <Imagebox imageBox={boatListData} /> */}
+        <div
+          style={{
+            margin: `0px 100px 0px 100px`,
+            display: "flex",
+            flexDirection: "row",
+            flexWrap: "wrap",
+            alignSelf: "center",
+            alignItems: "center",
+            alignContent: "center",
+            justifyContent: "center",
+          }}
+        >
+          {boatListData?.map((item, index) => {
+            return (
+              <div
+                style={{
+                  margin: "27.5px",
+                }}
+                onClick={() => {
+                  navigate("/boatViewDetails");
+                  dispatch(search_boat_id(item?.boat_id));
+                }}
+              >
+                <BoatDetailCard
+                  boatName={item?.boat_name}
+                  marine_city={item?.marine_city}
+                  starRating={3}
+                  pricePerHour={item?.price_per_hour}
+                  priceCurrency={item?.price_currency}
+                  boatMaxCapacity={item?.boat_max_capacity}
+                />
+              </div>
+            );
+          })}
+        </div>
       </div>
       <Container style={{}}>
         <Row style={{ marginTop: 150 }}>
@@ -247,37 +269,106 @@ export const Rental = () => {
   );
 };
 
-const boatListData = [
-  {
-    id: 1,
-    boat_name: "Jagadeesh",
-    marine_city: "Durrat Al Arus",
-    price_per_hour: "8",
-    price_currency: "SAR",
-    boat_max_capacity: "100",
-  },
-  {
-    id: 2,
-    boat_name: "Bhadur",
-    marine_city: "Al Fanateer Beach",
-    price_per_hour: "8",
-    price_currency: "SAR",
-    boat_max_capacity: "100",
-  },
-  {
-    id: 3,
-    boat_name: "Farasan",
-    marine_city: "Umluj Beach",
-    price_per_hour: "8",
-    price_currency: "SAR",
-    boat_max_capacity: "100",
-  },
-  // {
-  //   id: 4,
-  //   boat_name: "Al Saif",
-  //   marine_city: "Indigo Beach",
-  //   price_per_hour: "8",
-  //   price_currency: "SAR",
-  //   boat_max_capacity: "100",
-  // },
-];
+// const boatListData = [
+//   {
+//     id: 1,
+//     boat_name: "Jagadeesh",
+//     marine_city: "Durrat Al Arus",
+//     price_per_hour: "8",
+//     price_currency: "SAR",
+//     boat_max_capacity: "100",
+//   },
+//   {
+//     id: 2,
+//     boat_name: "Bhadur",
+//     marine_city: "Al Fanateer Beach",
+//     price_per_hour: "8",
+//     price_currency: "SAR",
+//     boat_max_capacity: "100",
+//   },
+//   {
+//     id: 3,
+//     boat_name: "Farasan",
+//     marine_city: "Umluj Beach",
+//     price_per_hour: "8",
+//     price_currency: "SAR",
+//     boat_max_capacity: "100",
+//   },
+//   {
+//     id: 4,
+//     boat_name: "Al Saif",
+//     marine_city: "Indigo Beach",
+//     price_per_hour: "8",
+//     price_currency: "SAR",
+//     boat_max_capacity: "100",
+//   },
+// ];
+
+const backgroundImage = Boat_Experience;
+const title = "Best Boating Experience in Saudi Arabia";
+const showButton = false;
+const titleStyle = {
+  width: 660,
+  height: 133,
+  fontFamily: "Poppins",
+  fontSize: 48,
+  fontWeight: "bold",
+  fontStretch: "normal",
+  fontStyle: "normal",
+  lineHeight: 1.38,
+  letterSpacing: "normal",
+  textAlign: "center",
+  // color: 'rgba(66, 70, 81, 0.87)',
+};
+
+const className = "d-flex justify-content-center";
+const backgroundColor = "#fff";
+const opacity = 0.9;
+const showInput = true;
+const inputStyle = {
+  width: 1037,
+  height: 70,
+  marginTop: 50,
+  paddingLeft: 27,
+  // paddingTop: 27,
+  // paddingBottom: 27,
+  borderRadius: 10,
+  backgroundColor: "#fff",
+  border: "none",
+  backgroundImage: "url(${FaSearch})",
+  fontFamily: "Poppins",
+  fontSize: 24,
+  fontWeight: "normal",
+  fontStretch: "normal",
+  fontStyle: "normal",
+  lineHeight: 2.75,
+  letterSpacing: "normal",
+  textAlign: "left",
+  color: "rgba(66, 70, 81, 0.4)",
+};
+
+// useEffect(() => {
+//   console.log("location.pathname", location.pathname);
+//   const handleBackButton = (event) => {
+//     event.preventDefault();
+//     navigate(location.pathname);
+//     //   navigate(-1);
+//   };
+//   window.addEventListener("popstate", handleBackButton);
+//   return () => {
+//     window.removeEventListener("popstate", handleBackButton);
+//   };
+// }, [location.pathname, navigate]);
+
+// useEffect(() => {
+//   const blockBackButton = (e) => {
+//     e.preventDefault();
+//     // navigate.push("/");
+//     navigate(location.pathname);
+//   };
+//   window.history.pushState(null, null, window.location.pathname);
+//   window.addEventListener("popstate", blockBackButton);
+//   return () => {
+//     window.removeEventListener("popstate", blockBackButton);
+//   };
+// }, [location.pathname, navigate]);

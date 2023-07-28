@@ -1,13 +1,18 @@
 import { Container, Grid, Typography } from "@mui/material";
-import React, { useEffect } from "react";
-
+import React, { useEffect, useState } from "react";
 import IMAGES from "../Images";
 import Footer from "../../Component/Footer/Footer";
 import { StarRating } from "../../UI kit/5Star/StarRating";
 import Imagebox from "../../Component/ImageBox/Imagebox";
 import { useLocation, useNavigate } from "react-router-dom";
 import { HeaderContent } from "../Common/map/HeaderContent";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { BoatDetailCard } from "../new/BoatDetailCard";
+import { boat_list_filter } from "../../Service/api";
+import { search_boat_id, single_boat_details_store } from "../../redux/slices";
+import { toast } from "react-toastify";
+import "./BoatOwnerDashBoard.css";
+import { ArrowRight, ArrowRightAlt } from "@material-ui/icons";
 
 const boatServices = [
   {
@@ -44,174 +49,186 @@ const boatServices = [
 
 export const BoatOwnerDashBoard = () => {
   const navigate = useNavigate();
-  const auth = useSelector((state) => state?.auth);
   const location = useLocation();
+  const auth = useSelector((state) => state?.auth);
+  const [isLoading, setIsLoading] = useState("");
+  const [boatListDataDetails, setBoatListDataDetails] = useState("");
+  const [boatListData, setBoatListData] = useState([]);
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    const handleBackButton = (event) => {
-      event.preventDefault();
+    const blockBackButton = (e) => {
+      e.preventDefault();
+      // navigate.push("/");
       navigate(location.pathname);
     };
-    window.addEventListener("popstate", handleBackButton);
+    window.history.pushState(null, null, window.location.pathname);
+    window.addEventListener("popstate", blockBackButton);
     return () => {
-      window.removeEventListener("popstate", handleBackButton);
+      window.removeEventListener("popstate", blockBackButton);
     };
   }, [location.pathname, navigate]);
 
   const handleHeaderCallBack = (name) => {
     if (name === "Home") {
-      navigate(-1);
+      if (auth?.tokenDecodeData?.user_type === "BOAT_OWNER") {
+        navigate("/boatOwnerDashBoard");
+      } else {
+        navigate("/rental");
+      }
     } else if (name === "Log In") {
       navigate("/logIn");
     } else if (name === "Sign Up") {
       navigate("/signUP");
-    } else if (name === "Boat Offers") {
-      //   navigate("/home");
     } else if (name === "My Listings") {
       navigate("/myListings");
-    } else if (name === "List a Boat Offer") {
-      // navigate("/home");
+    } else if (name === "For Boat Rentals" || name === "For Boat Owners") {
+      toast.info("Under Development", {
+        position: toast.POSITION.TOP_RIGHT,
+        autoClose: 2000,
+      });
     } else if (name === "/searchBoat") {
       navigate("/searchBoat");
     }
   };
-  return (
-    <div style={styles.container}>
-      <HeaderContent
-        contentname1={"Home"}
-        contentname2={"For Boat Owners"}
-        contentname3={"For Boat Rentals"}
-        contentname4={"My Listings"}
-        handleBack={handleHeaderCallBack}
-        search={"/searchBoat"}
-        showLoginSignUp={auth?.AuthToken ? false : true}
-      />
 
-      <Container style={styles.pageTopContainer} maxWidth="100%">
-        <Typography onClick={() => {}} style={styles.subtitleTxt}>
-          List Your Boat and Earn Money{" "}
-        </Typography>
-        <span
-          style={{
-            fontWeight: "bolder",
-            fontSize: "38px",
-            textAlign: "center",
-            color: "#424651",
-          }}
-        >
-          in 2 Steps
-        </span>
-      </Container>
-      <Container style={styles.docUploadContainer}>
-        <div
-          style={{
-            display: "flex",
-            // flexDirection: "row",
-            // alignSelf: "center",
-            alignItems: "center",
-          }}
-        >
-          <div
-            style={{
-              padding: "25px",
-              backgroundColor: "white",
-              borderRadius: "500px",
-              alignSelf: "center",
-              alignItems: "center",
-              display: "flex",
-            }}
-          >
+  useEffect(() => {
+    setIsLoading(true);
+    let payload = {
+      pageNo: 1,
+    };
+    boat_list_filter(auth?.AuthToken, payload)
+      .then((res) => {
+        console.log("res", res?.data);
+        if (res?.data?.message === "success") {
+          setBoatListDataDetails(res?.data);
+          setBoatListData(res?.data?.parameters);
+        }
+        setIsLoading(false);
+      })
+      .catch((err) => {
+        console.log("error", err);
+        setIsLoading(false);
+      });
+  }, [auth?.AuthToken]);
+
+  return (
+    <>
+      <div className="containerBody">
+        <HeaderContent
+          contentname1={"Home"}
+          contentname2={"For Boat Owners"}
+          contentname3={"For Boat Rentals"}
+          contentname4={"My Listings"}
+          handleBack={handleHeaderCallBack}
+          search={"/searchBoat"}
+          showLoginSignUp={auth?.AuthToken ? false : true}
+          presentPage={"Home"}
+        />
+
+        <div className="TypographyContainer">
+          <Typography className="subtitleTxt">
+            List Your Boat and Earn Money{" "}
+          </Typography>
+          <Typography className="subtitleTxt subtitleTxt2">
+            in 2 Steps
+          </Typography>
+        </div>
+        <div className="docUploadContainer">
+          <div className="doc_img">
             <img
               alt="add_file"
               src={IMAGES.ADD_FILES}
-              style={{
-                flex: 1,
-                backgroundColor: "white",
-                height: "80px",
-              }}
+              className="addFilesIcon"
             />
           </div>
-          <div
-            style={{
-              width: "50%",
-              marginLeft: "50px",
-            }}
-          >
-            <Typography style={styles.uploadBoatDocTitleTxt}>
+          <div className="docTextArea">
+            <Typography className="uploadBoatDocTitleTxt">
               Upload your boat documentations
             </Typography>
-            <Typography style={styles.uploadBoatDocTxt}>
+            <Typography className="uploadBoatDocTxt">
               To ensure authenticity and build trust, we kindly request boat
               owners to upload their boat documents during the listing process.
             </Typography>
           </div>
         </div>
-      </Container>
-
-      <Container style={{ ...styles.docUploadContainer, marginLeft: "25%" }}>
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-          }}
-        >
-          <div
-            style={{
-              padding: "30px",
-              backgroundColor: "white",
-              borderRadius: "500px",
-              alignSelf: "center",
-              alignItems: "center",
-              display: "flex",
-            }}
-          >
+        <div className="boatDetailContainer">
+          <div className="doc_img">
             <img
               alt="add_file"
               src={IMAGES.ADD_BOATE_DETAILS}
-              style={{
-                flex: 1,
-                backgroundColor: "white",
-                width: "95px",
-                height: "85px",
-              }}
+              className="addBoatDetial"
             />
           </div>
-          <div
-            style={{
-              width: "50%",
-              marginLeft: "50px",
-            }}
-          >
-            <Typography style={styles.uploadBoatDocTitleTxt}>
+          <div className="docTextArea">
+            <Typography className="uploadBoatDocTitleTxt">
               Add your boat's details
             </Typography>
-            <Typography style={styles.uploadBoatDocTxt}>
+            <Typography className="uploadBoatDocTxt">
               To attract potential guests, we suggest you to showcase your boat,
               its features, amenities, and unique qualities.
             </Typography>
           </div>
         </div>
-      </Container>
-      <div style={styles.contentContainer}>
-        <Typography
-          onClick={() => {
-            navigate("/BoatOfferStep1");
-          }}
-          style={styles.actionButton}
-        >
-          List Your Boat Now
-        </Typography>
+        <div className="contentContainer">
+          <Typography
+            onClick={() => {
+              navigate("/BoatOfferStep1");
+              dispatch(single_boat_details_store(null));
+            }}
+            // style={styles.actionButton}
+            className="actionButton"
+          >
+            List Your Boat Now
+          </Typography>
 
-        <Typography style={styles.boatOfferTitle}>
+          <ArrowRightAlt />
+        </div>
+        <Typography className="boatOfferTitle">
           Best Boat Offers This Week
         </Typography>
-      </div>
-      <Imagebox imageBox={boatListData} />
+        <div
+          style={{
+            margin: `0px 100px 0px 100px`,
+            display: "flex",
+            flexDirection: "row",
+            flexWrap: "wrap",
+            alignSelf: "center",
+            alignItems: "center",
+            alignContent: "center",
+            justifyContent: "center",
+          }}
+        >
+          {boatListData?.map((item, index) => {
+            // console.log("item", item?.boat_name);
+            return (
+              <div
+                style={{
+                  margin: "27.5px",
+                }}
+                onClick={() => {
+                  navigate("/boatViewDetails");
+                  // item?.boat_id
 
-      <div style={{ marginTop: "200px" }}>
-        <Footer />
+                  dispatch(search_boat_id(item?.boat_id));
+                }}
+              >
+                <BoatDetailCard
+                  boatName={item?.boat_name}
+                  marine_city={item?.marine_city}
+                  starRating={3}
+                  pricePerHour={item?.price_per_hour}
+                  priceCurrency={item?.price_currency}
+                  boatMaxCapacity={item?.boat_max_capacity}
+                />
+              </div>
+            );
+          })}
+        </div>
+        <div style={{ marginTop: "100px" }}></div>
       </div>
-    </div>
+      <Footer />
+    </>
   );
 };
 
@@ -221,6 +238,10 @@ const styles = {
     flexDirection: "column",
     backgroundColor: "#f6f6f6",
     width: "100%",
+    alignSelf: "center",
+    alignContent: "center",
+    alignItems: "center",
+    justifyContent: "center",
   },
   headerContainer: {
     width: "100%",
@@ -277,7 +298,7 @@ const styles = {
     display: "flex",
     flexDirection: "column",
     marginTop: "20px",
-    marginLeft: "10%",
+    // marginLeft: "10%",
   },
   uploadBoatDocTitleTxt: {
     fontSize: 25,
@@ -340,38 +361,3 @@ const styles = {
     marginRight: "10px",
   },
 };
-
-const boatListData = [
-  {
-    id: 1,
-    boat_name: "Jagadeesh",
-    marine_city: "Durrat Al Arus",
-    price_per_hour: "8",
-    price_currency: "SAR",
-    boat_max_capacity: "100",
-  },
-  {
-    id: 2,
-    boat_name: "Bhadur",
-    marine_city: "Al Fanateer Beach",
-    price_per_hour: "8",
-    price_currency: "SAR",
-    boat_max_capacity: "100",
-  },
-  {
-    id: 3,
-    boat_name: "Farasan",
-    marine_city: "Umluj Beach",
-    price_per_hour: "8",
-    price_currency: "SAR",
-    boat_max_capacity: "100",
-  },
-  {
-    id: 4,
-    boat_name: "Al Saif",
-    marine_city: "Indigo Beach",
-    price_per_hour: "8",
-    price_currency: "SAR",
-    boat_max_capacity: "100",
-  },
-];

@@ -5,19 +5,33 @@ import { HeaderContent } from "../Common/map/HeaderContent";
 import Footer from "../../Component/Footer/Footer";
 import IMAGES from "../Images";
 import { Cancel } from "@material-ui/icons";
+import { useSelector } from "react-redux";
+import { toast } from "react-toastify";
 
 export const Notification = () => {
   const navigate = useNavigate();
+  const auth = useSelector((state) => state?.auth);
   // const navigate = useHistory();
 
+  console.log("auth", auth?.tokenDecodeData);
   const handleCallBack = (name) => {
     if (name === "Home") {
-      navigate(-1);
-    } else if (name === "Boat Offers") {
-      //   navigate("/home");
-    } else if (name === "My Listings") {
-    } else if (name === "List a Boat Offer") {
-      //   navigate("/home");
+      if (auth?.tokenDecodeData?.user_type === "BOAT_OWNER") {
+        navigate("/boatOwnerDashBoard");
+      } else {
+        navigate("/rental");
+      }
+    } else if (
+      name === "Scuba Courses/Programs" ||
+      name === "Scuba Diving Trips" ||
+      name === "Boat Offers"
+    ) {
+      toast.info("Under Development", {
+        position: toast.POSITION.TOP_RIGHT,
+        autoClose: 2000,
+      });
+    } else if (name === "/searchBoat") {
+      navigate("/searchBoat");
     }
   };
 
@@ -29,6 +43,9 @@ export const Notification = () => {
         contentname3={"Scuba Courses/Programs"}
         contentname4={"Scuba Diving Trips"}
         handleBack={handleCallBack}
+        search={"/searchBoat"}
+        showLoginSignUp={auth?.AuthToken ? false : true}
+        presentPage={"notification"}
       />
       <div style={styles.container}>
         <Typography style={styles.titleTxt}>Notifications</Typography>

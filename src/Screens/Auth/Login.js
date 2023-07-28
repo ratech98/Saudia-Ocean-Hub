@@ -101,7 +101,6 @@ export const LogIn = () => {
     const handleBackButton = (event) => {
       // Prevent the default behavior of the back button
       event.preventDefault();
-
       // Force the user back to the current route
       navigate(location.pathname);
     };

@@ -90,7 +90,7 @@ export const BoatBookingRequest = () => {
   const [phoneNo, setPhoneNo] = useState("62 188 7922");
   const [email, setEmail] = useState("OmarAbdallah@gmail.com");
 
-  const [editPersonalInfo, setEditPersonalInfo] = useState(false);
+  const [editPersonalInfo, setEditPersonalInfo] = useState(true);
 
   //
   //

@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
   TextField,
   Button,
@@ -7,7 +7,6 @@ import {
   Grid,
   InputAdornment,
   IconButton,
-  Link,
 } from "@mui/material";
 import { withStyles, makeStyles } from "@mui/styles";
 import { useDispatch, useSelector } from "react-redux";
@@ -24,6 +23,8 @@ import {
   boatTypeList,
 } from "../../../../redux/slices";
 import Loader from "../../../Loader";
+import { HeaderContent } from "../../../Common/map/HeaderContent";
+const youtubePattern = /^(https?:\/\/)?(www\.)?youtu(be\.com|\.be)\/.+$/;
 
 const CustomTextField = withStyles({
   root: {
@@ -43,25 +44,26 @@ const period = Array.from({ length: 2 }, (_, index) => index + 1);
 export const BoatOfferStep3 = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const modalRef = useRef(null);
+  const divRef = useRef(null);
+  const classes = useStyles();
   const dash = useSelector((state) => state?.auth);
+  const dashboard = useSelector((state) => state?.dashboard);
   const [greetingMessage, setGreetingMessage] = useState("");
   const [youTubeLink, setYouTubeLink] = useState("");
   const [selectedDateTime, setSelectedDateTime] = useState([]);
   const [currentlySelectedDate, setCurrentlySelectedDate] = useState(null);
   const [modalOpen, setModalOpen] = useState(false);
   const [modalOpenIndex, setModalOpenIndex] = useState(null);
-  const modalRef = useRef(null);
   const [isLinkCopied, setIsLinkCopied] = useState(false);
   const [greetingMessageError, setGreetingMessageError] = useState(false);
   const [selectedDateTimeError, setSelectedDateTimeError] = useState(false);
-  const classes = useStyles();
   const [hoverIndex, setHoverIndex] = useState(null);
   const [hoveredTimeItem, setHoveredTimeItem] = useState(null);
   const [errorDublicateTime, setErrorDublicateTime] = useState("");
   // const [datePositionIndex, setDatePositionIndex] = useState("");
   const [datePositionIndex, setDatePositionIndex] = useState(null);
   const [loader, setLoader] = useState(false);
-
   const [cancellationPolicy, setCancellationPolicy] = useState([
     {
       id: 1,
@@ -78,7 +80,6 @@ export const BoatOfferStep3 = () => {
         "Cancellations made within 48 hours to the event will incur a 30% fee.",
     },
   ]);
-  const divRef = useRef(null);
 
   useEffect(() => {
     if (divRef.current) {
@@ -90,41 +91,47 @@ export const BoatOfferStep3 = () => {
   // console.log("datePositionIndex", datePositionIndex);
   // console.log("selectedDateTime", selectedDateTime[0]?.time?.length);
 
-  useEffect(() => {
-    setErrorDublicateTime("");
-    const checkDuplicateTimes = () => {
-      const duplicateEntries = [];
-      selectedDateTime.forEach((item, index) => {
-        const duplicates = item.time.filter(
-          (time, i) => item.time.indexOf(time) !== i
-        );
-        if (duplicates.length > 0) {
-          duplicateEntries.push({
-            position: index,
-            date: item.date,
-          });
-        }
-      });
-      if (duplicateEntries.length > 0) {
-        console.log("Duplicate entries:", duplicateEntries);
-        setErrorDublicateTime(duplicateEntries);
-      }
-    };
+  const isValidYouTubeLink = (url) => {
+    // Regular expression to match YouTube URLs
 
-    checkDuplicateTimes();
-  }, [selectedDateTime]);
+    return youtubePattern.test(url);
+  };
 
-  useEffect(() => {
-    if (selectedDateTime.length > 0) {
-      const index = selectedDateTime.findIndex((item) =>
-        isSameDay(item.date, currentlySelectedDate)
-      );
+  // useEffect(() => {
+  //   setErrorDublicateTime("");
+  //   const checkDuplicateTimes = () => {
+  //     const duplicateEntries = [];
+  //     selectedDateTime.forEach((item, index) => {
+  //       const duplicates = item.time.filter(
+  //         (time, i) => item.time.indexOf(time) !== i
+  //       );
+  //       if (duplicates.length > 0) {
+  //         duplicateEntries.push({
+  //           position: index,
+  //           date: item.date,
+  //         });
+  //       }
+  //     });
+  //     if (duplicateEntries.length > 0) {
+  //       console.log("Duplicate entries:", duplicateEntries);
+  //       setErrorDublicateTime(duplicateEntries);
+  //     }
+  //   };
 
-      setDatePositionIndex(index !== -1 ? index : null);
-    } else {
-      setDatePositionIndex(null);
-    }
-  }, [selectedDateTime]);
+  //   checkDuplicateTimes();
+  // }, [selectedDateTime]);
+
+  // useEffect(() => {
+  //   if (selectedDateTime.length > 0) {
+  //     const index = selectedDateTime.findIndex((item) =>
+  //       isSameDay(item.date, currentlySelectedDate)
+  //     );
+
+  //     setDatePositionIndex(index !== -1 ? index : null);
+  //   } else {
+  //     setDatePositionIndex(null);
+  //   }
+  // }, [selectedDateTime]);
 
   const isSameDay = (dateA, dateB) => {
     return (
@@ -141,10 +148,10 @@ export const BoatOfferStep3 = () => {
   const copyTimeData = (copy_index) => {
     const firstTimeData = selectedDateTime[copy_index].time;
     const updatedData = selectedDateTime.map((entry, index) => {
-      if (index !== 0) {
-        return { ...entry, time: [...firstTimeData] };
-      }
-      return entry;
+      // if (index !== 0) {
+      return { ...entry, time: [...firstTimeData] };
+      // }
+      // return entry;
     });
 
     setSelectedDateTime(updatedData);
@@ -181,7 +188,7 @@ export const BoatOfferStep3 = () => {
         if (item.date.getTime() === targetDate.getTime()) {
           return {
             ...item,
-            time: ["10:00 AM", ...item.time],
+            time: ["00:00 AM", ...item.time],
           };
         }
         return item;
@@ -306,147 +313,158 @@ export const BoatOfferStep3 = () => {
     });
   };
 
+  // console.log("dash?.Boat_services_selected", dash?.Boat_services_selected);
   const handleSubmit = () => {
-    setLoader(true);
     if (!greetingMessage) {
       setGreetingMessageError(true);
-    } else {
-      setGreetingMessageError(false);
-    }
-
-    if (
+      toast.error("Please enter greeting message.", {
+        position: toast.POSITION.TOP_RIGHT,
+        autoClose: 2000,
+      });
+    } else if (
       selectedDateTime.length === 0 ||
       selectedDateTime.some((item) => item.time.length === 0)
     ) {
       setSelectedDateTimeError(true);
+      toast.error("Please selecte Date & Time.", {
+        position: toast.POSITION.TOP_RIGHT,
+        autoClose: 2000,
+      });
     } else {
       setSelectedDateTimeError(false);
-    }
-
-    let payload = new FormData();
-    if (dash) {
-      payload.append("boat_name", dash?.Boat_name ?? "");
-      payload.append("boat_type", dash?.Boat_type ?? "");
-      payload.append("boat_year", dash?.Boat_year ?? "");
-      payload.append("boat_length", dash?.Boat_length ?? "");
-      payload.append("boat_max_capacity", dash?.Boat_max_capacity ?? "");
-      payload.append("marine_name", dash?.Marine_name ?? "");
-      payload.append(
-        "marine_address",
-        "no1, test street dummy address" ?? dash?.Marine_address
-      );
-      payload.append("latitude", dash?.Marine_address?.lat ?? "");
-      payload.append("longtitude", dash?.Marine_address?.lng ?? "");
-      payload.append("greeting_mesage", greetingMessage || "");
-      payload.append("is_active", "1");
-      payload.append("available_hours", "10");
-      selectedDateTime?.map((dateItem, dateIndex) => {
-        dateItem?.time?.map((timeItem, timeIndex) => {
-          payload.append(
-            `timeslot[]`,
-            `${moment(dateItem?.date).format("DD.MM.YYYY")},${timeItem}`
-          );
+      setLoader(true);
+      let payload = new FormData();
+      if (dash) {
+        payload.append("boat_name", dash?.Boat_name ?? "");
+        payload.append("boat_type", dash?.Boat_type ?? "");
+        payload.append("boat_year", dash?.Boat_year ?? "");
+        payload.append("boat_length", dash?.Boat_length ?? "");
+        payload.append("boat_max_capacity", dash?.Boat_max_capacity ?? "");
+        payload.append("marine_name", dash?.Marine_name ?? "");
+        payload.append(
+          "marine_address",
+          "no1, test street dummy address" ?? dash?.Marine_address
+        );
+        payload.append("latitude", dash?.Marine_address?.lat ?? "");
+        payload.append("longtitude", dash?.Marine_address?.lng ?? "");
+        payload.append("greeting_mesage", greetingMessage || "");
+        payload.append("is_active", "1");
+        payload.append("available_hours", "10");
+        selectedDateTime?.map((dateItem, dateIndex) => {
+          dateItem?.time?.map((timeItem, timeIndex) => {
+            payload.append(
+              `timeslot[]`,
+              `${moment(dateItem?.date).format("DD.MM.YYYY")},${timeItem}`
+            );
+          });
         });
-      });
-      dash?.Boat_services_selected?.map((serviceItem, serviceIndex) => {
-        payload.append(`boat_service[]`, serviceIndex);
-      });
-      payload.append("marine_pincode", "12211");
-      payload.append("marine_state", "riyadh");
-      payload.append("marine_city", "riyadh");
-      //
-      //
-      //
-      //
-      //
-      //
-      //
-      payload.append(
-        "ministry_transport_document",
-        dash?.ministryOfTransportDoc
-        // dash?.ministryOfTransportDoc?.name
-      );
-      payload.append(
-        "border_guard_document",
-        dash?.generalDirectorateOfBorderGuardDoc
-        // dash?.generalDirectorateOfBorderGuardDoc?.name
-      );
-      payload.append(
-        "boat_license_document",
-        dash?.boatDocumentationsAndLicenses
-        // dash?.boatDocumentationsAndLicenses?.name
-      );
-      payload.append("price_per_hour", dash?.Boat_price_per_hour);
-      payload.append("price_currency", "SAR");
-      cancellationPolicy?.map((cancelPolicyItem, cancelPolicyIndex) => {
-        payload.append(`cancellationPolicy[]`, cancelPolicyItem?.policy);
-      });
-      payload.append(
-        "background_image",
-        dash?.Boat_backgroung_image ?? dash?.Upload_images_of_your_boat[0]
-      );
-      payload.append(
-        "front_image",
-        dash?.Boat_profile_image ?? dash?.Upload_images_of_your_boat[0]
-      );
-
-      dash?.Upload_images_of_your_boat?.map((boatImgItem, boatImgIndex) => {
-        payload.append("image", boatImgItem);
-      });
-
-      //print console
-      for (const [key, value] of payload.entries()) {
-        console.log(key, ":", `'${value}'`);
-      }
-      //API call
-      boat_register(dash?.AuthToken, payload)
-        .then((res) => {
-          console.log("boat_register res=>", res?.data);
-          if (res?.data?.message === "boat successfully registered") {
-            dispatch(boatTypeList(null));
-            dispatch(boatServiceList(null));
-            dispatch(
-              boatRegisterStep1({
-                ministryOfTransportDoc: null,
-                generalDirectorateOfBorderGuardDoc: null,
-                boatDocumentationsAndLicenses: null,
-              })
-            );
-            dispatch(
-              boatRegisterStep2({
-                Boat_name: null,
-                Boat_type: null,
-                Boat_year: null,
-                Boat_length: null,
-                Boat_max_capacity: null,
-                Boat_price_per_hour: null,
-                Upload_images_of_your_boat: null,
-                Boat_services_selected: null,
-                Marine_name: null,
-                Marine_address: null,
-                Boat_backgroung_image: null,
-                Boat_profile_image: null,
-              })
-            );
-
-            toast.success("Boat successfully registered", {
-              position: toast.POSITION.TOP_RIGHT,
-              autoClose: 2000,
-            });
-            navigate("/boatOwnerDashBoard");
-            setLoader(false);
+        // dash?.Boat_services_selected?.map((serviceItem, serviceIndex) => {
+        //   if (serviceItem?.value) {
+        //     payload.append(`boat_service[]`, serviceItem?.value);
+        //   } else {
+        //     payload.append(`boat_service[]`, serviceItem);
+        //   }
+        // });
+        dash?.Boat_services_selected?.map((serviceItem, serviceIndex) => {
+          console.log("serviceItem", serviceItem);
+          if (serviceItem?.value) {
+            payload.append(`boat_service[]`, serviceItem?.value);
           } else {
-            toast.error(res?.data?.message, {
-              position: toast.POSITION.TOP_RIGHT,
-              autoClose: 20000,
-            });
-            setLoader(false);
+            payload.append(`boat_service[]`, serviceItem?.service_id);
           }
-        })
-        .catch((err) => {
-          console.log("boat_register err", err);
-          setLoader(false);
         });
+        payload.append("marine_pincode", "12211");
+        payload.append("marine_state", "riyadh");
+        payload.append("marine_city", "riyadh");
+        payload.append(
+          "ministry_transport_document",
+          dash?.ministryOfTransportDoc
+        );
+        payload.append(
+          "border_guard_document",
+          dash?.generalDirectorateOfBorderGuardDoc
+        );
+        payload.append(
+          "boat_license_document",
+          dash?.boatDocumentationsAndLicenses
+        );
+        payload.append("price_per_hour", dash?.Boat_price_per_hour);
+        payload.append("price_currency", "SAR");
+        cancellationPolicy?.map((cancelPolicyItem, cancelPolicyIndex) => {
+          payload.append(`cancellationPolicy[]`, cancelPolicyItem?.policy);
+        });
+        payload.append(
+          "background_image",
+          dash?.Boat_backgroung_image ?? dash?.Upload_images_of_your_boat[0]
+        );
+        payload.append(
+          "front_image",
+          dash?.Boat_profile_image ?? dash?.Upload_images_of_your_boat[0]
+        );
+
+        dash?.Upload_images_of_your_boat?.map((boatImgItem, boatImgIndex) => {
+          payload.append("image", boatImgItem);
+        });
+
+        payload.append("youtube_link", youTubeLink);
+        //print console
+        for (const [key, value] of payload.entries()) {
+          console.log(key, ":", `'${value}'`);
+        }
+        // setLoader(false);
+        //API call
+        boat_register(dash?.AuthToken, payload)
+          .then((res) => {
+            console.log("boat_register res=>", res?.data);
+            if (res?.data?.message === "boat successfully registered") {
+              dispatch(boatTypeList(null));
+              dispatch(boatServiceList(null));
+              dispatch(
+                boatRegisterStep1({
+                  ministryOfTransportDoc: null,
+                  generalDirectorateOfBorderGuardDoc: null,
+                  boatDocumentationsAndLicenses: null,
+                })
+              );
+              dispatch(
+                boatRegisterStep2({
+                  Boat_name: null,
+                  Boat_type: null,
+                  Boat_year: null,
+                  Boat_length: null,
+                  Boat_max_capacity: null,
+                  Boat_price_per_hour: null,
+                  Upload_images_of_your_boat: null,
+                  Boat_services_selected: null,
+                  Marine_name: null,
+                  Marine_address: null,
+                  Boat_backgroung_image: null,
+                  Boat_profile_image: null,
+                })
+              );
+
+              toast.success("Boat successfully registered", {
+                position: toast.POSITION.TOP_RIGHT,
+                autoClose: 2000,
+              });
+
+              navigate("/confirmation");
+              setLoader(false);
+            } else {
+              toast.error(res?.data?.message, {
+                position: toast.POSITION.TOP_RIGHT,
+                autoClose: 20000,
+              });
+              setLoader(false);
+            }
+          })
+          .catch((err) => {
+            console.log("boat_register err", err);
+            setLoader(false);
+          });
+      }
+
+      setGreetingMessageError(false);
     }
   };
 
@@ -465,725 +483,774 @@ export const BoatOfferStep3 = () => {
     newTab.opener = null; // Prevent the newly opened tab from focusing on the parent tab
   };
 
-  return (
-    <div style={containerStyle}>
-      {loader ? <Loader loading={loader} /> : null}
-      <div style={headingStyle}>
-        <Typography style={headingTextStyle}>
-          Show off your boat in few clicks!
-        </Typography>
-      </div>
-      <div style={formContainerStyle}>
-        <div style={stepContainerStyle}>
-          <Typography style={stepNumberStyle}>Step 3</Typography>
-          <div style={dividerStyle} />
+  const handlePaste = (event) => {
+    // Get the pasted text from the clipboard
+    const pastedText = event.clipboardData.getData("text/plain");
+    // Check if the pasted text matches the YouTube pattern
+    if (youtubePattern.test(pastedText)) {
+      // If it matches, update the state with the pasted text
+      setYouTubeLink(pastedText);
+    }
+    // Prevent the default paste behavior
+    event.preventDefault();
+  };
 
-          <div style={documentSectionStyle}>
-            {/* Tell your customers */}
-            <Typography style={documentSectionHeadingStyle}>
-              Write greeting message to your customers
-            </Typography>
-            <Grid
-              item
-              xs={12}
-              sm={6}
-              style={{
-                boxShadow: "0px 0px 2px rgba(0, 0, 0, 0.2)",
-                borderBottom: "none",
-                marginTop: "15px",
-                borderRadius: "5px",
-                width: "100%",
-              }}
-            >
-              <CustomTextField
-                margin="normal"
-                fullWidth
-                id="customers"
-                name="customers"
-                placeholder="Tell your customers what makes your boat trips interesting!"
-                value={greetingMessage}
-                multiline
-                // maxRows={5}
-                rows={5}
-                onChange={(event) => {
-                  if (start_space_Validation.test(event.target.value)) {
-                    setGreetingMessage(event.target.value);
-                  }
-                }}
-                variant="standard"
-                InputProps={{
-                  disableUnderline: true,
-                  style: {
-                    backgroundColor: "white",
-                    borderRadius: "5px",
-                    padding: 20,
-                  },
-                }}
-                InputLabelProps={{
-                  shrink: true,
-                }}
-                inputProps={{
-                  fontSize: 16,
-                  fontFamily: "Poppins",
-                  color: "#424651",
-                  borderBottom: "none",
-                  backgroundColor: "#fff",
-                }}
-              />
-            </Grid>
-            {!greetingMessage && greetingMessageError ? (
-              <Typography
+  const handleKeyPress = (event) => {
+    // Prevent typing by intercepting keypress event
+    event.preventDefault();
+  };
+
+  const handleHeaderCallBack = (name) => {
+    if (name === "Home") {
+      if (dash?.tokenDecodeData?.user_type === "BOAT_OWNER") {
+        navigate("/boatOwnerDashBoard");
+      } else {
+        navigate("/rental");
+      }
+    } else if (name === "Log In") {
+      navigate("/logIn");
+    } else if (name === "Sign Up") {
+      navigate("/signUP");
+    } else if (name === "My Listings") {
+      navigate("/myListings");
+    } else if (name === "For Boat Rentals" || name === "For Boat Owners") {
+      toast.info("Under Development", {
+        position: toast.POSITION.TOP_RIGHT,
+        autoClose: 2000,
+      });
+    } else if (name === "/searchBoat") {
+      navigate("/searchBoat");
+    }
+  };
+
+  console.log(
+    "dashboard?.single_boat_details",
+    dashboard?.single_boat_details?.boats_timeslot
+  );
+
+  console.log("selectedDateTime", selectedDateTime);
+  useEffect(() => {
+    if (dashboard?.single_boat_details?.greeting_message) {
+      setGreetingMessage(dashboard?.single_boat_details?.greeting_message);
+    }
+    if (dashboard?.single_boat_details?.boats_timeslot) {
+      // Simulate API call or data processing
+      const fetchData = async () => {
+        // Simulate data transformation
+        const selectedDateTime =
+          dashboard?.single_boat_details?.boats_timeslot.map((item) => ({
+            date: parseDate(item.date),
+            time: [convertTime(item.start_time)],
+          }));
+
+        // Update the state with the transformed data
+        setSelectedDateTime(selectedDateTime);
+        setCurrentlySelectedDate(selectedDateTime[0]?.date);
+      };
+
+      fetchData(); // Call the fetch function
+    }
+  }, [
+    dashboard?.single_boat_details?.boats_timeslot,
+    dashboard?.single_boat_details?.greeting_message,
+  ]);
+
+  // Helper functions to convert date and time (same as previous code)
+  function parseDate(dateStr) {
+    const [day, month, year] = dateStr.split(".");
+    return new Date(`${year}-${month}-${day}`);
+  }
+
+  function convertTime(timeStr) {
+    const [time, period] = timeStr.split(" ");
+    const [hours, minutes] = time.split(":");
+    return `${hours}:${minutes} ${period}`;
+  }
+  return (
+    <>
+      <HeaderContent
+        contentname1={"Home"}
+        contentname2={"Register Your Boat"}
+        contentname3={"For Boat Rentals"}
+        contentname4={"My Listings"}
+        handleBack={handleHeaderCallBack}
+        search={"/searchBoat"}
+        showLoginSignUp={dash?.AuthToken ? false : true}
+        presentPage={"Register Your Boat"}
+      />
+      <div style={containerStyle}>
+        {loader ? <Loader loading={loader} /> : null}
+        <div style={headingStyle}>
+          <Typography style={headingTextStyle}>
+            Show off your boat in few clicks!
+          </Typography>
+        </div>
+        <div style={formContainerStyle}>
+          <div style={stepContainerStyle}>
+            <Typography style={stepNumberStyle}>Step 3</Typography>
+            <div style={dividerStyle} />
+
+            <div style={documentSectionStyle}>
+              {/* Tell your customers */}
+              <Typography style={documentSectionHeadingStyle}>
+                Write greeting message to your customers
+              </Typography>
+              <Grid
+                item
+                xs={12}
+                sm={6}
                 style={{
-                  ...ErrMsgTxt,
+                  boxShadow: "0px 0px 2px rgba(0, 0, 0, 0.2)",
+                  borderBottom: "none",
+                  marginTop: "15px",
+                  borderRadius: "5px",
+                  width: "100%",
                 }}
               >
-                Please enter greeting message.
+                <CustomTextField
+                  margin="normal"
+                  fullWidth
+                  id="customers"
+                  name="customers"
+                  placeholder="Tell your customers what makes your boat trips interesting!"
+                  value={greetingMessage}
+                  multiline
+                  // maxRows={5}
+                  rows={5}
+                  onChange={(event) => {
+                    if (start_space_Validation.test(event.target.value)) {
+                      setGreetingMessage(event.target.value);
+                    }
+                  }}
+                  variant="standard"
+                  InputProps={{
+                    disableUnderline: true,
+                    style: {
+                      backgroundColor: "white",
+                      borderRadius: "5px",
+                      padding: 20,
+                    },
+                  }}
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                  inputProps={{
+                    fontSize: 16,
+                    fontFamily: "Poppins",
+                    color: "#424651",
+                    borderBottom: "none",
+                    backgroundColor: "#fff",
+                  }}
+                />
+              </Grid>
+              {!greetingMessage && greetingMessageError ? (
+                <Typography
+                  style={{
+                    ...ErrMsgTxt,
+                  }}
+                >
+                  Please enter greeting message.
+                </Typography>
+              ) : null}
+
+              {/* Calendar           *** &&& ***        Date Time Selection */}
+              <Typography
+                style={{ ...documentSectionHeadingStyle, marginTop: "80px" }}
+              >
+                Boat Avaliability
               </Typography>
-            ) : null}
 
-            {/* Calendar           *** &&& ***        Date Time Selection */}
-            <Typography
-              style={{ ...documentSectionHeadingStyle, marginTop: "80px" }}
-            >
-              Boat Avaliability
-            </Typography>
-
-            <Grid
-              item
-              xs={12}
-              sm={6}
-              style={{
-                width: "100%",
-              }}
-            >
-              <div
+              <Grid
+                item
+                xs={12}
+                sm={6}
                 style={{
-                  display: "flex",
-                  flexDirection: "row",
-                  paddingTop: "15px",
+                  width: "100%",
                 }}
               >
                 <div
                   style={{
                     display: "flex",
-                    flex: 0.5,
-                    justifyContent: "center",
+                    flexDirection: "row",
+                    paddingTop: "15px",
                   }}
                 >
-                  <CalendarComponent
-                    setSelectedDateTime={setSelectedDateTime}
-                    selectedDateTime={selectedDateTime}
-                    onDateSelect={handleDateSelect}
-                    errorShow={errorDublicateTime[0]?.date}
-                  />
-                </div>
-                <div
-                  style={{
-                    // backgroundColor: "lightseagreen",
-                    flex: 0.5,
-                  }}
-                >
-                  <CustomTextField
-                    // disabled={true}
-                    type={"text"}
-                    margin="normal"
-                    fullWidth
-                    id="selected_date"
-                    name="selected_date"
-                    placeholder="selected date"
-                    label="Day"
-                    value={
-                      currentlySelectedDate
-                        ? moment(currentlySelectedDate).format("DD.MM.YYYY")
-                        : "None"
-                    }
-                    onChange={(event) => {
-                      // formik.handleChange(event);
-                      // setPassword(event.target.value);
-                    }}
-                    variant="standard"
-                    InputLabelProps={{
-                      shrink: true,
-                      style: {
-                        fontFamily: "Poppins",
-                        color: "#424651",
-                        fontSize: 22,
-                        fontWeight: "500",
-                      },
-                    }}
-                    InputProps={{
-                      disableUnderline: true,
-                      style: {
-                        marginTop: "30px",
-                        borderRadius: "15px",
-                        paddingLeft: "25px",
-                        width: "100%",
-                        // boxShadow: "0 2px 4px rgba(0, 0, 0, 0.2)",
-                        border: "solid 1px rgba(66, 70, 81, 0.2)",
-                        // backgroundColor: "red",
-                      },
-                      startAdornment: (
-                        <InputAdornment position="start">
-                          <IconButton>
-                            <img
-                              src={IMAGES.DATE}
-                              alt="lock"
-                              style={{
-                                width: "15px",
-                                height: "15px",
-                              }}
-                            />
-                          </IconButton>
-                        </InputAdornment>
-                      ),
-                      endAdornment: (
-                        <InputAdornment position="end">
-                          <IconButton
-                            onClick={() =>
-                              handleRemoveDate(currentlySelectedDate)
-                            }
-                            style={
-                              {
-                                // top: -5,
-                              }
-                            }
-                          >
-                            <RemoveCircle />
-                          </IconButton>
-                        </InputAdornment>
-                      ),
-                    }}
-                    inputProps={{
-                      style: pwdStyles,
-                    }}
-                    style={{
-                      alignItems: "center",
-                    }}
-                  />
-                  <Typography>Start at</Typography>
                   <div
                     style={{
-                      height: "250px", // Set the maximum height to 500px
-                      overflow: "auto", // Enable scrolling if content exceeds the height
-                      position: "relative",
+                      display: "flex",
+                      flex: 0.5,
+                      justifyContent: "center",
                     }}
                   >
+                    <CalendarComponent
+                      setSelectedDateTime={setSelectedDateTime}
+                      selectedDateTime={selectedDateTime}
+                      onDateSelect={handleDateSelect}
+                      errorShow={errorDublicateTime[0]?.date}
+                      handleShowMonth={currentlySelectedDate}
+                    />
+                  </div>
+                  <div
+                    style={{
+                      // backgroundColor: "lightseagreen",
+                      flex: 0.5,
+                    }}
+                  >
+                    <CustomTextField
+                      // disabled={true}
+                      type={"text"}
+                      margin="normal"
+                      fullWidth
+                      id="selected_date"
+                      name="selected_date"
+                      placeholder="selected date"
+                      label="Day"
+                      value={
+                        currentlySelectedDate
+                          ? moment(currentlySelectedDate).format("DD.MM.YYYY")
+                          : "None"
+                      }
+                      onChange={(event) => {
+                        // formik.handleChange(event);
+                        // setPassword(event.target.value);
+                      }}
+                      variant="standard"
+                      InputLabelProps={{
+                        shrink: true,
+                        style: {
+                          fontFamily: "Poppins",
+                          color: "#424651",
+                          fontSize: 22,
+                          fontWeight: "500",
+                        },
+                      }}
+                      InputProps={{
+                        disableUnderline: true,
+                        style: {
+                          marginTop: "30px",
+                          borderRadius: "15px",
+                          paddingLeft: "25px",
+                          width: "100%",
+                          // boxShadow: "0 2px 4px rgba(0, 0, 0, 0.2)",
+                          border: "solid 1px rgba(66, 70, 81, 0.2)",
+                          // backgroundColor: "red",
+                        },
+                        startAdornment: (
+                          <InputAdornment position="start">
+                            <IconButton>
+                              <img
+                                src={IMAGES.DATE}
+                                alt="lock"
+                                style={{
+                                  width: "15px",
+                                  height: "15px",
+                                }}
+                              />
+                            </IconButton>
+                          </InputAdornment>
+                        ),
+                        endAdornment: (
+                          <InputAdornment position="end">
+                            <IconButton
+                              onClick={() =>
+                                handleRemoveDate(currentlySelectedDate)
+                              }
+                              style={
+                                {
+                                  // top: -5,
+                                }
+                              }
+                            >
+                              <RemoveCircle />
+                            </IconButton>
+                          </InputAdornment>
+                        ),
+                      }}
+                      inputProps={{
+                        style: pwdStyles,
+                      }}
+                      style={{
+                        alignItems: "center",
+                      }}
+                    />
+                    <Typography>Start at</Typography>
                     <div
                       style={{
-                        display: "flex",
-                        flexWrap: "wrap",
+                        height: "250px", // Set the maximum height to 500px
+                        overflow: "auto", // Enable scrolling if content exceeds the height
+                        position: "relative",
                       }}
                     >
-                      {selectedDateTime?.map((item, index) => {
-                        const isCurrentlySelectedDate =
-                          item.date?.getDate() ===
-                          currentlySelectedDate?.getDate();
-                        if (isCurrentlySelectedDate) {
-                          return item?.time?.map((timeItem, timeIndex) => {
-                            const timeItemId = timeIndex.toString();
-                            const [time, period] = timeItem.split(" ");
-                            const [hourString, minuteString] = time.split(":");
-                            const handleItemClick = () => {
-                              const isItemSelected =
-                                modalOpen && modalOpenIndex === timeItemId;
-                              setModalOpen(!isItemSelected);
-                              setHoveredTimeItem(null);
-                              setModalOpenIndex(timeItemId);
-                            };
-                            return (
-                              <>
-                                <Grid
-                                  item
-                                  xs={12}
-                                  sm={6}
-                                  style={{
-                                    width: "50%",
-                                    display: "flex",
-                                    padding: "10px",
-                                  }}
-                                >
-                                  <div
+                      <div
+                        style={{
+                          display: "flex",
+                          flexWrap: "wrap",
+                        }}
+                      >
+                        {selectedDateTime?.map((item, index) => {
+                          // console.log("item", item);
+                          const isCurrentlySelectedDate =
+                            item.date?.getDate() ===
+                            currentlySelectedDate?.getDate();
+                          if (isCurrentlySelectedDate) {
+                            return item?.time?.map((timeItem, timeIndex) => {
+                              const timeItemId = timeIndex.toString();
+                              const [time, period] = timeItem.split(" ");
+                              const [hourString, minuteString] =
+                                time.split(":");
+                              const handleItemClick = () => {
+                                const isItemSelected =
+                                  modalOpen && modalOpenIndex === timeItemId;
+                                setModalOpen(!isItemSelected);
+                                setHoveredTimeItem(null);
+                                setModalOpenIndex(timeItemId);
+                              };
+                              return (
+                                <>
+                                  <Grid
+                                    item
+                                    xs={12}
+                                    sm={6}
                                     style={{
-                                      width: "90%",
-                                      position: "relative",
+                                      width: "50%",
+                                      display: "flex",
+                                      padding: "10px",
                                     }}
                                   >
                                     <div
                                       style={{
-                                        width: "100%",
-                                        display: "flex",
-                                        flexDirection: "column",
-                                        justifyContent: "space-between",
-                                        border:
-                                          "1px solid rgba(66, 70, 81, 0.2)",
-                                        borderRadius: "10px",
-                                        padding: "5px",
-                                      }}
-                                      onClick={() => {
-                                        handleItemClick();
+                                        width: "90%",
+                                        position: "relative",
                                       }}
                                     >
                                       <div
-                                        onMouseEnter={() =>
-                                          setHoveredTimeItem(() => timeItemId)
-                                        }
-                                        onMouseLeave={() =>
-                                          setHoveredTimeItem(() => null)
-                                        }
                                         style={{
+                                          width: "100%",
+                                          display: "flex",
+                                          flexDirection: "column",
+                                          justifyContent: "space-between",
+                                          border:
+                                            "1px solid rgba(66, 70, 81, 0.2)",
                                           borderRadius: "10px",
                                           padding: "5px",
-                                          display: "flex",
+                                        }}
+                                        onClick={() => {
+                                          handleItemClick();
                                         }}
                                       >
-                                        <AccessTime />
-                                        <Typography
-                                          style={{
-                                            color: "#424651",
-                                            paddingLeft: "10px",
-                                          }}
-                                        >
-                                          {timeItem ? timeItem : "00:00"}
-                                        </Typography>
-
                                         <div
-                                          onClick={() => {
-                                            handleRemoveTimeField(
-                                              item?.date,
-                                              timeIndex
-                                            );
-                                            setModalOpen(false);
-                                            setModalOpenIndex(null);
-                                            handleItemClick();
-                                          }}
+                                          onMouseEnter={() =>
+                                            setHoveredTimeItem(() => timeItemId)
+                                          }
+                                          onMouseLeave={() =>
+                                            setHoveredTimeItem(() => null)
+                                          }
                                           style={{
-                                            width: "15%",
-                                            flex: 1,
+                                            borderRadius: "10px",
+                                            padding: "5px",
                                             display: "flex",
-                                            justifyContent: "flex-end",
-                                            alignSelf: "flex-end",
-                                            alignContent: "flex-end",
-                                            alignItems: "flex-end",
                                           }}
                                         >
-                                          {hoveredTimeItem === timeItemId ? (
-                                            <RemoveCircle />
-                                          ) : null}
+                                          <AccessTime />
+                                          <Typography
+                                            style={{
+                                              color: "#424651",
+                                              paddingLeft: "10px",
+                                            }}
+                                          >
+                                            {timeItem ? timeItem : "00:00"}
+                                          </Typography>
+
+                                          <div
+                                            onClick={() => {
+                                              handleRemoveTimeField(
+                                                item?.date,
+                                                timeIndex
+                                              );
+                                              setModalOpen(false);
+                                              setModalOpenIndex(null);
+                                              handleItemClick();
+                                            }}
+                                            style={{
+                                              width: "15%",
+                                              flex: 1,
+                                              display: "flex",
+                                              justifyContent: "flex-end",
+                                              alignSelf: "flex-end",
+                                              alignContent: "flex-end",
+                                              alignItems: "flex-end",
+                                            }}
+                                          >
+                                            {hoveredTimeItem === timeItemId ? (
+                                              <RemoveCircle />
+                                            ) : null}
+                                          </div>
                                         </div>
                                       </div>
-                                    </div>
 
-                                    {modalOpen &&
-                                    modalOpenIndex === timeItemId ? (
-                                      <>
-                                        <Grid
-                                          ref={modalRef}
-                                          style={{
-                                            display: "flex",
-                                            flexDirection: "row",
-                                            width: "100%",
-                                            border: "1px solid black",
-                                            borderRadius: "10px",
-                                            boxShadow:
-                                              "0px 2px 4px rgba(0, 0, 0, 0.25)",
-                                            padding: "5px",
-                                            backgroundColor: "white",
-                                            zIndex: 1,
-                                            // transform: "translate(-50%, -50%)",
-                                            position: "absolute",
-                                          }}
-                                        >
+                                      {modalOpen &&
+                                      modalOpenIndex === timeItemId ? (
+                                        <>
                                           <Grid
-                                            item
-                                            xs={4}
+                                            ref={modalRef}
                                             style={{
-                                              borderRight: "1px solid black",
-                                              width: "33%",
-                                              height: "200px",
-                                              overflowY: "auto",
+                                              display: "flex",
+                                              flexDirection: "row",
+                                              width: "100%",
+                                              border: "1px solid black",
+                                              borderRadius: "10px",
+                                              boxShadow:
+                                                "0px 2px 4px rgba(0, 0, 0, 0.25)",
+                                              padding: "5px",
+                                              backgroundColor: "white",
+                                              zIndex: 1,
+                                              // transform: "translate(-50%, -50%)",
+                                              position: "absolute",
                                             }}
                                           >
-                                            {hours.map(
-                                              (hourItem, hourIndex) => (
-                                                <div
-                                                  key={hourIndex + "%"}
-                                                  value={hourItem}
-                                                  onClick={() => {
-                                                    handleHourChange(
-                                                      index,
-                                                      timeIndex,
-                                                      hourItem,
-                                                      "hour"
-                                                    );
-                                                  }}
-                                                  style={{
-                                                    ...timeTxtStyle,
-                                                    backgroundColor:
-                                                      hourString ===
-                                                      hourItem
-                                                        .toString()
-                                                        .padStart(2, "0")
-                                                        ? "#3973A5"
-                                                        : "white",
-                                                  }}
-                                                  onMouseEnter={
-                                                    hourString ===
-                                                    hourItem
-                                                      .toString()
-                                                      .padStart(2, "0")
-                                                      ? undefined
-                                                      : handleHover
-                                                  }
-                                                  onMouseLeave={
-                                                    hourString ===
-                                                    hourItem
-                                                      .toString()
-                                                      .padStart(2, "0")
-                                                      ? undefined
-                                                      : handleHoverExit
-                                                  }
-                                                >
-                                                  {hourItem
-                                                    .toString()
-                                                    .padStart(2, "0")}
-                                                </div>
-                                              )
-                                            )}
-                                          </Grid>
-                                          <Grid
-                                            item
-                                            xs={4}
-                                            style={{
-                                              borderRight: "1px solid black",
-                                              width: "33%",
-                                              height: "200px",
-                                              overflowY: "auto",
-                                            }}
-                                          >
-                                            {minute.map(
-                                              (minutesItem, minutesIndex) => {
-                                                return (
+                                            <Grid
+                                              item
+                                              xs={4}
+                                              style={{
+                                                borderRight: "1px solid black",
+                                                width: "33%",
+                                                height: "200px",
+                                                overflowY: "auto",
+                                              }}
+                                            >
+                                              {hours.map(
+                                                (hourItem, hourIndex) => (
                                                   <div
-                                                    key={minutesIndex + "%"}
-                                                    value={minutesItem}
+                                                    key={hourIndex + "%"}
+                                                    value={hourItem}
                                                     onClick={() => {
                                                       handleHourChange(
                                                         index,
                                                         timeIndex,
-                                                        minutesItem,
-                                                        "minutes"
+                                                        hourItem,
+                                                        "hour"
                                                       );
                                                     }}
                                                     style={{
                                                       ...timeTxtStyle,
                                                       backgroundColor:
-                                                        minuteString ===
-                                                        minutesItem
+                                                        hourString ===
+                                                        hourItem
                                                           .toString()
                                                           .padStart(2, "0")
                                                           ? "#3973A5"
                                                           : "white",
                                                     }}
                                                     onMouseEnter={
-                                                      minuteString ===
-                                                      minutesItem
+                                                      hourString ===
+                                                      hourItem
                                                         .toString()
                                                         .padStart(2, "0")
                                                         ? undefined
                                                         : handleHover
                                                     }
                                                     onMouseLeave={
-                                                      minuteString ===
-                                                      minutesItem
+                                                      hourString ===
+                                                      hourItem
                                                         .toString()
                                                         .padStart(2, "0")
                                                         ? undefined
                                                         : handleHoverExit
                                                     }
                                                   >
-                                                    {minutesItem
+                                                    {hourItem
                                                       .toString()
                                                       .padStart(2, "0")}
                                                   </div>
-                                                );
-                                              }
-                                            )}
-                                          </Grid>
-                                          <Grid
-                                            item
-                                            xs={4}
-                                            style={{
-                                              // borderRight: "1px solid black",
-                                              width: "30%",
-                                              height: "200px",
-                                              overflowY: "auto",
-                                            }}
-                                          >
-                                            <div
-                                              onClick={() => {
-                                                handleHourChange(
-                                                  index,
-                                                  timeIndex,
-                                                  "AM",
-                                                  " "
-                                                );
-                                              }}
+                                                )
+                                              )}
+                                            </Grid>
+                                            <Grid
+                                              item
+                                              xs={4}
                                               style={{
-                                                ...timeTxtStyle,
-                                                backgroundColor:
+                                                borderRight: "1px solid black",
+                                                width: "33%",
+                                                height: "200px",
+                                                overflowY: "auto",
+                                              }}
+                                            >
+                                              {minute.map(
+                                                (minutesItem, minutesIndex) => {
+                                                  return (
+                                                    <div
+                                                      key={minutesIndex + "%"}
+                                                      value={minutesItem}
+                                                      onClick={() => {
+                                                        handleHourChange(
+                                                          index,
+                                                          timeIndex,
+                                                          minutesItem,
+                                                          "minutes"
+                                                        );
+                                                      }}
+                                                      style={{
+                                                        ...timeTxtStyle,
+                                                        backgroundColor:
+                                                          minuteString ===
+                                                          minutesItem
+                                                            .toString()
+                                                            .padStart(2, "0")
+                                                            ? "#3973A5"
+                                                            : "white",
+                                                      }}
+                                                      onMouseEnter={
+                                                        minuteString ===
+                                                        minutesItem
+                                                          .toString()
+                                                          .padStart(2, "0")
+                                                          ? undefined
+                                                          : handleHover
+                                                      }
+                                                      onMouseLeave={
+                                                        minuteString ===
+                                                        minutesItem
+                                                          .toString()
+                                                          .padStart(2, "0")
+                                                          ? undefined
+                                                          : handleHoverExit
+                                                      }
+                                                    >
+                                                      {minutesItem
+                                                        .toString()
+                                                        .padStart(2, "0")}
+                                                    </div>
+                                                  );
+                                                }
+                                              )}
+                                            </Grid>
+                                            <Grid
+                                              item
+                                              xs={4}
+                                              style={{
+                                                // borderRight: "1px solid black",
+                                                width: "30%",
+                                                height: "200px",
+                                                overflowY: "auto",
+                                              }}
+                                            >
+                                              <div
+                                                onClick={() => {
+                                                  handleHourChange(
+                                                    index,
+                                                    timeIndex,
+                                                    "AM",
+                                                    " "
+                                                  );
+                                                }}
+                                                style={{
+                                                  ...timeTxtStyle,
+                                                  backgroundColor:
+                                                    period ===
+                                                    "AM"
+                                                      .toString()
+                                                      .padStart(2, "0")
+                                                      ? "#3973A5"
+                                                      : "white",
+                                                }}
+                                                onMouseEnter={
                                                   period ===
                                                   "AM"
                                                     .toString()
                                                     .padStart(2, "0")
-                                                    ? "#3973A5"
-                                                    : "white",
-                                              }}
-                                              onMouseEnter={
-                                                period ===
-                                                "AM".toString().padStart(2, "0")
-                                                  ? undefined
-                                                  : handleHover
-                                              }
-                                              onMouseLeave={
-                                                period ===
-                                                "AM".toString().padStart(2, "0")
-                                                  ? undefined
-                                                  : handleHoverExit
-                                              }
-                                            >
-                                              {"AM"}
-                                            </div>
-                                            <div
-                                              onClick={() => {
-                                                handleHourChange(
-                                                  index,
-                                                  timeIndex,
-                                                  "PM",
-                                                  " "
-                                                );
-                                              }}
-                                              style={{
-                                                ...timeTxtStyle,
-                                                backgroundColor:
+                                                    ? undefined
+                                                    : handleHover
+                                                }
+                                                onMouseLeave={
+                                                  period ===
+                                                  "AM"
+                                                    .toString()
+                                                    .padStart(2, "0")
+                                                    ? undefined
+                                                    : handleHoverExit
+                                                }
+                                              >
+                                                {"AM"}
+                                              </div>
+                                              <div
+                                                onClick={() => {
+                                                  handleHourChange(
+                                                    index,
+                                                    timeIndex,
+                                                    "PM",
+                                                    " "
+                                                  );
+                                                }}
+                                                style={{
+                                                  ...timeTxtStyle,
+                                                  backgroundColor:
+                                                    period ===
+                                                    "PM"
+                                                      .toString()
+                                                      .padStart(2, "0")
+                                                      ? "#3973A5"
+                                                      : "white",
+                                                }}
+                                                onMouseEnter={
                                                   period ===
                                                   "PM"
                                                     .toString()
                                                     .padStart(2, "0")
-                                                    ? "#3973A5"
-                                                    : "white",
-                                              }}
-                                              onMouseEnter={
-                                                period ===
-                                                "PM".toString().padStart(2, "0")
-                                                  ? undefined
-                                                  : handleHover
-                                              }
-                                              onMouseLeave={
-                                                period ===
-                                                "PM".toString().padStart(2, "0")
-                                                  ? undefined
-                                                  : handleHoverExit
-                                              }
-                                            >
-                                              {"PM"}
-                                            </div>
+                                                    ? undefined
+                                                    : handleHover
+                                                }
+                                                onMouseLeave={
+                                                  period ===
+                                                  "PM"
+                                                    .toString()
+                                                    .padStart(2, "0")
+                                                    ? undefined
+                                                    : handleHoverExit
+                                                }
+                                              >
+                                                {"PM"}
+                                              </div>
+                                            </Grid>
                                           </Grid>
-                                        </Grid>
-                                      </>
-                                    ) : null}
-                                  </div>
-                                </Grid>
-                              </>
-                            );
-                          });
-                        }
+                                        </>
+                                      ) : null}
+                                    </div>
+                                  </Grid>
+                                </>
+                              );
+                            });
+                          }
 
-                        return null;
-                      })}
-                    </div>
-                    <div
-                      style={{
-                        display: "flex",
-                        justifyContent: "flex-end",
-                      }}
-                    >
-                      {currentlySelectedDate ? (
-                        <div
-                          style={{
-                            flex: 1,
-                            display: "flex",
-
-                            // width: "100%",
-                            justifyContent: "flex-end",
-                            // position: "absolute",
-                            // bottom: 0,
-                            alignContent: "flex-end",
-                            alignItems: "flex-end",
-                            alignSelf: "flex-end",
-                          }}
-                        >
-                          <IconButton
+                          return null;
+                        })}
+                      </div>
+                      <div
+                        style={{
+                          display: "flex",
+                          justifyContent: "flex-end",
+                        }}
+                      >
+                        {currentlySelectedDate ? (
+                          <div
                             style={{
-                              border: "solid 1px rgba(66, 70, 81, 0.2)",
-                              // width: "100%",
+                              flex: 1,
                               display: "flex",
+                              // width: "100%",
+                              justifyContent: "flex-end",
+                              // position: "absolute",
+                              // bottom: 0,
+                              alignContent: "flex-end",
+                              alignItems: "flex-end",
+                              alignSelf: "flex-end",
                             }}
-                            onClick={() => addExtraTime(currentlySelectedDate)}
                           >
-                            <Add />
-                          </IconButton>
-                        </div>
-                      ) : null}
+                            <IconButton
+                              style={{
+                                border: "solid 1px rgba(66, 70, 81, 0.2)",
+                                // width: "100%",
+                                display: "flex",
+                              }}
+                              onClick={() =>
+                                addExtraTime(currentlySelectedDate)
+                              }
+                            >
+                              <Add />
+                            </IconButton>
+                          </div>
+                        ) : null}
+                      </div>
                     </div>
+
+                    {selectedDateTime[datePositionIndex]?.time?.length > 0 ? (
+                      <Typography
+                        style={{ cursor: "pointer" }}
+                        onClick={() => {
+                          copyTimeData(datePositionIndex);
+                        }}
+                      >
+                        Copy Time to all date
+                      </Typography>
+                    ) : null}
+
+                    {errorDublicateTime ? (
+                      <Typography
+                        style={{
+                          ...ErrMsgTxt,
+                        }}
+                      >
+                        Please remove duplicate entries
+                      </Typography>
+                    ) : null}
                   </div>
-
-                  {selectedDateTime[datePositionIndex]?.time?.length > 0 ? (
-                    <Typography
-                      style={{ cursor: "pointer" }}
-                      onClick={() => {
-                        copyTimeData(datePositionIndex);
-                      }}
-                    >
-                      Copy Time to all date
-                    </Typography>
-                  ) : null}
-
-                  {errorDublicateTime ? (
-                    <Typography
-                      style={{
-                        ...ErrMsgTxt,
-                      }}
-                    >
-                      Please remove duplicate entries
-                    </Typography>
-                  ) : null}
                 </div>
-              </div>
-              {selectedDateTime?.length <= 0 && selectedDateTimeError ? (
-                <Typography
-                  style={{
-                    ...ErrMsgTxt,
-                  }}
-                >
-                  Please selecte Date & Time.
-                </Typography>
-              ) : null}
-            </Grid>
+                {selectedDateTime?.length <= 0 && selectedDateTimeError ? (
+                  <Typography
+                    style={{
+                      ...ErrMsgTxt,
+                    }}
+                  >
+                    Please selecte Date & Time.
+                  </Typography>
+                ) : null}
+              </Grid>
 
-            {/* Share a YouTube link  */}
-            <Grid item xs={12} sm={6} style={{ marginTop: "20px" }}>
-              <Typography>
-                Share a YouTube link for a short boat demo
-              </Typography>
-              <div
-                style={{
-                  display: "flex",
-                  border: "1px solid rgba(66, 70, 81, 0.3)",
-                  borderRadius: 10,
-                  padding: "15px",
-                  justifyContent: "space-between",
-                  marginTop: "20px",
-                }}
-              >
+              {/* Share a YouTube link  */}
+              <Grid item xs={12} sm={6} style={{ marginTop: "20px" }}>
+                <Typography>
+                  Share a YouTube link for a short boat demo
+                </Typography>
                 <div
                   style={{
                     display: "flex",
-                    alignItems: "center",
-                    width: "100%",
+                    border: "1px solid rgba(66, 70, 81, 0.3)",
+                    borderRadius: 10,
+                    padding: "15px",
+                    justifyContent: "space-between",
+                    marginTop: "20px",
                   }}
                 >
-                  <img
-                    alt="LINK"
-                    src={IMAGES.LINK}
-                    style={{ width: 31, height: 31 }}
-                    onClick={handleCopyLink}
-                  />
-                  {/* <Typography style={{ userSelect: "all", marginLeft: "10px" }}>
-                    <Link
-                      // href="#"
-                      href="https://www.youtube.com/watch?v=M7cr9U-jtzY&t=4338s"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      color="inherit"
-                    >
-                      https://www.youtube.com/watch?v=M7cr9U-jtzY&t=4338s
-                    </Link>
-                  </Typography> */}
-                  <CustomTextField
-                    margin="normal"
-                    fullWidth
-                    id="YouTube"
-                    name="YouTube"
-                    placeholder="Share a YouTube link for a short boat demo"
-                    value={youTubeLink}
-                    onChange={(event) => {
-                      if (start_space_Validation.test(event.target.value)) {
-                        setYouTubeLink(event.target.value);
-                      }
-                    }}
-                    variant="standard"
-                    InputProps={{
-                      disableUnderline: true,
-                      style: {
-                        backgroundColor: "white",
-                        borderRadius: "5px",
-                        paddingLeft: 20,
-                        height: "1px",
-                        width: "90%",
-                      },
-                    }}
-                    InputLabelProps={{
-                      shrink: true,
-                    }}
-                    inputProps={{
-                      fontSize: 16,
-                      fontFamily: "Poppins",
-                      color: "#424651",
-                      borderBottom: "none",
-                      backgroundColor: "#fff",
-                    }}
-                  />
-                </div>
-                {isLinkCopied && (
-                  <img
-                    alt="Tick"
-                    src={IMAGES.TICK}
-                    style={{
-                      width: 20,
-                      height: 20,
-                      alignSelf: "center",
-                    }}
-                  />
-                )}
-              </div>
-            </Grid>
-
-            {/* Cancellation Policy */}
-            <Grid item xs={12} sm={6} style={{ marginTop: "20px" }}>
-              <Typography>Cancellation Policy</Typography>
-              {cancellationPolicy?.map((item, index) => {
-                return (
                   <div
-                    onMouseEnter={() => setHoverIndex(index)}
-                    onMouseLeave={() => setHoverIndex(null)}
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      width: "100%",
+                    }}
                   >
+                    <img
+                      alt="LINK"
+                      src={IMAGES.LINK}
+                      style={{ width: 31, height: 31 }}
+                      onClick={handleCopyLink}
+                    />
+
                     <CustomTextField
                       margin="normal"
                       fullWidth
-                      id="CancellationPolicy"
-                      name="CancellationPolicy"
-                      placeholder="Cancellation Policy"
-                      value={item?.policy}
+                      id="YouTube"
+                      name="YouTube"
+                      placeholder="Share a YouTube link for a short boat demo"
+                      value={youTubeLink}
                       onChange={(event) => {
-                        const updatedPolicy = event.target.value;
-                        setCancellationPolicy((prevPolicy) => {
-                          const updatedPolicies = [...prevPolicy];
-                          updatedPolicies[index] = {
-                            ...updatedPolicies[index],
-                            policy: updatedPolicy,
-                          };
-                          return updatedPolicies;
-                        });
+                        console.log(
+                          "start_space_Validation.test(event.target.value)",
+                          start_space_Validation.test(event.target.value),
+                          youtubePattern.test(event.target.value)
+                        );
+                        if (start_space_Validation.test(event.target.value)) {
+                          if (youtubePattern.test(event.target.value)) {
+                            setYouTubeLink(event.target.value);
+                          } else {
+                            setYouTubeLink("");
+                          }
+                        }
+
+                        // if (youtubePattern.test(event.target.value)) {
+                        //   setYouTubeLink(event.target.value);
+                        // } else {
+                        //   setYouTubeLink(event.target.value);
+                        // }
+                        //
+                        //
                       }}
                       variant="standard"
                       InputProps={{
@@ -1191,88 +1258,154 @@ export const BoatOfferStep3 = () => {
                         style: {
                           backgroundColor: "white",
                           borderRadius: "5px",
+                          paddingLeft: 20,
+                          height: "1px",
+                          width: "90%",
                         },
-                        startAdornment: (
-                          <>
-                            <Typography>{index + 1}</Typography>
-                            <div
-                              style={{
-                                backgroundColor: "black",
-                                width: "1px",
-                                height: "100%",
-                              }}
-                            />
-                          </>
-                        ),
-                        endAdornment: (
-                          <InputAdornment position="end">
-                            <IconButton
-                              onClick={() =>
-                                removeCancellationPolicyField(index)
-                              }
-                              className={`${classes.removeButton} ${
-                                hoverIndex === index ? classes.showButton : ""
-                              }`}
-                            >
-                              <RemoveCircle />
-                            </IconButton>
-                          </InputAdornment>
-                        ),
                       }}
                       InputLabelProps={{
                         shrink: true,
                       }}
                       inputProps={{
-                        style: textFieldStyles,
-                      }}
-                      style={{
-                        borderRadius: "15px",
-                        border: "solid 1px rgba(66, 70, 81, 0.2)",
-                        // backgroundColor: "red",
-                        padding: "10px",
+                        fontSize: 16,
+                        fontFamily: "Poppins",
+                        color: "#424651",
+                        borderBottom: "none",
+                        backgroundColor: "#fff",
                       }}
                     />
                   </div>
-                );
-              })}
-              <div
+
+                  {youTubeLink && (
+                    <img
+                      alt="Tick"
+                      src={IMAGES.TICK}
+                      style={{
+                        width: 20,
+                        height: 20,
+                        alignSelf: "center",
+                      }}
+                    />
+                  )}
+                </div>
+              </Grid>
+
+              {/* Cancellation Policy */}
+              <Grid item xs={12} sm={6} style={{ marginTop: "20px" }}>
+                <Typography>Cancellation Policy</Typography>
+                {cancellationPolicy?.map((item, index) => {
+                  return (
+                    <div
+                      onMouseEnter={() => setHoverIndex(index)}
+                      onMouseLeave={() => setHoverIndex(null)}
+                    >
+                      <CustomTextField
+                        margin="normal"
+                        fullWidth
+                        id="CancellationPolicy"
+                        name="CancellationPolicy"
+                        placeholder="Cancellation Policy"
+                        value={item?.policy}
+                        onChange={(event) => {
+                          const updatedPolicy = event.target.value;
+                          setCancellationPolicy((prevPolicy) => {
+                            const updatedPolicies = [...prevPolicy];
+                            updatedPolicies[index] = {
+                              ...updatedPolicies[index],
+                              policy: updatedPolicy,
+                            };
+                            return updatedPolicies;
+                          });
+                        }}
+                        variant="standard"
+                        InputProps={{
+                          disableUnderline: true,
+                          style: {
+                            backgroundColor: "white",
+                            borderRadius: "5px",
+                          },
+                          startAdornment: (
+                            <>
+                              <Typography>{index + 1}</Typography>
+                              <div
+                                style={{
+                                  backgroundColor: "black",
+                                  width: "1px",
+                                  height: "100%",
+                                }}
+                              />
+                            </>
+                          ),
+                          endAdornment: (
+                            <InputAdornment position="end">
+                              <IconButton
+                                onClick={() =>
+                                  removeCancellationPolicyField(index)
+                                }
+                                className={`${classes.removeButton} ${
+                                  hoverIndex === index ? classes.showButton : ""
+                                }`}
+                              >
+                                <RemoveCircle />
+                              </IconButton>
+                            </InputAdornment>
+                          ),
+                        }}
+                        InputLabelProps={{
+                          shrink: true,
+                        }}
+                        inputProps={{
+                          style: textFieldStyles,
+                        }}
+                        style={{
+                          borderRadius: "15px",
+                          border: "solid 1px rgba(66, 70, 81, 0.2)",
+                          // backgroundColor: "red",
+                          padding: "10px",
+                        }}
+                      />
+                    </div>
+                  );
+                })}
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "flex-end",
+                  }}
+                >
+                  <IconButton
+                    style={{
+                      border: "solid 1px rgba(66, 70, 81, 0.2)",
+                      // width: "100%",
+                      display: "flex",
+                    }}
+                    onClick={addCancellationPolicyField}
+                  >
+                    <Add />
+                  </IconButton>
+                </div>
+              </Grid>
+            </div>
+
+            {/* Save & Continue */}
+            <div style={saveContinueButtonStyle}>
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={() => {
+                  handleSubmit();
+                }}
                 style={{
-                  display: "flex",
-                  justifyContent: "flex-end",
+                  ...saveContinueButtonTextStyle,
                 }}
               >
-                <IconButton
-                  style={{
-                    border: "solid 1px rgba(66, 70, 81, 0.2)",
-                    // width: "100%",
-                    display: "flex",
-                  }}
-                  onClick={addCancellationPolicyField}
-                >
-                  <Add />
-                </IconButton>
-              </div>
-            </Grid>
-          </div>
-
-          {/* Save & Continue */}
-          <div style={saveContinueButtonStyle}>
-            <Button
-              variant="contained"
-              color="primary"
-              onClick={() => {
-                handleSubmit();
-              }}
-              style={{
-                ...saveContinueButtonTextStyle,
-              }}
-            >
-              Save & Continue
-            </Button>
+                Save & Continue
+              </Button>
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 

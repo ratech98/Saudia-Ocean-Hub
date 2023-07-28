@@ -18,7 +18,9 @@ const IMAGES = {
   FILTER_LIST: require("../assets/Images/filterList.webp"),
   USER_PROFILE: require("../assets/Images/userProfile.webp"),
   SEARCH: require("../assets/Images/search.png"),
+  SEARCH_BLUE: require("../assets/Images/search_blue.png"),
   BELL: require("../assets/Images/bell.png"),
+  BELL_COLOR: require("../assets/Images/bell_color.png"),
   GOOGLE: require("../assets/Images/google.png"),
   ADD_BOATE_DETAILS: require("../assets/Images/addBoatDetails.webp"),
   GROUP: require("../assets/Images/malesGroup.png"),
@@ -29,6 +31,10 @@ const IMAGES = {
   UP_ARROW_IMG: require("../assets/Images/UpArrowImg.png"),
   PDF: require("../assets/Images/pdf.png"),
   CANCEL: require("../assets/Images/cancel.webp"),
+  BACK_GROUNG: require("../assets/Images/bg_img.png"),
+  ELLIPSE: require("../assets/Images/Ellipse.svg"),
+  LOCATION: require("../assets/Images/location.webp"),
+  RIGHT_ARROW: require("../assets/Images/right.png"),
   //
   //
   //

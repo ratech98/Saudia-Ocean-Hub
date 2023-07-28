@@ -7,14 +7,16 @@ import IMAGES from "../../../Images";
 import { HeaderContent } from "../../../Common/map/HeaderContent";
 import { my_listing } from "../../../../Service/api";
 import { useSelector } from "react-redux";
+import { toast } from "react-toastify";
+import Footer from "../../../../Component/Footer/Footer";
+import { StarRating } from "../../../../UI kit/5Star/StarRating";
 
 export const MyListings = () => {
   const navigate = useNavigate();
-  const classes = useStyles();
   const auth = useSelector((state) => state?.auth);
   const [myList, setMyList] = useState([]);
 
-  console.log("myList", myList);
+  // console.log("myList", myList);
 
   useEffect(() => {
     my_listing(auth?.AuthToken)
@@ -30,41 +32,26 @@ export const MyListings = () => {
       });
   }, [auth?.AuthToken]);
 
-  const renderStarRating = (rating) => {
-    const filledStars = Math.floor(rating);
-    const emptyStars = 5 - filledStars;
-
-    return (
-      <div>
-        {[...Array(filledStars)].map((_, index) => (
-          <Star
-            key={`filled-${index}`}
-            style={{ fill: "gold" }}
-            className={classes.starImage}
-          />
-        ))}
-        {[...Array(emptyStars)].map((_, index) => (
-          <StarOutline
-            key={`empty-${index}`}
-            style={{
-              fill: "gold",
-            }}
-            className={classes.starImage}
-          />
-        ))}
-      </div>
-    );
-  };
-
-  const handleCallBack = (name) => {
+  const handleHeaderCallBack = (name) => {
     if (name === "Home") {
-      navigate(-1);
-    } else if (name === "Boat Offers") {
-      // navigate("/home");
+      if (auth?.tokenDecodeData?.user_type === "BOAT_OWNER") {
+        navigate("/boatOwnerDashBoard");
+      } else {
+        navigate("/rental");
+      }
+    } else if (name === "Log In") {
+      navigate("/logIn");
+    } else if (name === "Sign Up") {
+      navigate("/signUP");
     } else if (name === "My Listings") {
       navigate("/myListings");
-    } else if (name === "List a Boat Offer") {
-      // navigate("/home");
+    } else if (name === "For Boat Rentals" || name === "For Boat Owners") {
+      toast.info("Under Development", {
+        position: toast.POSITION.TOP_RIGHT,
+        autoClose: 2000,
+      });
+    } else if (name === "/searchBoat") {
+      navigate("/searchBoat");
     }
   };
 
@@ -72,23 +59,26 @@ export const MyListings = () => {
     <>
       <HeaderContent
         contentname1={"Home"}
-        contentname2={"Boat Offers"}
-        contentname3={"My Listings"}
-        contentname4={"List a Boat Offer"}
-        handleBack={handleCallBack}
+        contentname2={"For Boat Owners"}
+        contentname3={"For Boat Rentals"}
+        contentname4={"My Listings"}
+        handleBack={handleHeaderCallBack}
+        search={"/searchBoat"}
+        showLoginSignUp={auth?.AuthToken ? false : true}
+        presentPage={"My Listings"}
       />
-      <div className={classes.myListingsContainer}>
-        <div className={classes.body}>
-          <div className={classes.headerContent}>
+      <div style={styles.myListingsContainer}>
+        <div style={styles.body}>
+          <div style={styles.headerContent}>
             <div>
-              <Typography className={classes.titleName}>My Listings</Typography>
-              <Typography className={classes.subTitle}>
+              <Typography style={styles.titleName}>My Listings</Typography>
+              <Typography style={styles.subTitle}>
                 You have made 4 Boat Offers
               </Typography>
             </div>
             <div>
               <Button
-                className={classes.AddNewOfferBtn}
+                style={styles.AddNewOfferBtn}
                 onClick={() => {
                   navigate("/RequestList");
                 }}
@@ -109,7 +99,6 @@ export const MyListings = () => {
                 {console.log("item", item)}
                 <div
                   key={item.id}
-                  className="boatListBody"
                   style={{
                     display: "flex",
                     flexDirection: "row",
@@ -154,7 +143,7 @@ export const MyListings = () => {
                       {item.boat_name}
                     </Typography>
 
-                    {renderStarRating(item?.star ?? 0)}
+                    <StarRating rating={item?.star ?? 0} />
                     <div
                       style={{
                         height: "100%",
@@ -227,7 +216,7 @@ export const MyListings = () => {
                         <img
                           alt="edit"
                           src={IMAGES.EDIT_ICON}
-                          className={classes.editIcon}
+                          style={styles.editIcon}
                         />
                       </IconButton>
 
@@ -243,7 +232,7 @@ export const MyListings = () => {
                         <img
                           alt="edit"
                           src={IMAGES.USER_PROFILE}
-                          className={classes.editIcon}
+                          style={styles.editIcon}
                         />
                       </IconButton>
                     </div>
@@ -254,11 +243,12 @@ export const MyListings = () => {
           </div>
         </div>
       </div>
+      <Footer />
     </>
   );
 };
 
-const useStyles = makeStyles({
+const styles = {
   myListingsContainer: {
     display: "flex",
     backgroundColor: "#f6f6f6",
@@ -334,7 +324,7 @@ const useStyles = makeStyles({
     width: "20px",
     height: "20px",
   },
-});
+};
 
 const boatList = [
   {

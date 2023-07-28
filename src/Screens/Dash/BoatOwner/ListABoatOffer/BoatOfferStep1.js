@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button, Typography } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
@@ -9,7 +9,8 @@ import Footer from "../../../../Component/Footer/Footer";
 import { toast } from "react-toastify";
 
 export const BoatOfferStep1 = () => {
-  const dash = useSelector((state) => state?.auth);
+  const auth = useSelector((state) => state?.auth);
+  const dashboard = useSelector((state) => state?.dashboard);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [errorMsg, setErrorMsg] = useState("");
@@ -21,6 +22,7 @@ export const BoatOfferStep1 = () => {
     setBoatDocumentationsAndLicensesDoc,
   ] = useState("");
 
+  console.log("dashboard", dashboard?.single_boat_details);
   //
   //
   //
@@ -35,10 +37,6 @@ export const BoatOfferStep1 = () => {
       const fileExtension = fileName.split(".").pop().toLowerCase();
       console.log("selectedFile", selectedFile);
       if (allowedExtensions.includes(fileExtension)) {
-        // const reader = new FileReader();
-        // reader.onload = function (e) {
-        // const fileData = e.target.result;
-
         switch (fileType) {
           case "ministryOfTrans":
             setMinistryOfTransDoc(selectedFile);
@@ -138,31 +136,78 @@ export const BoatOfferStep1 = () => {
     }
   };
 
-  const handleCallBack = (name) => {
+  const handleHeaderCallBack = (name) => {
     if (name === "Home") {
-      navigate(-1);
+      if (auth?.tokenDecodeData?.user_type === "BOAT_OWNER") {
+        navigate("/boatOwnerDashBoard");
+      } else {
+        navigate("/rental");
+      }
     } else if (name === "Log In") {
       navigate("/logIn");
     } else if (name === "Sign Up") {
       navigate("/signUP");
-    } else if (name === "Boat Offers") {
-      //   navigate("/home");
     } else if (name === "My Listings") {
-      //   navigate("/myListings");
-    } else if (name === "List a Boat Offer") {
-      //   navigate("/home");
+      navigate("/myListings");
+    } else if (name === "For Boat Rentals" || name === "For Boat Owners") {
+      toast.info("Under Development", {
+        position: toast.POSITION.TOP_RIGHT,
+        autoClose: 2000,
+      });
+    } else if (name === "/searchBoat") {
+      navigate("/searchBoat");
     }
   };
+  const [ministryOfTransDoc_API, setMinistryOfTransDoc_API] = useState("");
+  const [generalDireOfBorderGuardDoc_API, setGeneralDireOfBorderGuardDoc_API] =
+    useState("");
+  const [
+    boatDocumentationsAndLicensesDoc_API,
+    setBoatDocumentationsAndLicensesDoc_API,
+  ] = useState("");
+
+  useEffect(() => {
+    if (dashboard?.single_boat_details?.mnistry_transport_document) {
+      setMinistryOfTransDoc_API(
+        dashboard?.single_boat_details?.mnistry_transport_document
+      );
+      setMinistryOfTransDoc(
+        dashboard?.single_boat_details?.mnistry_transport_document
+      );
+    }
+    if (dashboard?.single_boat_details?.border_guard_document) {
+      setGeneralDireOfBorderGuardDoc_API(
+        dashboard?.single_boat_details?.border_guard_document
+      );
+      setGeneralDireOfBorderGuardDoc(
+        dashboard?.single_boat_details?.border_guard_document
+      );
+    }
+    if (dashboard?.single_boat_details?.boat_license_document) {
+      setBoatDocumentationsAndLicensesDoc_API(
+        dashboard?.single_boat_details?.boat_license_document
+      );
+      setBoatDocumentationsAndLicensesDoc(
+        dashboard?.single_boat_details?.boat_license_document
+      );
+    }
+  }, [
+    dashboard?.single_boat_details?.boat_license_document,
+    dashboard?.single_boat_details?.border_guard_document,
+    dashboard?.single_boat_details?.mnistry_transport_document,
+  ]);
 
   return (
     <>
       <HeaderContent
         contentname1={"Home"}
-        contentname2={"Boat Offers"}
-        contentname3={"My Listings"}
-        contentname4={"List a Boat Offer"}
-        handleBack={handleCallBack}
-        // showLoginSignUp={true}
+        contentname2={"Register Your Boat"}
+        contentname3={"For Boat Rentals"}
+        contentname4={"My Listings"}
+        handleBack={handleHeaderCallBack}
+        search={"/searchBoat"}
+        showLoginSignUp={auth?.AuthToken ? false : true}
+        presentPage={"Register Your Boat"}
       />
       <div style={containerStyle}>
         <div style={headingStyle}>
@@ -197,13 +242,19 @@ export const BoatOfferStep1 = () => {
                     {ministryOfTransDoc?.type === "application/pdf" ? (
                       <img alt="pdf" src={IMAGES.PDF} style={showSelectedImg} />
                     ) : (
-                      <img
-                        alt="img"
-                        src={URL.createObjectURL(ministryOfTransDoc)}
-                        style={showSelectedImg}
-                      />
+                      <>
+                        {ministryOfTransDoc_API ? null : (
+                          <img
+                            alt="img"
+                            src={URL.createObjectURL(ministryOfTransDoc)}
+                            style={showSelectedImg}
+                          />
+                        )}
+                      </>
                     )}
-                    <Typography>{ministryOfTransDoc?.name}</Typography>
+                    <Typography>
+                      {ministryOfTransDoc_API ?? ministryOfTransDoc?.name}
+                    </Typography>
                     <Button
                       onClick={() => removeFile("ministry")}
                       style={removeFileButtonStyle}
@@ -277,13 +328,22 @@ export const BoatOfferStep1 = () => {
                     {generalDireOfBorderGuardDoc?.type === "application/pdf" ? (
                       <img alt="pdf" src={IMAGES.PDF} style={showSelectedImg} />
                     ) : (
-                      <img
-                        alt="img"
-                        src={URL.createObjectURL(generalDireOfBorderGuardDoc)}
-                        style={showSelectedImg}
-                      />
+                      <>
+                        {generalDireOfBorderGuardDoc_API ? null : (
+                          <img
+                            alt="img"
+                            src={URL.createObjectURL(
+                              generalDireOfBorderGuardDoc
+                            )}
+                            style={showSelectedImg}
+                          />
+                        )}
+                      </>
                     )}
-                    <Typography>{generalDireOfBorderGuardDoc?.name}</Typography>
+                    <Typography>
+                      {generalDireOfBorderGuardDoc_API ??
+                        generalDireOfBorderGuardDoc?.name}
+                    </Typography>
                     <Button
                       onClick={() => removeFile("general")}
                       style={removeFileButtonStyle}
@@ -363,16 +423,21 @@ export const BoatOfferStep1 = () => {
                     "application/pdf" ? (
                       <img alt="pdf" src={IMAGES.PDF} style={showSelectedImg} />
                     ) : (
-                      <img
-                        alt="img"
-                        src={URL.createObjectURL(
-                          boatDocumentationsAndLicensesDoc
+                      <>
+                        {boatDocumentationsAndLicensesDoc_API ? null : (
+                          <img
+                            alt="img"
+                            src={URL.createObjectURL(
+                              boatDocumentationsAndLicensesDoc
+                            )}
+                            style={showSelectedImg}
+                          />
                         )}
-                        style={showSelectedImg}
-                      />
+                      </>
                     )}
                     <Typography>
-                      {boatDocumentationsAndLicensesDoc?.name}
+                      {boatDocumentationsAndLicensesDoc_API ??
+                        boatDocumentationsAndLicensesDoc?.name}
                     </Typography>
                     <Button
                       onClick={() => removeFile("boat")}
@@ -434,7 +499,11 @@ export const BoatOfferStep1 = () => {
               <Button
                 variant="contained"
                 color="primary"
-                onClick={handleButtonClick}
+                onClick={() =>
+                  // dashboard?.single_boat_details
+                  //   ? navigate("/BoatOfferStep2")
+                  handleButtonClick()
+                }
                 style={{
                   ...saveContinueButtonTextStyle,
                 }}

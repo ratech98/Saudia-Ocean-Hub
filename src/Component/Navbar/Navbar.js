@@ -10,8 +10,9 @@ import IMAGES from "../../Screens/Images";
 import { useDispatch } from "react-redux";
 import { AuthToken, TokenDecodeData, UserId } from "../../redux/slices";
 import { Typography } from "@mui/material";
+import { toast } from "react-toastify";
 
-const Navbar = ({ showLoginSignUp }) => {
+const Navbar = ({ showLoginSignUp, presentPage }) => {
   const navigate = useNavigate();
   const location = useLocation();
   const [openModal, setOpenModal] = useState(false);
@@ -46,6 +47,13 @@ const Navbar = ({ showLoginSignUp }) => {
     backgroundColor: "rgba(0, 0, 0, 0.4)",
   };
   // console.log("location", location.pathname);
+
+  const warningMsg = () => {
+    toast.info("Under Development", {
+      position: toast.POSITION.TOP_RIGHT,
+      autoClose: 2000,
+    });
+  };
   return (
     <div className="navbar">
       <Container className="w-100 d-inline">
@@ -61,18 +69,59 @@ const Navbar = ({ showLoginSignUp }) => {
           </Col>
           <Col sm={7} className="d-flex align-items-center">
             <Nav>
+              {console.log('presentPage === "Home"', presentPage === "Home")}
               <Nav.Item>
-                {/* navigate(-1); */}
-                <Nav.Link href={navigate(-1)}>Home</Nav.Link>
-                {/* <Typography>Home</Typography> */}
+                <Typography
+                  className="custom-text-style"
+                  style={{
+                    color: presentPage === "Home" ? "#026b93" : "#424651",
+                    textDecoration:
+                      presentPage === "Home" ? "underline" : "none",
+                  }}
+                  onClick={() => navigate(-1)}
+                >
+                  Home
+                </Typography>
               </Nav.Item>
               <Nav.Item>
-                <Nav.Link href="" eventKey="link-1">
+                {/* <Nav.Link href="" eventKey="link-1">
                   For Boat Owners
-                </Nav.Link>
+                </Nav.Link> */}
+                <Typography
+                  className="custom-text-style"
+                  style={{
+                    color:
+                      presentPage === "For Boat Owners" ? "#026b93" : "#424651",
+                    textDecoration:
+                      presentPage === "For Boat Owners" ? "underline" : "none",
+                    marginLeft: "25px",
+                  }}
+                  onClick={() => {
+                    warningMsg();
+                  }}
+                >
+                  For Boat Owners
+                </Typography>
               </Nav.Item>
               <Nav.Item>
-                <Nav.Link href="">For Boat Rentals</Nav.Link>
+                {/* <Nav.Link href="">For Boat Rentals</Nav.Link> */}
+                <Typography
+                  className="custom-text-style"
+                  style={{
+                    color:
+                      presentPage === "For Boat Rentals"
+                        ? "#026b93"
+                        : "#424651",
+                    textDecoration:
+                      presentPage === "For Boat Owners" ? "underline" : "none",
+                    marginLeft: "25px",
+                  }}
+                  onClick={() => {
+                    warningMsg();
+                  }}
+                >
+                  For Boat Rentals
+                </Typography>
               </Nav.Item>
             </Nav>
           </Col>
@@ -102,8 +151,18 @@ const Navbar = ({ showLoginSignUp }) => {
                   alt="iocn"
                   src={IMAGES.EMAIL_ICON}
                   style={styles.searchIcon}
+                  onClick={() => {
+                    warningMsg();
+                  }}
                 />
-                <img alt="iocn" src={IMAGES.BELL} style={styles.searchIcon} />
+                <img
+                  alt="iocn"
+                  src={IMAGES.BELL}
+                  style={styles.searchIcon}
+                  onClick={() => {
+                    navigate("/notification");
+                  }}
+                />
                 <img
                   alt="iocn"
                   src={IMAGES.PROFILE_ICON}

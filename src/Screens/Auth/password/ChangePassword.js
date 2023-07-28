@@ -15,6 +15,7 @@ import { toast } from "react-toastify";
 import { withStyles } from "@mui/styles";
 import { Visibility, VisibilityOff } from "@material-ui/icons";
 import { set_new__password } from "../../../Service/api";
+import Loader from "../../Loader";
 
 const start_space_Validation = new RegExp(/^(?!\s).*/);
 
@@ -44,6 +45,7 @@ export const ChangePassword = () => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [strengthIndicator, setStrengthIndicator] = useState(false);
+  const [isLoader, setIsLoader] = useState(false);
 
   useEffect(() => {
     let conditionsMet = 0;
@@ -80,7 +82,7 @@ export const ChangePassword = () => {
             password: password,
           };
           console.log("payload", payload);
-
+          setIsLoader(true);
           set_new__password(payload)
             .then((res) => {
               console.log("res", res);
@@ -90,6 +92,7 @@ export const ChangePassword = () => {
                   autoClose: 2000,
                 });
                 navigate("/logIn");
+                setIsLoader(false);
               } else {
                 console.log("enter else");
                 setErrorMsg(res?.data?.message);
@@ -97,10 +100,12 @@ export const ChangePassword = () => {
                   position: toast.POSITION.TOP_RIGHT,
                   autoClose: 2000,
                 });
+                setIsLoader(false);
               }
             })
             .catch((err) => {
               console.log("err", err);
+              setIsLoader(false);
             });
         } else {
           toast.error(
@@ -134,6 +139,7 @@ export const ChangePassword = () => {
         paddingBottom: "100px",
       }}
     >
+      {isLoader ? <Loader loading={isLoader} /> : null}
       <img
         src={IMAGES.APP_ICON}
         alt="ICON"

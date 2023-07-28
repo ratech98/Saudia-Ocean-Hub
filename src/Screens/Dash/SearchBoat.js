@@ -9,13 +9,16 @@ import {
 import React, { useEffect, useState } from "react";
 import IMAGES from "../Images";
 import Footer from "../../Component/Footer/Footer";
-import Imagebox from "../../Component/ImageBox/Imagebox";
 import { useNavigate } from "react-router-dom";
 import { withStyles } from "@mui/styles";
 import { LocationOn } from "@material-ui/icons";
 import { HeaderContent } from "../Common/map/HeaderContent";
 import { useSelector } from "react-redux";
 import { boat_list_filter } from "../../Service/api";
+import { BoatDetailCard } from "../new/BoatDetailCard";
+import { MiniLoader } from "../Common/MiniLoader";
+import { toast } from "react-toastify";
+import CardLoader from "../Common/CardLoader";
 
 const CustomTextField = withStyles((theme) => ({
   root: {
@@ -135,8 +138,10 @@ export const SearchBoat = () => {
   const [searchValue, setSearchValue] = useState("");
   const [boatListDataDetails, setBoatListDataDetails] = useState([]);
   const [boatListData, setBoatListData] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
+    setIsLoading(true);
     let payload = {
       pageNo: 1,
     };
@@ -147,9 +152,11 @@ export const SearchBoat = () => {
           setBoatListDataDetails(res?.data);
           setBoatListData(res?.data?.parameters);
         }
+        setIsLoading(false);
       })
       .catch((err) => {
         console.log("error", err);
+        setIsLoading(false);
       });
   }, [auth?.AuthToken]);
 
@@ -171,19 +178,24 @@ export const SearchBoat = () => {
 
   const handleHeaderCallBack = (name) => {
     if (name === "Home") {
-      navigate(-1);
+      if (auth?.tokenDecodeData?.user_type === "BOAT_OWNER") {
+        navigate("/boatOwnerDashBoard");
+      } else {
+        navigate("/rental");
+      }
     } else if (name === "Log In") {
       navigate("/logIn");
     } else if (name === "Sign Up") {
       navigate("/signUP");
-    } else if (name === "Boat Offers") {
-      //   navigate("/home");
     } else if (name === "My Listings") {
       navigate("/myListings");
-    } else if (name === "List a Boat Offer") {
-      // navigate("/home");
-    } else {
-      navigate(name);
+    } else if (name === "For Boat Rentals" || name === "For Boat Owners") {
+      toast.info("Under Development", {
+        position: toast.POSITION.TOP_RIGHT,
+        autoClose: 2000,
+      });
+    } else if (name === "/searchBoat") {
+      navigate("/searchBoat");
     }
   };
 
@@ -205,6 +217,7 @@ export const SearchBoat = () => {
   };
 
   const handleFilterSearch = () => {
+    setIsLoading(true);
     let payload = {
       pageNo: 1,
     };
@@ -239,265 +252,310 @@ export const SearchBoat = () => {
           setBoatListDataDetails(res?.data);
           setBoatListData(res?.data?.parameters);
         }
+        setIsLoading(false);
       })
       .catch((err) => {
         console.log("error", err);
+        setIsLoading(false);
       });
   };
 
   return (
-    <div style={styles.container}>
+    <>
       <HeaderContent
         contentname1={"Home"}
-        contentname2={"Boat Owners"}
-        contentname3={"My Listings"}
-        contentname4={"List a Boat Offer"}
+        contentname2={"For Boat Owners"}
+        contentname3={"For Boat Rentals"}
+        contentname4={"My Listings"}
         handleBack={handleHeaderCallBack}
         search={"/searchBoat"}
         showLoginSignUp={auth?.AuthToken ? false : true}
+        presentPage={"/searchBoat"}
       />
-
-      <div style={styles.searchBarStyle}>
-        <div style={styles.insideSearchStyle}>
-          <div style={styles.locationAndTxtStyle}>
-            <LocationOn />
-            <CustomSearchTextField
-              value={searchValue}
-              variant="outlined"
-              onChange={handleSearch}
-              style={{
-                width: "100%",
-              }}
-              placeholder="Search"
-              inputProps={{
-                style: styles.searchTxt,
-              }}
-            />
-          </div>
-          <div style={styles.searchBtnStyle}>
-            {searchValue?.length > 0 ? (
-              <IconButton
-                onClick={() => {
-                  setSearchValue("");
+      <div style={styles.container}>
+        <div style={styles.searchBarStyle}>
+          <div style={styles.insideSearchStyle}>
+            <div style={styles.locationAndTxtStyle}>
+              <LocationOn />
+              <CustomSearchTextField
+                value={searchValue}
+                variant="outlined"
+                onChange={handleSearch}
+                style={{
+                  width: "100%",
                 }}
-                style={{ alignSelf: "center" }}
+                placeholder="Search"
+                inputProps={{
+                  style: styles.searchTxt,
+                }}
+              />
+            </div>
+            <div style={styles.searchBtnStyle}>
+              {searchValue?.length > 0 ? (
+                <IconButton
+                  onClick={() => {
+                    setSearchValue("");
+                  }}
+                  style={{ alignSelf: "center" }}
+                >
+                  <img
+                    alt="cancel"
+                    src={IMAGES.CANCEL}
+                    style={styles.cancelIcon}
+                  />
+                </IconButton>
+              ) : (
+                <div style={{ width: "40px" }} />
+              )}
+              <div style={styles.straightLine} />
+              <Button
+                onClick={handleFilterSearch}
+                variant="contained"
+                style={styles.btnStyle}
               >
-                <img
-                  alt="cancel"
-                  src={IMAGES.CANCEL}
-                  style={styles.cancelIcon}
-                />
-              </IconButton>
-            ) : (
-              <div style={{ width: "40px" }} />
-            )}
-            <div style={styles.straightLine} />
-            <Button
-              onClick={handleFilterSearch}
-              variant="contained"
-              style={styles.btnStyle}
-            >
-              Find
-            </Button>
+                Find
+              </Button>
+            </div>
           </div>
         </div>
-      </div>
-      <div style={{ ...styles.suggestionBoxContent }}>
-        <Grid item xs={12} sm={6} style={{ width: "40%" }}>
-          <CustomTextField
-            label={"Trip / Watersport Types"}
-            variant="outlined"
-            margin="normal"
-            fullWidth
-            id="boat_type"
-            name="boat_type"
-            placeholder="Trip / Watersport Types"
-            value={selectedBoatType}
-            onChange={(e) => {
-              handleSelection(e, "boat_type");
-            }}
-            select
-            InputProps={{
-              style: {
-                ...textFieldStyles,
-              },
-            }}
-            style={{ width: "100%" }}
-          >
-            {boat_type?.length > 0 ? (
-              boat_type?.map((item, index) => (
-                <MenuItem key={index} value={item?.name}>
-                  {item?.name}
+        <div style={{ ...styles.suggestionBoxContent }}>
+          <Grid item xs={12} sm={6} style={{ width: "40%" }}>
+            <CustomTextField
+              label={"Trip / Watersport Types"}
+              variant="outlined"
+              margin="normal"
+              fullWidth
+              id="boat_type"
+              name="boat_type"
+              placeholder="Trip / Watersport Types"
+              value={selectedBoatType}
+              onChange={(e) => {
+                handleSelection(e, "boat_type");
+              }}
+              select
+              InputProps={{
+                style: {
+                  ...textFieldStyles,
+                },
+              }}
+              style={{ width: "100%" }}
+            >
+              {boat_type?.length > 0 ? (
+                boat_type?.map((item, index) => (
+                  <MenuItem key={index} value={item?.name}>
+                    {item?.name}
+                  </MenuItem>
+                ))
+              ) : (
+                <MenuItem key={"index"} value={"item?.label"}>
+                  Dummy
                 </MenuItem>
-              ))
-            ) : (
-              <MenuItem key={"index"} value={"item?.label"}>
-                Dummy
-              </MenuItem>
-            )}
-          </CustomTextField>
-        </Grid>
-        <Grid
-          item
-          xs={12}
-          sm={6}
+              )}
+            </CustomTextField>
+          </Grid>
+          <Grid
+            item
+            xs={12}
+            sm={6}
+            style={{
+              width: "20%",
+              marginLeft: "50px",
+            }}
+          >
+            <CustomTextField
+              label={"Date"}
+              variant="outlined"
+              margin="normal"
+              fullWidth
+              id="date"
+              name="date"
+              placeholder="date"
+              value={selectedDate}
+              onChange={(e) => {
+                handleSelection(e, "date");
+              }}
+              select
+              InputProps={{ style: textFieldStyles }}
+              style={{ width: "80%" }}
+            >
+              {boat_date?.length > 0 ? (
+                boat_date?.map((item, index) => (
+                  <MenuItem key={index} value={item?.name}>
+                    {item?.name}
+                  </MenuItem>
+                ))
+              ) : (
+                <MenuItem key={"index"} value={"item?.label"}>
+                  Dummy
+                </MenuItem>
+              )}
+            </CustomTextField>
+          </Grid>
+          <Grid item xs={12} sm={6} style={{ width: "20%" }}>
+            <CustomTextField
+              label={"Price"}
+              variant="outlined"
+              margin="normal"
+              fullWidth
+              id="price"
+              name="price"
+              placeholder="price"
+              value={selectedPrice}
+              onChange={(e) => {
+                handleSelection(e, "price");
+              }}
+              select
+              InputProps={{ style: textFieldStyles }}
+              style={{ width: "85%" }}
+            >
+              {boat_price?.length > 0 ? (
+                boat_price?.map((item, index) => (
+                  <MenuItem key={index} value={item?.name}>
+                    {item?.name}
+                  </MenuItem>
+                ))
+              ) : (
+                <MenuItem key={"index"} value={"item?.label"}>
+                  Dummy
+                </MenuItem>
+              )}
+            </CustomTextField>
+          </Grid>
+          <Grid
+            item
+            xs={12}
+            sm={6}
+            style={{
+              width: "20%",
+            }}
+          >
+            <CustomTextField
+              label={"Capacity"}
+              variant="outlined"
+              margin="normal"
+              fullWidth
+              id="capacity"
+              name="capacity"
+              placeholder="capacity"
+              value={selectedCapacity}
+              onChange={(e) => {
+                handleSelection(e, "capacity");
+              }}
+              select
+              InputProps={{ style: textFieldStyles }}
+              style={{ width: "100%" }}
+            >
+              {boat_capacity?.length > 0 ? (
+                boat_capacity?.map((item, index) => (
+                  <MenuItem key={index} value={item?.name}>
+                    {item?.name}
+                  </MenuItem>
+                ))
+              ) : (
+                <MenuItem key={"index"} value={"item?.label"}>
+                  Dummy
+                </MenuItem>
+              )}
+            </CustomTextField>
+          </Grid>
+        </div>
+        <div
           style={{
-            width: "20%",
-            marginLeft: "50px",
+            margin: "0px",
           }}
         >
-          <CustomTextField
-            label={"Date"}
-            variant="outlined"
-            margin="normal"
-            fullWidth
-            id="date"
-            name="date"
-            placeholder="date"
-            value={selectedDate}
-            onChange={(e) => {
-              handleSelection(e, "date");
-            }}
-            select
-            InputProps={{ style: textFieldStyles }}
-            style={{ width: "80%" }}
-          >
-            {boat_date?.length > 0 ? (
-              boat_date?.map((item, index) => (
-                <MenuItem key={index} value={item?.name}>
-                  {item?.name}
-                </MenuItem>
-              ))
-            ) : (
-              <MenuItem key={"index"} value={"item?.label"}>
-                Dummy
-              </MenuItem>
-            )}
-          </CustomTextField>
-        </Grid>
-        <Grid item xs={12} sm={6} style={{ width: "20%" }}>
-          <CustomTextField
-            label={"Price"}
-            variant="outlined"
-            margin="normal"
-            fullWidth
-            id="price"
-            name="price"
-            placeholder="price"
-            value={selectedPrice}
-            onChange={(e) => {
-              handleSelection(e, "price");
-            }}
-            select
-            InputProps={{ style: textFieldStyles }}
-            style={{ width: "85%" }}
-          >
-            {boat_price?.length > 0 ? (
-              boat_price?.map((item, index) => (
-                <MenuItem key={index} value={item?.name}>
-                  {item?.name}
-                </MenuItem>
-              ))
-            ) : (
-              <MenuItem key={"index"} value={"item?.label"}>
-                Dummy
-              </MenuItem>
-            )}
-          </CustomTextField>
-        </Grid>
-        <Grid
-          item
-          xs={12}
-          sm={6}
-          style={{
-            width: "20%",
-          }}
-        >
-          <CustomTextField
-            label={"Capacity"}
-            variant="outlined"
-            margin="normal"
-            fullWidth
-            id="capacity"
-            name="capacity"
-            placeholder="capacity"
-            value={selectedCapacity}
-            onChange={(e) => {
-              handleSelection(e, "capacity");
-            }}
-            select
-            InputProps={{ style: textFieldStyles }}
-            style={{ width: "100%" }}
-          >
-            {boat_capacity?.length > 0 ? (
-              boat_capacity?.map((item, index) => (
-                <MenuItem key={index} value={item?.name}>
-                  {item?.name}
-                </MenuItem>
-              ))
-            ) : (
-              <MenuItem key={"index"} value={"item?.label"}>
-                Dummy
-              </MenuItem>
-            )}
-          </CustomTextField>
-        </Grid>
-      </div>
-      <div
-        style={{
-          margin: "0px",
-          // backgroundColor: "red",
-          // display: "flex",
-          // flexDirection: "column",
-          // alignSelf: "center",
-          // alignItems: "center",
-          // justifyContent: "center",
-          // alignContent: "center",
-          // display: "flex",
-          // width: "100%",
-        }}
-      >
-        {boatListData?.length ? (
-          <>
-            <Imagebox imageBox={boatListData} />
-
-            <div style={styles.loadMoreStyle}>
-              {boatListDataDetails?.currentpage <
-              boatListDataDetails?.totalPage ? (
-                <Button
-                  variant="outlined"
-                  style={styles.loadMoreTxt}
-                  onClick={() => {
-                    handleLoadMore();
-                  }}
-                >
-                  Load more
-                </Button>
-              ) : null}
+          {isLoading ? (
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                alignSelf: "center",
+                alignContent: "center",
+                alignItems: "center",
+              }}
+            >
+              {/* <MiniLoader /> */}
+              <CardLoader />
             </div>
-          </>
-        ) : (
-          <>
-            <div style={styles.noDataContent}>
-              <img
-                alt="no result"
-                src={IMAGES.NO_RESULT}
-                style={styles.noResultImg}
-              />
-              <Typography style={styles.sryTxt}>
-                Sorry, no results found.
-              </Typography>
+          ) : (
+            <>
+              {boatListData?.length ? (
+                <>
+                  <div
+                    style={{
+                      margin: `0px 100px 0px 100px`,
+                      display: "flex",
+                      flexDirection: "row",
+                      flexWrap: "wrap",
+                      // alignSelf: "center",
+                      // alignItems: "center",
+                      // alignContent: "center",
+                      // justifyContent: "center",
+                    }}
+                  >
+                    {boatListData?.map((item, index) => {
+                      return (
+                        <div
+                          style={{
+                            margin: "27.5px",
+                          }}
+                          onClick={() => {
+                            navigate("/boatViewDetails");
+                          }}
+                        >
+                          <BoatDetailCard
+                            boatName={item?.boat_name}
+                            marine_city={item?.marine_city}
+                            starRating={3}
+                            priceCurrency={item?.price_currency}
+                            pricePerHour={item?.price_per_hour}
+                            boatMaxCapacity={item?.boat_max_capacity}
+                          />
+                        </div>
+                      );
+                    })}
+                  </div>
 
-              <Typography style={styles.noResultTxt}>
-                It looks like we couldn't find any boats that match your search
-                Please try again.
-              </Typography>
-            </div>
-          </>
-        )}
+                  <div style={styles.loadMoreStyle}>
+                    {boatListDataDetails?.currentpage <
+                    boatListDataDetails?.totalPage ? (
+                      <Button
+                        variant="outlined"
+                        style={styles.loadMoreTxt}
+                        onClick={() => {
+                          handleLoadMore();
+                        }}
+                      >
+                        Load more
+                      </Button>
+                    ) : null}
+                  </div>
+                </>
+              ) : (
+                <>
+                  <div style={styles.noDataContent}>
+                    <img
+                      alt="no result"
+                      src={IMAGES.NO_RESULT}
+                      style={styles.noResultImg}
+                    />
+                    <Typography style={styles.sryTxt}>
+                      Sorry, no results found.
+                    </Typography>
+
+                    <Typography style={styles.noResultTxt}>
+                      It looks like we couldn't find any boats that match your
+                      search Please try again.
+                    </Typography>
+                  </div>
+                </>
+              )}
+            </>
+          )}
+        </div>
+        <Footer />
       </div>
-      <Footer />
-    </div>
+    </>
   );
 };
 
@@ -514,6 +572,7 @@ const styles = {
     backgroundColor: "#f6f6f6",
     // width: "100%",
     width: "100vw",
+    height: "100%",
   },
   searchBarStyle: {
     display: "flex",

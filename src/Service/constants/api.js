@@ -1,5 +1,5 @@
 export const API = {
-  currentEnv: "qa",
+  currentEnv: "dev",
   baseUrls: {
     // dev: "",
     // prod: "http://localhost:3002/",
@@ -22,5 +22,6 @@ export const API = {
     forgot_password_request: "forgot-password-request",
     verify_forgotpass_otp: "verify-forgotpass-otp",
     set_password: "set-password",
+    single_boat_data: "single_boat_data",
   },
 };

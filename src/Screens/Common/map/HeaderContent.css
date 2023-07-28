@@ -1,0 +1,274 @@
+/* styles.css */
+
+/* Root styles */
+.root {
+  display: flex;
+  background-color: #f6f6f6;
+  /* background-color: #f44336; */
+  width: 100%;
+}
+
+.iconAndAuth {
+  display: flex;
+  width: 20%;
+  align-self: center;
+  justify-content: space-between;
+}
+/* Body styles */
+.body {
+  width: 100%;
+  display: flex;
+  padding: 24px 100px;
+  justify-content: space-between;
+}
+
+/* App icon styles */
+.appIcon {
+  width: 198px;
+  height: 98px;
+}
+
+/* Row content styles */
+.firstRowContent {
+  display: flex;
+  align-items: center;
+  /* background-color: #888; */
+}
+
+/* Bottom line styles */
+.bottomLineStyle {
+  align-self: center;
+  align-items: center;
+  align-content: center;
+  justify-content: center;
+  display: flex;
+  width: 15%;
+}
+
+/* Profile image styles */
+.profileImg {
+  width: 35px;
+  height: 35px;
+  cursor: pointer;
+}
+
+/* Icon styles */
+.Icon {
+  width: 30px;
+  height: 30px;
+}
+
+/* Search icon styles */
+.searchIcon {
+  width: 25px;
+  height: 25px;
+  cursor: pointer;
+}
+
+/* Display text content styles */
+.diplayTxtContent {
+  display: flex;
+  /* background-color: aqua; */
+}
+
+/* Icon row content styles */
+.iconRowContent {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  /* background-color: #888; */
+}
+
+/* Title text styles */
+.titleTxt {
+  font-size: 18px;
+  font-weight: normal;
+  font-family: "Poppins";
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.5;
+  letter-spacing: normal;
+  color: #424651;
+  margin-right: 30px;
+  cursor: pointer;
+}
+
+/* Modal content styles */
+.modalContentStyle {
+  background-color: #fefefe;
+  margin: 15% auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 300px;
+}
+
+/* Button styles */
+.buttonStyle {
+  margin-bottom: 10px;
+  margin-right: 10px;
+  padding: 10px 20px;
+  border-radius: 4px;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+/* Logout button styles */
+.logoutButtonStyle {
+  background-color: #f44336;
+  color: white;
+}
+
+/* Cancel button styles */
+.cancelButtonStyle {
+  background-color: #ccc;
+  color: black;
+}
+
+.diplayTxtContent .contentName {
+  font-family: Poppins;
+  font-size: 20px;
+  font-weight: 500;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.46;
+  letter-spacing: normal;
+  color: #424651;
+  margin-left: 50px;
+}
+@media (max-width: 1000px) {
+  .body {
+    width: 100%;
+    display: flex;
+    padding: 24px 100px;
+    flex-direction: column;
+
+    /* background-color: #888; */
+  }
+  .diplayTxtContent {
+    display: flex;
+    width: 100%;
+    /* background-color: #f44336; */
+    justify-content: space-between;
+    padding: 10px 0px;
+  }
+
+  .iconAndAuth {
+    display: flex;
+    /* background-color: darkgoldenrod; */
+    width: 100%;
+    /* background-color: rgb(99, 30, 210); */
+    width: 100%;
+    align-self: center;
+    justify-content: space-between;
+  }
+
+  .iconRowContent {
+    display: flex;
+    /* align-items: center; */
+    justify-content: space-between;
+    width: 100%;
+    padding: 10px 0px;
+    /* background-color: aquamarine; */
+  }
+  .lastRow {
+    display: "flex";
+
+    width: "20%";
+  }
+  .firstRowContent {
+    display: flex;
+    align-items: center;
+    /* background-color: #f44336; */
+    flex-direction: column;
+    width: 100%;
+  }
+  .titleTxt {
+    font-size: 14px;
+    font-weight: normal;
+    font-family: "Poppins";
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.5;
+    letter-spacing: normal;
+    color: #424651;
+    margin-right: 20px;
+    cursor: pointer;
+  }
+
+  .diplayTxtContent .contentName {
+    font-family: Poppins;
+    font-size: 15px;
+    font-weight: 500;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.46;
+    letter-spacing: normal;
+    color: #424651;
+  }
+
+  .searchIcon {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+  }
+  .profileImg {
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+  }
+}
+
+@media (max-width: 700px) {
+  .body {
+    width: 100%;
+    display: flex;
+    padding: 14px 50px;
+    flex-direction: column;
+    justify-content: space-between;
+    /* background-color: #888; */
+  }
+  .iconRowContent {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: 24px 0px;
+    /* background-color: #f44336; */
+  }
+  .diplayTxtContent .contentName {
+    font-family: Poppins;
+    font-size: 12px;
+    font-weight: 500;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.46;
+    letter-spacing: normal;
+    color: #424651;
+    margin-left: 50px;
+  }
+  /* .diplayTxtContent {
+      display: flex;
+      background-color: #f44336;
+      width: 100%;
+    }
+   
+    .firstRowContent {
+      display: flex;
+      align-items: center;
+      flex-direction: column;
+    }
+    .titleTxt {
+      font-size: 14px;
+      font-weight: normal;
+      font-family: "Poppins";
+      font-stretch: normal;
+      font-style: normal;
+      line-height: 1.5;
+      letter-spacing: normal;
+      color: #424651;
+      margin-right: 20px;
+      cursor: pointer;
+    } */
+}

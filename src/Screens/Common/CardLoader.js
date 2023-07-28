@@ -46,19 +46,22 @@ const CardLoader = ({ imageBox = null }) => {
   return (
     <div
       style={{
-        margin: "0px",
-        paddingLeft: "110px",
         display: "flex",
         flexWrap: "wrap",
+        // backgroundColor: "red",
+        alignItems: "center",
+        alignContent: "center",
+        justifyContent: "center",
+        alignSelf: "center",
       }}
     >
       {localImageBox?.map((item, index) => (
         <>
           <Skeleton
             style={{
-              margin: "-50px 42.5px",
+              margin: "0px 30px",
               width: "400px",
-              height: "400px",
+              height: "700px",
             }}
           />
         </>

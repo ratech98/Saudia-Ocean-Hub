@@ -3,10 +3,6 @@ import { useFormik } from "formik";
 import {
   Button,
   Checkbox,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
   Grid,
   Input,
   InputLabel,
@@ -28,6 +24,7 @@ import {
 import IMAGES from "../../../Images";
 import Map from "../../../Common/map/Map";
 import { toast } from "react-toastify";
+import { HeaderContent } from "../../../Common/map/HeaderContent";
 
 const start_space_Validation = new RegExp(/^(?!\s).*/);
 
@@ -55,6 +52,7 @@ export const BoatOfferStep2 = () => {
   const auth = useSelector((state) => state?.auth);
   const dash = useSelector((state) => state?.auth);
   const [selectedFiles, setSelectedFiles] = useState([]);
+  const [boatServices, setBoatServices] = useState([]);
   const [showCut, setShowCut] = useState();
   const [selectedBoatServices, setSelectedBoatServices] = useState([]);
   const [customService, setCustomService] = useState("");
@@ -68,34 +66,29 @@ export const BoatOfferStep2 = () => {
   const [mapLocError, setMapLocError] = useState(false);
   const [modalOpenIndex, setModalOpenIndex] = useState(null);
   const [modalOpen, setModalOpen] = useState(false);
+  const [markers, setMarkers] = useState([
+    { id: 1, lat: 20.146220361679458, lng: 40.2568970541965 },
+    // { id: 2, lat: 20.146220361679458, lng: 42.2568970541965 },
+    // { id: 3, lat: 20.146220361679458, lng: 41.2568970541965 },
+  ]);
+  const [selectedMarker, setSelectedMarker] = useState(null);
   const modalRef = useRef(null);
+  const dashboard = useSelector((state) => state?.dashboard);
 
-  const defaultProps = {
-    center: {
-      lat: 10.99835602,
-      lng: 77.01502627,
-    },
-    zoom: 11,
-  };
-
-  const handleMapClick = async ({ lat, lng }) => {
-    try {
-      const response = await axios.get(
-        `https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&key=YOUR_API_KEY`
-      );
-      console.log("res", response);
-      const { results } = response.data;
-      if (results.length > 0) {
-        const address = results[0].formatted_address;
-        setSelectedAddress({ lat, lng, address });
-      }
-    } catch (error) {
-      console.log("Error: ", error);
-    }
-    setSelectedAddress({ lat, lng });
-  };
-
+  console.log("dashboard", dashboard?.single_boat_details?.boats_image);
   console.log("selectedFiles", selectedFiles);
+
+  useEffect(() => {
+    if (dashboard?.single_boat_details) {
+      let marker = {
+        lat: dashboard?.single_boat_details?.latitude,
+        lng: dashboard?.single_boat_details?.longtitude,
+      };
+      setSelectedMarker(marker);
+      setSelectedAddress(marker);
+      setSelectedFiles(dashboard?.single_boat_details?.boats_image);
+    }
+  }, [dashboard?.single_boat_details]);
 
   useEffect(() => {
     boat_type(auth?.AuthToken)
@@ -114,6 +107,7 @@ export const BoatOfferStep2 = () => {
         console.log("boat_service res", res?.data);
         if (res?.data?.success) {
           dispatch(boatServiceList(res?.data?.parameters));
+          setBoatServices(res?.data?.parameters);
         } else {
         }
       })
@@ -137,6 +131,7 @@ export const BoatOfferStep2 = () => {
 
   const handleBoatServiceToggle = (service) => {
     const isSelected = selectedBoatServices.includes(service);
+
     if (isSelected) {
       setSelectedBoatServices(
         selectedBoatServices.filter((s) => s !== service)
@@ -192,18 +187,6 @@ export const BoatOfferStep2 = () => {
     setSelectedFiles([...selectedFiles, ...selectedImages]);
   };
 
-  // if (file) {
-  //   const reader = new FileReader();
-  //   reader.onloadend = () => {
-  //     const dataUrl = reader.result;
-  //     setImageData(dataUrl);
-  //     // Call your API function here, passing the image data
-  //     // For example:
-  //     // sendImageDataToServer(dataUrl);
-  //   };
-  //   reader.readAsDataURL(file);
-  // }
-
   const removeImage = (index) => {
     const updatedFiles = [...selectedFiles];
     updatedFiles.splice(index, 1);
@@ -212,14 +195,14 @@ export const BoatOfferStep2 = () => {
 
   const formik = useFormik({
     initialValues: {
-      boatName: "",
-      boatType: "",
-      boatYear: "",
-      boatLength: "",
-      maxCapacity: "",
-      pricePerHour: "",
-      Marine_Name: "",
-      Marine_Address: "",
+      boatName: dashboard?.single_boat_details?.boat_name ?? "",
+      boatType: dashboard?.single_boat_details?.boat_type ?? "",
+      boatYear: dashboard?.single_boat_details?.boat_type ?? "",
+      boatLength: dashboard?.single_boat_details?.boat_length ?? "",
+      maxCapacity: dashboard?.single_boat_details?.boat_max_capacity ?? "",
+      pricePerHour: dashboard?.single_boat_details?.price_per_hour ?? "",
+      Marine_Name: dashboard?.single_boat_details?.marine_name ?? "",
+      Marine_Address: dashboard?.single_boat_details?.latitude ?? "",
     },
     onSubmit: (values) => {
       console.log("values", values);
@@ -280,93 +263,117 @@ export const BoatOfferStep2 = () => {
     event.preventDefault();
   }
 
-  function CommonModal({ open, onClose, title, content, actions }) {
-    return (
-      <Dialog open={open} onClose={onClose}>
-        {title && <DialogTitle>{title}</DialogTitle>}
-        {content && <DialogContent>{content}</DialogContent>}
-        {actions && <DialogActions>{actions}</DialogActions>}
-      </Dialog>
-    );
-  }
-
-  const [markers, setMarkers] = useState([
-    { id: 1, lat: 20.146220361679458, lng: 40.2568970541965 },
-    { id: 2, lat: 20.146220361679458, lng: 42.2568970541965 },
-    { id: 3, lat: 20.146220361679458, lng: 41.2568970541965 },
-  ]);
-  const [selectedMarker, setSelectedMarker] = useState(null);
-
   // Handle marker selection
   const handleSelectMarker = (marker) => {
     setSelectedMarker(marker);
     setSelectedAddress(marker);
   };
 
-  return (
-    <div style={containerStyle}>
-      <div style={headingStyle}>
-        <span style={headingTextStyle}>
-          Show off your boat in a few clicks!
-        </span>
-      </div>
-      <div style={formContainerStyle}>
-        <div style={stepContainerStyle}>
-          <span style={stepNumberStyle}>Step 2</span>
-          <div style={dividerStyle} />
-          <form onSubmit={formik.handleSubmit}>
-            <Grid container spacing={2} style={{ marginTop: "50px" }}>
-              {/* Boat Name */}
-              <Grid item xs={12} sm={6}>
-                <InputLabel htmlFor="boatName" style={inputLabelStyles}>
-                  Boat Name
-                </InputLabel>
-                <TextField
-                  variant="outlined"
-                  margin="normal"
-                  fullWidth
-                  id="boatName"
-                  name="boatName"
-                  placeholder="Boat Name"
-                  value={formik.values.boatName}
-                  onChange={(event) => {
-                    const inputValue = event.target.value;
-                    if (start_space_Validation.test(inputValue)) {
-                      formik.setFieldValue("boatName", inputValue);
-                    }
-                  }}
-                  error={
-                    formik.touched.boatName && Boolean(formik.errors.boatName)
-                  }
-                  helperText={formik.touched.boatName && formik.errors.boatName}
-                  InputProps={{
-                    style: textFieldStyles,
-                  }}
-                />
-              </Grid>
+  const handleHeaderCallBack = (name) => {
+    if (name === "Home") {
+      if (auth?.tokenDecodeData?.user_type === "BOAT_OWNER") {
+        navigate("/boatOwnerDashBoard");
+      } else {
+        navigate("/rental");
+      }
+    } else if (name === "Log In") {
+      navigate("/logIn");
+    } else if (name === "Sign Up") {
+      navigate("/signUP");
+    } else if (name === "My Listings") {
+      navigate("/myListings");
+    } else if (name === "For Boat Rentals" || name === "For Boat Owners") {
+      toast.info("Under Development", {
+        position: toast.POSITION.TOP_RIGHT,
+        autoClose: 2000,
+      });
+    } else if (name === "/searchBoat") {
+      navigate("/searchBoat");
+    }
+  };
 
-              {/* Boat Type */}
-              <Grid item xs={12} sm={6}>
-                <InputLabel htmlFor="boatType" style={{ ...inputLabelStyles }}>
-                  Boat Type
-                </InputLabel>
-                <CustomTextField
-                  variant="outlined"
-                  margin="normal"
-                  fullWidth
-                  id="boatType"
-                  name="boatType"
-                  placeholder="Boat Type"
-                  value={formik.values.boatType}
-                  onChange={formik.handleChange}
-                  error={
-                    formik.touched.boatType && Boolean(formik.errors.boatType)
-                  }
-                  helperText={formik.touched.boatType && formik.errors.boatType}
-                  select
-                  InputProps={{ style: textFieldStyles }}
-                >
-                  {/* {dash?.boatType?.length > 0 ? (
+  return (
+    <>
+      <HeaderContent
+        contentname1={"Home"}
+        contentname2={"Register Your Boat"}
+        contentname3={"For Boat Rentals"}
+        contentname4={"My Listings"}
+        handleBack={handleHeaderCallBack}
+        search={"/searchBoat"}
+        showLoginSignUp={auth?.AuthToken ? false : true}
+        presentPage={"Register Your Boat"}
+      />
+      <div style={containerStyle}>
+        <div style={headingStyle}>
+          <span style={headingTextStyle}>
+            Show off your boat in a few clicks!
+          </span>
+        </div>
+        <div style={formContainerStyle}>
+          <div style={stepContainerStyle}>
+            <span style={stepNumberStyle}>Step 2</span>
+            <div style={dividerStyle} />
+            <form onSubmit={formik.handleSubmit}>
+              <Grid container spacing={2} style={{ marginTop: "50px" }}>
+                {/* Boat Name */}
+                <Grid item xs={12} sm={6}>
+                  <InputLabel htmlFor="boatName" style={inputLabelStyles}>
+                    Boat Name
+                  </InputLabel>
+                  <TextField
+                    variant="outlined"
+                    margin="normal"
+                    fullWidth
+                    id="boatName"
+                    name="boatName"
+                    placeholder="Boat Name"
+                    value={formik.values.boatName}
+                    onChange={(event) => {
+                      const inputValue = event.target.value;
+                      if (start_space_Validation.test(inputValue)) {
+                        formik.setFieldValue("boatName", inputValue);
+                      }
+                    }}
+                    error={
+                      formik.touched.boatName && Boolean(formik.errors.boatName)
+                    }
+                    helperText={
+                      formik.touched.boatName && formik.errors.boatName
+                    }
+                    InputProps={{
+                      style: textFieldStyles,
+                    }}
+                  />
+                </Grid>
+
+                {/* Boat Type */}
+                <Grid item xs={12} sm={6}>
+                  <InputLabel
+                    htmlFor="boatType"
+                    style={{ ...inputLabelStyles }}
+                  >
+                    Boat Type
+                  </InputLabel>
+                  <CustomTextField
+                    variant="outlined"
+                    margin="normal"
+                    fullWidth
+                    id="boatType"
+                    name="boatType"
+                    placeholder="Boat Type"
+                    value={formik.values.boatType}
+                    onChange={formik.handleChange}
+                    error={
+                      formik.touched.boatType && Boolean(formik.errors.boatType)
+                    }
+                    helperText={
+                      formik.touched.boatType && formik.errors.boatType
+                    }
+                    select
+                    InputProps={{ style: textFieldStyles }}
+                  >
+                    {/* {dash?.boatType?.length > 0 ? (
                     dash.boatType.map((item, index) => (
                       <MenuItem key={index} value={item?.label}>
                         {item?.label}
@@ -374,810 +381,825 @@ export const BoatOfferStep2 = () => {
                     ))
                   ) : (
                     <> */}
-                  {boat_type_options?.map((item, index) => (
-                    <MenuItem
-                      key={index}
-                      value={item.name}
-                      selected={formik.values.boatType === item.name}
-                    >
-                      {item?.name}
-                    </MenuItem>
-                  ))}
-                  {/* </>
+                    {boat_type_options?.map((item, index) => (
+                      <MenuItem
+                        key={index}
+                        value={item.name}
+                        selected={formik.values.boatType === item.name}
+                      >
+                        {item?.name}
+                      </MenuItem>
+                    ))}
+                    {/* </>
                   )} */}
-                </CustomTextField>
-              </Grid>
+                  </CustomTextField>
+                </Grid>
 
-              {/* Boat Year */}
-              <Grid item xs={12} sm={6}>
-                <InputLabel htmlFor="boatName" style={inputLabelStyles}>
-                  Boat Year
-                </InputLabel>
-                <TextField
-                  variant="outlined"
-                  margin="normal"
-                  fullWidth
-                  id="boatYear"
-                  name="boatYear"
-                  placeholder="Boat Year"
-                  value={formik.values.boatYear}
-                  onChange={(event) => {
-                    const inputValue = event.target.value;
-                    if (start_space_Validation.test(inputValue)) {
-                      formik.setFieldValue("boatYear", inputValue);
+                {/* Boat Year */}
+                <Grid item xs={12} sm={6}>
+                  <InputLabel htmlFor="boatName" style={inputLabelStyles}>
+                    Boat Year
+                  </InputLabel>
+                  <TextField
+                    variant="outlined"
+                    margin="normal"
+                    fullWidth
+                    id="boatYear"
+                    name="boatYear"
+                    placeholder="Boat Year"
+                    value={formik.values.boatYear}
+                    onChange={(event) => {
+                      const inputValue = event.target.value;
+                      if (start_space_Validation.test(inputValue)) {
+                        formik.setFieldValue("boatYear", inputValue);
+                      }
+                    }}
+                    error={
+                      formik.touched.boatYear && Boolean(formik.errors.boatYear)
                     }
-                  }}
-                  error={
-                    formik.touched.boatYear && Boolean(formik.errors.boatYear)
-                  }
-                  helperText={formik.touched.boatYear && formik.errors.boatYear}
-                  InputProps={{
-                    style: textFieldStyles,
-                  }}
-                />
-              </Grid>
-
-              {/*   Boat Length */}
-              <Grid item xs={12} sm={6}>
-                <InputLabel htmlFor="boatName" style={inputLabelStyles}>
-                  Boat Length
-                </InputLabel>
-                <TextField
-                  variant="outlined"
-                  margin="normal"
-                  fullWidth
-                  id="boatLength"
-                  name="boatLength"
-                  placeholder="Boat Length"
-                  value={formik.values.boatLength}
-                  onChange={(event) => {
-                    const inputValue = event.target.value;
-                    if (start_space_Validation.test(inputValue)) {
-                      formik.setFieldValue("boatLength", inputValue);
+                    helperText={
+                      formik.touched.boatYear && formik.errors.boatYear
                     }
-                  }}
-                  error={
-                    formik.touched.boatLength &&
-                    Boolean(formik.errors.boatLength)
-                  }
-                  helperText={
-                    formik.touched.boatLength && formik.errors.boatLength
-                  }
-                  InputProps={{
-                    style: textFieldStyles,
-                  }}
-                />
-              </Grid>
+                    InputProps={{
+                      style: textFieldStyles,
+                    }}
+                  />
+                </Grid>
 
-              {/* Max Capacity */}
-              <Grid item xs={12} sm={6}>
-                <InputLabel htmlFor="boatName" style={inputLabelStyles}>
-                  Max Capacity
-                </InputLabel>
-                <TextField
-                  variant="outlined"
-                  margin="normal"
-                  fullWidth
-                  id="maxCapacity"
-                  name="maxCapacity"
-                  placeholder="Max Capacity"
-                  value={formik.values.maxCapacity}
-                  onChange={(event) => {
-                    const inputValue = event.target.value;
-                    if (start_space_Validation.test(inputValue)) {
-                      formik.setFieldValue("maxCapacity", inputValue);
+                {/*   Boat Length */}
+                <Grid item xs={12} sm={6}>
+                  <InputLabel htmlFor="boatName" style={inputLabelStyles}>
+                    Boat Length
+                  </InputLabel>
+                  <TextField
+                    variant="outlined"
+                    margin="normal"
+                    fullWidth
+                    id="boatLength"
+                    name="boatLength"
+                    placeholder="Boat Length"
+                    value={formik.values.boatLength}
+                    onChange={(event) => {
+                      const inputValue = event.target.value;
+                      if (start_space_Validation.test(inputValue)) {
+                        formik.setFieldValue("boatLength", inputValue);
+                      }
+                    }}
+                    error={
+                      formik.touched.boatLength &&
+                      Boolean(formik.errors.boatLength)
                     }
-                  }}
-                  error={
-                    formik.touched.maxCapacity &&
-                    Boolean(formik.errors.maxCapacity)
-                  }
-                  helperText={
-                    formik.touched.maxCapacity && formik.errors.maxCapacity
-                  }
-                  InputProps={{
-                    style: textFieldStyles,
-                  }}
-                />
-              </Grid>
-
-              {/* Price Per Hour */}
-              <Grid item xs={12} sm={6}>
-                <InputLabel htmlFor="boatName" style={inputLabelStyles}>
-                  Price Per Hour
-                </InputLabel>
-                <TextField
-                  variant="outlined"
-                  margin="normal"
-                  fullWidth
-                  id="pricePerHour"
-                  name="pricePerHour"
-                  placeholder="Price Per Hour"
-                  value={formik.values.pricePerHour}
-                  onChange={(event) => {
-                    const inputValue = event.target.value;
-                    if (start_space_Validation.test(inputValue)) {
-                      formik.setFieldValue("pricePerHour", inputValue);
+                    helperText={
+                      formik.touched.boatLength && formik.errors.boatLength
                     }
-                  }}
-                  error={
-                    formik.touched.pricePerHour &&
-                    Boolean(formik.errors.pricePerHour)
-                  }
-                  helperText={
-                    formik.touched.pricePerHour && formik.errors.pricePerHour
-                  }
-                  InputProps={{
-                    style: textFieldStyles,
-                  }}
-                />
-              </Grid>
+                    InputProps={{
+                      style: textFieldStyles,
+                    }}
+                  />
+                </Grid>
 
-              {/* Upload images of your boat */}
-              <Grid
-                style={{
-                  width: "100%",
-                  marginLeft: 15,
-                  marginTop: "50px",
-                  display: "flex",
-                  flexDirection: "column",
-                }}
-              >
-                <span
-                  style={{
-                    fontSize: 24,
-                    fontFamily: "Poppins",
-                    color: "#424651",
-                    fontWeight: "500",
-                    // textAlign: "center",
-                  }}
-                >
-                  Upload images of your boat
-                </span>
+                {/* Max Capacity */}
+                <Grid item xs={12} sm={6}>
+                  <InputLabel htmlFor="boatName" style={inputLabelStyles}>
+                    Max Capacity
+                  </InputLabel>
+                  <TextField
+                    variant="outlined"
+                    margin="normal"
+                    fullWidth
+                    id="maxCapacity"
+                    name="maxCapacity"
+                    placeholder="Max Capacity"
+                    value={formik.values.maxCapacity}
+                    onChange={(event) => {
+                      const inputValue = event.target.value;
+                      if (start_space_Validation.test(inputValue)) {
+                        formik.setFieldValue("maxCapacity", inputValue);
+                      }
+                    }}
+                    error={
+                      formik.touched.maxCapacity &&
+                      Boolean(formik.errors.maxCapacity)
+                    }
+                    helperText={
+                      formik.touched.maxCapacity && formik.errors.maxCapacity
+                    }
+                    InputProps={{
+                      style: textFieldStyles,
+                    }}
+                  />
+                </Grid>
 
-                <label htmlFor="fileInput">
-                  <div
-                    id="dropArea"
-                    onDrop={(e) => handleDrop(e)}
-                    onDragOver={handleDragOver}
-                  >
-                    <div
-                      style={{
-                        marginTop: "10px",
-                        border:
-                          selectedFiles.length <= 0 && imgUploadError
-                            ? "1px dashed red"
-                            : "1px dashed gray",
-                        // border: "1px dashed gray",
-                        borderRadius: "20px",
-                        alignItems: "center",
-                        alignContent: "center",
-                        justifyContent: "center",
-                        alignSelf: "center",
-                        display: "flex",
-                        paddingTop: "10px",
-                        paddingBottom: "10px",
-                        paddingLeft: "40px",
-                        paddingRight: "40px",
-                        flexDirection: "column",
-                        cursor: "pointer",
-                      }}
-                    >
-                      <input
-                        type="file"
-                        id="fileInput"
-                        multiple
-                        onChange={(event) =>
-                          handleFileSelect(event.target.files)
-                        }
-                        style={{ display: "none" }}
-                      />
-                      <img
-                        alt="cloud"
-                        src={IMAGES.CLOUD_UPLOAD_SIGNAL}
-                        style={{ width: 100, height: 70 }}
-                      />
+                {/* Price Per Hour */}
+                <Grid item xs={12} sm={6}>
+                  <InputLabel htmlFor="boatName" style={inputLabelStyles}>
+                    Price Per Hour
+                  </InputLabel>
+                  <TextField
+                    variant="outlined"
+                    margin="normal"
+                    fullWidth
+                    id="pricePerHour"
+                    name="pricePerHour"
+                    placeholder="Price Per Hour"
+                    value={formik.values.pricePerHour}
+                    onChange={(event) => {
+                      const inputValue = event.target.value;
+                      if (start_space_Validation.test(inputValue)) {
+                        formik.setFieldValue("pricePerHour", inputValue);
+                      }
+                    }}
+                    error={
+                      formik.touched.pricePerHour &&
+                      Boolean(formik.errors.pricePerHour)
+                    }
+                    helperText={
+                      formik.touched.pricePerHour && formik.errors.pricePerHour
+                    }
+                    InputProps={{
+                      style: textFieldStyles,
+                    }}
+                  />
+                </Grid>
 
-                      <span
-                        style={{
-                          fontSize: 18,
-                          fontFamily: "Poppins",
-                          color: "#424651",
-                          fontWeight: "500",
-                          textAlign: "center",
-                        }}
-                      >
-                        Drop your images here, or
-                      </span>
-                      <span
-                        style={{
-                          fontSize: 18,
-                          fontFamily: "Poppins",
-                          color: "#f6f6f6",
-                          backgroundColor: "#3973a5",
-                          paddingTop: "10px",
-                          paddingBottom: "10px",
-                          paddingLeft: "40px",
-                          paddingRight: "40px",
-                          borderRadius: "10px",
-                          marginTop: "10px",
-                        }}
-                      >
-                        Choose File
-                      </span>
-                      <span
-                        style={{
-                          fontSize: 12,
-                          fontFamily: "Poppins",
-                          color: "#424651",
-                          marginTop: "30px",
-                        }}
-                      >
-                        supports JPG, PNG,JPEG
-                      </span>
-                    </div>
-                  </div>
-                </label>
-                {selectedFiles.length <= 0 && imgUploadError ? (
-                  <Typography style={ErrMsgTxt}>
-                    Please upload your Images
-                  </Typography>
-                ) : null}
-              </Grid>
-
-              {/* slected boat images */}
-              <div
-                style={{
-                  marginLeft: 15,
-                  // height: "200px",
-                  // overflow: "auto",
-                  width: "100%",
-                }}
-              >
-                <div
-                  style={{
-                    display: "flex",
-                    flexWrap: "wrap",
-                    width: "100%",
-                  }}
-                >
-                  {selectedFiles.length ? (
-                    <>
-                      {selectedFiles?.map((item, index) => {
-                        let trackIndex = index;
-                        return (
-                          <div
-                            style={{
-                              width: "45%",
-                              justifyContent: "space-evenly",
-                              margin: "10px",
-                            }}
-                          >
-                            <div
-                              style={{
-                                display: "flex",
-                                padding: "15px",
-                                borderStyle: "solid",
-                                borderRadius: "10px",
-                                borderColor: "gray",
-                                borderWidth: ".5px",
-                                alignItems: "center",
-                              }}
-                              onMouseOver={(e) => {
-                                setShowCut(index);
-                              }}
-                              // onMouseOut={(e) => {
-                              //   setShowCut("");
-                              // }}
-                            >
-                              <img
-                                alt="user selected img"
-                                src={URL.createObjectURL(item)}
-                                style={{
-                                  width: "70px",
-                                  height: "60px",
-                                  backgroundColor: "rgba(66, 70, 81, 0.3)",
-                                  borderStyle: "solid",
-                                  borderRadius: "10px",
-                                  borderColor: "gray",
-                                  borderWidth: ".5px",
-                                }}
-                              />
-                              <div
-                                style={{
-                                  display: "flex",
-                                  justifyContent: "space-between",
-                                  flex: 1,
-                                }}
-                              >
-                                <div style={{ flexDirection: "column" }}>
-                                  <Typography
-                                    style={{
-                                      fontSize: 14,
-                                      fontFamily: "Poppins",
-                                      color: "#424651",
-                                      marginLeft: "10px",
-                                      fontWeight: "bold",
-                                    }}
-                                  >
-                                    {item?.name}
-                                  </Typography>
-                                  {backgroungImage === index ? (
-                                    <Typography
-                                      style={{
-                                        fontSize: 14,
-                                        fontFamily: "Poppins",
-                                        color: "#424651",
-                                        marginLeft: "10px",
-                                      }}
-                                    >
-                                      {"selected as BackgroungImage"}
-                                    </Typography>
-                                  ) : null}
-                                  {profileImg === index ? (
-                                    <Typography
-                                      style={{
-                                        fontSize: 14,
-                                        fontFamily: "Poppins",
-                                        color: "#424651",
-                                        marginLeft: "10px",
-                                      }}
-                                    >
-                                      {"selected as Profile Image"}
-                                    </Typography>
-                                  ) : null}
-                                </div>
-                                {showCut === index ? (
-                                  <div
-                                    style={{
-                                      flex: 0.3,
-                                      display: "flex",
-                                      justifyContent: "space-between",
-                                      alignSelf: "center",
-                                      // padding: 10,
-                                    }}
-                                  >
-                                    <Clear
-                                      onClick={() => {
-                                        removeImage(index);
-                                      }}
-                                    />
-
-                                    <MoreVert
-                                      onClick={() => {
-                                        setOpenModal(true);
-                                        setModalOpen(true);
-                                        setModalOpenIndex(trackIndex);
-                                      }}
-                                    />
-                                  </div>
-                                ) : null}
-                              </div>
-                            </div>
-
-                            <div
-                              style={{
-                                display: "flex",
-                                justifyContent: "center",
-                              }}
-                            >
-                              {modalOpen && modalOpenIndex === trackIndex ? (
-                                <>
-                                  <Grid
-                                    ref={modalRef}
-                                    style={{
-                                      width: "15%",
-                                      display: "flex",
-                                      flexDirection: "column",
-                                      position: "absolute",
-                                      // width: "10%",
-                                      border: "1px solid black",
-                                      borderRadius: "10px",
-                                      boxShadow:
-                                        "0px 2px 4px rgba(0, 0, 0, 0.25)",
-                                      padding: "25px",
-                                      backgroundColor: "white",
-                                    }}
-                                  >
-                                    <Typography
-                                      style={{
-                                        fontSize: 16,
-                                        fontFamily: "Poppins",
-                                        color: "#424651",
-                                        cursor: "pointer",
-                                        textAlign: "center",
-                                      }}
-                                      onClick={() => {
-                                        console.log("item", item);
-                                        setOpenModal(false);
-                                        setBackgroungImage(index);
-                                        dispatch(
-                                          boatRegisterStep2({
-                                            Boat_name: auth?.Boat_name,
-                                            Boat_type: auth?.Boat_type,
-                                            Boat_year: auth?.Boat_year,
-                                            Boat_length: auth?.Boat_length,
-                                            Boat_max_capacity:
-                                              auth?.Boat_max_capacity,
-                                            Boat_price_per_hour:
-                                              auth?.Boat_price_per_hour,
-                                            Upload_images_of_your_boat:
-                                              auth?.Upload_images_of_your_boat,
-                                            Boat_services_selected:
-                                              auth?.Boat_services_selected,
-                                            Marine_name: auth?.Marine_name,
-                                            Marine_address:
-                                              auth?.Marine_address,
-                                            Boat_backgroung_image: item,
-                                            Boat_profile_image:
-                                              auth?.Boat_profile_image,
-                                          })
-                                        );
-                                      }}
-                                      onMouseEnter={(e) => {
-                                        e.target.style.color = "blue";
-                                      }}
-                                      onMouseLeave={(e) => {
-                                        e.target.style.color = "black";
-                                      }}
-                                    >
-                                      Background Image
-                                    </Typography>
-                                    <Typography
-                                      style={{
-                                        fontSize: 16,
-                                        fontFamily: "Poppins",
-                                        color: "#424651",
-                                        cursor: "pointer",
-                                        textAlign: "center",
-                                      }}
-                                      onClick={() => {
-                                        setOpenModal(false);
-                                        setProfileImg(index);
-                                        console.log("auth", auth);
-                                        dispatch(
-                                          boatRegisterStep2({
-                                            Boat_name: auth?.Boat_name,
-                                            Boat_type: auth?.Boat_type,
-                                            Boat_year: auth?.Boat_year,
-                                            Boat_length: auth?.Boat_length,
-                                            Boat_max_capacity:
-                                              auth?.Boat_max_capacity,
-                                            Boat_price_per_hour:
-                                              auth?.Boat_price_per_hour,
-                                            Upload_images_of_your_boat:
-                                              auth?.Upload_images_of_your_boat,
-                                            Boat_services_selected:
-                                              auth?.Boat_services_selected,
-                                            Marine_name: auth?.Marine_name,
-                                            Marine_address:
-                                              auth?.Marine_address,
-                                            Boat_backgroung_image:
-                                              auth?.Boat_backgroung_image,
-                                            Boat_profile_image: item,
-                                          })
-                                        );
-                                      }}
-                                      onMouseEnter={(e) => {
-                                        e.target.style.color = "blue";
-                                      }}
-                                      onMouseLeave={(e) => {
-                                        e.target.style.color = "black";
-                                      }}
-                                    >
-                                      Profile Image
-                                    </Typography>
-                                  </Grid>
-                                </>
-                              ) : null}
-                            </div>
-                          </div>
-                        );
-                      })}
-                    </>
-                  ) : null}
-                </div>
-              </div>
-              {/* Boat Services List  */}
-              <Grid
-                container
-                spacing={2}
-                style={{ marginTop: "100px", marginLeft: 0 }}
-              >
+                {/* Upload images of your boat */}
                 <Grid
-                  item
-                  xs={12}
                   style={{
+                    width: "100%",
+                    marginLeft: 15,
+                    marginTop: "50px",
                     display: "flex",
-                    flexDirection: "row",
-                    justifyContent: "space-between",
+                    flexDirection: "column",
                   }}
                 >
                   <span
                     style={{
                       fontSize: 24,
-                      fontWeight: 500,
                       fontFamily: "Poppins",
                       color: "#424651",
+                      fontWeight: "500",
+                      // textAlign: "center",
                     }}
                   >
-                    Boat Services
+                    Upload images of your boat
                   </span>
 
-                  {boatServiceError && selectedBoatServices?.length === 0 ? (
-                    <Typography
-                      style={{
-                        ...ErrMsgTxt,
-                      }}
+                  <label htmlFor="fileInput">
+                    <div
+                      id="dropArea"
+                      onDrop={(e) => handleDrop(e)}
+                      onDragOver={handleDragOver}
                     >
-                      Please select Services
+                      <div
+                        style={{
+                          marginTop: "10px",
+                          border:
+                            selectedFiles.length <= 0 && imgUploadError
+                              ? "1px dashed red"
+                              : "1px dashed gray",
+                          // border: "1px dashed gray",
+                          borderRadius: "20px",
+                          alignItems: "center",
+                          alignContent: "center",
+                          justifyContent: "center",
+                          alignSelf: "center",
+                          display: "flex",
+                          paddingTop: "10px",
+                          paddingBottom: "10px",
+                          paddingLeft: "40px",
+                          paddingRight: "40px",
+                          flexDirection: "column",
+                          cursor: "pointer",
+                        }}
+                      >
+                        <input
+                          type="file"
+                          id="fileInput"
+                          multiple
+                          onChange={(event) =>
+                            handleFileSelect(event.target.files)
+                          }
+                          style={{ display: "none" }}
+                        />
+                        <img
+                          alt="cloud"
+                          src={IMAGES.CLOUD_UPLOAD_SIGNAL}
+                          style={{ width: 100, height: 70 }}
+                        />
+
+                        <span
+                          style={{
+                            fontSize: 18,
+                            fontFamily: "Poppins",
+                            color: "#424651",
+                            fontWeight: "500",
+                            textAlign: "center",
+                          }}
+                        >
+                          Drop your images here, or
+                        </span>
+                        <span
+                          style={{
+                            fontSize: 18,
+                            fontFamily: "Poppins",
+                            color: "#f6f6f6",
+                            backgroundColor: "#3973a5",
+                            paddingTop: "10px",
+                            paddingBottom: "10px",
+                            paddingLeft: "40px",
+                            paddingRight: "40px",
+                            borderRadius: "10px",
+                            marginTop: "10px",
+                          }}
+                        >
+                          Choose File
+                        </span>
+                        <span
+                          style={{
+                            fontSize: 12,
+                            fontFamily: "Poppins",
+                            color: "#424651",
+                            marginTop: "30px",
+                          }}
+                        >
+                          supports JPG, PNG,JPEG
+                        </span>
+                      </div>
+                    </div>
+                  </label>
+                  {selectedFiles.length <= 0 && imgUploadError ? (
+                    <Typography style={ErrMsgTxt}>
+                      Please upload your Images
                     </Typography>
                   ) : null}
                 </Grid>
 
-                {boatServices.map((boatService, index) => (
+                {/* slected boat images */}
+                <div
+                  style={{
+                    marginLeft: 15,
+                    // height: "200px",
+                    // overflow: "auto",
+                    width: "100%",
+                  }}
+                >
+                  <div
+                    style={{
+                      display: "flex",
+                      flexWrap: "wrap",
+                      width: "100%",
+                    }}
+                  >
+                    {selectedFiles.length ? (
+                      <>
+                        {selectedFiles?.map((item, index) => {
+                          let trackIndex = index;
+                          return (
+                            <div
+                              style={{
+                                width: "45%",
+                                justifyContent: "space-evenly",
+                                margin: "10px",
+                              }}
+                            >
+                              <div
+                                style={{
+                                  display: "flex",
+                                  padding: "15px",
+                                  borderStyle: "solid",
+                                  borderRadius: "10px",
+                                  borderColor: "gray",
+                                  borderWidth: ".5px",
+                                  alignItems: "center",
+                                }}
+                                onMouseOver={(e) => {
+                                  setShowCut(index);
+                                }}
+                                // onMouseOut={(e) => {
+                                //   setShowCut("");
+                                // }}
+                              >
+                                {item?.path ? null : (
+                                  <img
+                                    alt="user selected img"
+                                    src={URL.createObjectURL(item)}
+                                    style={{
+                                      width: "70px",
+                                      height: "60px",
+                                      backgroundColor: "rgba(66, 70, 81, 0.3)",
+                                      borderStyle: "solid",
+                                      borderRadius: "10px",
+                                      borderColor: "gray",
+                                      borderWidth: ".5px",
+                                    }}
+                                  />
+                                )}
+                                <div
+                                  style={{
+                                    display: "flex",
+                                    justifyContent: "space-between",
+                                    width: "100%",
+                                  }}
+                                >
+                                  <div
+                                    style={{
+                                      display: "flex",
+                                      flexDirection: "column",
+                                      width: "100%",
+                                    }}
+                                  >
+                                    <Typography
+                                      style={{
+                                        fontSize: 14,
+                                        fontFamily: "Poppins",
+                                        color: "#424651",
+                                        marginLeft: "10px",
+                                        fontWeight: "bold",
+                                        maxInlineSize: 1,
+                                        maxLines: 1,
+                                        backgroundColor: "revert",
+                                      }}
+                                    >
+                                      {item?.path ?? item?.name}
+                                    </Typography>
+                                    {backgroungImage === index ? (
+                                      <Typography
+                                        style={{
+                                          fontSize: 14,
+                                          fontFamily: "Poppins",
+                                          color: "#424651",
+                                          marginLeft: "10px",
+                                        }}
+                                      >
+                                        {"selected as BackgroungImage"}
+                                      </Typography>
+                                    ) : null}
+                                    {profileImg === index ? (
+                                      <Typography
+                                        style={{
+                                          fontSize: 14,
+                                          fontFamily: "Poppins",
+                                          color: "#424651",
+                                          marginLeft: "10px",
+                                        }}
+                                      >
+                                        {"selected as Profile Image"}
+                                      </Typography>
+                                    ) : null}
+                                  </div>
+                                  {showCut === index ? (
+                                    <div
+                                      style={{
+                                        flex: 0.3,
+                                        display: "flex",
+                                        justifyContent: "space-between",
+                                        alignSelf: "center",
+                                        // padding: 10,
+                                      }}
+                                    >
+                                      <Clear
+                                        onClick={() => {
+                                          removeImage(index);
+                                        }}
+                                      />
+
+                                      <MoreVert
+                                        onClick={() => {
+                                          setOpenModal(true);
+                                          setModalOpen(true);
+                                          setModalOpenIndex(trackIndex);
+                                        }}
+                                      />
+                                    </div>
+                                  ) : null}
+                                </div>
+                              </div>
+
+                              <div
+                                style={{
+                                  display: "flex",
+                                  justifyContent: "center",
+                                }}
+                              >
+                                {modalOpen && modalOpenIndex === trackIndex ? (
+                                  <>
+                                    <Grid
+                                      ref={modalRef}
+                                      style={{
+                                        width: "15%",
+                                        display: "flex",
+                                        flexDirection: "column",
+                                        position: "absolute",
+                                        // width: "10%",
+                                        border: "1px solid black",
+                                        borderRadius: "10px",
+                                        boxShadow:
+                                          "0px 2px 4px rgba(0, 0, 0, 0.25)",
+                                        padding: "25px",
+                                        backgroundColor: "white",
+                                      }}
+                                    >
+                                      <Typography
+                                        style={{
+                                          fontSize: 16,
+                                          fontFamily: "Poppins",
+                                          color: "#424651",
+                                          cursor: "pointer",
+                                          textAlign: "center",
+                                        }}
+                                        onClick={() => {
+                                          console.log("item", item);
+                                          setOpenModal(false);
+                                          setBackgroungImage(index);
+                                          dispatch(
+                                            boatRegisterStep2({
+                                              Boat_name: auth?.Boat_name,
+                                              Boat_type: auth?.Boat_type,
+                                              Boat_year: auth?.Boat_year,
+                                              Boat_length: auth?.Boat_length,
+                                              Boat_max_capacity:
+                                                auth?.Boat_max_capacity,
+                                              Boat_price_per_hour:
+                                                auth?.Boat_price_per_hour,
+                                              Upload_images_of_your_boat:
+                                                auth?.Upload_images_of_your_boat,
+                                              Boat_services_selected:
+                                                auth?.Boat_services_selected,
+                                              Marine_name: auth?.Marine_name,
+                                              Marine_address:
+                                                auth?.Marine_address,
+                                              Boat_backgroung_image: item,
+                                              Boat_profile_image:
+                                                auth?.Boat_profile_image,
+                                            })
+                                          );
+                                        }}
+                                        onMouseEnter={(e) => {
+                                          e.target.style.color = "blue";
+                                        }}
+                                        onMouseLeave={(e) => {
+                                          e.target.style.color = "black";
+                                        }}
+                                      >
+                                        Background Image
+                                      </Typography>
+                                      <Typography
+                                        style={{
+                                          fontSize: 16,
+                                          fontFamily: "Poppins",
+                                          color: "#424651",
+                                          cursor: "pointer",
+                                          textAlign: "center",
+                                        }}
+                                        onClick={() => {
+                                          setOpenModal(false);
+                                          setProfileImg(index);
+                                          console.log("auth", auth);
+                                          dispatch(
+                                            boatRegisterStep2({
+                                              Boat_name: auth?.Boat_name,
+                                              Boat_type: auth?.Boat_type,
+                                              Boat_year: auth?.Boat_year,
+                                              Boat_length: auth?.Boat_length,
+                                              Boat_max_capacity:
+                                                auth?.Boat_max_capacity,
+                                              Boat_price_per_hour:
+                                                auth?.Boat_price_per_hour,
+                                              Upload_images_of_your_boat:
+                                                auth?.Upload_images_of_your_boat,
+                                              Boat_services_selected:
+                                                auth?.Boat_services_selected,
+                                              Marine_name: auth?.Marine_name,
+                                              Marine_address:
+                                                auth?.Marine_address,
+                                              Boat_backgroung_image:
+                                                auth?.Boat_backgroung_image,
+                                              Boat_profile_image: item,
+                                            })
+                                          );
+                                        }}
+                                        onMouseEnter={(e) => {
+                                          e.target.style.color = "blue";
+                                        }}
+                                        onMouseLeave={(e) => {
+                                          e.target.style.color = "black";
+                                        }}
+                                      >
+                                        Profile Image
+                                      </Typography>
+                                    </Grid>
+                                  </>
+                                ) : null}
+                              </div>
+                            </div>
+                          );
+                        })}
+                      </>
+                    ) : null}
+                  </div>
+                </div>
+                {/* Boat Services List  */}
+                <Grid
+                  container
+                  spacing={2}
+                  style={{ marginTop: "100px", marginLeft: 0 }}
+                >
+                  <Grid
+                    item
+                    xs={12}
+                    style={{
+                      display: "flex",
+                      flexDirection: "row",
+                      justifyContent: "space-between",
+                    }}
+                  >
+                    <span
+                      style={{
+                        fontSize: 24,
+                        fontWeight: 500,
+                        fontFamily: "Poppins",
+                        color: "#424651",
+                      }}
+                    >
+                      Boat Services
+                    </span>
+
+                    {boatServiceError && selectedBoatServices?.length === 0 ? (
+                      <Typography
+                        style={{
+                          ...ErrMsgTxt,
+                        }}
+                      >
+                        Please select Services
+                      </Typography>
+                    ) : null}
+                  </Grid>
+
+                  {boatServices.map((boatService, index) => (
+                    <Grid
+                      item
+                      xs={12}
+                      sm={6}
+                      md={4}
+                      lg={3}
+                      key={index}
+                      style={{
+                        flexDirection: "row",
+                        display: "flex",
+                        alignSelf: "center",
+                        alignItems: "center",
+                      }}
+                    >
+                      <Checkbox
+                        checked={selectedBoatServices.includes(boatService)}
+                        // boatService.label,
+                        onChange={() => handleBoatServiceToggle(boatService)}
+                      />
+
+                      <label
+                        style={{
+                          fontSize: 14,
+                          fontFamily: "Poppins",
+                          color: "#424651",
+                          display: "inline-block",
+                        }}
+                      >
+                        {boatService.label}
+                      </label>
+                    </Grid>
+                  ))}
+
                   <Grid
                     item
                     xs={12}
                     sm={6}
                     md={4}
                     lg={3}
-                    key={index}
                     style={{
-                      flexDirection: "row",
                       display: "flex",
+                      flexDirection: "row",
                       alignSelf: "center",
                       alignItems: "center",
                     }}
                   >
                     <Checkbox
-                      checked={selectedBoatServices.includes(
-                        boatService.service
-                      )}
-                      onChange={() =>
-                        handleBoatServiceToggle(boatService.service)
-                      }
+                      checked={showCustomService}
+                      onChange={handleCustomServiceToggle}
                     />
+                    <span style={{ marginRight: "5px" }}>Other</span>
 
-                    <label
+                    <Input
+                      value={customService}
+                      onChange={handleAddCustomService}
+                    />
+                  </Grid>
+                </Grid>
+
+                {/* ===== map =====  */}
+                <Grid
+                  container
+                  spacing={2}
+                  style={{ marginTop: "100px", marginLeft: 0 }}
+                >
+                  <Grid item xs={12}>
+                    <span
                       style={{
-                        fontSize: 14,
+                        fontSize: 24,
+                        fontWeight: 500,
                         fontFamily: "Poppins",
                         color: "#424651",
-                        display: "inline-block",
                       }}
                     >
-                      {boatService.service}
-                    </label>
-                  </Grid>
-                ))}
+                      Boat Location
+                    </span>
+                    <Grid container spacing={2} style={{ marginTop: "50px" }}>
+                      {/* Marine Name */}
+                      <Grid item xs={12} sm={6}>
+                        <InputLabel
+                          htmlFor="Marine_Name"
+                          style={inputLabelStyles}
+                        >
+                          Marine Name
+                        </InputLabel>
+                        <TextField
+                          variant="outlined"
+                          margin="normal"
+                          fullWidth
+                          id="Marine_Name"
+                          name="Marine_Name"
+                          placeholder="Marine Name"
+                          value={formik.values.Marine_Name}
+                          onChange={(event) => {
+                            const inputValue = event.target.value;
+                            if (start_space_Validation.test(inputValue)) {
+                              formik.setFieldValue("Marine_Name", inputValue);
+                            }
+                          }}
+                          error={
+                            formik.touched.Marine_Name &&
+                            Boolean(formik.errors.Marine_Name)
+                          }
+                          helperText={
+                            formik.touched.Marine_Name &&
+                            formik.errors.Marine_Name
+                          }
+                          InputProps={{
+                            style: textFieldStyles,
+                          }}
+                        />
+                      </Grid>
 
+                      {/* Marine Address */}
+                      <Grid item xs={12} sm={6}>
+                        <InputLabel
+                          htmlFor="boatType"
+                          style={{ ...inputLabelStyles }}
+                        >
+                          Marine Address
+                        </InputLabel>
+                        <TextField
+                          variant="outlined"
+                          margin="normal"
+                          fullWidth
+                          id="Marine_Address"
+                          name="Marine_Address"
+                          placeholder="Marine Address"
+                          disabled={true}
+                          value={
+                            selectedAddress
+                              ? `lat: ${selectedAddress?.lat} lng: ${selectedAddress?.lng}`
+                              : null
+                          }
+                          onChange={(event) => {
+                            const inputValue = event.target.value;
+                            if (start_space_Validation.test(inputValue)) {
+                              formik.setFieldValue(
+                                "Marine_Address",
+                                inputValue
+                              );
+                            }
+                          }}
+                          error={
+                            formik.touched.Marine_Address &&
+                            Boolean(formik.errors.Marine_Address)
+                          }
+                          helperText={
+                            !selectedMarker
+                              ? formik.touched.Marine_Address &&
+                                formik.errors.Marine_Address
+                              : null
+                          }
+                          InputProps={{
+                            style: {
+                              borderRadius: "15px",
+                              border:
+                                !selectedMarker && mapLocError
+                                  ? ".1px solid red"
+                                  : ".1px solid rgba(66, 70, 81, 0.2)",
+                            },
+                          }}
+                        />
+                      </Grid>
+                    </Grid>
+
+                    <div style={{ height: "500px", width: "100%" }}>
+                      <Map
+                        markers={markers}
+                        selectedMarker={selectedMarker}
+                        onSelectMarker={handleSelectMarker}
+                      />
+                    </div>
+
+                    {!selectedMarker && mapLocError ? (
+                      <Typography
+                        style={{
+                          ...ErrMsgTxt,
+                        }}
+                      >
+                        Please select Location
+                      </Typography>
+                    ) : null}
+                  </Grid>
+                </Grid>
+
+                {/* Save & Continue */}
                 <Grid
-                  item
-                  xs={12}
-                  sm={6}
-                  md={4}
-                  lg={3}
+                  container
+                  spacing={2}
                   style={{
+                    ...saveContinueButtonStyle,
                     display: "flex",
-                    flexDirection: "row",
-                    alignSelf: "center",
-                    alignItems: "center",
+                    justifyContent: "flex-end",
                   }}
                 >
-                  <Checkbox
-                    checked={showCustomService}
-                    onChange={handleCustomServiceToggle}
-                  />
-                  <span style={{ marginRight: "5px" }}>Other</span>
-
-                  <Input
-                    value={customService}
-                    onChange={handleAddCustomService}
-                  />
-                </Grid>
-              </Grid>
-
-              {/* ===== map =====  */}
-              <Grid
-                container
-                spacing={2}
-                style={{ marginTop: "100px", marginLeft: 0 }}
-              >
-                <Grid item xs={12}>
-                  <span
-                    style={{
-                      fontSize: 24,
-                      fontWeight: 500,
-                      fontFamily: "Poppins",
-                      color: "#424651",
-                    }}
-                  >
-                    Boat Location
-                  </span>
-                  <Grid container spacing={2} style={{ marginTop: "50px" }}>
-                    {/* Marine Name */}
-                    <Grid item xs={12} sm={6}>
-                      <InputLabel
-                        htmlFor="Marine_Name"
-                        style={inputLabelStyles}
-                      >
-                        Marine Name
-                      </InputLabel>
-                      <TextField
-                        variant="outlined"
-                        margin="normal"
-                        fullWidth
-                        id="Marine_Name"
-                        name="Marine_Name"
-                        placeholder="Marine Name"
-                        value={formik.values.Marine_Name}
-                        onChange={(event) => {
-                          const inputValue = event.target.value;
-                          if (start_space_Validation.test(inputValue)) {
-                            formik.setFieldValue("Marine_Name", inputValue);
+                  <div>
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      type="submit"
+                      onClick={() => {
+                        if (
+                          selectedFiles.length <= 0 ||
+                          selectedBoatServices?.length <= 0 ||
+                          selectedAddress === null ||
+                          Object.keys(formik.errors).length > 0
+                        ) {
+                          if (selectedFiles.length) {
+                            setImgUploadError(false);
+                          } else {
+                            setImgUploadError(true);
                           }
-                        }}
-                        error={
-                          formik.touched.Marine_Name &&
-                          Boolean(formik.errors.Marine_Name)
-                        }
-                        helperText={
-                          formik.touched.Marine_Name &&
-                          formik.errors.Marine_Name
-                        }
-                        InputProps={{
-                          style: textFieldStyles,
-                        }}
-                      />
-                    </Grid>
-
-                    {/* Marine Address */}
-                    <Grid item xs={12} sm={6}>
-                      <InputLabel
-                        htmlFor="boatType"
-                        style={{ ...inputLabelStyles }}
-                      >
-                        Marine Address
-                      </InputLabel>
-                      <TextField
-                        variant="outlined"
-                        margin="normal"
-                        fullWidth
-                        id="Marine_Address"
-                        name="Marine_Address"
-                        placeholder="Marine Address"
-                        disabled={true}
-                        value={
-                          selectedAddress
-                            ? `lat: ${selectedAddress?.lat} lng: ${selectedAddress?.lng}`
-                            : null
-                        }
-                        onChange={(event) => {
-                          const inputValue = event.target.value;
-                          if (start_space_Validation.test(inputValue)) {
-                            formik.setFieldValue("Marine_Address", inputValue);
+                          if (selectedBoatServices?.length) {
+                            setBoatServiceError(false);
+                          } else {
+                            setBoatServiceError(true);
                           }
-                        }}
-                        error={
-                          formik.touched.Marine_Address &&
-                          Boolean(formik.errors.Marine_Address)
+                          if (selectedAddress) {
+                            setMapLocError(false);
+                          } else {
+                            setMapLocError(true);
+                          }
+                        } else {
+                          dispatch(
+                            boatRegisterStep2({
+                              Boat_name: formik.values.boatName,
+                              Boat_type: formik.values.boatType,
+                              Boat_year: formik.values.boatYear,
+                              Boat_length: formik.values.boatLength,
+                              Boat_max_capacity: formik.values.maxCapacity,
+                              Boat_price_per_hour: formik.values.pricePerHour,
+                              Upload_images_of_your_boat: selectedFiles,
+                              Boat_services_selected: selectedBoatServices,
+                              Marine_name: formik.values.Marine_Name,
+                              Marine_address: selectedAddress,
+                              Boat_backgroung_image:
+                                auth?.Boat_backgroung_image,
+                              Boat_profile_image: auth?.Boat_profile_image,
+                            })
+                          );
+                          navigate("/BoatOfferStep3");
                         }
-                        helperText={
-                          !selectedMarker
-                            ? formik.touched.Marine_Address &&
-                              formik.errors.Marine_Address
-                            : null
-                        }
-                        InputProps={{
-                          style: {
-                            borderRadius: "15px",
-                            border:
-                              !selectedMarker && mapLocError
-                                ? ".1px solid red"
-                                : ".1px solid rgba(66, 70, 81, 0.2)",
-                          },
-                        }}
-                      />
-                    </Grid>
-                  </Grid>
-
-                  <div style={{ height: "500px", width: "100%" }}>
-                    <Map
-                      markers={markers}
-                      selectedMarker={selectedMarker}
-                      onSelectMarker={handleSelectMarker}
-                    />
-                  </div>
-
-                  {!selectedMarker && mapLocError ? (
-                    <Typography
+                      }}
                       style={{
-                        ...ErrMsgTxt,
+                        ...saveContinueButtonTextStyle,
+                        // backgroundColor:
+                        //   ministryOfTransDoc !== "" &&
+                        //   generalDireOfBorderGuardDoc !== "" &&
+                        //   boatDocumentationsAndLicensesDoc !== ""
+                        //     ? "#3973A5"
+                        //     : "lightgray",
                       }}
                     >
-                      Please select Location
-                    </Typography>
-                  ) : null}
+                      Save & Continue
+                    </Button>
+                  </div>
                 </Grid>
               </Grid>
-
-              {/* Save & Continue */}
-              <Grid
-                container
-                spacing={2}
-                style={{
-                  ...saveContinueButtonStyle,
-                  display: "flex",
-                  justifyContent: "flex-end",
-                }}
-              >
-                <div>
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    type="submit"
-                    onClick={() => {
-                      if (
-                        selectedFiles.length <= 0 ||
-                        selectedBoatServices?.length <= 0 ||
-                        selectedAddress === null ||
-                        Object.keys(formik.errors).length > 0
-                      ) {
-                        if (selectedFiles.length) {
-                          setImgUploadError(false);
-                        } else {
-                          setImgUploadError(true);
-                        }
-                        if (selectedBoatServices?.length) {
-                          setBoatServiceError(false);
-                        } else {
-                          setBoatServiceError(true);
-                        }
-                        if (selectedAddress) {
-                          setMapLocError(false);
-                        } else {
-                          setMapLocError(true);
-                        }
-                      } else {
-                        dispatch(
-                          boatRegisterStep2({
-                            Boat_name: formik.values.boatName,
-                            Boat_type: formik.values.boatType,
-                            Boat_year: formik.values.boatYear,
-                            Boat_length: formik.values.boatLength,
-                            Boat_max_capacity: formik.values.maxCapacity,
-                            Boat_price_per_hour: formik.values.pricePerHour,
-                            Upload_images_of_your_boat: selectedFiles,
-                            Boat_services_selected: selectedBoatServices,
-                            Marine_name: formik.values.Marine_Name,
-                            Marine_address: selectedAddress,
-                            Boat_backgroung_image: auth?.Boat_backgroung_image,
-                            Boat_profile_image: auth?.Boat_profile_image,
-                          })
-                        );
-                        navigate("/BoatOfferStep3");
-                      }
-                    }}
-                    style={{
-                      ...saveContinueButtonTextStyle,
-                      // backgroundColor:
-                      //   ministryOfTransDoc !== "" &&
-                      //   generalDireOfBorderGuardDoc !== "" &&
-                      //   boatDocumentationsAndLicensesDoc !== ""
-                      //     ? "#3973A5"
-                      //     : "lightgray",
-                    }}
-                  >
-                    Save & Continue
-                  </Button>
-                </div>
-              </Grid>
-            </Grid>
-          </form>
+            </form>
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 
@@ -1203,39 +1225,6 @@ const CustomTextField = withStyles({
     pointerEvents: "none",
   },
 })(TextField);
-
-const boatServices = [
-  {
-    service: "Life Jackets",
-  },
-  {
-    service: "Air Conditioning",
-  },
-  {
-    service: "Toilet",
-  },
-  {
-    service: "Wi-Fi",
-  },
-  {
-    service: "Fishing Gear",
-  },
-  {
-    service: "BBQ",
-  },
-  {
-    service: "Hot Drinks",
-  },
-  {
-    service: "Watersport Activities",
-  },
-  {
-    service: "Life Jackets",
-  },
-  {
-    service: "Air Conditioning",
-  },
-];
 
 // Styling CSS
 

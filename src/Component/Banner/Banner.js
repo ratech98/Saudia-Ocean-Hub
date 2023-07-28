@@ -21,6 +21,7 @@ const Banner = ({
   showInput,
   inputStyle,
   buttonStyle,
+  presentPage,
 }) => {
   const [windowHeight, setWindowHeight] = useState(window.innerHeight);
 
@@ -45,7 +46,7 @@ const Banner = ({
         height: windowHeight,
       }}
     >
-      <Header />
+      <Header presentPage={presentPage} />
       <Container className="">
         <div className={`pt-5 ${className}`}>
           <div>

@@ -1,0 +1,614 @@
+/* styles.css */
+
+.containerBody {
+  display: flex;
+  flex-direction: column;
+  background-color: #f6f6f6;
+  width: 100%;
+  align-self: center;
+  align-content: center;
+  align-items: center;
+  justify-content: center;
+}
+
+.TypographyContainer {
+  display: flex;
+  flex-direction: column;
+  margin-top: 30px;
+}
+
+.docUploadContainer {
+  display: flex;
+  flex-direction: row;
+  margin-top: 20px;
+  /* background-color: azure; */
+  align-items: center;
+  padding: 0px 150px;
+}
+.boatDetailContainer {
+  display: flex;
+  flex-direction: row;
+  margin-top: 20px;
+  padding: 0px 0px 0px 150px;
+  /* background-color: aqua; */
+}
+
+.boatDetailContainer .uploadBoatDocTitleTxt {
+  font-family: Poppins;
+  font-size: 28px;
+  font-weight: 600;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.53;
+  letter-spacing: normal;
+  /* text-align: left; */
+  color: var(--charcoal-grey-87);
+}
+
+.boatDetailContainer .uploadBoatDocTxt {
+  font-family: Poppins;
+  font-size: 18px;
+  font-weight: 300;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.5;
+  letter-spacing: normal;
+  text-align: left;
+  color: rgba(66, 70, 81, 0.6);
+}
+
+.TypographyContainer .subtitleTxt {
+  font-family: Poppins;
+  font-size: 34px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.5;
+  letter-spacing: normal;
+  text-align: center;
+  color: var(--charcoal-grey-87);
+}
+
+.TypographyContainer .subtitleTxt2 {
+  font-weight: bolder;
+}
+
+.doc_img {
+  padding: 25px;
+  background-color: white;
+  border-radius: 500px;
+  align-self: "center";
+  align-items: "center";
+  display: "flex";
+}
+
+.addFilesIcon {
+  flex: 1;
+  background-color: white;
+  height: 80px;
+  width: 90px;
+}
+.docTextArea {
+  width: 70%;
+  min-width: 50%;
+  padding-left: 5%;
+  /* background-color: antiquewhite; */
+}
+.docUploadContainer .uploadBoatDocTitleTxt {
+  font-family: Poppins;
+  font-size: 28px;
+  font-weight: 600;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.53;
+  letter-spacing: normal;
+  text-align: left;
+  color: var(--charcoal-grey-87);
+}
+.docUploadContainer .uploadBoatDocTxt {
+  font-family: Poppins;
+  font-size: 18px;
+  font-weight: 300;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.5;
+  letter-spacing: normal;
+  text-align: left;
+  color: rgba(66, 70, 81, 0.6);
+}
+/*  */
+/*  */
+/*  */
+/*  */
+/*  */
+/*  */
+/*  */
+/*  */
+/*  */
+/*  */
+/*  */
+/*  */
+/*  */
+/*  */
+/*  */
+.headerContainer {
+  width: 100%;
+}
+
+.appIcon {
+  width: 158px;
+  height: 98px;
+}
+
+.contentContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  border-color: #026b93;
+  border-width: 2px;
+  border-radius: 30px;
+  border-style: solid;
+  align-self: flex-end;
+  padding: 20px 66px;
+  margin: 50px 200px 0px 0px;
+}
+
+.actionButton {
+  font-family: Poppins;
+  font-size: 24px;
+  font-weight: 600;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.46;
+  letter-spacing: normal;
+  text-align: left;
+  color: #026b93;
+  cursor: pointer;
+  padding-right: 20px;
+}
+
+.titleOptionTxt {
+  font-size: 16px;
+  color: #424651;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.containerBody .boatOfferTitle {
+  margin-top: 193px;
+  font-size: 48px;
+  color: rgba(66, 70, 81, 0.87);
+  font-family: "Poppins";
+  font-weight: 600;
+  line-height: 1.5;
+  text-align: center;
+}
+
+.boatName {
+  font-size: 20px;
+  color: rgba(66, 70, 81, 0.87);
+  font-family: "Poppins";
+  font-weight: 600;
+  line-height: 1.5;
+  text-align: left;
+  /* margin-top: 24px; */
+}
+
+.boatDrierName {
+  font-size: 20px;
+  color: rgba(66, 70, 81, 0.6);
+  font-family: "Poppins";
+  font-weight: normal;
+  line-height: 1.5;
+  text-align: left;
+  margin-top: 8px;
+}
+
+.boatprice {
+  font-size: 18px;
+  color: rgba(66, 70, 81, 0.87);
+  font-family: "Poppins";
+  font-weight: 600;
+  line-height: 1.5;
+  text-align: left;
+  margin-left: 10px;
+}
+
+.moneyIcon {
+  width: 28px;
+  height: 30px;
+}
+
+.groupIcon {
+  width: 33px;
+  height: 25px;
+  margin-right: 10px;
+}
+
+.addBoatDetial {
+  flex: 1;
+  width: 95px;
+  height: 85px;
+}
+
+@media (max-width: 1000px) {
+  .docUploadContainer {
+    display: flex;
+    flex-direction: row;
+    margin-top: 20px;
+    /* background-color: darkgrey; */
+    align-items: center;
+  }
+  .TypographyContainer .subtitleTxt {
+    font-family: Poppins;
+    font-size: 30px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.5;
+    letter-spacing: normal;
+    text-align: center;
+    color: var(--charcoal-grey-87);
+  }
+  .boatDetailContainer {
+    display: flex;
+    flex-direction: row;
+    margin-top: 20px;
+    padding: 0px 150px 0px 150px;
+    /* background-color: aqua; */
+  }
+  .boatDetailContainer .uploadBoatDocTitleTxt {
+    font-family: Poppins;
+    font-size: 24px;
+    font-weight: 600;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.53;
+    letter-spacing: normal;
+    text-align: left;
+    color: var(--charcoal-grey-87);
+  }
+
+  .boatDetailContainer .uploadBoatDocTxt {
+    font-family: Poppins;
+    font-size: 14px;
+    font-weight: 300;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.5;
+    letter-spacing: normal;
+    text-align: left;
+    color: rgba(66, 70, 81, 0.6);
+  }
+  .docUploadContainer .uploadBoatDocTitleTxt {
+    font-family: Poppins;
+    font-size: 24px;
+    font-weight: 600;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.53;
+    letter-spacing: normal;
+    text-align: left;
+    color: var(--charcoal-grey-87);
+  }
+  .docUploadContainer .uploadBoatDocTxt {
+    font-family: Poppins;
+    font-size: 15px;
+    font-weight: 300;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.5;
+    letter-spacing: normal;
+    text-align: left;
+    color: rgba(66, 70, 81, 0.6);
+  }
+  .doc_img {
+    padding: 18px;
+    background-color: white;
+    border-radius: 500px;
+    align-self: "center";
+    align-items: "center";
+    display: "flex";
+  }
+
+  .addFilesIcon {
+    flex: 1;
+    background-color: white;
+    height: 60px;
+    width: 70px;
+  }
+  .addBoatDetial {
+    flex: 1;
+    width: 75px;
+    height: 65px;
+  }
+  .contentContainer {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    border-color: #026b93;
+    border-width: 2px;
+    border-radius: 30px;
+    border-style: solid;
+    align-self: flex-end;
+    padding: 25px 60px;
+    margin: 20px 200px 0px 0px;
+  }
+  .actionButton {
+    font-family: Poppins;
+    font-size: 20px;
+    font-weight: 600;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.46;
+    letter-spacing: normal;
+    text-align: left;
+    color: #026b93;
+    cursor: pointer;
+  }
+  .containerBody .boatOfferTitle {
+    font-size: 38px;
+  }
+}
+
+@media (max-width: 800px) {
+  .docTextArea {
+    width: 100%;
+    /* min-width: 50%; */
+    /* padding-left: 5%; */
+    /* background-color: antiquewhite; */
+  }
+  .docUploadContainer {
+    display: flex;
+    flex-direction: row;
+    margin-top: 20px;
+    /* background-color: darkgrey; */
+    align-items: center;
+    width: 100%;
+  }
+  .TypographyContainer .subtitleTxt {
+    font-family: Poppins;
+    font-size: 30px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.5;
+    letter-spacing: normal;
+    text-align: center;
+    color: var(--charcoal-grey-87);
+  }
+  .boatDetailContainer {
+    display: flex;
+    flex-direction: row;
+    margin-top: 20px;
+    padding: 0px 150px 0px 150px;
+    /* background-color: aqua; */
+  }
+  .boatDetailContainer .uploadBoatDocTitleTxt {
+    font-family: Poppins;
+    font-size: 24px;
+    font-weight: 600;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.53;
+    letter-spacing: normal;
+    text-align: left;
+    color: var(--charcoal-grey-87);
+  }
+
+  .boatDetailContainer .uploadBoatDocTxt {
+    font-family: Poppins;
+    font-size: 14px;
+    font-weight: 300;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.5;
+    letter-spacing: normal;
+    text-align: left;
+    color: rgba(66, 70, 81, 0.6);
+  }
+  .docUploadContainer .uploadBoatDocTitleTxt {
+    font-family: Poppins;
+    font-size: 24px;
+    font-weight: 600;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.53;
+    letter-spacing: normal;
+    text-align: left;
+    color: var(--charcoal-grey-87);
+  }
+  .docUploadContainer .uploadBoatDocTxt {
+    font-family: Poppins;
+    font-size: 15px;
+    font-weight: 300;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.5;
+    letter-spacing: normal;
+    text-align: left;
+    color: rgba(66, 70, 81, 0.6);
+  }
+  .doc_img {
+    padding: 18px;
+    background-color: white;
+    border-radius: 500px;
+    align-self: "center";
+    align-items: "center";
+    display: "flex";
+  }
+
+  .addFilesIcon {
+    flex: 1;
+    background-color: white;
+    height: 60px;
+    width: 70px;
+  }
+  .addBoatDetial {
+    flex: 1;
+    width: 75px;
+    height: 65px;
+  }
+  .contentContainer {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    border-color: #026b93;
+    border-width: 2px;
+    border-radius: 30px;
+    border-style: solid;
+    align-self: flex-end;
+    padding: 25px 60px;
+    margin: 20px 200px 0px 0px;
+  }
+  .actionButton {
+    font-family: Poppins;
+    font-size: 20px;
+    font-weight: 600;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.46;
+    letter-spacing: normal;
+    text-align: left;
+    color: #026b93;
+    cursor: pointer;
+  }
+  .containerBody .boatOfferTitle {
+    font-size: 28px;
+  }
+}
+
+@media (max-width: 600px) {
+  .docTextArea {
+    width: 100%;
+    /* min-width: 50%; */
+    /* padding-left: 5%; */
+    /* background-color: #026b93; */
+  }
+  .docUploadContainer {
+    display: flex;
+    flex-direction: row;
+    margin-top: 30px;
+    padding: 0px 50px 0px 50px;
+    /* background-color: darkgrey; */
+  }
+  .TypographyContainer .subtitleTxt {
+    font-family: Poppins;
+    font-size: 30px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.5;
+    letter-spacing: normal;
+    text-align: center;
+    color: var(--charcoal-grey-87);
+  }
+  .boatDetailContainer {
+    display: flex;
+    flex-direction: row;
+    margin-top: 30px;
+    padding: 0px 50px 0px 50px;
+    /* background-color: aqua; */
+  }
+  .boatDetailContainer .uploadBoatDocTitleTxt {
+    font-family: Poppins;
+    font-size: 24px;
+    font-weight: 600;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.53;
+    letter-spacing: normal;
+    text-align: left;
+    color: var(--charcoal-grey-87);
+  }
+
+  .boatDetailContainer .uploadBoatDocTxt {
+    font-family: Poppins;
+    font-size: 14px;
+    font-weight: 300;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.5;
+    letter-spacing: normal;
+    text-align: left;
+    color: rgba(66, 70, 81, 0.6);
+  }
+  .docUploadContainer .uploadBoatDocTitleTxt {
+    font-family: Poppins;
+    font-size: 24px;
+    font-weight: 600;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.53;
+    letter-spacing: normal;
+    text-align: left;
+    color: var(--charcoal-grey-87);
+  }
+  .docUploadContainer .uploadBoatDocTxt {
+    font-family: Poppins;
+    font-size: 15px;
+    font-weight: 300;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.5;
+    letter-spacing: normal;
+    text-align: left;
+    color: rgba(66, 70, 81, 0.6);
+  }
+  .doc_img {
+    padding: 18px;
+    background-color: white;
+    border-radius: 500px;
+    align-self: "center";
+    align-items: "center";
+    display: "flex";
+  }
+
+  .addFilesIcon {
+    /* flex: 1; */
+    background-color: white;
+    height: 60px;
+    width: 70px;
+    /* background-color: #424651; */
+  }
+  .addBoatDetial {
+    flex: 1;
+    width: 75px;
+    height: 65px;
+  }
+  .contentContainer {
+    display: flex;
+    /* flex-direction: row; */
+
+    border-color: #026b93;
+    border-width: 2px;
+    border-radius: 30px;
+    border-style: solid;
+
+    /* padding: 25px 60px; */
+    /* margin: 20px 200px 0px 0px; */
+    /* background-color: #026b93; */
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+    align-self: center;
+  }
+  .actionButton {
+    font-family: Poppins;
+    font-size: 20px;
+    font-weight: 600;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.46;
+    letter-spacing: normal;
+    text-align: left;
+    color: #026b93;
+    cursor: pointer;
+  }
+  .containerBody .boatOfferTitle {
+    font-size: 28px;
+  }
+}

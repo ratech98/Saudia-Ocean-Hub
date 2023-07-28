@@ -5,7 +5,7 @@ import { useSelector } from "react-redux";
 import IMAGES from "../Images";
 
 export const Confirmation = () => {
-  const user = useSelector((state) => state?.auth);
+  const auth = useSelector((state) => state?.auth);
   const navigate = useNavigate();
   // const navigate = useHistory();
 
@@ -30,7 +30,18 @@ export const Confirmation = () => {
             questions or need assistance, please don't hesitate to contact our
             support team
           </Typography>
-          <Typography style={styles.backToHomeTxt}>back to home</Typography>
+          <Typography
+            style={styles.backToHomeTxt}
+            onClick={() => {
+              if (auth?.tokenDecodeData?.user_type === "BOAT_OWNER") {
+                navigate("/boatOwnerDashBoard");
+              } else {
+                navigate("/rental");
+              }
+            }}
+          >
+            back to home
+          </Typography>
         </div>
       </div>
     </div>

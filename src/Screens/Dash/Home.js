@@ -11,6 +11,7 @@ import Cretified from "../../Component/Certificate/Cretified";
 import Footer from "../../Component/Footer/Footer";
 import Banner from "../../Component/Banner/Banner";
 import { useLocation, useNavigate } from "react-router-dom";
+import { BoatDetailCard } from "../new/BoatDetailCard";
 // import { useHistory } from "react-router-dom";
 
 const Home = () => {
@@ -75,13 +76,50 @@ const Home = () => {
 
   return (
     <div>
-      <span
-        onClick={() => {
-          navigate("/boatBookingRequest");
+      {/* <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          alignItems: "center",
         }}
       >
-        boatBookingRequest
-      </span>
+        <span
+          onClick={() => {
+            navigate("/boatBookingRequest");
+          }}
+        >
+          boat Booking Request
+        </span>
+        <span
+          onClick={() => {
+            navigate("/boatViewDetails");
+          }}
+        >
+          boat View Details
+        </span>
+        <span
+          onClick={() => {
+            navigate("/boatDetailCard");
+          }}
+        >
+          {"BoatDetail==>>>Card"}
+        </span>
+        <span
+          onClick={() => {
+            navigate("/boatCard");
+          }}
+        >
+          {"boat Card"}
+        </span>
+        <span
+          onClick={() => {
+            navigate("/boatOfferStep3");
+          }}
+        >
+          {"boat Offer Step 3"}
+        </span>
+      </div> */}
 
       <Banner
         backgroundImage={backgroundImage}
@@ -94,6 +132,7 @@ const Home = () => {
         className={className}
         showInput={showInput}
         buttonStyle={buttonStyle}
+        presentPage={"Home"}
       />
       <Journey />
       <Owner_boat />

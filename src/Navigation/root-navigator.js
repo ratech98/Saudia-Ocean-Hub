@@ -1,11 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
 import {
   BrowserRouter,
   Navigate,
   Route,
   Routes,
-  useLocation,
   useNavigate,
 } from "react-router-dom";
 import { BoatOwnerDashBoard } from "../Screens/Dash/BoatOwnerDashBoard";
@@ -21,12 +19,10 @@ import { CustomerProfile } from "../Screens/Dash/BoatOwner/list/CustomerProfile"
 import { UserChoice } from "../Screens/Auth/UserChoice";
 import { SignUp } from "../Screens/Auth/SignUp";
 import VerifyOTP from "../Screens/Auth/VerifyOTP";
-import moment from "moment";
 import { SearchBoat } from "../Screens/Dash/SearchBoat";
 import { Confirmation } from "../Screens/new/Confirmation";
 import { ReviewPage } from "../Screens/new/ReviewPage";
 import { Notification } from "../Screens/new/Notification";
-import { BoatViewDetails } from "../Screens/Dash/BoatViewDetails";
 import { AuthPage } from "../Screens/Auth";
 import Loader from "../Screens/Loader";
 import jwt_decode from "jwt-decode";
@@ -35,6 +31,9 @@ import { ChangePassword } from "../Screens/Auth/password/ChangePassword";
 import { VerifyForgotPwdOTP } from "../Screens/Auth/password/VerifyForgotPwdOTP";
 import { AuthToken, TokenDecodeData, UserId } from "../redux/slices";
 import { BoatBookingRequest } from "../Screens/new/BoatBookingRequest";
+import BoatViewDetails from "../Screens/Dash/Boat_View_Details/BoatViewDetails";
+import { BoatCard } from "../Screens/new/BoatCard";
+import { BoatDetailCard } from "../Screens/new/BoatDetailCard";
 
 const PrivateRoute = ({ children, session, type }) => {
   const navigate = useNavigate();
@@ -83,8 +82,6 @@ export const RootNavigator = React.forwardRef(function RootNavigator(
   props,
   ref
 ) {
-  console.log("props", props);
-
   return (
     <BrowserRouter>
       <Routes>
@@ -140,11 +137,8 @@ export const RootNavigator = React.forwardRef(function RootNavigator(
             }
           />
           <Route path="/myListings" element={<MyListings />} />
-
-          {/* <Route path="/boatViewDetails" element={<BoatViewDetails />} /> */}
           {/* common */}
           <Route path="/searchBoat" element={<SearchBoat />} />
-
           {/*  new */}
           <Route path="/requestList" element={<RequestList />} />
           <Route path="/customerProfile" element={<CustomerProfile />} />
@@ -152,11 +146,19 @@ export const RootNavigator = React.forwardRef(function RootNavigator(
           <Route path="/reviewPage" element={<ReviewPage />} />
           <Route path="/notification" element={<Notification />} />
           <Route path="/boatBookingRequest" element={<BoatBookingRequest />} />
+          <Route path="/boatViewDetails" element={<BoatViewDetails />} />
+          {/* // */}
+          {/* // */}
+          {/* // */}
+          {/* // */}
+          {/* // */}
+          {/* // */}
+          {/* // */}
+          {/* // */}
+          <Route path="/boatCard" element={<BoatCard />} />
+          <Route path="/boatDetailCard" element={<BoatDetailCard />} />
         </>
       </Routes>
     </BrowserRouter>
   );
 });
-
-{
-}
