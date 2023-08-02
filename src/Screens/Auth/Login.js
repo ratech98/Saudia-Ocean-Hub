@@ -66,6 +66,7 @@ export const LogIn = () => {
   const [errorMsg, setErrorMsg] = useState(false);
   const [googleResult, setGoogleResult] = useState("");
   const errors = {};
+
   const handleCheckboxChange = (event) => {
     const { name, checked } = event.target;
     if (name === "RememberMe") {
@@ -98,17 +99,17 @@ export const LogIn = () => {
   });
 
   useEffect(() => {
-    const handleBackButton = (event) => {
-      // Prevent the default behavior of the back button
-      event.preventDefault();
-      // Force the user back to the current route
-      navigate(location.pathname);
-    };
-    window.addEventListener("popstate", handleBackButton);
-    return () => {
-      // Clean up the event listener when the component unmounts
-      window.removeEventListener("popstate", handleBackButton);
-    };
+    if (user?.verifyOTPpage === "VERIFY_OTP") {
+      const blockBackButton = (e) => {
+        e.preventDefault();
+        navigate(location.pathname);
+      };
+      window.history.pushState(null, null, window.location.pathname);
+      window.addEventListener("popstate", blockBackButton);
+      return () => {
+        window.removeEventListener("popstate", blockBackButton);
+      };
+    }
   }, [location.pathname, navigate]);
 
   const handleSubmit = async (value, type) => {
@@ -163,6 +164,7 @@ export const LogIn = () => {
             formik.setFieldError("password", res?.data?.message);
           }
           if (res?.data?.message && Object.keys(res.data.message).length > 0) {
+            toast.dismiss();
             toast.error(res?.data?.message, {
               position: toast.POSITION.TOP_RIGHT,
               autoClose: 20000,
@@ -179,41 +181,13 @@ export const LogIn = () => {
       .catch((err) => {
         setIsLoading(false);
         console.log("login err", err);
+        toast.dismiss();
         toast.error("Something went wrong. Please try again later.", {
           position: toast.POSITION.TOP_RIGHT,
           autoClose: 2000,
         });
       });
   };
-
-  // useEffect(() => {
-  //   if (user?.verifyOTPpage === "VERIFY_OTP") {
-  //     window.history.forward();
-  //     const handleNoBack = () => {
-  //       window.history.forward();
-  //     };
-  //     window.addEventListener("popstate", handleNoBack);
-  //     return () => {
-  //       window.removeEventListener("popstate", handleNoBack);
-  //     };
-  //   }
-  // }, []);
-
-  useEffect(() => {
-    if (user?.verifyOTPpage === "VERIFY_OTP") {
-      const handleBackButton = (event) => {
-        // Prevent the default behavior of the back button
-        event.preventDefault();
-        // Force the user back to the current route
-        navigate(location.pathname);
-      };
-      window.addEventListener("popstate", handleBackButton);
-      return () => {
-        // Clean up the event listener when the component unmounts
-        window.removeEventListener("popstate", handleBackButton);
-      };
-    }
-  }, [location.pathname, navigate]);
 
   return (
     <>

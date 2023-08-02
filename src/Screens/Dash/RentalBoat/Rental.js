@@ -51,7 +51,6 @@ export const Rental = () => {
   useEffect(() => {
     const blockBackButton = (e) => {
       e.preventDefault();
-
       navigate(location.pathname);
     };
     window.history.pushState(null, null, window.location.pathname);

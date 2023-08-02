@@ -38,6 +38,9 @@ const initialState = {
   Marine_address: null,
   Boat_backgroung_image: null,
   Boat_profile_image: null,
+  //
+  confirmTickMsg_title: null,
+  confirmTickMsg_buttonName: null,
 };
 
 const authSlice = createSlice({
@@ -98,6 +101,12 @@ const authSlice = createSlice({
       state.Boat_backgroung_image = action.payload.Boat_backgroung_image;
       state.Boat_profile_image = action.payload.Boat_profile_image;
     },
+
+    confirmTickMsg(state, action) {
+      console.log("action.payload", action.payload);
+      state.confirmTickMsg_title = action.payload?.title;
+      state.confirmTickMsg_buttonName = action.payload?.buttonName;
+    },
   },
 });
 export const {
@@ -112,6 +121,7 @@ export const {
   boatServiceList,
   boatRegisterStep2,
   TokenDecodeData,
+  confirmTickMsg,
 } = authSlice.actions;
 
 export default authSlice.reducer;

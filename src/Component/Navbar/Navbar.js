@@ -7,7 +7,7 @@ import Col from "react-bootstrap/Col";
 import Nav from "react-bootstrap/Nav";
 import { useLocation, useNavigate } from "react-router-dom";
 import IMAGES from "../../Screens/Images";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { AuthToken, TokenDecodeData, UserId } from "../../redux/slices";
 import { Typography } from "@mui/material";
 import { toast } from "react-toastify";
@@ -17,6 +17,7 @@ const Navbar = ({ showLoginSignUp, presentPage }) => {
   const location = useLocation();
   const [openModal, setOpenModal] = useState(false);
   const dispatch = useDispatch();
+  const auth = useSelector((state) => state?.auth);
 
   const handleOpenModal = () => {
     setOpenModal(true);
@@ -48,12 +49,26 @@ const Navbar = ({ showLoginSignUp, presentPage }) => {
   };
   // console.log("location", location.pathname);
 
-  const warningMsg = () => {
-    toast.info("Under Development", {
-      position: toast.POSITION.TOP_RIGHT,
-      autoClose: 2000,
-    });
+  const handle_navigation = (pageName) => {
+    console.log("pageName", pageName);
+    if (pageName === "Home") {
+      if (auth?.tokenDecodeData?.user_type === "BOAT_OWNER") {
+        navigate("/boatOwnerDashBoard");
+      } else {
+        navigate("/rental");
+      }
+    } else if (pageName === "rental") {
+      navigate("/rental");
+    } else if (pageName === "boatOwnerDashBoard") {
+      navigate("/boatOwnerDashBoard");
+    } else {
+      toast.info("Under Development", {
+        position: toast.POSITION.TOP_RIGHT,
+        autoClose: 2000,
+      });
+    }
   };
+
   return (
     <div className="navbar">
       <Container className="w-100 d-inline">
@@ -78,51 +93,59 @@ const Navbar = ({ showLoginSignUp, presentPage }) => {
                     textDecoration:
                       presentPage === "Home" ? "underline" : "none",
                   }}
-                  onClick={() => navigate(-1)}
+                  onClick={() => handle_navigation("Home")}
                 >
                   Home
                 </Typography>
               </Nav.Item>
-              <Nav.Item>
-                {/* <Nav.Link href="" eventKey="link-1">
+              {!auth?.AuthToken ? (
+                <>
+                  <Nav.Item>
+                    {/* <Nav.Link href="" eventKey="link-1">
                   For Boat Owners
                 </Nav.Link> */}
-                <Typography
-                  className="custom-text-style"
-                  style={{
-                    color:
-                      presentPage === "For Boat Owners" ? "#026b93" : "#424651",
-                    textDecoration:
-                      presentPage === "For Boat Owners" ? "underline" : "none",
-                    marginLeft: "25px",
-                  }}
-                  onClick={() => {
-                    warningMsg();
-                  }}
-                >
-                  For Boat Owners
-                </Typography>
-              </Nav.Item>
-              <Nav.Item>
-                {/* <Nav.Link href="">For Boat Rentals</Nav.Link> */}
-                <Typography
-                  className="custom-text-style"
-                  style={{
-                    color:
-                      presentPage === "For Boat Rentals"
-                        ? "#026b93"
-                        : "#424651",
-                    textDecoration:
-                      presentPage === "For Boat Owners" ? "underline" : "none",
-                    marginLeft: "25px",
-                  }}
-                  onClick={() => {
-                    warningMsg();
-                  }}
-                >
-                  For Boat Rentals
-                </Typography>
-              </Nav.Item>
+                    <Typography
+                      className="custom-text-style"
+                      style={{
+                        color:
+                          presentPage === "For Boat Owners"
+                            ? "#026b93"
+                            : "#424651",
+                        textDecoration:
+                          presentPage === "For Boat Owners"
+                            ? "underline"
+                            : "none",
+                        marginLeft: "25px",
+                      }}
+                      onClick={() => handle_navigation("boatOwnerDashBoard")}
+                    >
+                      For Boat Owners
+                    </Typography>
+                  </Nav.Item>
+                  <Nav.Item>
+                    {/* <Nav.Link href="">For Boat Rentals</Nav.Link> */}
+                    <Typography
+                      className="custom-text-style"
+                      style={{
+                        color:
+                          presentPage === "For Boat Rentals"
+                            ? "#026b93"
+                            : "#424651",
+                        textDecoration:
+                          presentPage === "For Boat Owners"
+                            ? "underline"
+                            : "none",
+                        marginLeft: "25px",
+                      }}
+                      onClick={() => {
+                        handle_navigation("rental");
+                      }}
+                    >
+                      For Boat Rentals
+                    </Typography>
+                  </Nav.Item>
+                </>
+              ) : null}
             </Nav>
           </Col>
           <Col sm={2} className="d-flex align-items-center">
@@ -152,7 +175,7 @@ const Navbar = ({ showLoginSignUp, presentPage }) => {
                   src={IMAGES.EMAIL_ICON}
                   style={styles.searchIcon}
                   onClick={() => {
-                    warningMsg();
+                    handle_navigation();
                   }}
                 />
                 <img

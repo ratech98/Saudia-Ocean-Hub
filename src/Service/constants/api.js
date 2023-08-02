@@ -23,5 +23,6 @@ export const API = {
     verify_forgotpass_otp: "verify-forgotpass-otp",
     set_password: "set-password",
     single_boat_data: "single_boat_data",
+    update_boat: "update_boat",
   },
 };

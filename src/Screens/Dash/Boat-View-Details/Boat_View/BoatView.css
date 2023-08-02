@@ -4,6 +4,8 @@
 .boatViewImage {
   width: 200px;
   height: 150px;
+  border: solid 0.5px rgba(66, 70, 81, 0.2);
+  background-color: whitesmoke;
 }
 .imageScroll::-webkit-scrollbar {
   display: none;

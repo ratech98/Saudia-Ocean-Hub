@@ -15,36 +15,37 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { Clear, MoreVert } from "@material-ui/icons";
 import { useDispatch, useSelector } from "react-redux";
-import { boat_service, boat_type } from "../../../../Service/api";
+import { boat_service, boat_type } from "../../../../../Service/api";
 import {
   boatRegisterStep2,
   boatServiceList,
   boatTypeList,
-} from "../../../../redux/slices";
-import IMAGES from "../../../Images";
-import Map from "../../../Common/map/Map";
+} from "../../../../../redux/slices";
+import IMAGES from "../../../../Images";
+import Map from "../../../../Common/map/Map";
 import { toast } from "react-toastify";
-import { HeaderContent } from "../../../Common/map/HeaderContent";
+import { HeaderContent } from "../../../../Common/map/HeaderContent";
+import "./BoatOfferStep2.css";
 
 const start_space_Validation = new RegExp(/^(?!\s).*/);
 
-const boat_type_options = [
-  {
-    name: "Fishing Boats",
-  },
-  {
-    name: "Houseboats",
-  },
-  {
-    name: "Jet Boats",
-  },
-  {
-    name: "Wakeboard/ Ski Boats",
-  },
-  {
-    name: "Bowrider Boats",
-  },
-];
+// const boat_type_options = [
+//   {
+//     name: "Fishing Boats",
+//   },
+//   {
+//     name: "Houseboats",
+//   },
+//   {
+//     name: "Jet Boats",
+//   },
+//   {
+//     name: "Wakeboard/ Ski Boats",
+//   },
+//   {
+//     name: "Bowrider Boats",
+//   },
+// ];
 
 export const BoatOfferStep2 = () => {
   const navigate = useNavigate();
@@ -75,11 +76,24 @@ export const BoatOfferStep2 = () => {
   const modalRef = useRef(null);
   const dashboard = useSelector((state) => state?.dashboard);
 
-  console.log("dashboard", dashboard?.single_boat_details?.boats_image);
-  console.log("selectedFiles", selectedFiles);
+  // console.log("dashboard", dashboard?.single_boat_details?.boats_service);
+  // console.log("dashboard?.single_boat_details", dashboard?.single_boat_details);
+  // console.log("auth", auth);
+  // console.log("selectedBoatServices", selectedBoatServices);
+  // console.log("auth?.Marine_address", auth?.Marine_address);
+  console.log("ministryOfTransportDoc 2", dash?.ministryOfTransportDoc);
 
   useEffect(() => {
-    if (dashboard?.single_boat_details) {
+    if (auth?.Marine_address) {
+      let marker = {
+        lat: auth?.Marine_address?.lat,
+        lng: auth?.Marine_address?.lng,
+      };
+      setSelectedMarker(marker);
+      setSelectedAddress(marker);
+      setSelectedBoatServices(auth?.Boat_services_selected);
+      // setSelectedFiles(dashboard?.single_boat_details?.boats_image);
+    } else if (dashboard?.single_boat_details) {
       let marker = {
         lat: dashboard?.single_boat_details?.latitude,
         lng: dashboard?.single_boat_details?.longtitude,
@@ -88,7 +102,11 @@ export const BoatOfferStep2 = () => {
       setSelectedAddress(marker);
       setSelectedFiles(dashboard?.single_boat_details?.boats_image);
     }
-  }, [dashboard?.single_boat_details]);
+  }, [
+    auth?.Boat_services_selected,
+    auth?.Marine_address,
+    dashboard?.single_boat_details,
+  ]);
 
   useEffect(() => {
     boat_type(auth?.AuthToken)
@@ -131,7 +149,6 @@ export const BoatOfferStep2 = () => {
 
   const handleBoatServiceToggle = (service) => {
     const isSelected = selectedBoatServices.includes(service);
-
     if (isSelected) {
       setSelectedBoatServices(
         selectedBoatServices.filter((s) => s !== service)
@@ -195,14 +212,28 @@ export const BoatOfferStep2 = () => {
 
   const formik = useFormik({
     initialValues: {
-      boatName: dashboard?.single_boat_details?.boat_name ?? "",
-      boatType: dashboard?.single_boat_details?.boat_type ?? "",
-      boatYear: dashboard?.single_boat_details?.boat_type ?? "",
-      boatLength: dashboard?.single_boat_details?.boat_length ?? "",
-      maxCapacity: dashboard?.single_boat_details?.boat_max_capacity ?? "",
-      pricePerHour: dashboard?.single_boat_details?.price_per_hour ?? "",
-      Marine_Name: dashboard?.single_boat_details?.marine_name ?? "",
-      Marine_Address: dashboard?.single_boat_details?.latitude ?? "",
+      boatName:
+        auth?.Boat_name ?? dashboard?.single_boat_details?.boat_name ?? "",
+      boatType:
+        auth?.Boat_type ?? dashboard?.single_boat_details?.boat_type ?? "",
+      boatYear:
+        auth?.Boat_year ?? dashboard?.single_boat_details?.boat_type ?? "",
+      boatLength:
+        auth?.Boat_length ?? dashboard?.single_boat_details?.boat_length ?? "",
+      maxCapacity:
+        auth?.Boat_max_capacity ??
+        dashboard?.single_boat_details?.boat_max_capacity ??
+        "",
+      pricePerHour:
+        auth?.Boat_price_per_hour ??
+        dashboard?.single_boat_details?.price_per_hour ??
+        "",
+      Marine_Name:
+        auth?.Marine_name ?? dashboard?.single_boat_details?.marine_name ?? "",
+      Marine_Address:
+        auth?.Marine_address?.lat ??
+        dashboard?.single_boat_details?.latitude ??
+        "",
     },
     onSubmit: (values) => {
       console.log("values", values);
@@ -373,25 +404,27 @@ export const BoatOfferStep2 = () => {
                     select
                     InputProps={{ style: textFieldStyles }}
                   >
-                    {/* {dash?.boatType?.length > 0 ? (
-                    dash.boatType.map((item, index) => (
-                      <MenuItem key={index} value={item?.label}>
-                        {item?.label}
-                      </MenuItem>
-                    ))
-                  ) : (
-                    <> */}
-                    {boat_type_options?.map((item, index) => (
-                      <MenuItem
-                        key={index}
-                        value={item.name}
-                        selected={formik.values.boatType === item.name}
-                      >
-                        {item?.name}
-                      </MenuItem>
-                    ))}
-                    {/* </>
-                  )} */}
+                    {dash?.boatType?.length > 0 ? (
+                      dash.boatType?.map((item, index) => (
+                        <MenuItem
+                          key={index}
+                          value={item.label}
+                          selected={formik.values.boatType === item.label}
+                        >
+                          {item?.label}
+                        </MenuItem>
+                      ))
+                    ) : (
+                      <>
+                        <MenuItem
+                          key={1}
+                          value={"Boat"}
+                          selected={formik.values.boatType === "Boat"}
+                        >
+                          {"Boat"}
+                        </MenuItem>
+                      </>
+                    )}
                   </CustomTextField>
                 </Grid>
 
@@ -679,21 +712,25 @@ export const BoatOfferStep2 = () => {
                                 //   setShowCut("");
                                 // }}
                               >
-                                {item?.path ? null : (
-                                  <img
-                                    alt="user selected img"
-                                    src={URL.createObjectURL(item)}
-                                    style={{
-                                      width: "70px",
-                                      height: "60px",
-                                      backgroundColor: "rgba(66, 70, 81, 0.3)",
-                                      borderStyle: "solid",
-                                      borderRadius: "10px",
-                                      borderColor: "gray",
-                                      borderWidth: ".5px",
-                                    }}
-                                  />
-                                )}
+                                <img
+                                  alt="user selected img"
+                                  src={
+                                    item?.path
+                                      ? `http://localhost:3000/${item?.path}`
+                                      : URL.createObjectURL(item)
+                                  }
+                                  style={{
+                                    width: "70px",
+                                    height: "60px",
+                                    // backgroundColor: "rgba(66, 70, 81, 0.3)",
+                                    backgroundSize: "contain",
+                                    borderStyle: "solid",
+                                    borderRadius: "10px",
+                                    borderColor: "gray",
+                                    borderWidth: ".5px",
+                                  }}
+                                />
+
                                 <div
                                   style={{
                                     display: "flex",
@@ -720,7 +757,7 @@ export const BoatOfferStep2 = () => {
                                         backgroundColor: "revert",
                                       }}
                                     >
-                                      {item?.path ?? item?.name}
+                                      {`Images[${index}]` ?? item?.name}
                                     </Typography>
                                     {backgroungImage === index ? (
                                       <Typography
@@ -775,118 +812,98 @@ export const BoatOfferStep2 = () => {
                                 </div>
                               </div>
 
-                              <div
-                                style={{
-                                  display: "flex",
-                                  justifyContent: "center",
-                                }}
-                              >
+                              <div className="show-modal-box">
                                 {modalOpen && modalOpenIndex === trackIndex ? (
                                   <>
                                     <Grid
                                       ref={modalRef}
-                                      style={{
-                                        width: "15%",
-                                        display: "flex",
-                                        flexDirection: "column",
-                                        position: "absolute",
-                                        // width: "10%",
-                                        border: "1px solid black",
-                                        borderRadius: "10px",
-                                        boxShadow:
-                                          "0px 2px 4px rgba(0, 0, 0, 0.25)",
-                                        padding: "25px",
-                                        backgroundColor: "white",
-                                      }}
+                                      className="modal-style"
                                     >
-                                      <Typography
+                                      <div
                                         style={{
-                                          fontSize: 16,
-                                          fontFamily: "Poppins",
-                                          color: "#424651",
-                                          cursor: "pointer",
-                                          textAlign: "center",
-                                        }}
-                                        onClick={() => {
-                                          console.log("item", item);
-                                          setOpenModal(false);
-                                          setBackgroungImage(index);
-                                          dispatch(
-                                            boatRegisterStep2({
-                                              Boat_name: auth?.Boat_name,
-                                              Boat_type: auth?.Boat_type,
-                                              Boat_year: auth?.Boat_year,
-                                              Boat_length: auth?.Boat_length,
-                                              Boat_max_capacity:
-                                                auth?.Boat_max_capacity,
-                                              Boat_price_per_hour:
-                                                auth?.Boat_price_per_hour,
-                                              Upload_images_of_your_boat:
-                                                auth?.Upload_images_of_your_boat,
-                                              Boat_services_selected:
-                                                auth?.Boat_services_selected,
-                                              Marine_name: auth?.Marine_name,
-                                              Marine_address:
-                                                auth?.Marine_address,
-                                              Boat_backgroung_image: item,
-                                              Boat_profile_image:
-                                                auth?.Boat_profile_image,
-                                            })
-                                          );
-                                        }}
-                                        onMouseEnter={(e) => {
-                                          e.target.style.color = "blue";
-                                        }}
-                                        onMouseLeave={(e) => {
-                                          e.target.style.color = "black";
+                                          display: "flex",
+                                          flexDirection: "column",
                                         }}
                                       >
-                                        Background Image
-                                      </Typography>
-                                      <Typography
-                                        style={{
-                                          fontSize: 16,
-                                          fontFamily: "Poppins",
-                                          color: "#424651",
-                                          cursor: "pointer",
-                                          textAlign: "center",
-                                        }}
-                                        onClick={() => {
-                                          setOpenModal(false);
-                                          setProfileImg(index);
-                                          console.log("auth", auth);
-                                          dispatch(
-                                            boatRegisterStep2({
-                                              Boat_name: auth?.Boat_name,
-                                              Boat_type: auth?.Boat_type,
-                                              Boat_year: auth?.Boat_year,
-                                              Boat_length: auth?.Boat_length,
-                                              Boat_max_capacity:
-                                                auth?.Boat_max_capacity,
-                                              Boat_price_per_hour:
-                                                auth?.Boat_price_per_hour,
-                                              Upload_images_of_your_boat:
-                                                auth?.Upload_images_of_your_boat,
-                                              Boat_services_selected:
-                                                auth?.Boat_services_selected,
-                                              Marine_name: auth?.Marine_name,
-                                              Marine_address:
-                                                auth?.Marine_address,
-                                              Boat_backgroung_image:
-                                                auth?.Boat_backgroung_image,
-                                              Boat_profile_image: item,
-                                            })
-                                          );
-                                        }}
-                                        onMouseEnter={(e) => {
-                                          e.target.style.color = "blue";
-                                        }}
-                                        onMouseLeave={(e) => {
-                                          e.target.style.color = "black";
-                                        }}
-                                      >
-                                        Profile Image
-                                      </Typography>
+                                        <Typography
+                                          className="modal-options"
+                                          onClick={() => {
+                                            setOpenModal(false);
+                                            setModalOpen(false);
+                                            setModalOpenIndex(null);
+                                            setBackgroungImage(index);
+                                            dispatch(
+                                              boatRegisterStep2({
+                                                Boat_name: auth?.Boat_name,
+                                                Boat_type: auth?.Boat_type,
+                                                Boat_year: auth?.Boat_year,
+                                                Boat_length: auth?.Boat_length,
+                                                Boat_max_capacity:
+                                                  auth?.Boat_max_capacity,
+                                                Boat_price_per_hour:
+                                                  auth?.Boat_price_per_hour,
+                                                Upload_images_of_your_boat:
+                                                  auth?.Upload_images_of_your_boat,
+                                                Boat_services_selected:
+                                                  auth?.Boat_services_selected,
+                                                Marine_name: auth?.Marine_name,
+                                                Marine_address:
+                                                  auth?.Marine_address,
+                                                Boat_backgroung_image: item,
+                                                Boat_profile_image:
+                                                  auth?.Boat_profile_image,
+                                              })
+                                            );
+                                          }}
+                                          onMouseEnter={(e) => {
+                                            e.target.style.color = "blue";
+                                          }}
+                                          onMouseLeave={(e) => {
+                                            e.target.style.color = "black";
+                                          }}
+                                        >
+                                          Background Image
+                                        </Typography>
+                                        <Typography
+                                          className="modal-options"
+                                          onClick={() => {
+                                            setOpenModal(false);
+                                            setModalOpen(false);
+                                            setModalOpenIndex(null);
+                                            setProfileImg(index);
+                                            dispatch(
+                                              boatRegisterStep2({
+                                                Boat_name: auth?.Boat_name,
+                                                Boat_type: auth?.Boat_type,
+                                                Boat_year: auth?.Boat_year,
+                                                Boat_length: auth?.Boat_length,
+                                                Boat_max_capacity:
+                                                  auth?.Boat_max_capacity,
+                                                Boat_price_per_hour:
+                                                  auth?.Boat_price_per_hour,
+                                                Upload_images_of_your_boat:
+                                                  auth?.Upload_images_of_your_boat,
+                                                Boat_services_selected:
+                                                  auth?.Boat_services_selected,
+                                                Marine_name: auth?.Marine_name,
+                                                Marine_address:
+                                                  auth?.Marine_address,
+                                                Boat_backgroung_image:
+                                                  auth?.Boat_backgroung_image,
+                                                Boat_profile_image: item,
+                                              })
+                                            );
+                                          }}
+                                          onMouseEnter={(e) => {
+                                            e.target.style.color = "blue";
+                                          }}
+                                          onMouseLeave={(e) => {
+                                            e.target.style.color = "black";
+                                          }}
+                                        >
+                                          Profile Image
+                                        </Typography>
+                                      </div>
                                     </Grid>
                                   </>
                                 ) : null}
@@ -1138,28 +1155,23 @@ export const BoatOfferStep2 = () => {
                       color="primary"
                       type="submit"
                       onClick={() => {
+                        console.log(
+                          "button press",
+                          selectedFiles.length > 0 &&
+                            selectedBoatServices?.length > 0 &&
+                            selectedAddress !== null &&
+                            Object.keys(formik.errors).length === 0,
+
+                          selectedBoatServices,
+                          " Object.keys(formik.errors)",
+                          Object.keys(formik.errors).length === 0
+                        );
                         if (
-                          selectedFiles.length <= 0 ||
-                          selectedBoatServices?.length <= 0 ||
-                          selectedAddress === null ||
-                          Object.keys(formik.errors).length > 0
+                          selectedFiles.length > 0 &&
+                          selectedBoatServices?.length > 0 &&
+                          selectedAddress !== null &&
+                          Object.keys(formik.errors).length === 0
                         ) {
-                          if (selectedFiles.length) {
-                            setImgUploadError(false);
-                          } else {
-                            setImgUploadError(true);
-                          }
-                          if (selectedBoatServices?.length) {
-                            setBoatServiceError(false);
-                          } else {
-                            setBoatServiceError(true);
-                          }
-                          if (selectedAddress) {
-                            setMapLocError(false);
-                          } else {
-                            setMapLocError(true);
-                          }
-                        } else {
                           dispatch(
                             boatRegisterStep2({
                               Boat_name: formik.values.boatName,
@@ -1178,6 +1190,22 @@ export const BoatOfferStep2 = () => {
                             })
                           );
                           navigate("/BoatOfferStep3");
+                        } else {
+                          if (selectedFiles.length) {
+                            setImgUploadError(false);
+                          } else {
+                            setImgUploadError(true);
+                          }
+                          if (selectedBoatServices?.length) {
+                            setBoatServiceError(false);
+                          } else {
+                            setBoatServiceError(true);
+                          }
+                          if (selectedAddress) {
+                            setMapLocError(false);
+                          } else {
+                            setMapLocError(true);
+                          }
                         }
                       }}
                       style={{

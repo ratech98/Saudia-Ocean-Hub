@@ -2,10 +2,10 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button, Typography } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
-import IMAGES from "../../../Images";
-import { boatRegisterStep1 } from "../../../../redux/slices";
-import { HeaderContent } from "../../../Common/map/HeaderContent";
-import Footer from "../../../../Component/Footer/Footer";
+import IMAGES from "../../../../Images";
+import { boatRegisterStep1 } from "../../../../../redux/slices";
+import { HeaderContent } from "../../../../Common/map/HeaderContent";
+import Footer from "../../../../../Component/Footer/Footer";
 import { toast } from "react-toastify";
 
 export const BoatOfferStep1 = () => {
@@ -21,8 +21,16 @@ export const BoatOfferStep1 = () => {
     boatDocumentationsAndLicensesDoc,
     setBoatDocumentationsAndLicensesDoc,
   ] = useState("");
+  const [ministryOfTransDoc_API, setMinistryOfTransDoc_API] = useState("");
+  const [generalDireOfBorderGuardDoc_API, setGeneralDireOfBorderGuardDoc_API] =
+    useState("");
+  const [
+    boatDocumentationsAndLicensesDoc_API,
+    setBoatDocumentationsAndLicensesDoc_API,
+  ] = useState("");
 
   console.log("dashboard", dashboard?.single_boat_details);
+  console.log("ministryOfTransDoc", ministryOfTransDoc);
   //
   //
   //
@@ -93,12 +101,15 @@ export const BoatOfferStep1 = () => {
   const removeFile = (fileName) => {
     if (fileName === "ministry") {
       setMinistryOfTransDoc("");
+      setMinistryOfTransDoc_API("");
     }
     if (fileName === "general") {
       setGeneralDireOfBorderGuardDoc("");
+      setGeneralDireOfBorderGuardDoc_API("");
     }
     if (fileName === "boat") {
       setBoatDocumentationsAndLicensesDoc("");
+      setBoatDocumentationsAndLicensesDoc_API("");
     }
   };
 
@@ -110,27 +121,20 @@ export const BoatOfferStep1 = () => {
   };
 
   const handleButtonClick = () => {
-    // Clear error message
     setErrorMsg("");
-
-    if (ministryOfTransDoc !== "") {
-      if (generalDireOfBorderGuardDoc !== "") {
-        if (boatDocumentationsAndLicensesDoc !== "") {
-          dispatch(
-            boatRegisterStep1({
-              ministryOfTransportDoc: ministryOfTransDoc,
-              generalDirectorateOfBorderGuardDoc: generalDireOfBorderGuardDoc,
-              boatDocumentationsAndLicenses: boatDocumentationsAndLicensesDoc,
-            })
-          );
-
-          navigate("/BoatOfferStep2");
-        } else {
-          setErrorMsg("Please select an image");
-        }
-      } else {
-        setErrorMsg("Please select an image");
-      }
+    if (
+      ministryOfTransDoc !== "" &&
+      generalDireOfBorderGuardDoc !== "" &&
+      boatDocumentationsAndLicensesDoc !== ""
+    ) {
+      dispatch(
+        boatRegisterStep1({
+          ministryOfTransportDoc: ministryOfTransDoc,
+          generalDirectorateOfBorderGuardDoc: generalDireOfBorderGuardDoc,
+          boatDocumentationsAndLicenses: boatDocumentationsAndLicensesDoc,
+        })
+      );
+      navigate("/BoatOfferStep2");
     } else {
       setErrorMsg("Please select an image");
     }
@@ -158,43 +162,81 @@ export const BoatOfferStep1 = () => {
       navigate("/searchBoat");
     }
   };
-  const [ministryOfTransDoc_API, setMinistryOfTransDoc_API] = useState("");
-  const [generalDireOfBorderGuardDoc_API, setGeneralDireOfBorderGuardDoc_API] =
-    useState("");
-  const [
-    boatDocumentationsAndLicensesDoc_API,
-    setBoatDocumentationsAndLicensesDoc_API,
-  ] = useState("");
+
+  // console.log("auth?.ministryOfTransportDoc", auth);
+  // console.log(
+  //   "========auth?.ministr",
+  //   auth.ministryOfTransportDoc && Object.keys(auth.ministryOfTransportDoc)
+  // );
+  // console.log("dashboard?.single_boat_details", dashboard?.single_boat_details);
+  // console.log(
+  //   "ministryOfTransDoc======>",
+  //   ministryOfTransDoc,
+  //   "ministryOfTransDoc_API======>",
+  //   ministryOfTransDoc_API
+  // );
+
+  // console.log(
+  //   "iebvfywevf",
+  //   auth.ministryOfTransportDoc,
+  //   Object.keys(auth.ministryOfTransportDoc),
+  //   auth.ministryOfTransportDoc && Object.keys(auth.ministryOfTransportDoc)
+  // );
 
   useEffect(() => {
-    if (dashboard?.single_boat_details?.mnistry_transport_document) {
+    if (dashboard?.single_boat_details) {
       setMinistryOfTransDoc_API(
-        dashboard?.single_boat_details?.mnistry_transport_document
+        dashboard?.single_boat_details?.ministry_transport_document
       );
       setMinistryOfTransDoc(
-        dashboard?.single_boat_details?.mnistry_transport_document
+        dashboard?.single_boat_details?.ministry_transport_document
       );
-    }
-    if (dashboard?.single_boat_details?.border_guard_document) {
+
       setGeneralDireOfBorderGuardDoc_API(
         dashboard?.single_boat_details?.border_guard_document
       );
       setGeneralDireOfBorderGuardDoc(
         dashboard?.single_boat_details?.border_guard_document
       );
-    }
-    if (dashboard?.single_boat_details?.boat_license_document) {
+
       setBoatDocumentationsAndLicensesDoc_API(
         dashboard?.single_boat_details?.boat_license_document
       );
       setBoatDocumentationsAndLicensesDoc(
         dashboard?.single_boat_details?.boat_license_document
       );
+    } else {
+      if (
+        auth.ministryOfTransportDoc &&
+        Object.keys(auth.ministryOfTransportDoc) &&
+        auth.ministryOfTransportDoc?.length > 0
+      ) {
+        setMinistryOfTransDoc(auth?.ministryOfTransportDoc);
+      }
+      if (
+        auth.generalDirectorateOfBorderGuardDoc &&
+        Object.keys(auth.generalDirectorateOfBorderGuardDoc) &&
+        auth.generalDirectorateOfBorderGuardDoc?.length > 0
+      ) {
+        setGeneralDireOfBorderGuardDoc(
+          auth?.generalDirectorateOfBorderGuardDoc
+        );
+      }
+      if (
+        auth.boatDocumentationsAndLicenses &&
+        Object.keys(auth.boatDocumentationsAndLicenses) &&
+        auth.boatDocumentationsAndLicenses?.length > 0
+      ) {
+        setBoatDocumentationsAndLicensesDoc(
+          auth?.boatDocumentationsAndLicenses
+        );
+      }
     }
   }, [
-    dashboard?.single_boat_details?.boat_license_document,
-    dashboard?.single_boat_details?.border_guard_document,
-    dashboard?.single_boat_details?.mnistry_transport_document,
+    auth.boatDocumentationsAndLicenses,
+    auth.generalDirectorateOfBorderGuardDoc,
+    auth.ministryOfTransportDoc,
+    dashboard?.single_boat_details,
   ]);
 
   return (
@@ -243,17 +285,20 @@ export const BoatOfferStep1 = () => {
                       <img alt="pdf" src={IMAGES.PDF} style={showSelectedImg} />
                     ) : (
                       <>
-                        {ministryOfTransDoc_API ? null : (
-                          <img
-                            alt="img"
-                            src={URL.createObjectURL(ministryOfTransDoc)}
-                            style={showSelectedImg}
-                          />
-                        )}
+                        <img
+                          src={
+                            ministryOfTransDoc_API
+                              ? `http://localhost:3000/${ministryOfTransDoc_API}`
+                              : URL.createObjectURL(ministryOfTransDoc)
+                          }
+                          alt="img"
+                          style={showSelectedImg}
+                        />
                       </>
                     )}
                     <Typography>
-                      {ministryOfTransDoc_API ?? ministryOfTransDoc?.name}
+                      {"ministry transport document" ??
+                        ministryOfTransDoc?.name}
                     </Typography>
                     <Button
                       onClick={() => removeFile("ministry")}
@@ -329,19 +374,20 @@ export const BoatOfferStep1 = () => {
                       <img alt="pdf" src={IMAGES.PDF} style={showSelectedImg} />
                     ) : (
                       <>
-                        {generalDireOfBorderGuardDoc_API ? null : (
-                          <img
-                            alt="img"
-                            src={URL.createObjectURL(
-                              generalDireOfBorderGuardDoc
-                            )}
-                            style={showSelectedImg}
-                          />
-                        )}
+                        <img
+                          alt="img"
+                          src={
+                            generalDireOfBorderGuardDoc_API
+                              ? `http://localhost:3000/${generalDireOfBorderGuardDoc_API}`
+                              : URL.createObjectURL(generalDireOfBorderGuardDoc)
+                          }
+                          style={showSelectedImg}
+                        />
+                        \
                       </>
                     )}
                     <Typography>
-                      {generalDireOfBorderGuardDoc_API ??
+                      {"border guard document" ??
                         generalDireOfBorderGuardDoc?.name}
                     </Typography>
                     <Button
@@ -424,19 +470,21 @@ export const BoatOfferStep1 = () => {
                       <img alt="pdf" src={IMAGES.PDF} style={showSelectedImg} />
                     ) : (
                       <>
-                        {boatDocumentationsAndLicensesDoc_API ? null : (
-                          <img
-                            alt="img"
-                            src={URL.createObjectURL(
-                              boatDocumentationsAndLicensesDoc
-                            )}
-                            style={showSelectedImg}
-                          />
-                        )}
+                        <img
+                          alt="img"
+                          src={
+                            boatDocumentationsAndLicensesDoc_API
+                              ? `http://localhost:3000/${boatDocumentationsAndLicensesDoc_API}`
+                              : URL.createObjectURL(
+                                  boatDocumentationsAndLicensesDoc
+                                )
+                          }
+                          style={showSelectedImg}
+                        />
                       </>
                     )}
                     <Typography>
-                      {boatDocumentationsAndLicensesDoc_API ??
+                      {"boat license document" ??
                         boatDocumentationsAndLicensesDoc?.name}
                     </Typography>
                     <Button
@@ -499,11 +547,7 @@ export const BoatOfferStep1 = () => {
               <Button
                 variant="contained"
                 color="primary"
-                onClick={() =>
-                  // dashboard?.single_boat_details
-                  //   ? navigate("/BoatOfferStep2")
-                  handleButtonClick()
-                }
+                onClick={() => handleButtonClick()}
                 style={{
                   ...saveContinueButtonTextStyle,
                 }}

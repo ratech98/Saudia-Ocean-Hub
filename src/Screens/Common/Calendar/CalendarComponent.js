@@ -16,12 +16,12 @@ const CalendarComponent = ({
   handleCalendarMoth,
   calender_no,
   handleShowMonth,
+  hideSelectedDayColor = false,
 }) => {
   const [selectedDate, setSelectedDate] = useState(null);
   const [availableDate, setAvailableDate] = useState([]);
   const maxSelectableDate = new Date();
   maxSelectableDate.setDate(maxSelectableDate.getDate() + 365);
-  const [currentMonth, setCurrentMonth] = useState(new Date()); // New state to keep track of the currently displayed month
 
   useEffect(() => {
     if (showFixedDates) {
@@ -33,7 +33,7 @@ const CalendarComponent = ({
     if (handleShowMonth) {
       setSelectedDate(handleShowMonth);
     } else if (selectedDateTime?.length > 0) {
-      setSelectedDate(selectedDateTime[0].date);
+      setSelectedDate(selectedDateTime[0]?.date);
     } else if (setDay) {
       setSelectedDate(setDay);
     } else {
@@ -112,16 +112,29 @@ const CalendarComponent = ({
     // You can perform any desired operations based on the next/prev button click here
     // For example, you can update some state or fetch data for the new date, etc.
   };
+
   return (
     <div className="calendar-container">
       <Calendar
+        value={selectedDate}
+        onChange={showFixedDates ? null : handleDateSelect}
         minDate={new Date()}
         maxDate={maxSelectableDate}
-        onChange={showFixedDates ? null : handleDateSelect}
-        value={selectedDate}
         selectRange={false}
+        className="custom-calendar"
+        onViewChange={handleViewChange} // Attach the view change handler here
+        onActiveStartDateChange={handleActiveStartDateChange} // Attach the active start date change handler here
         tileClassName={({ date }) => {
-          if (isDaySelected(date) && !isTargetDate(date)) {
+          if (
+            moment(selectedDate).format("DD/MM/YYYY") ===
+            moment(date).format("DD/MM/YYYY")
+          ) {
+            if (hideSelectedDayColor) {
+              return null;
+            } else {
+              return "react-calendar__tile--random-date-selected";
+            }
+          } else if (isDaySelected(date) && !isTargetDate(date)) {
             return "react-calendar__tile--random-date";
           } else if (isTargetDate(date)) {
             return "react-calendar__tile--random-date";
@@ -134,9 +147,6 @@ const CalendarComponent = ({
           }
           return null;
         }}
-        className="custom-calendar"
-        onViewChange={handleViewChange} // Attach the view change handler here
-        onActiveStartDateChange={handleActiveStartDateChange} // Attach the active start date change handler here
       />
     </div>
   );

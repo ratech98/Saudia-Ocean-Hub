@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { Button, Container, Grid, TextField, Typography } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { resend_otp, verifyOtp } from "../../Service/api";
-import { EmailId, verifyOTP } from "../../redux/slices";
+import { EmailId, confirmTickMsg, verifyOTP } from "../../redux/slices";
 import IMAGES from "../Images";
 import { toast } from "react-toastify";
 import Loader from "../Loader";
@@ -46,7 +46,16 @@ const VerifyOTP = () => {
               dispatch(EmailId(null));
             }
             dispatch(verifyOTP("VERIFY_OTP"));
-            navigate("/LogIn");
+            // navigate("/LogIn");
+            dispatch(
+              confirmTickMsg({
+                title:
+                  "Your account has been created successfully, Please login!",
+                buttonName: "Go to login",
+              })
+            );
+
+            navigate("/confirmation");
             toast.success(res?.data?.message, {
               position: toast.POSITION.TOP_RIGHT,
               autoClose: 2000,

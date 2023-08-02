@@ -22,22 +22,21 @@ import IMAGES from "../Images";
 
 const TypeQuest = animated(
   styled("div")(({ theme }) => ({
-    backgroundColor: `rgba(250, 250, 250, 1)`,
+    // backgroundColor: `rgba(250, 250, 250, 1)`,
+    backgroundColor: "ButtonHighlight",
     boxShadow: `0px 4px 8px rgba(0, 0, 0, 0.16)`,
     borderRadius: `8px`,
     display: `flex`,
     position: `relative`,
     isolation: `isolate`,
     flexDirection: `column`,
-    // width: "100%",
     justifyContent: `flex-start`,
     alignItems: `flex-start`,
     padding: `0px`,
     boxSizing: `border-box`,
     overflow: `hidden`,
     height: "auto",
-    width: "414px", // Set the width to 300px
-    // height: "400px", // Set the height to 400px
+    width: "375px", // Set the width to 300px
   }))
 );
 
@@ -56,7 +55,6 @@ const ImageFrame = styled("div")({
 
 const Image1 = animated(
   styled("div")({
-    backgroundImage: `url(${Image1Image})`,
     backgroundPosition: `center`,
     // backgroundSize: `contain`,
     backgroundSize: `cover`,
@@ -71,6 +69,9 @@ const Image1 = animated(
     alignSelf: `stretch`,
     height: `251px`,
     margin: `0px`,
+    border: `solid 0.5px rgba(66, 70, 81, 0.2)`,
+    backgroundColor: "whitesmoke",
+    borderRadius: `8px`,
   })
 );
 
@@ -229,6 +230,7 @@ export const BoatDetailCard = ({
   priceCurrency = "SAR",
   pricePerHour = 0,
   boatMaxCapacity = "1",
+  profile_image,
 }) => {
   const [TypeQuestSpring, TypeQuestApi] = useSpring(() => ({
     config: {
@@ -329,7 +331,13 @@ export const BoatDetailCard = ({
           placement={"top"}
           title={"Click to view boat details"}
         >
-          <Image1 style={{ ...Image1Spring }}></Image1>
+          <Image1
+            style={{
+              ...Image1Spring,
+              backgroundImage: `url(${profile_image ?? IMAGES.APP_ICON})`,
+              backgroundSize: profile_image ? "cover" : "contain",
+            }}
+          ></Image1>
         </Tooltip>
       </ImageFrame>
       <Content>

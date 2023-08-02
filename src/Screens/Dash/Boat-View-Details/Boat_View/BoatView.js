@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import "./BoatView.css";
 import data from "../boatDetailsViewsJson.json";
 import { Container } from "react-bootstrap";
@@ -117,9 +117,10 @@ const Image1 = animated(
   })
 );
 
-export const BoatView = ({ boatData }) => {
-  // console.log("boatData", boatData);
-  const boatImages = data.parameters.boats_image;
+export const BoatView = ({ boatData, handleImageClick }) => {
+  // console.log("boatData", boatData?.boats_image);
+
+  const boatImages = boatData?.boats_image;
   const imageBox = [
     {
       id: 1,
@@ -191,13 +192,6 @@ export const BoatView = ({ boatData }) => {
     });
   }, []);
 
-  // <div key={image.id}>
-  //   <img
-  //     src={image.path}
-  //     alt="carousal_img"
-  //     className="boatViewImage"
-  //   />
-  // </div>
   return (
     <div className="boatView">
       <Container>
@@ -205,27 +199,28 @@ export const BoatView = ({ boatData }) => {
           <Row>
             <Col>
               <div className="d-flex gap-3 boat-view-scroll imageScroll">
-                {boatImages.map((image) => (
+                {boatImages?.map((image) => (
                   <ImageFrame>
-                    <Tooltip
-                      arrow={true}
-                      placement={"top"}
-                      // title={"This is an Image"}
-                    >
-                      {/* <Image1
-                        style={{
-                          ...Image1 Spring,
-                          // backgroundImage: `url(${image?.path})`,
-                          backgroundImage: `url(${IMAGES.boat1})`,
-                        }}
-                      /> */}
+                    <Tooltip arrow={true} placement={"top"}>
                       <img
-                        src={image.path}
+                        src={
+                          image?.path
+                            ? `${`http://localhost:3000/`}${image.path}`
+                            : IMAGES.APP_ICON
+                        }
                         alt="carousal_img"
                         className="boatViewImage"
                         style={{
                           ...Image1Spring,
+                          cursor: "pointer",
                         }}
+                        onClick={() =>
+                          handleImageClick(
+                            image?.path
+                              ? `${`http://localhost:3000/`}${image.path}`
+                              : IMAGES.APP_ICON
+                          )
+                        }
                       />
                     </Tooltip>
                   </ImageFrame>
@@ -234,7 +229,7 @@ export const BoatView = ({ boatData }) => {
             </Col>
             <Col>
               <div className="review">
-                {imageBox.map((item) => (
+                {imageBox?.map((item) => (
                   <TypeQuest
                     onMouseLeave={() => {
                       TypeQuestApi.start({ transform: "scale(1)" });
@@ -261,21 +256,17 @@ export const BoatView = ({ boatData }) => {
                           {item.reviewCount}
                         </Card.Text>
                       </div>
-                      {/* <Card.Title className="price">{item.price}</Card.Title> */}
+
                       <Title style={{ ...TitleSpring }}>
                         {"Estimated Price:"}
                       </Title>
                       <div className="d-flex gap-2">
-                        {/* <Card.Text className="Sar">{item.money}</Card.Text> */}
-                        {/* <Card.Text className="Sar_hour">{item.hour}</Card.Text> */}
                         <MoneyHour style={{ ...TitleSpring }}>
                           {boatData?.price_per_hour} {boatData?.price_currency}{" "}
                           {item.hour}
                         </MoneyHour>
                       </div>
-                      {/* <div className="btn btn-primary book-btn ">
-                        <h6 className="text-white pt-2">Send a Book Request</h6>
-                      </div> */}
+
                       <ButtonContained
                         variant="contained"
                         size="large"

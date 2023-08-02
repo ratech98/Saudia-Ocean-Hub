@@ -20,7 +20,7 @@ import { useNavigate } from "react-router-dom";
 import { Visibility, VisibilityOff } from "@material-ui/icons";
 import { countryCodeJson } from "./countryCodeJson";
 import { useDispatch, useSelector } from "react-redux";
-import { EmailId } from "../../redux/slices";
+import { EmailId, confirmTickMsg } from "../../redux/slices";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import { register } from "../../Service/api";
 import IMAGES from "../Images";
@@ -196,7 +196,16 @@ export const SignUp = () => {
               dispatch(EmailId(value?.email));
               navigate("/verifyOTP");
             } else {
-              navigate("/logIn");
+              dispatch(
+                confirmTickMsg({
+                  title:
+                    "Your account has been created successfully, Please login!",
+                  buttonName: "Go to login",
+                })
+              );
+
+              navigate("/confirmation");
+              // navigate("/logIn");
             }
           } else {
             if (
@@ -259,6 +268,7 @@ export const SignUp = () => {
   return (
     <div style={styles.containerBody}>
       {loading ? <Loader loading={loading} /> : null}
+
       <form onSubmit={formik.handleSubmit} style={styles.formStyle}>
         <img src={IMAGES.APP_ICON} alt="Icon" style={styles.appIconStyle} />
         <div style={styles.pageTitleDev}>

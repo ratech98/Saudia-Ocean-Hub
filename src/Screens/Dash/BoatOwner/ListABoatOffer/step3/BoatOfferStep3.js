@@ -12,18 +12,20 @@ import { withStyles, makeStyles } from "@mui/styles";
 import { useDispatch, useSelector } from "react-redux";
 import moment from "moment";
 import { AccessTime, Add, RemoveCircle } from "@material-ui/icons";
-import IMAGES from "../../../Images";
-import CalendarComponent from "../../../Common/Calendar/CalendarComponent";
-import { boat_register } from "../../../../Service/api";
+import IMAGES from "../../../../Images";
+import CalendarComponent from "../../../../Common/Calendar/CalendarComponent";
+import { boat_register, update_boat } from "../../../../../Service/api";
 import { toast } from "react-toastify";
 import {
   boatRegisterStep1,
   boatRegisterStep2,
   boatServiceList,
   boatTypeList,
-} from "../../../../redux/slices";
-import Loader from "../../../Loader";
-import { HeaderContent } from "../../../Common/map/HeaderContent";
+  single_boat_details_store,
+} from "../../../../../redux/slices";
+import Loader from "../../../../Loader";
+import { HeaderContent } from "../../../../Common/map/HeaderContent";
+import "./BoatOfferStep3.css";
 const youtubePattern = /^(https?:\/\/)?(www\.)?youtu(be\.com|\.be)\/.+$/;
 
 const CustomTextField = withStyles({
@@ -51,6 +53,7 @@ export const BoatOfferStep3 = () => {
   const dashboard = useSelector((state) => state?.dashboard);
   const [greetingMessage, setGreetingMessage] = useState("");
   const [youTubeLink, setYouTubeLink] = useState("");
+  const [youTubeLinkError, setYouTubeLinkError] = useState(false);
   const [selectedDateTime, setSelectedDateTime] = useState([]);
   const [currentlySelectedDate, setCurrentlySelectedDate] = useState(null);
   const [modalOpen, setModalOpen] = useState(false);
@@ -89,55 +92,68 @@ export const BoatOfferStep3 = () => {
   }, [divRef]);
 
   // console.log("datePositionIndex", datePositionIndex);
-  // console.log("selectedDateTime", selectedDateTime[0]?.time?.length);
+  // console.log("selectedDateTime==========", selectedDateTime);
+  console.log("dash boats_timeslot", dashboard?.single_boat_details);
 
-  const isValidYouTubeLink = (url) => {
-    // Regular expression to match YouTube URLs
+  useEffect(() => {
+    if (dashboard?.single_boat_details?.greeting_message) {
+      setGreetingMessage(dashboard?.single_boat_details?.greeting_message);
+    }
+    if (dashboard?.single_boat_details?.boats_timeslot) {
+      // Simulate API call or data processing
+      const fetchData = async () => {
+        // Simulate data transformation
+        const selectedDateTime =
+          dashboard?.single_boat_details?.boats_timeslot.map((item) => ({
+            date: moment(item.date, "DD/MM/YYYY").toDate(),
+            time: [convertTime(item.start_time)],
+          }));
 
-    return youtubePattern.test(url);
-  };
+        console.log("fun selectedDateTime", selectedDateTime);
+        // Update the state with the transformed data
+        setSelectedDateTime(selectedDateTime);
+        setCurrentlySelectedDate(selectedDateTime[0]?.date);
+      };
 
-  // useEffect(() => {
-  //   setErrorDublicateTime("");
-  //   const checkDuplicateTimes = () => {
-  //     const duplicateEntries = [];
-  //     selectedDateTime.forEach((item, index) => {
-  //       const duplicates = item.time.filter(
-  //         (time, i) => item.time.indexOf(time) !== i
-  //       );
-  //       if (duplicates.length > 0) {
-  //         duplicateEntries.push({
-  //           position: index,
-  //           date: item.date,
-  //         });
-  //       }
-  //     });
-  //     if (duplicateEntries.length > 0) {
-  //       console.log("Duplicate entries:", duplicateEntries);
-  //       setErrorDublicateTime(duplicateEntries);
-  //     }
-  //   };
+      fetchData(); // Call the fetch function
+    }
+    if (dashboard?.single_boat_details?.youtybe_link) {
+      setYouTubeLink(dashboard?.single_boat_details?.youtybe_link);
+    }
+  }, [
+    dashboard?.single_boat_details?.boats_timeslot,
+    dashboard?.single_boat_details?.greeting_message,
+    dashboard?.single_boat_details?.youtybe_link,
+  ]);
 
-  //   checkDuplicateTimes();
-  // }, [selectedDateTime]);
+  useEffect(() => {
+    const handleOutsideClick = (event) => {
+      if (modalRef.current && !modalRef.current.contains(event.target)) {
+        setModalOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleOutsideClick);
+    return () => {
+      document.removeEventListener("mousedown", handleOutsideClick);
+    };
+  }, []);
 
-  // useEffect(() => {
-  //   if (selectedDateTime.length > 0) {
-  //     const index = selectedDateTime.findIndex((item) =>
-  //       isSameDay(item.date, currentlySelectedDate)
-  //     );
-
-  //     setDatePositionIndex(index !== -1 ? index : null);
-  //   } else {
-  //     setDatePositionIndex(null);
-  //   }
-  // }, [selectedDateTime]);
+  useEffect(() => {
+    if (selectedDateTime.length > 0) {
+      const index = selectedDateTime.findIndex((item) =>
+        isSameDay(item.date, currentlySelectedDate)
+      );
+      setDatePositionIndex(index !== -1 ? index : null);
+    } else {
+      setDatePositionIndex(null);
+    }
+  }, [currentlySelectedDate, selectedDateTime]);
 
   const isSameDay = (dateA, dateB) => {
     return (
-      dateA.getDate() === dateB.getDate() &&
-      dateA.getMonth() === dateB.getMonth() &&
-      dateA.getFullYear() === dateB.getFullYear()
+      dateA?.getDate() === dateB?.getDate() &&
+      dateA?.getMonth() === dateB?.getMonth() &&
+      dateA?.getFullYear() === dateB?.getFullYear()
     );
   };
 
@@ -182,7 +198,7 @@ export const BoatOfferStep3 = () => {
     }
   };
 
-  function addExtraTime(targetDate) {
+  const addExtraTime = (targetDate) => {
     setSelectedDateTime((prevState) => {
       return prevState.map((item) => {
         if (item.date.getTime() === targetDate.getTime()) {
@@ -194,9 +210,9 @@ export const BoatOfferStep3 = () => {
         return item;
       });
     });
-  }
+  };
 
-  function removeTimeField(dateToRemove, timeIndexToRemove) {
+  const removeTimeField = (dateToRemove, timeIndexToRemove) => {
     const updatedSelectedDateTime = [...selectedDateTime];
 
     for (let i = 0; i < updatedSelectedDateTime.length; i++) {
@@ -215,7 +231,7 @@ export const BoatOfferStep3 = () => {
     }
 
     return updatedSelectedDateTime;
-  }
+  };
 
   const handleRemoveTimeField = (dateToRemove, timeIndexToRemove) => {
     const updatedSelectedDateTime = removeTimeField(
@@ -223,6 +239,8 @@ export const BoatOfferStep3 = () => {
       timeIndexToRemove
     );
     setSelectedDateTime(updatedSelectedDateTime);
+    setModalOpen(false);
+    setModalOpenIndex("");
   };
 
   const addCancellationPolicyField = () => {
@@ -243,19 +261,6 @@ export const BoatOfferStep3 = () => {
   const handleHourChange = (index, timeIndex, value, timeInput) => {
     handleTimeChange(index, timeIndex, value, timeInput);
   };
-
-  useEffect(() => {
-    const handleOutsideClick = (event) => {
-      if (modalRef.current && !modalRef.current.contains(event.target)) {
-        setModalOpen(false);
-      }
-    };
-
-    document.addEventListener("mousedown", handleOutsideClick);
-    return () => {
-      document.removeEventListener("mousedown", handleOutsideClick);
-    };
-  }, []);
 
   // Define the common hover function
   const handleHover = (e) => {
@@ -313,7 +318,10 @@ export const BoatOfferStep3 = () => {
     });
   };
 
+  console.log("ministryOfTransportDoc 3", dash?.ministryOfTransportDoc);
+
   // console.log("dash?.Boat_services_selected", dash?.Boat_services_selected);
+
   const handleSubmit = () => {
     if (!greetingMessage) {
       setGreetingMessageError(true);
@@ -362,7 +370,8 @@ export const BoatOfferStep3 = () => {
         //   if (serviceItem?.value) {
         //     payload.append(`boat_service[]`, serviceItem?.value);
         //   } else {
-        //     payload.append(`boat_service[]`, serviceItem);
+        //     console.log("serviceItem", serviceItem);
+        //     payload.append(`boat_service[]`, serviceItem?.label);
         //   }
         // });
         dash?.Boat_services_selected?.map((serviceItem, serviceIndex) => {
@@ -411,57 +420,127 @@ export const BoatOfferStep3 = () => {
         for (const [key, value] of payload.entries()) {
           console.log(key, ":", `'${value}'`);
         }
-        // setLoader(false);
+
         //API call
-        boat_register(dash?.AuthToken, payload)
-          .then((res) => {
-            console.log("boat_register res=>", res?.data);
-            if (res?.data?.message === "boat successfully registered") {
-              dispatch(boatTypeList(null));
-              dispatch(boatServiceList(null));
-              dispatch(
-                boatRegisterStep1({
-                  ministryOfTransportDoc: null,
-                  generalDirectorateOfBorderGuardDoc: null,
-                  boatDocumentationsAndLicenses: null,
-                })
-              );
-              dispatch(
-                boatRegisterStep2({
-                  Boat_name: null,
-                  Boat_type: null,
-                  Boat_year: null,
-                  Boat_length: null,
-                  Boat_max_capacity: null,
-                  Boat_price_per_hour: null,
-                  Upload_images_of_your_boat: null,
-                  Boat_services_selected: null,
-                  Marine_name: null,
-                  Marine_address: null,
-                  Boat_backgroung_image: null,
-                  Boat_profile_image: null,
-                })
-              );
+        // setLoader(false);
+        if (!dashboard?.single_boat_details) {
+          boat_register(dash?.AuthToken, payload)
+            .then((res) => {
+              console.log("boat_register res=>", res?.data);
+              if (res?.data?.message === "boat successfully registered") {
+                dispatch(
+                  boatRegisterStep1({
+                    ministryOfTransportDoc: null,
+                    generalDirectorateOfBorderGuardDoc: null,
+                    boatDocumentationsAndLicenses: null,
+                  })
+                );
 
-              toast.success("Boat successfully registered", {
-                position: toast.POSITION.TOP_RIGHT,
-                autoClose: 2000,
-              });
+                dispatch(boatTypeList(null));
+                dispatch(boatServiceList(null));
+                dispatch(
+                  boatRegisterStep2({
+                    Boat_name: null,
+                    Boat_type: null,
+                    Boat_year: null,
+                    Boat_length: null,
+                    Boat_max_capacity: null,
+                    Boat_price_per_hour: null,
+                    Upload_images_of_your_boat: null,
+                    Boat_services_selected: null,
+                    Marine_name: null,
+                    Marine_address: null,
+                    Boat_backgroung_image: null,
+                    Boat_profile_image: null,
+                  })
+                );
 
-              navigate("/confirmation");
-              setLoader(false);
-            } else {
-              toast.error(res?.data?.message, {
+                dispatch(single_boat_details_store(null));
+                toast.dismiss();
+                toast.success("Boat successfully registered", {
+                  position: toast.POSITION.TOP_RIGHT,
+                  autoClose: 2000,
+                });
+
+                navigate("/confirmation");
+                setLoader(false);
+              } else {
+                toast.error(res?.data?.message, {
+                  position: toast.POSITION.TOP_RIGHT,
+                  autoClose: 20000,
+                });
+                setLoader(false);
+              }
+            })
+            .catch((err) => {
+              console.log("boat_register err", err);
+              toast.dismiss();
+              toast.error("Something went wrong. Please try again later.", {
                 position: toast.POSITION.TOP_RIGHT,
                 autoClose: 20000,
               });
               setLoader(false);
-            }
-          })
-          .catch((err) => {
-            console.log("boat_register err", err);
-            setLoader(false);
-          });
+            });
+        } else {
+          payload.append("boat_id", dashboard?.single_boat_details?.boat_id);
+          update_boat(dash?.AuthToken, payload)
+            .then((res) => {
+              console.log("update boat res=>", res?.data);
+              if (res?.data?.message === "boat successfully updated") {
+                dispatch(
+                  boatRegisterStep1({
+                    ministryOfTransportDoc: null,
+                    generalDirectorateOfBorderGuardDoc: null,
+                    boatDocumentationsAndLicenses: null,
+                  })
+                );
+
+                dispatch(boatTypeList(null));
+                dispatch(boatServiceList(null));
+                dispatch(
+                  boatRegisterStep2({
+                    Boat_name: null,
+                    Boat_type: null,
+                    Boat_year: null,
+                    Boat_length: null,
+                    Boat_max_capacity: null,
+                    Boat_price_per_hour: null,
+                    Upload_images_of_your_boat: null,
+                    Boat_services_selected: null,
+                    Marine_name: null,
+                    Marine_address: null,
+                    Boat_backgroung_image: null,
+                    Boat_profile_image: null,
+                  })
+                );
+
+                dispatch(single_boat_details_store(null));
+                toast.dismiss();
+                toast.success("Boat successfully updated", {
+                  position: toast.POSITION.TOP_RIGHT,
+                  autoClose: 2000,
+                });
+
+                navigate("/confirmation");
+                setLoader(false);
+              } else {
+                toast.dismiss();
+                toast.error(res?.data?.message, {
+                  position: toast.POSITION.TOP_RIGHT,
+                  autoClose: 20000,
+                });
+                setLoader(false);
+              }
+            })
+            .catch((err) => {
+              console.log("update boat err", err);
+              toast.error("Something went wrong. Please try again later.", {
+                position: toast.POSITION.TOP_RIGHT,
+                autoClose: 2000,
+              });
+              setLoader(false);
+            });
+        }
       }
 
       setGreetingMessageError(false);
@@ -481,23 +560,6 @@ export const BoatOfferStep3 = () => {
     // Open the YouTube link in a new tab without focusing on it
     const newTab = window.open(youtubeLink, "_blank");
     newTab.opener = null; // Prevent the newly opened tab from focusing on the parent tab
-  };
-
-  const handlePaste = (event) => {
-    // Get the pasted text from the clipboard
-    const pastedText = event.clipboardData.getData("text/plain");
-    // Check if the pasted text matches the YouTube pattern
-    if (youtubePattern.test(pastedText)) {
-      // If it matches, update the state with the pasted text
-      setYouTubeLink(pastedText);
-    }
-    // Prevent the default paste behavior
-    event.preventDefault();
-  };
-
-  const handleKeyPress = (event) => {
-    // Prevent typing by intercepting keypress event
-    event.preventDefault();
   };
 
   const handleHeaderCallBack = (name) => {
@@ -523,49 +585,12 @@ export const BoatOfferStep3 = () => {
     }
   };
 
-  console.log(
-    "dashboard?.single_boat_details",
-    dashboard?.single_boat_details?.boats_timeslot
-  );
-
-  console.log("selectedDateTime", selectedDateTime);
-  useEffect(() => {
-    if (dashboard?.single_boat_details?.greeting_message) {
-      setGreetingMessage(dashboard?.single_boat_details?.greeting_message);
-    }
-    if (dashboard?.single_boat_details?.boats_timeslot) {
-      // Simulate API call or data processing
-      const fetchData = async () => {
-        // Simulate data transformation
-        const selectedDateTime =
-          dashboard?.single_boat_details?.boats_timeslot.map((item) => ({
-            date: parseDate(item.date),
-            time: [convertTime(item.start_time)],
-          }));
-
-        // Update the state with the transformed data
-        setSelectedDateTime(selectedDateTime);
-        setCurrentlySelectedDate(selectedDateTime[0]?.date);
-      };
-
-      fetchData(); // Call the fetch function
-    }
-  }, [
-    dashboard?.single_boat_details?.boats_timeslot,
-    dashboard?.single_boat_details?.greeting_message,
-  ]);
-
-  // Helper functions to convert date and time (same as previous code)
-  function parseDate(dateStr) {
-    const [day, month, year] = dateStr.split(".");
-    return new Date(`${year}-${month}-${day}`);
-  }
-
-  function convertTime(timeStr) {
+  const convertTime = (timeStr) => {
     const [time, period] = timeStr.split(" ");
     const [hours, minutes] = time.split(":");
     return `${hours}:${minutes} ${period}`;
-  }
+  };
+
   return (
     <>
       <HeaderContent
@@ -578,35 +603,24 @@ export const BoatOfferStep3 = () => {
         showLoginSignUp={dash?.AuthToken ? false : true}
         presentPage={"Register Your Boat"}
       />
-      <div style={containerStyle}>
+      <div className="container-style">
         {loader ? <Loader loading={loader} /> : null}
-        <div style={headingStyle}>
-          <Typography style={headingTextStyle}>
+        <div className="heading">
+          <Typography className="heading-text">
             Show off your boat in few clicks!
           </Typography>
         </div>
-        <div style={formContainerStyle}>
-          <div style={stepContainerStyle}>
-            <Typography style={stepNumberStyle}>Step 3</Typography>
-            <div style={dividerStyle} />
+        <div className="form-container ">
+          <div className="step-container">
+            <Typography className="step-number">Step 3</Typography>
+            <div className="divider" />
 
-            <div style={documentSectionStyle}>
+            <div className="document-section">
               {/* Tell your customers */}
-              <Typography style={documentSectionHeadingStyle}>
+              <Typography className="document-section-heading">
                 Write greeting message to your customers
               </Typography>
-              <Grid
-                item
-                xs={12}
-                sm={6}
-                style={{
-                  boxShadow: "0px 0px 2px rgba(0, 0, 0, 0.2)",
-                  borderBottom: "none",
-                  marginTop: "15px",
-                  borderRadius: "5px",
-                  width: "100%",
-                }}
-              >
+              <Grid item xs={12} sm={6} className="textbox-area">
                 <CustomTextField
                   margin="normal"
                   fullWidth
@@ -644,44 +658,19 @@ export const BoatOfferStep3 = () => {
                 />
               </Grid>
               {!greetingMessage && greetingMessageError ? (
-                <Typography
-                  style={{
-                    ...ErrMsgTxt,
-                  }}
-                >
+                <Typography className="err-msg-text">
                   Please enter greeting message.
                 </Typography>
               ) : null}
 
               {/* Calendar           *** &&& ***        Date Time Selection */}
-              <Typography
-                style={{ ...documentSectionHeadingStyle, marginTop: "80px" }}
-              >
+              <Typography className="boat-avaliability">
                 Boat Avaliability
               </Typography>
 
-              <Grid
-                item
-                xs={12}
-                sm={6}
-                style={{
-                  width: "100%",
-                }}
-              >
-                <div
-                  style={{
-                    display: "flex",
-                    flexDirection: "row",
-                    paddingTop: "15px",
-                  }}
-                >
-                  <div
-                    style={{
-                      display: "flex",
-                      flex: 0.5,
-                      justifyContent: "center",
-                    }}
-                  >
+              <Grid item xs={12} sm={6} className="calendar-timeSlot-container">
+                <div className="calendar-timeSlot-container-inner">
+                  <div className="calendar-container">
                     <CalendarComponent
                       setSelectedDateTime={setSelectedDateTime}
                       selectedDateTime={selectedDateTime}
@@ -690,12 +679,7 @@ export const BoatOfferStep3 = () => {
                       handleShowMonth={currentlySelectedDate}
                     />
                   </div>
-                  <div
-                    style={{
-                      // backgroundColor: "lightseagreen",
-                      flex: 0.5,
-                    }}
-                  >
+                  <div className="timeSlot-container">
                     <CustomTextField
                       // disabled={true}
                       type={"text"}
@@ -731,7 +715,7 @@ export const BoatOfferStep3 = () => {
                           borderRadius: "15px",
                           paddingLeft: "25px",
                           width: "100%",
-                          // boxShadow: "0 2px 4px rgba(0, 0, 0, 0.2)",
+                          boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
                           border: "solid 1px rgba(66, 70, 81, 0.2)",
                           // backgroundColor: "red",
                         },
@@ -755,11 +739,6 @@ export const BoatOfferStep3 = () => {
                               onClick={() =>
                                 handleRemoveDate(currentlySelectedDate)
                               }
-                              style={
-                                {
-                                  // top: -5,
-                                }
-                              }
                             >
                               <RemoveCircle />
                             </IconButton>
@@ -773,20 +752,9 @@ export const BoatOfferStep3 = () => {
                         alignItems: "center",
                       }}
                     />
-                    <Typography>Start at</Typography>
-                    <div
-                      style={{
-                        height: "250px", // Set the maximum height to 500px
-                        overflow: "auto", // Enable scrolling if content exceeds the height
-                        position: "relative",
-                      }}
-                    >
-                      <div
-                        style={{
-                          display: "flex",
-                          flexWrap: "wrap",
-                        }}
-                      >
+                    <Typography className="start-at-text">Start at</Typography>
+                    <div className="show-selected-time-list">
+                      <div className="flex-style">
                         {selectedDateTime?.map((item, index) => {
                           // console.log("item", item);
                           const isCurrentlySelectedDate =
@@ -812,7 +780,7 @@ export const BoatOfferStep3 = () => {
                                     xs={12}
                                     sm={6}
                                     style={{
-                                      width: "50%",
+                                      // width: "50%",
                                       display: "flex",
                                       padding: "10px",
                                     }}
@@ -827,35 +795,35 @@ export const BoatOfferStep3 = () => {
                                         style={{
                                           width: "100%",
                                           display: "flex",
-                                          flexDirection: "column",
-                                          justifyContent: "space-between",
                                           border:
                                             "1px solid rgba(66, 70, 81, 0.2)",
                                           borderRadius: "10px",
-                                          padding: "5px",
-                                        }}
-                                        onClick={() => {
-                                          handleItemClick();
                                         }}
                                       >
                                         <div
-                                          onMouseEnter={() =>
-                                            setHoveredTimeItem(() => timeItemId)
-                                          }
-                                          onMouseLeave={() =>
-                                            setHoveredTimeItem(() => null)
-                                          }
                                           style={{
                                             borderRadius: "10px",
-                                            padding: "5px",
+                                            padding: "15px",
                                             display: "flex",
+                                            justifyContent: "space-between",
+                                            width: "100%",
+                                          }}
+                                          // onMouseEnter={() =>
+                                          //   setHoveredTimeItem(() => timeItemId)
+                                          // }
+                                          // onMouseLeave={() =>
+                                          //   setHoveredTimeItem(() => null)
+                                          // }
+                                          onClick={() => {
+                                            handleItemClick();
                                           }}
                                         >
                                           <AccessTime />
                                           <Typography
                                             style={{
                                               color: "#424651",
-                                              paddingLeft: "10px",
+                                              paddingLeft: "5px",
+                                              width: "100px",
                                             }}
                                           >
                                             {timeItem ? timeItem : "00:00"}
@@ -867,25 +835,24 @@ export const BoatOfferStep3 = () => {
                                                 item?.date,
                                                 timeIndex
                                               );
-                                              setModalOpen(false);
-                                              setModalOpenIndex(null);
-                                              handleItemClick();
-                                            }}
-                                            style={{
-                                              width: "15%",
-                                              flex: 1,
-                                              display: "flex",
-                                              justifyContent: "flex-end",
-                                              alignSelf: "flex-end",
-                                              alignContent: "flex-end",
-                                              alignItems: "flex-end",
+
+                                              // setModalOpen(false);
+                                              // setModalOpenIndex(null);
+                                              // handleItemClick();
                                             }}
                                           >
-                                            {hoveredTimeItem === timeItemId ? (
+                                            <IconButton
+                                              style={{
+                                                margin: "0px",
+                                                padding: "0px",
+                                              }}
+                                            >
                                               <RemoveCircle />
-                                            ) : null}
+                                            </IconButton>
                                           </div>
                                         </div>
+                                        {/* {hoveredTimeItem === timeItemId ? ( */}
+                                        {/* ) : null} */}
                                       </div>
 
                                       {modalOpen &&
@@ -1124,43 +1091,37 @@ export const BoatOfferStep3 = () => {
                           return null;
                         })}
                       </div>
-                      <div
-                        style={{
-                          display: "flex",
-                          justifyContent: "flex-end",
-                        }}
-                      >
-                        {currentlySelectedDate ? (
-                          <div
-                            style={{
-                              flex: 1,
-                              display: "flex",
-                              // width: "100%",
-                              justifyContent: "flex-end",
-                              // position: "absolute",
-                              // bottom: 0,
-                              alignContent: "flex-end",
-                              alignItems: "flex-end",
-                              alignSelf: "flex-end",
-                            }}
-                          >
-                            <IconButton
-                              style={{
-                                border: "solid 1px rgba(66, 70, 81, 0.2)",
-                                // width: "100%",
-                                display: "flex",
-                              }}
-                              onClick={() =>
-                                addExtraTime(currentlySelectedDate)
-                              }
-                            >
-                              <Add />
-                            </IconButton>
-                          </div>
-                        ) : null}
-                      </div>
                     </div>
 
+                    {/* add button */}
+                    {currentlySelectedDate ? (
+                      <div
+                        style={{
+                          flex: 1,
+                          display: "flex",
+                          // width: "100%",
+                          justifyContent: "flex-end",
+                          // position: "absolute",
+                          // bottom: 0,
+                          alignContent: "flex-end",
+                          alignItems: "flex-end",
+                          alignSelf: "flex-end",
+                        }}
+                      >
+                        <IconButton
+                          style={{
+                            border: "solid 1px rgba(66, 70, 81, 0.2)",
+                            // width: "100%",
+                            display: "flex",
+                          }}
+                          onClick={() => addExtraTime(currentlySelectedDate)}
+                        >
+                          <Add />
+                        </IconButton>
+                      </div>
+                    ) : null}
+
+                    {/* copy time to all day */}
                     {selectedDateTime[datePositionIndex]?.time?.length > 0 ? (
                       <Typography
                         style={{ cursor: "pointer" }}
@@ -1172,6 +1133,7 @@ export const BoatOfferStep3 = () => {
                       </Typography>
                     ) : null}
 
+                    {/* err msg */}
                     {errorDublicateTime ? (
                       <Typography
                         style={{
@@ -1231,16 +1193,13 @@ export const BoatOfferStep3 = () => {
                       placeholder="Share a YouTube link for a short boat demo"
                       value={youTubeLink}
                       onChange={(event) => {
-                        console.log(
-                          "start_space_Validation.test(event.target.value)",
-                          start_space_Validation.test(event.target.value),
-                          youtubePattern.test(event.target.value)
-                        );
                         if (start_space_Validation.test(event.target.value)) {
                           if (youtubePattern.test(event.target.value)) {
                             setYouTubeLink(event.target.value);
+                            setYouTubeLinkError(false);
                           } else {
                             setYouTubeLink("");
+                            setYouTubeLinkError(true);
                           }
                         }
 
@@ -1288,6 +1247,12 @@ export const BoatOfferStep3 = () => {
                     />
                   )}
                 </div>
+                {youTubeLinkError ? (
+                  <Typography className="err-msg-text">
+                    I'm sorry, but it seems you have entered an incorrect
+                    YouTube link. Please provide a valid YouTube link
+                  </Typography>
+                ) : null}
               </Grid>
 
               {/* Cancellation Policy */}
@@ -1408,6 +1373,16 @@ export const BoatOfferStep3 = () => {
     </>
   );
 };
+
+const useStyles = makeStyles((theme) => ({
+  removeButton: {
+    opacity: 0,
+    transition: "opacity 0.3s ease-in-out",
+  },
+  showButton: {
+    opacity: 1,
+  },
+}));
 
 //Styling CSS
 
@@ -1540,13 +1515,3 @@ const textFieldStyles = {
   // borderWidth: ".1px",
   // borderColor: "rgba(66, 70, 81, 0.2)",
 };
-
-const useStyles = makeStyles((theme) => ({
-  removeButton: {
-    opacity: 0,
-    transition: "opacity 0.3s ease-in-out",
-  },
-  showButton: {
-    opacity: 1,
-  },
-}));

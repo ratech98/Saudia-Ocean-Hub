@@ -21,6 +21,9 @@ import { useNavigate } from "react-router-dom";
 import moment from "moment";
 import { HeaderContent } from "../../Common/map/HeaderContent";
 import { toast } from "react-toastify";
+import { Typography } from "@mui/material";
+import { single_boat_details_store } from "../../../redux/slices";
+import ViewImage from "../../Common/View-image/ViewImage";
 
 const BoatViewDetails = () => {
   const navigate = useNavigate();
@@ -64,7 +67,7 @@ const BoatViewDetails = () => {
           1,
           "month"
         );
-        console.log("newCalendar2Date", newCalendar2Date?._d);
+        // console.log("newCalendar2Date", newCalendar2Date?._d);
         return setCalendar_1_date(newCalendar2Date?._d);
       } else if (data?.action === "prev") {
         const newCalendar2Date = moment(data?.activeStartDate).subtract(
@@ -82,23 +85,30 @@ const BoatViewDetails = () => {
   };
 
   useEffect(() => {
-    let payload = {
+    let payload = JSON.stringify({
       boat_id: dashboard?.boat_id,
       user_id: auth?.userId,
-    };
-    console.log("single_boat_data -=-=-=-=-=->>>>>   payload", payload);
+    });
+    console.log("payload", payload);
     single_boat_data_API(auth?.AuthToken, payload)
       .then((res) => {
+        // check api code
+        console.log("single_boat_data  -=-=-=-=-=->>>>> res", res?.data);
         if (res?.data?.message === "success") {
-          console.log(
-            "single_boat_data  -=-=-=-=-=->>>>> res",
-            res?.data?.parameters
-          );
           setBoatDetails(res?.data?.parameters);
+        } else {
+          toast.error(res?.data?.error ?? "error", {
+            position: toast.POSITION.TOP_RIGHT,
+            autoClose: 2000,
+          });
         }
       })
       .catch((err) => {
         console.log("single_boat_data -=-=-=-=-=->>>>>  err", err);
+        toast.error("Something went wrong. Please try again later.", {
+          position: toast.POSITION.TOP_RIGHT,
+          autoClose: 2000,
+        });
       });
   }, [auth?.AuthToken, auth?.userId, dashboard?.boat_id, dispatch]);
 
@@ -201,6 +211,20 @@ const BoatViewDetails = () => {
   const reviewCard_center = "center";
   const boatListContainerRef = useRef(null);
 
+  const [showModal, setShowModal] = useState(false);
+  const [selectedImageUrl, setSelectedImageUrl] = useState(false);
+
+  const handleImageClick = (imageUrl) => {
+    setShowModal(true);
+    setSelectedImageUrl(imageUrl);
+  };
+
+  const handleModalClose = () => {
+    setShowModal(false);
+  };
+
+  console.log("showModal", showModal);
+
   return (
     <>
       <HeaderContent
@@ -221,6 +245,7 @@ const BoatViewDetails = () => {
       >
         Edit
       </Typography> */}
+
       <div className="boatViewDetails">
         <Banner
           link1={link1}
@@ -247,7 +272,15 @@ const BoatViewDetails = () => {
         <div>
           <Container style={{ backgroundColor: "#fff", padding: "0px 60px" }}>
             <div>
-              <BoatView boatData={boatDetails} />
+              <BoatView
+                boatData={boatDetails}
+                handleImageClick={handleImageClick}
+              />
+              <ViewImage
+                show={showModal}
+                onClose={handleModalClose}
+                imageUrl={selectedImageUrl}
+              />
             </div>
             <div className="line">
               <hr
@@ -355,30 +388,34 @@ const BoatViewDetails = () => {
                 </Col>
                 <Col>
                   <h5 className="boat_services">Services</h5>
-                  {boatDetails?.boats_service.map((item) => (
-                    <Row
-                      style={{
-                        display: "flex",
-                        alignSelf: "center",
-                        // backgroundColor: "goldenrod",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        alignContent: "center",
-                      }}
-                    >
-                      <Col xs={1}>
-                        <FaCheck className="icons" />
-                      </Col>
-                      <Col xs={11}>
-                        <h6
-                          style={{ marginLeft: -10 }}
-                          className="service_label"
+                  {boatDetails?.boats_servic ? (
+                    <>
+                      {boatDetails?.boats_service?.map((item) => (
+                        <Row
+                          style={{
+                            display: "flex",
+                            alignSelf: "center",
+                            // backgroundColor: "goldenrod",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            alignContent: "center",
+                          }}
                         >
-                          {item.service_label ?? "boats_service"}
-                        </h6>
-                      </Col>
-                    </Row>
-                  ))}
+                          <Col xs={1}>
+                            <FaCheck className="icons" />
+                          </Col>
+                          <Col xs={11}>
+                            <h6
+                              style={{ marginLeft: -10 }}
+                              className="service_label"
+                            >
+                              {item.service_label ?? "boats_service"}
+                            </h6>
+                          </Col>
+                        </Row>
+                      ))}
+                    </>
+                  ) : null}
                 </Col>
               </Row>
             </div>
@@ -397,6 +434,7 @@ const BoatViewDetails = () => {
                       setCalendar_date={setCalendar_1_date}
                       handleCalendarMoth={handleCalendarMoth}
                       calender_no={"1"}
+                      hideSelectedDayColor={true}
                     />
                   </Col>
                   <Col>
@@ -406,6 +444,7 @@ const BoatViewDetails = () => {
                       setCalendar_date={setCalendar_2_date}
                       handleCalendarMoth={handleCalendarMoth}
                       calender_no={"2"}
+                      hideSelectedDayColor={true}
                     />
                   </Col>
                 </Row>
@@ -482,14 +521,21 @@ const BoatViewDetails = () => {
               <div className="policy_title">
                 <h3 className="policy_title_text">Cancellation Policy</h3>
               </div>
-              {boatDetails?.boats_cancellation_policy?.map((item, index) => {
-                return (
-                  <Policy
-                    id={item?.id}
-                    policy_statement={item?.policy_statement}
-                  />
-                );
-              })}
+              {boatDetails?.boats_cancellation_policy ? (
+                <>
+                  {boatDetails?.boats_cancellation_policy?.map(
+                    (item, index) => {
+                      console.log("item", item);
+                      return (
+                        <Policy
+                          id={item?.id}
+                          policy_statement={item?.policy_statement}
+                        />
+                      );
+                    }
+                  )}
+                </>
+              ) : null}
             </div>
 
             {/* ==========================       boatListData       ========================== */}
@@ -524,27 +570,31 @@ const BoatViewDetails = () => {
                           flexDirection: "row",
                         }}
                       >
-                        {boatListData?.map((item, index) => {
-                          return (
-                            <div
-                              style={{
-                                margin: "27.5px",
-                              }}
-                              onClick={() => {
-                                navigate("/boatViewDetails");
-                              }}
-                            >
-                              <BoatDetailCard
-                                boatName={item?.boat_name}
-                                marine_city={item?.marine_city}
-                                starRating={3}
-                                priceCurrency={item?.price_currency}
-                                pricePerHour={item?.price_per_hour}
-                                boatMaxCapacity={item?.boat_max_capacity}
-                              />
-                            </div>
-                          );
-                        })}
+                        {boatListData?.length ? (
+                          <>
+                            {boatListData?.map((item, index) => {
+                              return (
+                                <div
+                                  style={{
+                                    margin: "27.5px",
+                                  }}
+                                  onClick={() => {
+                                    navigate("/boatViewDetails");
+                                  }}
+                                >
+                                  <BoatDetailCard
+                                    boatName={item?.boat_name}
+                                    marine_city={item?.marine_city}
+                                    starRating={3}
+                                    priceCurrency={item?.price_currency}
+                                    pricePerHour={item?.price_per_hour}
+                                    boatMaxCapacity={item?.boat_max_capacity}
+                                  />
+                                </div>
+                              );
+                            })}
+                          </>
+                        ) : null}
                       </div>
                     </Col>
                   </Row>

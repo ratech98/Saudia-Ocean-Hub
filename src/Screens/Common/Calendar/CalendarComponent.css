@@ -2,7 +2,7 @@
   display: flex;
   flex-direction: column;
   padding: 20px;
-  width: 100%;
+  /* width: 10%; */
   justify-content: center;
 }
 
@@ -228,8 +228,18 @@ button.react-calendar__tile.react-calendar__month-view__days__day.react-calendar
   border-radius: 15px;
   background-color: rgba(57, 115, 165, 0.5);
   color: #000;
-  padding-top: 8px;
-  padding-bottom: 8px;
+  padding-top: 6px;
+  padding-bottom: 6px;
+  padding-left: 12px;
+  padding-right: 12px;
+}
+
+.react-calendar__tile--random-date-selected > abbr {
+  border-radius: 15px;
+  background-color: #3973a5;
+  color: #000;
+  padding-top: 6px;
+  padding-bottom: 6px;
   padding-left: 12px;
   padding-right: 12px;
 }

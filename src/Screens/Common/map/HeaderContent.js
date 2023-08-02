@@ -11,6 +11,7 @@ import { Tooltip } from "@mui/material";
 import MY_APP_ICON from "../../../assets/Logo/logo.png";
 import MY_PROFILE from "../../../assets/Images/profileIcon.png";
 import "./HeaderContent.css";
+import { Col, Nav, Row } from "react-bootstrap";
 
 const NamingContent = animated(
   styled("div")(({ theme }) => ({
@@ -67,6 +68,7 @@ export const HeaderContent = ({
   search = "/search",
   showLoginSignUp = false,
   presentPage = "",
+  showline = true,
 }) => {
   const [openModal, setOpenModal] = useState(false);
   const dispatch = useDispatch();
@@ -194,209 +196,274 @@ export const HeaderContent = ({
 
   return (
     <>
-      <div class="root">
+      <div class={showline ? "root-border" : "root"}>
         <div class="body">
           <div class="firstRowContent">
             <img alt="iocn" src={IMAGES.APP_ICON} className="appIcon" />
-            <div class="diplayTxtContent">
-              {contentname1 ? (
-                <>
-                  <Typography
-                    style={{
-                      color:
-                        presentPage === contentname1 ? "#026b93" : "#424651",
-                      textDecoration:
-                        presentPage === contentname1 ? `underline` : "none",
-                    }}
-                    onClick={() => {
-                      handleBack(contentname1);
-                    }}
-                    className="contentName"
-                  >
-                    {contentname1}
-                  </Typography>
-                </>
-              ) : null}
-              {contentname2 ? (
-                <Typography
-                  style={{
-                    color: presentPage === contentname2 ? "#026b93" : "#424651",
-                    textDecoration:
-                      presentPage === contentname2 ? `underline` : "none",
-                  }}
-                  onClick={() => {
-                    handleBack(contentname2);
-                  }}
-                  className="contentName"
-                >
-                  {contentname2}
-                </Typography>
-              ) : null}
-              {contentname3 ? (
-                <Typography
-                  style={{
-                    color: presentPage === contentname3 ? "#026b93" : "#424651",
-                    textDecoration:
-                      presentPage === contentname3 ? `underline` : "none",
-                  }}
-                  onClick={() => {
-                    handleBack(contentname3);
-                  }}
-                  className="contentName"
-                >
-                  {contentname3}
-                </Typography>
-              ) : null}
-              {contentname4 ? (
-                <Typography
-                  style={{
-                    color: presentPage === contentname4 ? "#026b93" : "#424651",
-                    textDecoration:
-                      presentPage === contentname4 ? `underline` : "none",
-                  }}
-                  onClick={() => {
-                    handleBack(contentname4);
-                  }}
-                  className="contentName"
-                >
-                  {contentname4}
-                </Typography>
-              ) : null}
-              {contentname5 ? (
-                <Typography
-                  style={{
-                    color: presentPage === contentname5 ? "#026b93" : "#424651",
-                    textDecoration:
-                      presentPage === contentname5 ? `underline` : "none",
-                  }}
-                  onClick={() => {
-                    handleBack(contentname5);
-                  }}
-                  className="contentName"
-                >
-                  {contentname5}
-                </Typography>
-              ) : null}
-              {contentname6 ? (
-                <Typography
-                  style={{
-                    color: presentPage === contentname6 ? "#026b93" : "#424651",
-                    textDecoration:
-                      presentPage === contentname6 ? `underline` : "none",
-                  }}
-                  onClick={() => {
-                    handleBack(contentname6);
-                  }}
-                  className="contentName"
-                >
-                  {contentname6}
-                </Typography>
-              ) : null}
-            </div>
+
+            <Row
+              style={{
+                width: "80%",
+                justifyContent: "center",
+              }}
+            >
+              <Col>
+                <Nav className="naviContent">
+                  {contentname1 ? (
+                    <>
+                      <Nav.Item>
+                        <Nav.Link
+                          style={{
+                            color: "blue",
+
+                            // presentPage === contentname1
+                            // ? "#026b93"
+                            //   : "#424651",
+                            textDecoration:
+                              presentPage === contentname1
+                                ? `underline`
+                                : "none",
+                          }}
+                          onClick={() => {
+                            handleBack(contentname1);
+                          }}
+                          className="contentName"
+                        >
+                          {contentname1}
+                        </Nav.Link>
+                      </Nav.Item>
+                    </>
+                  ) : null}
+                  {contentname2 ? (
+                    <>
+                      <Nav.Item>
+                        <Nav.Link
+                          style={{
+                            color:
+                              presentPage === contentname2
+                                ? "#026b93"
+                                : "#424651",
+                            textDecoration:
+                              presentPage === contentname2
+                                ? `underline`
+                                : "none",
+                          }}
+                          onClick={() => {
+                            handleBack(contentname2);
+                          }}
+                          className="contentName"
+                        >
+                          {contentname2}
+                        </Nav.Link>
+                      </Nav.Item>
+                    </>
+                  ) : null}
+                  {contentname3 ? (
+                    <>
+                      <Nav.Item>
+                        <Nav.Link
+                          style={{
+                            color:
+                              presentPage === contentname3
+                                ? "#026b93"
+                                : "#424651",
+                            textDecoration:
+                              presentPage === contentname3
+                                ? `underline`
+                                : "none",
+                          }}
+                          onClick={() => {
+                            handleBack(contentname3);
+                          }}
+                          className="contentName"
+                        >
+                          {contentname3}
+                        </Nav.Link>
+                      </Nav.Item>
+                    </>
+                  ) : null}
+                  {contentname4 ? (
+                    <>
+                      <Nav.Item>
+                        <Nav.Link
+                          style={{
+                            color:
+                              presentPage === contentname4
+                                ? "#026b93"
+                                : "#424651",
+                            textDecoration:
+                              presentPage === contentname4
+                                ? `underline`
+                                : "none",
+                          }}
+                          onClick={() => {
+                            handleBack(contentname4);
+                          }}
+                          className="contentName"
+                        >
+                          {contentname4}
+                        </Nav.Link>
+                      </Nav.Item>
+                    </>
+                  ) : null}
+                  {contentname5 ? (
+                    <>
+                      <Nav.Item>
+                        <Nav.Link
+                          style={{
+                            color:
+                              presentPage === contentname5
+                                ? "#026b93"
+                                : "#424651",
+                            textDecoration:
+                              presentPage === contentname5
+                                ? `underline`
+                                : "none",
+                          }}
+                          onClick={() => {
+                            handleBack(contentname5);
+                          }}
+                          className="contentName"
+                        >
+                          {contentname5}
+                        </Nav.Link>
+                      </Nav.Item>
+                    </>
+                  ) : null}
+                  {contentname6 ? (
+                    <>
+                      <Nav.Item>
+                        <Nav.Link
+                          style={{
+                            color:
+                              presentPage === contentname6
+                                ? "#026b93"
+                                : "#424651",
+                            textDecoration:
+                              presentPage === contentname6
+                                ? `underline`
+                                : "none",
+                          }}
+                          onClick={() => {
+                            handleBack(contentname6);
+                          }}
+                          className="contentName"
+                        >
+                          {contentname6}
+                        </Nav.Link>
+                      </Nav.Item>
+                    </>
+                  ) : null}
+                </Nav>
+              </Col>
+            </Row>
           </div>
 
           <div className="iconAndAuth">
             {showLoginSignUp ? (
-              <div className="rowContent">
-                <div
-                  // style={styles.diplayTxtContent}
-                  className="diplayTxtContent"
+              <div className="auth-Content">
+                <Typography
+                  // style={styles.titleTxt}
+                  className="titleTxt"
+                  onClick={() => {
+                    handleBack("Log In");
+                  }}
                 >
-                  <Typography
-                    // style={styles.titleTxt}
-                    className="titleTxt"
-                    onClick={() => {
-                      handleBack("Log In");
-                    }}
-                  >
-                    {"Log In"}
-                  </Typography>
-                  <Typography
-                    className="titleTxt"
-                    // style={styles.titleTxt}
-                    onClick={() => {
-                      handleBack("Sign Up");
-                    }}
-                  >
-                    {"Sign Up"}
-                  </Typography>
-                </div>
+                  {"Log In"}
+                </Typography>
+                <Typography
+                  className="titleTxt"
+                  // style={styles.titleTxt}
+                  onClick={() => {
+                    handleBack("Sign Up");
+                  }}
+                >
+                  {"Sign Up"}
+                </Typography>
               </div>
             ) : (
-              <div className="iconRowContent">
-                <div
+              <>
+                <Row
                   style={{
-                    paddingBottom: presentPage === search ? "5px" : "none",
-                    borderBottom:
-                      presentPage === search ? "2px solid #3973a5" : "none",
-                  }}
-                  // className="bottomLineStyle"
-                >
-                  <img
-                    alt="iocn"
-                    src={
-                      presentPage === search
-                        ? IMAGES?.SEARCH_BLUE
-                        : IMAGES.SEARCH
-                    }
-                    className="searchIcon"
-                    onClick={() => {
-                      handleBack(search);
-                    }}
-                  />
-                </div>
-                <img
-                  alt="iocn"
-                  src={IMAGES.EMAIL_ICON}
-                  className="searchIcon"
-                  onClick={() => {
-                    toast.info("Under Development", {
-                      position: toast.POSITION.TOP_RIGHT,
-                      autoClose: 2000,
-                    });
-                  }}
-                />
-                {/* notification */}
-                <div
-                  className="bottomLineStyle"
-                  style={{
-                    paddingBottom:
-                      presentPage === "notification" ? "5px" : "none",
-                    borderBottom:
-                      presentPage === "notification"
-                        ? "2px solid #3973a5"
-                        : "none",
+                    width: "100%",
                   }}
                 >
-                  <img
-                    alt="iocn"
-                    src={
-                      presentPage === "notification"
-                        ? IMAGES?.BELL_COLOR
-                        : IMAGES.BELL
-                    }
-                    className="searchIcon"
-                    onClick={() => {
-                      navigate("/notification");
-                    }}
-                  />
-                </div>
+                  <Col>
+                    <Nav
+                      style={{
+                        // width: "100%",
+                        justifyContent: "space-between",
+                      }}
+                    >
+                      <Nav.Item>
+                        <Nav.Link>
+                          <img
+                            alt="iocn"
+                            src={
+                              presentPage === search
+                                ? IMAGES?.SEARCH_BLUE
+                                : IMAGES.SEARCH
+                            }
+                            className="searchIcon"
+                            onClick={() => {
+                              handleBack(search);
+                            }}
+                          />
+                        </Nav.Link>
+                      </Nav.Item>
+                      <Nav.Item>
+                        <Nav.Link>
+                          <img
+                            alt="iocn"
+                            src={IMAGES.EMAIL_ICON}
+                            className="searchIcon"
+                            onClick={() => {
+                              toast.info("Under Development", {
+                                position: toast.POSITION.TOP_RIGHT,
+                                autoClose: 2000,
+                              });
+                            }}
+                          />
+                        </Nav.Link>
+                      </Nav.Item>
+                      <Nav.Item>
+                        <Nav.Link>
+                          <img
+                            alt="iocn"
+                            src={
+                              presentPage === "notification"
+                                ? IMAGES?.BELL_COLOR
+                                : IMAGES.BELL
+                            }
+                            className="searchIcon"
+                            onClick={() => {
+                              navigate("/notification");
+                            }}
+                          />
+                        </Nav.Link>
+                      </Nav.Item>
 
-                <div>
-                  <Image1
-                    style={{
-                      backgroundImage: `url(${MY_PROFILE})`,
-                    }}
-                    className="profileImg"
-                    onClick={() => {
-                      handleOpenModal();
-                    }}
-                  ></Image1>
-                </div>
-              </div>
+                      <Nav.Item>
+                        <Nav.Link>
+                          <Image1
+                            style={{
+                              backgroundImage: `url(${MY_PROFILE})`,
+                            }}
+                            className="profileImg"
+                            onClick={() => {
+                              handleOpenModal();
+                            }}
+                          />
+                        </Nav.Link>
+                      </Nav.Item>
+                    </Nav>
+                  </Col>
+                </Row>
+              </>
             )}
           </div>
         </div>
+
         {openModal ? (
           <div style={modalStyle}>
             <div style={modalContentStyle}>
@@ -412,6 +479,7 @@ export const HeaderContent = ({
           </div>
         ) : null}
       </div>
+      {/* <div className="line" /> */}
     </>
   );
 };

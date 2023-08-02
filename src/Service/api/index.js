@@ -104,7 +104,6 @@ export function boat_register(token, data) {
     data,
     {
       headers: {
-        // "Content-Type": "application/json",
         "Content-Type": "multipart/form-data",
         Authorization: `Bearer ${token}`,
       },
@@ -122,6 +121,45 @@ export function my_listing(token) {
 }
 
 export function boat_list_filter(token, payload) {
+  console.log("payload", payload);
+  console.log(
+    "filter API",
+    payload?.boat_type && payload?.price && payload?.capacity //type,price,capacity
+      ? `${API.baseUrls[API.currentEnv] + API.authUrls.boat_list_filter}?type=${
+          payload?.boat_type
+        }&price=${payload?.price}&capacity=${payload?.capacity}&page=${
+          payload?.pageNo
+        }&limit=${10}`
+      : payload?.boat_type && payload?.price //type,price
+      ? `${API.baseUrls[API.currentEnv] + API.authUrls.boat_list_filter}?type=${
+          payload?.boat_type
+        }&price=${payload?.price}&page=${payload?.pageNo}&limit=${10}`
+      : payload?.boat_type && payload?.capacity //type,capacity
+      ? `${API.baseUrls[API.currentEnv] + API.authUrls.boat_list_filter}?type=${
+          payload?.boat_type
+        }&capacity=${payload?.capacity}&page=${payload?.pageNo}&limit=${10}`
+      : payload?.boat_type && payload?.capacity //price,capacity
+      ? `${
+          API.baseUrls[API.currentEnv] + API.authUrls.boat_list_filter
+        }?price=${payload?.price}&capacity=${payload?.capacity}&page=${
+          payload?.pageNo
+        }&limit=${10}`
+      : payload?.boat_type
+      ? `${API.baseUrls[API.currentEnv] + API.authUrls.boat_list_filter}?type=${
+          payload?.boat_type
+        }&page=${payload?.pageNo}&limit=${10}`
+      : payload?.price
+      ? `${
+          API.baseUrls[API.currentEnv] + API.authUrls.boat_list_filter
+        }?price=${payload?.price}&page=${payload?.pageNo}&limit=${10}`
+      : payload?.capacity
+      ? `${
+          API.baseUrls[API.currentEnv] + API.authUrls.boat_list_filter
+        }?capacity=${payload?.capacity}&page=${payload?.pageNo}&limit=${10}`
+      : `${API.baseUrls[API.currentEnv] + API.authUrls.boat_list_filter}?page=${
+          payload?.pageNo
+        }&limit=${10}`
+  );
   return axios.get(
     payload?.boat_type && payload?.price && payload?.capacity //type,price,capacity
       ? `${API.baseUrls[API.currentEnv] + API.authUrls.boat_list_filter}?type=${
@@ -162,6 +200,33 @@ export function boat_list_filter(token, payload) {
     {
       headers: {
         "Content-Type": "application/json",
+        // "Content-Type": "multipart/form-data",
+        // Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+}
+
+export function single_boat_data_API(token, data) {
+  return axios.post(
+    API.baseUrls[API.currentEnv] + API.authUrls.single_boat_data,
+    data,
+    {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+}
+
+export function update_boat(token, data) {
+  return axios.post(
+    API.baseUrls[API.currentEnv] + API.authUrls.update_boat,
+    data,
+    {
+      headers: {
+        "Content-Type": "multipart/form-data",
         Authorization: `Bearer ${token}`,
       },
     }
@@ -200,17 +265,3 @@ export function boat_list_filter(token, payload) {
 //     }
 //   );
 // }
-
-export function single_boat_data_API(token, data) {
-  return axios.post(
-    API.baseUrls[API.currentEnv] + API.authUrls.single_boat_data,
-    data,
-    {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-      // data: JSON.stringify(data),
-    }
-  );
-}
