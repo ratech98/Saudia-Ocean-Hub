@@ -120,7 +120,6 @@ const Image1 = animated(
 export const BoatView = ({ boatData, handleImageClick }) => {
   // console.log("boatData", boatData?.boats_image);
 
-  const boatImages = boatData?.boats_image;
   const imageBox = [
     {
       id: 1,
@@ -199,7 +198,7 @@ export const BoatView = ({ boatData, handleImageClick }) => {
           <Row>
             <Col>
               <div className="d-flex gap-3 boat-view-scroll imageScroll">
-                {boatImages?.map((image) => (
+                {boatData?.boats_image?.map((image) => (
                   <ImageFrame>
                     <Tooltip arrow={true} placement={"top"}>
                       <img
@@ -216,9 +215,10 @@ export const BoatView = ({ boatData, handleImageClick }) => {
                         }}
                         onClick={() =>
                           handleImageClick(
-                            image?.path
-                              ? `${`http://localhost:3000/`}${image.path}`
-                              : IMAGES.APP_ICON
+                            boatData?.boats_image
+                            // image?.path
+                            //   ? `${`http://localhost:3000/`}${image.path}`
+                            //   : IMAGES.APP_ICON
                           )
                         }
                       />

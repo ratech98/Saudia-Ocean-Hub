@@ -203,7 +203,10 @@ export const SignUp = () => {
                   buttonName: "Go to login",
                 })
               );
-
+              toast.success(res?.data?.message, {
+                position: toast.POSITION.TOP_RIGHT,
+                autoClose: 20000,
+              });
               navigate("/confirmation");
               // navigate("/logIn");
             }

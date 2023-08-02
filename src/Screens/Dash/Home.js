@@ -12,7 +12,7 @@ import Footer from "../../Component/Footer/Footer";
 import Banner from "../../Component/Banner/Banner";
 import { useLocation, useNavigate } from "react-router-dom";
 import { BoatDetailCard } from "../new/BoatDetailCard";
-import ViewImage from "../Common/View-image/ViewImage";
+
 // import { useHistory } from "react-router-dom";
 
 const Home = () => {
@@ -121,7 +121,7 @@ const Home = () => {
           {"boat Offer Step 3"}
         </span>
       </div> */}
-      {/* <div
+      <div
         style={{
           display: "flex",
           flexDirection: "column",
@@ -132,12 +132,12 @@ const Home = () => {
         <span
           onClick={() => {
             // navigate("/bookingHistory");
-            navigate("/boatOfferStep2");
+            navigate("/confirmation");
           }}
         >
-          booking History
+          confirmation
         </span>
-      </div> */}
+      </div>
 
       <Banner
         backgroundImage={backgroundImage}

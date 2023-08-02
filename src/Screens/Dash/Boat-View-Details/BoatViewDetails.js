@@ -21,9 +21,7 @@ import { useNavigate } from "react-router-dom";
 import moment from "moment";
 import { HeaderContent } from "../../Common/map/HeaderContent";
 import { toast } from "react-toastify";
-import { Typography } from "@mui/material";
-import { single_boat_details_store } from "../../../redux/slices";
-import ViewImage from "../../Common/View-image/ViewImage";
+import ImageSlider from "../../Common/ViewImages/ImageSlider/ImageSlider";
 
 const BoatViewDetails = () => {
   const navigate = useNavigate();
@@ -214,16 +212,14 @@ const BoatViewDetails = () => {
   const [showModal, setShowModal] = useState(false);
   const [selectedImageUrl, setSelectedImageUrl] = useState(false);
 
-  const handleImageClick = (imageUrl) => {
+  const handleImageClick = (images) => {
     setShowModal(true);
-    setSelectedImageUrl(imageUrl);
+    setSelectedImageUrl(images);
   };
 
   const handleModalClose = () => {
     setShowModal(false);
   };
-
-  console.log("showModal", showModal);
 
   return (
     <>
@@ -276,11 +272,18 @@ const BoatViewDetails = () => {
                 boatData={boatDetails}
                 handleImageClick={handleImageClick}
               />
-              <ViewImage
-                show={showModal}
-                onClose={handleModalClose}
-                imageUrl={selectedImageUrl}
-              />
+              {/* ==================show image in modal page */}
+
+              {showModal ? (
+                <>
+                  <ImageSlider
+                    slides={selectedImageUrl}
+                    onClose={handleModalClose}
+                  />
+                </>
+              ) : null}
+
+              {/* show image in modal page ==================  */}
             </div>
             <div className="line">
               <hr
@@ -525,7 +528,6 @@ const BoatViewDetails = () => {
                 <>
                   {boatDetails?.boats_cancellation_policy?.map(
                     (item, index) => {
-                      console.log("item", item);
                       return (
                         <Policy
                           id={item?.id}

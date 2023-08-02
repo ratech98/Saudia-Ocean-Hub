@@ -23,6 +23,7 @@ body {
   align-content: center;
   align-self: center;
   /* align-items: center; */
+  background-color: #f6f6f6;
 }
 
 .appIcon {
@@ -42,7 +43,7 @@ body {
   padding: 40px 0px;
   height: auto;
   width: 100%;
-  border: solid 2px rgba(66, 70, 81, 0.2);
+  border: solid 0.1px rgba(66, 70, 81, 0.2);
   border-radius: 5px;
 }
 

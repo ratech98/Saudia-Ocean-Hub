@@ -31,7 +31,7 @@ import { VerifyForgotPwdOTP } from "../Screens/Auth/password/VerifyForgotPwdOTP"
 import { AuthToken, TokenDecodeData, UserId } from "../redux/slices";
 import { BoatBookingRequest } from "../Screens/new/BoatBookingRequest";
 import BoatViewDetails from "../Screens/Dash/Boat-View-Details/BoatViewDetails";
-import { BoatCard } from "../Screens/new/BoatCard";
+
 import { BoatDetailCard } from "../Screens/new/BoatDetailCard";
 import { BookingHistory } from "../Screens/Dash/Booking_History/BookingHistory";
 import { SearchBoat } from "../Screens/Dash/Search/SearchBoat";
@@ -157,7 +157,7 @@ export const RootNavigator = React.forwardRef(function RootNavigator(
           {/* // */}
           {/* // */}
           {/* // */}
-          <Route path="/boatCard" element={<BoatCard />} />
+
           <Route path="/boatDetailCard" element={<BoatDetailCard />} />
         </>
       </Routes>

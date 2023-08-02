@@ -23,7 +23,7 @@ import IMAGES from "../Images";
 const TypeQuest = animated(
   styled("div")(({ theme }) => ({
     // backgroundColor: `rgba(250, 250, 250, 1)`,
-    backgroundColor: "ButtonHighlight",
+    backgroundColor: "#ffffff",
     boxShadow: `0px 4px 8px rgba(0, 0, 0, 0.16)`,
     borderRadius: `8px`,
     display: `flex`,
