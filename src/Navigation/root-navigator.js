@@ -67,7 +67,7 @@ export const RootNavigator = React.forwardRef(function RootNavigator(
               <Route path="/userChoice" element={<UserChoice />} />
               <Route path="/home" element={<Home />} />
             </>
-            <Route path="/" element={<BoatViewDetails/>} />
+            <Route path="/" element={<Home/>} />
             {/* <Route
               path="/"
               element={

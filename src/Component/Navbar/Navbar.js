@@ -12,6 +12,12 @@ import bell from '../../assets/Icons/bell.svg'
 import Ellipse from "../../assets/Images/bg_img.png";
 
 const Navbar = ({link1,link2,link3,showItem,href1,href2,href3,showLogin,showProfile,num,num1,backgroundColor}) => {
+  const handleLink1Click = () => {
+    window.scrollTo({ top: 1655, behavior: "smooth" });
+  };
+  const handleLink1Click2 = () => {
+    window.scrollTo({ top: 850, behavior: "smooth" });
+  };
   const navigate = useNavigate();
   return (
     <div className="navbar" style={{
@@ -31,13 +37,13 @@ const Navbar = ({link1,link2,link3,showItem,href1,href2,href3,showLogin,showProf
           <Col sm={num} className="d-flex align-items-center">
             <Nav>
               <Nav.Item>
-                <Nav.Link href="/DashBoard">Home</Nav.Link>
+                <Nav.Link href="#">Home</Nav.Link>
               </Nav.Item>
               <Nav.Item>
-                <Nav.Link eventKey="link-1" href={href1}>{link1}</Nav.Link>
+                <Nav.Link eventKey="link-1" onClick={handleLink1Click} href={href1}>{link1}</Nav.Link>
               </Nav.Item>
               <Nav.Item>
-                <Nav.Link href={href2} >{link2}</Nav.Link>
+                <Nav.Link onClick={handleLink1Click2} href={href2} >{link2}</Nav.Link>
               </Nav.Item>
               {showItem && (
                 <Nav>

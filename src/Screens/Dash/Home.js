@@ -16,7 +16,7 @@ const Home = () => {
   const link2 = 'For Boat Rentel';
   const link3 = 'List a Boat Offer';
   const href1 ='#';
-  const href2 ='/Rental';
+  const href2 ='#';
   const href3 = '#';
   const num = '7';
   const num1 = '2';
@@ -64,15 +64,15 @@ const Home = () => {
     width: 350,
     height: 81,
   };
-  const backgroundColors ='linear-gradient(to bottom, #70a8c0, #3c85a7 29%, #03487a 74%, #03487a)';
-  const clientPadding  = '201px 0 200.1px';
+  const backgroundColors ='#70a8c0';
+  const clientPadding  = '150px 0 200.1px';
   const Client_Title_Show = true;
   const screenTop = 220;
   const reviewCard_color = ' rgba(246, 246, 246, 0.7)'
   const reviewCard_height = 299;
   const reviewCard_width = 425;
   const reviewCard_center = 'left'
-  
+  const bgimage = "linear-gradient(to bottom, #70a8c0, #3c85a7 29%, #03487a 74%, #03487a)"
   return (
     <div>
       <Banner
@@ -92,7 +92,7 @@ const Home = () => {
       <Owner_boat />
       <Ocian_hub />
       <Client_review backgroundColors={backgroundColors} clientPadding={clientPadding} Client_Title_Show={Client_Title_Show} scrollingTop={screenTop} reviewCard_color={reviewCard_color} reviewCard_height={reviewCard_height} 
-      reviewCard_width={reviewCard_width} reviewCard_center={reviewCard_center}/>
+      reviewCard_width={reviewCard_width} reviewCard_center={reviewCard_center} bgimage={bgimage}/>
       <Cretified />
       <Footer />
     </div>
