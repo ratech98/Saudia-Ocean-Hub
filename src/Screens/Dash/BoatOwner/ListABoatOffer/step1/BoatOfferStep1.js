@@ -29,8 +29,17 @@ export const BoatOfferStep1 = () => {
     setBoatDocumentationsAndLicensesDoc_API,
   ] = useState("");
 
-  console.log("dashboard", dashboard?.single_boat_details);
-  console.log("ministryOfTransDoc", ministryOfTransDoc);
+  // console.log("dashboard", dashboard?.single_boat_details);
+  // console.log("ministryOfTransDoc", ministryOfTransDoc);
+  console.log(
+    "9090909090909",
+    auth.ministryOfTransportDoc && Object.keys(auth.ministryOfTransportDoc),
+    auth.ministryOfTransportDoc
+      ? Object?.keys(auth?.ministryOfTransportDoc)?.length <= 0
+      : null
+    // auth.ministryOfTransportDoc,
+    // auth.ministryOfTransportDoc?.length > 0
+  );
   //
   //
   //
@@ -206,30 +215,24 @@ export const BoatOfferStep1 = () => {
         dashboard?.single_boat_details?.boat_license_document
       );
     } else {
-      if (
-        auth.ministryOfTransportDoc &&
-        Object.keys(auth.ministryOfTransportDoc) &&
-        auth.ministryOfTransportDoc?.length > 0
-      ) {
-        setMinistryOfTransDoc(auth?.ministryOfTransportDoc);
+      if (auth.ministryOfTransportDoc) {
+        Object.keys(auth.ministryOfTransportDoc)?.length <= 0
+          ? setMinistryOfTransDoc(auth?.ministryOfTransportDoc)
+          : setMinistryOfTransDoc("");
       }
-      if (
-        auth.generalDirectorateOfBorderGuardDoc &&
-        Object.keys(auth.generalDirectorateOfBorderGuardDoc) &&
-        auth.generalDirectorateOfBorderGuardDoc?.length > 0
-      ) {
-        setGeneralDireOfBorderGuardDoc(
-          auth?.generalDirectorateOfBorderGuardDoc
-        );
+      if (auth.generalDirectorateOfBorderGuardDoc) {
+        Object.keys(auth.generalDirectorateOfBorderGuardDoc)?.length <= 0
+          ? setGeneralDireOfBorderGuardDoc(
+              auth?.generalDirectorateOfBorderGuardDoc
+            )
+          : setGeneralDireOfBorderGuardDoc("");
       }
-      if (
-        auth.boatDocumentationsAndLicenses &&
-        Object.keys(auth.boatDocumentationsAndLicenses) &&
-        auth.boatDocumentationsAndLicenses?.length > 0
-      ) {
-        setBoatDocumentationsAndLicensesDoc(
-          auth?.boatDocumentationsAndLicenses
-        );
+      if (auth.boatDocumentationsAndLicenses) {
+        Object.keys(auth.boatDocumentationsAndLicenses)?.length <= 0
+          ? setBoatDocumentationsAndLicensesDoc(
+              auth?.boatDocumentationsAndLicenses
+            )
+          : setBoatDocumentationsAndLicensesDoc("");
       }
     }
   }, [
