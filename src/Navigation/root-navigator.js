@@ -35,6 +35,7 @@ import BoatViewDetails from "../Screens/Dash/Boat-View-Details/BoatViewDetails";
 import { BoatDetailCard } from "../Screens/new/BoatDetailCard";
 import { BookingHistory } from "../Screens/Dash/Booking_History/BookingHistory";
 import { SearchBoat } from "../Screens/Dash/Search/SearchBoat";
+import { Setting } from "../Screens/Dash/Settings-pages/Setting";
 
 const PrivateRoute = ({ children, session, type, screenName }) => {
   const navigate = useNavigate();
@@ -159,6 +160,7 @@ export const RootNavigator = React.forwardRef(function RootNavigator(
           {/* // */}
 
           <Route path="/boatDetailCard" element={<BoatDetailCard />} />
+          <Route path="/setting" element={<Setting />} />
         </>
       </Routes>
     </BrowserRouter>

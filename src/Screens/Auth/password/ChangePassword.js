@@ -73,6 +73,7 @@ export const ChangePassword = () => {
   }, [confirmPassword, password]);
 
   const handleSubmit = (values) => {
+    toast.dismiss();
     setErrorMsg("");
     if (password !== "") {
       if (password?.length >= 8) {

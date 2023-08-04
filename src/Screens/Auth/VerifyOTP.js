@@ -31,6 +31,7 @@ const VerifyOTP = () => {
   const handleSubmit = (values) => {
     setIsLoading(true);
     setErrorMsg("");
+    toast.dismiss();
     const otp = inputRefs.map((ref) => ref.current.value).join("");
     if (otp?.length >= 6) {
       let payload = {
@@ -56,12 +57,14 @@ const VerifyOTP = () => {
             );
 
             navigate("/confirmation");
+
             toast.success(res?.data?.message, {
               position: toast.POSITION.TOP_RIGHT,
               autoClose: 2000,
             });
           } else {
             setErrorMsg(res?.data?.message);
+
             toast.error(res?.data?.message, {
               position: toast.POSITION.TOP_RIGHT,
               autoClose: 2000,
@@ -72,6 +75,7 @@ const VerifyOTP = () => {
         .catch((err) => {
           setIsLoading(false);
           console.log("err", err);
+
           toast.error("Something went wrong. Please try again later.", {
             position: toast.POSITION.TOP_RIGHT,
             autoClose: 2000,
@@ -79,6 +83,7 @@ const VerifyOTP = () => {
         });
     } else {
       setIsLoading(false);
+
       toast.error("Please enter your OTP", {
         position: toast.POSITION.TOP_RIGHT,
         autoClose: 2000,

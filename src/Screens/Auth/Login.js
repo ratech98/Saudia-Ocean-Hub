@@ -113,6 +113,7 @@ export const LogIn = () => {
   }, [location.pathname, navigate]);
 
   const handleSubmit = async (value, type) => {
+    toast.dismiss();
     localStorage.removeItem("session");
     setIsLoading(true);
     setErrorMsg(false);
@@ -164,7 +165,6 @@ export const LogIn = () => {
             formik.setFieldError("password", res?.data?.message);
           }
           if (res?.data?.message && Object.keys(res.data.message).length > 0) {
-            toast.dismiss();
             toast.error(res?.data?.message, {
               position: toast.POSITION.TOP_RIGHT,
               autoClose: 20000,
@@ -181,7 +181,7 @@ export const LogIn = () => {
       .catch((err) => {
         setIsLoading(false);
         console.log("login err", err);
-        toast.dismiss();
+
         toast.error("Something went wrong. Please try again later.", {
           position: toast.POSITION.TOP_RIGHT,
           autoClose: 2000,

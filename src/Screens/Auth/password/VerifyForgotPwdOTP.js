@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button, Container, Grid, TextField, Typography } from "@mui/material";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import IMAGES from "../../Images";
 import { verify_forgotpass_otp } from "../../../Service/api";
@@ -22,15 +22,16 @@ export const VerifyForgotPwdOTP = () => {
   const user = useSelector((state) => state?.auth);
   const navigate = useNavigate();
   // const navigate = useHistory();
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
   const [errorMsg, setErrorMsg] = useState("");
-  const [showResend, setShowResend] = useState(true);
-  const [countdown, setCountdown] = useState(60);
+  // const [showResend, setShowResend] = useState(true);
+  // const [countdown, setCountdown] = useState(60);
   const [isLoading, setIsLoading] = useState(false);
 
   const handleSubmit = (values) => {
     setIsLoading(true);
     setErrorMsg("");
+    toast.dismiss();
     const otp = inputRefs.map((ref) => ref.current.value).join("");
     if (otp?.length >= 6) {
       let payload = {
@@ -93,22 +94,22 @@ export const VerifyForgotPwdOTP = () => {
     }
   };
 
-  const ResentOTP = () => {
-    let payload = {
-      email: user?.emailId,
-    };
-    console.log("payload", payload);
-    // resend_otp(payload)
-    //   .then((res) => {
-    //     console.log("res", res);
-    //     inputRefs.forEach((ref) => {
-    //       ref.current.value = "";
-    //     });
-    //   })
-    //   .catch((err) => {
-    //     console.log("err", err);
-    //   });
-  };
+  // const ResentOTP = () => {
+  //   let payload = {
+  //     email: user?.emailId,
+  //   };
+  //   console.log("payload", payload);
+  //   // resend_otp(payload)
+  //   //   .then((res) => {
+  //   //     console.log("res", res);
+  //   //     inputRefs.forEach((ref) => {
+  //   //       ref.current.value = "";
+  //   //     });
+  //   //   })
+  //   //   .catch((err) => {
+  //   //     console.log("err", err);
+  //   //   });
+  // };
 
   return (
     <div

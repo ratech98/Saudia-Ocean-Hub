@@ -163,8 +163,8 @@ export const SignUp = () => {
   };
 
   const handleSubmit = async (value, type) => {
-    console.log("type", type);
     setErrorMessage("");
+    toast.dismiss();
     formik.setErrors({});
     if (isTermsOfServiceChecked) {
       setLoading(true);
@@ -186,10 +186,10 @@ export const SignUp = () => {
         };
       }
 
-      // console.log("handle Submit payload", payload);
+      console.log("handle Submit payload", payload);
       register(payload)
         .then((res) => {
-          // console.log("register res", res);
+          console.log("register res", res);
 
           if (res?.data?.message === "user registered successfully") {
             if (type !== "GOOGLE") {
@@ -203,6 +203,7 @@ export const SignUp = () => {
                   buttonName: "Go to login",
                 })
               );
+
               toast.success(res?.data?.message, {
                 position: toast.POSITION.TOP_RIGHT,
                 autoClose: 20000,
@@ -223,6 +224,7 @@ export const SignUp = () => {
             }
             // console.log("res?.data?.message", res?.data?.message);
             // setErrorMessage(res?.data?.message);
+
             toast.error(res?.data?.message, {
               position: toast.POSITION.TOP_RIGHT,
               autoClose: 20000,
@@ -233,6 +235,7 @@ export const SignUp = () => {
         .catch((err) => {
           setLoading(false);
           console.log("register API error", err);
+
           toast.error("Something went wrong. Please try again later.", {
             position: toast.POSITION.TOP_RIGHT,
             autoClose: 2000,

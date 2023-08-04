@@ -6,7 +6,7 @@ import { persistor, store } from "./redux/store";
 import { ToastContainer } from "react-toastify";
 import { RootNavigator } from "./Navigation/root-navigator";
 import { PersistGate } from "redux-persist/integration/react";
-
+// class="img-fluid" full image class
 const App = () => {
   // console.log("calculateTime", calculateTime);
 

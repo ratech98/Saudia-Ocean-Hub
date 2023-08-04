@@ -132,10 +132,17 @@ const Home = () => {
         <span
           onClick={() => {
             // navigate("/bookingHistory");
-            navigate("/confirmation");
+            navigate("/setting");
           }}
         >
-          confirmation
+          setting
+        </span>
+        <span
+          onClick={() => {
+            navigate("/boatViewDetails");
+          }}
+        >
+          boatViewDetails
         </span>
       </div>
 
