@@ -20,6 +20,7 @@ export const ForgotPassword = () => {
 
   const handleSubmit = (values) => {
     setErrorMsg("");
+    toast.dismiss();
     setIsLoading(true);
     let payload = {
       email: emailAddress,

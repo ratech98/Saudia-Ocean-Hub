@@ -1,0 +1,96 @@
+/* Add this CSS to ensure all parent elements have a height of 100% */
+html,
+body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+/* Set the root container as a flex container */
+#root {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.container-glass {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  width: 100%;
+  padding-bottom: 100px;
+  justify-content: center;
+  align-content: center;
+  align-self: center;
+  /* align-items: center; */
+  background-color: #f6f6f6;
+}
+
+.appIcon {
+  margin: 0px 0px 50px 140px;
+  width: 200px;
+  height: 100px;
+}
+
+.inside-body {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+  align-self: center;
+  background-color: white;
+  padding: 40px 0px;
+  height: auto;
+  width: 100%;
+  border: solid 0.1px rgba(66, 70, 81, 0.2);
+  border-radius: 5px;
+}
+
+.tick-icon {
+  width: 150px;
+  height: 150px;
+}
+
+.inside-body .reqSentTxt {
+  margin-top: 53px;
+  font-family: Poppins;
+  font-size: 30px;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.33;
+  letter-spacing: normal;
+  text-align: center;
+  color: #424651;
+  /* background-color: #424651; */
+}
+
+.inside-body .msgTxt {
+  margin-top: 14px;
+  font-family: Poppins;
+  font-size: 26px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.33;
+  letter-spacing: normal;
+  text-align: center;
+  color: rgba(66, 70, 81, 0.7);
+  width: 80%;
+}
+
+.inside-body .backToHomeTxt {
+  margin-top: 113px;
+  font-family: Poppins;
+  font-size: 24px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.46;
+  letter-spacing: normal;
+  text-align: center;
+  color: #424651;
+  text-decoration: underline;
+  cursor: pointer;
+}

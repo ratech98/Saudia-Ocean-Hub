@@ -3,8 +3,12 @@ import { useNavigate } from "react-router-dom";
 import { Typography } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import IMAGES from "../../../Images";
+import { HeaderContent } from "../../../Common/map/HeaderContent";
+import { useSelector } from "react-redux";
+import { toast } from "react-toastify";
+import Footer from "../../../../Component/Footer/Footer";
 
-const useStyles = makeStyles({
+const styles = {
   myListingsContainer: {
     display: "flex",
     backgroundColor: "#f6f6f6",
@@ -76,11 +80,35 @@ const useStyles = makeStyles({
     display: "flex",
     flexDirection: "row",
   },
-});
+
+  contentTitleName: {
+    fontSize: "25px",
+    fontWeight: "bold",
+    fontStretch: "normal",
+    fontStyle: "normal",
+    lineHeight: 1.52,
+    letterSpacing: "normal",
+    textAlign: "left",
+    color: "#424651",
+  },
+  lable: {
+    fontSize: "16px",
+    fontWeight: "normal",
+    fontStretch: "normal",
+    fontStyle: "normal",
+    lineHeight: 1.56,
+    letterSpacing: "normal",
+    textAlign: "left",
+    color: "#424651",
+
+    width: "20%",
+  },
+};
 
 export const RequestList = () => {
   const navigate = useNavigate();
-  const classes = useStyles();
+  const auth = useSelector((state) => state?.auth);
+
   const request_list = [
     {
       id: 1,
@@ -116,161 +144,165 @@ export const RequestList = () => {
     },
   ];
 
+  const handleHeaderCallBack = (name) => {
+    if (name === "Home") {
+      if (auth?.tokenDecodeData?.user_type === "BOAT_OWNER") {
+        navigate("/boatOwnerDashBoard");
+      } else {
+        navigate("/rental");
+      }
+    } else if (name === "Log In") {
+      navigate("/logIn");
+    } else if (name === "Sign Up") {
+      navigate("/signUP");
+    } else if (name === "My Listings") {
+      navigate("/myListings");
+    } else if (name === "For Boat Rentals" || name === "For Boat Owners") {
+      toast.info("Under Development", {
+        position: toast.POSITION.TOP_RIGHT,
+        autoClose: 2000,
+      });
+    } else if (name === "/searchBoat") {
+      navigate("/searchBoat");
+    }
+  };
   return (
-    <div className={classes.myListingsContainer}>
-      <div className={classes.body}>
-        <div className={classes.headerContent}>
-          <div>
-            <Typography className={classes.titleName}>
-              Received Requests
-            </Typography>
-            <Typography className={classes.subTitle}>
-              You have received 5 Requests
-            </Typography>
+    <>
+      <HeaderContent
+        contentname1={"Home"}
+        contentname2={"For Boat Owners"}
+        contentname3={"For Boat Rentals"}
+        contentname4={"My Listings"}
+        handleBack={handleHeaderCallBack}
+        search={"/searchBoat"}
+        showLoginSignUp={auth?.AuthToken ? false : true}
+        presentPage={"My Listings"}
+      />
+      <div style={styles.myListingsContainer}>
+        <div style={styles.body}>
+          <div style={styles.headerContent}>
+            <div>
+              <Typography style={styles.titleName}>
+                Received Requests
+              </Typography>
+              <Typography style={styles.subTitle}>
+                You have received 5 Requests
+              </Typography>
+            </div>
+            <div>
+              <img
+                alt="list"
+                src={IMAGES.FILTER_LIST}
+                style={{ width: "32px", height: "22px" }}
+              />
+            </div>
           </div>
-          <div>
-            <img
-              alt="list"
-              src={IMAGES.FILTER_LIST}
-              style={{ width: "32px", height: "22px" }}
-            />
-          </div>
-        </div>
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            marginBottom: "156px",
-          }}
-        >
-          {request_list?.map((item, index) => {
-            return (
-              <div
-                onClick={() => {
-                  navigate("/CustomerProfile");
-                }}
-                key={item.id}
-                className="boatListBody"
-                style={{
-                  display: "flex",
-                  flexDirection: "row",
-                  cursor: "pointer",
-                  backgroundColor: "white",
-                  boxShadow: "0px 0px 1px rgba(66, 70, 81, 0.3)",
-                  padding: "20px 82px",
-                  border: "solid 0.5px rgba(66, 70, 81, 0.3)",
-                }}
-              >
-                <img
-                  alt="list"
-                  src={IMAGES.PROFILE_ICON}
-                  style={{
-                    width: "130px",
-                    height: "130px",
-                    borderRadius: "100px",
-                  }}
-                />
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              marginBottom: "156px",
+            }}
+          >
+            {request_list?.map((item, index) => {
+              return (
                 <div
+                  onClick={() => {
+                    navigate("/CustomerProfile");
+                  }}
+                  key={item.id}
                   style={{
                     display: "flex",
-                    flexDirection: "column",
-                    width: "100%",
-                    marginLeft: "35px",
+                    flexDirection: "row",
+                    cursor: "pointer",
+                    backgroundColor: "white",
+                    boxShadow: "0px 0px 1px rgba(66, 70, 81, 0.3)",
+                    padding: "20px 82px",
+                    border: "solid 0.5px rgba(66, 70, 81, 0.3)",
                   }}
                 >
-                  <Typography
-                    className="reqName"
+                  <img
+                    alt="list"
+                    src={IMAGES.PROFILE_ICON}
                     style={{
-                      fontSize: "25px",
-                      fontWeight: "bold",
-                      fontStretch: "normal",
-                      fontStyle: "normal",
-                      lineHeight: 1.52,
-                      letterSpacing: "normal",
-                      textAlign: "left",
-                      color: "#424651",
+                      width: "130px",
+                      height: "130px",
+                      borderRadius: "100px",
                     }}
-                  >
-                    Sara Qwider
-                  </Typography>
+                  />
                   <div
                     style={{
                       display: "flex",
-                      flexDirection: "row",
+                      flexDirection: "column",
                       width: "100%",
-                      marginTop: "17px",
+                      marginLeft: "35px",
                     }}
                   >
-                    <Typography
-                      className="reqDetailTxt"
+                    <Typography style={styles.contentTitleName}>
+                      Sara Qwider
+                    </Typography>
+                    <div
                       style={{
-                        fontSize: "16px",
-                        fontWeight: "normal",
-                        fontStretch: "normal",
-                        fontStyle: "normal",
-                        lineHeight: 1.56,
-                        letterSpacing: "normal",
-                        textAlign: "left",
-                        color: "#424651",
-
-                        width: "20%",
+                        display: "flex",
+                        flexDirection: "row",
+                        width: "100%",
+                        marginTop: "17px",
                       }}
                     >
-                      Reserved
-                    </Typography>
-                    <Typography className="reqDetailTxt">
-                      Magical space
-                    </Typography>
-                  </div>
-                  <div
-                    style={{
-                      display: "flex",
-                      flexDirection: "row",
-                      width: "100%",
-                      // marginTop: "10px",
-                    }}
-                  >
-                    <Typography
-                      className="reqDetailTxt"
+                      <Typography style={styles.lable}>Reserved</Typography>
+                      <Typography style={styles.lable}>
+                        Magical space
+                      </Typography>
+                    </div>
+                    <div
                       style={{
-                        fontSize: "16px",
-                        fontWeight: "normal",
-                        fontStretch: "normal",
-                        fontStyle: "normal",
-                        lineHeight: 1.56,
-                        letterSpacing: "normal",
-                        textAlign: "left",
-                        color: "#424651",
-                        width: "20%",
-                        // backgroundColor: "antiquewhite",
+                        display: "flex",
+                        flexDirection: "row",
+                        width: "100%",
+                        // marginTop: "10px",
                       }}
                     >
-                      Booking Date
-                    </Typography>
-                    <Typography
-                      className="reqDetailTxt"
-                      style={{
-                        fontSize: "16px",
-                        fontWeight: "normal",
-                        fontStretch: "normal",
-                        fontStyle: "normal",
-                        lineHeight: 1.56,
-                        letterSpacing: "normal",
-                        textAlign: "left",
-                        color: "#424651",
-                        width: "20%",
-                        // backgroundColor: "aqua",
-                      }}
-                    >
-                      30.09.2022
-                    </Typography>
+                      <Typography
+                        style={{
+                          fontSize: "16px",
+                          fontWeight: "normal",
+                          fontStretch: "normal",
+                          fontStyle: "normal",
+                          lineHeight: 1.56,
+                          letterSpacing: "normal",
+                          textAlign: "left",
+                          color: "#424651",
+                          width: "20%",
+                          // backgroundColor: "antiquewhite",
+                        }}
+                      >
+                        Booking Date
+                      </Typography>
+                      <Typography
+                        style={{
+                          fontSize: "16px",
+                          fontWeight: "normal",
+                          fontStretch: "normal",
+                          fontStyle: "normal",
+                          lineHeight: 1.56,
+                          letterSpacing: "normal",
+                          textAlign: "left",
+                          color: "#424651",
+                          width: "20%",
+                          // backgroundColor: "aqua",
+                        }}
+                      >
+                        30.09.2022
+                      </Typography>
+                    </div>
                   </div>
                 </div>
-              </div>
-            );
-          })}
+              );
+            })}
+          </div>
         </div>
       </div>
-    </div>
+      <Footer />
+    </>
   );
 };

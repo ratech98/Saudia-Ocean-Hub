@@ -3,9 +3,10 @@ import { useNavigate } from "react-router-dom";
 import { Button, Container, Grid, TextField, Typography } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { resend_otp, verifyOtp } from "../../Service/api";
-import { EmailId, verifyOTP } from "../../redux/slices";
+import { EmailId, confirmTickMsg, verifyOTP } from "../../redux/slices";
 import IMAGES from "../Images";
 import { toast } from "react-toastify";
+import Loader from "../Loader";
 
 const useOtpInputRefs = (length) => {
   const inputRefs = React.useMemo(() => {
@@ -25,43 +26,76 @@ const VerifyOTP = () => {
   const [errorMsg, setErrorMsg] = useState("");
   const [showResend, setShowResend] = useState(true);
   const [countdown, setCountdown] = useState(60);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleSubmit = (values) => {
+    setIsLoading(true);
     setErrorMsg("");
+    toast.dismiss();
     const otp = inputRefs.map((ref) => ref.current.value).join("");
-    let payload = {
-      email: user?.emailId,
-      otp: otp,
-    };
-    console.log("payload", payload);
-    verifyOtp(payload)
-      .then((res) => {
-        console.log("res", res);
-        if (res?.data?.message === "User Verified successfully") {
-          if (!user?.password) {
-            dispatch(EmailId(null));
-          }
+    if (otp?.length >= 6) {
+      let payload = {
+        email: user?.emailId,
+        otp: otp,
+      };
+      // console.log("payload", payload);
+      verifyOtp(payload)
+        .then((res) => {
+          // console.log("res", res);
+          if (res?.data?.message === "User Verified successfully") {
+            if (!user?.password) {
+              dispatch(EmailId(null));
+            }
+            dispatch(verifyOTP("VERIFY_OTP"));
+            // navigate("/LogIn");
+            dispatch(
+              confirmTickMsg({
+                title:
+                  "Your account has been created successfully, Please login!",
+                buttonName: "Go to login",
+              })
+            );
 
-          dispatch(verifyOTP("VERIFY_OTP"));
-          navigate("/LogIn");
-        } else {
-          console.log("enter else");
-          setErrorMsg(res?.data?.message);
-          toast.error(res?.data?.message, {
+            navigate("/confirmation");
+
+            toast.success(res?.data?.message, {
+              position: toast.POSITION.TOP_RIGHT,
+              autoClose: 2000,
+            });
+          } else {
+            setErrorMsg(res?.data?.message);
+
+            toast.error(res?.data?.message, {
+              position: toast.POSITION.TOP_RIGHT,
+              autoClose: 2000,
+            });
+          }
+          setIsLoading(false);
+        })
+        .catch((err) => {
+          setIsLoading(false);
+          console.log("err", err);
+
+          toast.error("Something went wrong. Please try again later.", {
             position: toast.POSITION.TOP_RIGHT,
             autoClose: 2000,
           });
-        }
-      })
-      .catch((err) => {
-        console.log("err", err);
+        });
+    } else {
+      setIsLoading(false);
+
+      toast.error("Please enter your OTP", {
+        position: toast.POSITION.TOP_RIGHT,
+        autoClose: 2000,
       });
+    }
   };
 
   const handleInputChange = (event, index) => {
     const value = event.target.value;
     if (value.length === 1 && index < inputRefs.length - 1) {
       inputRefs[index + 1].current.focus();
+      setErrorMsg("");
     }
   };
 
@@ -116,6 +150,7 @@ const VerifyOTP = () => {
         paddingBottom: "100px",
       }}
     >
+      {isLoading ? <Loader loading={isLoading} /> : null}
       <img
         src={IMAGES.APP_ICON}
         alt="ICON"
@@ -244,6 +279,13 @@ const VerifyOTP = () => {
                       }}
                       onChange={(event) => handleInputChange(event, index)}
                       onKeyDown={(event) => handleInputBackspace(event, index)}
+                      InputProps={{
+                        style: {
+                          textAlign: "center",
+                          borderRadius: "5px",
+                          border: errorMsg ? ".1px ridge red" : null,
+                        },
+                      }}
                     />
                   </Grid>
                 ))}

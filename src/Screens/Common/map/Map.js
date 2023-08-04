@@ -16,44 +16,61 @@ const Map = ({ markers, selectedMarker, onSelectMarker }) => {
       const { results } = response.data;
       if (results.length > 0) {
         const address = results[0].formatted_address;
+
         onSelectMarker({ lat, lng, address });
       }
     } catch (error) {
       console.log("Error: ", error);
     }
+
     onSelectMarker({ lat, lng });
   };
 
   return (
-    <div style={{ height: "500px", width: "100%" }}>
-      <GoogleMapReact
-        bootstrapURLKeys={{
-          key: "AIzaSyCCbOGygkchkcXDrWQwO2yQhFrPhli4z3s",
+    <div
+      style={{
+        height: "500px",
+        width: "100%",
+        boxShadow: `0px 4px 8px rgba(0, 0, 0, 0.16)`,
+        borderRadius: "15px",
+      }}
+    >
+      <div
+        style={{
+          height: "100%",
+          width: "100%",
+          borderRadius: "15px",
+          boxShadow: `0px 4px 8px rgba(0, 0, 0, 0.16)`,
+          overflow: "hidden",
         }}
-        defaultCenter={{
-          lat: 20.146220361679458,
-          lng: 40.2568970541965,
-        }}
-        defaultZoom={15}
-        options={mapOptions}
-        onClick={({ lat, lng }) => handleMarkerClick({ lat, lng })}
       >
-        {/* <Marker
-          key={"1"}
-          lat={selectedMarkerLat}
-          lng={selectedMarkerLng}
-          selected={true}
+        <GoogleMapReact
+          bootstrapURLKeys={{
+            key: "AIzaSyCCbOGygkchkcXDrWQwO2yQhFrPhli4z3s",
+          }}
+          defaultCenter={{
+            lat: 20.146220361679458,
+            lng: 40.2568970541965,
+          }}
+          defaultZoom={15}
+          options={mapOptions}
+          onClick={({ lat, lng }) => handleMarkerClick({ lat, lng })}
         >
-          Marker
-        </Marker> */}
-        {selectedMarker && (
-          <LocationOn
-            lat={selectedMarkerLat}
-            lng={selectedMarkerLng}
-            style={{ color: "red", fontSize: "24px" }}
-          />
-        )}
-      </GoogleMapReact>
+          {selectedMarker && (
+            <LocationOn
+              lat={selectedMarkerLat}
+              lng={selectedMarkerLng}
+              style={{
+                // color: "#3973a5",
+                color: "Background",
+                // fontSize: "50px",
+                width: "40px",
+                height: "40px",
+              }}
+            />
+          )}
+        </GoogleMapReact>
+      </div>
     </div>
   );
 };

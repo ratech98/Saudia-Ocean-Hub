@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button, Container, Grid, TextField, Typography } from "@mui/material";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import IMAGES from "../../Images";
 import { verify_forgotpass_otp } from "../../../Service/api";
@@ -22,15 +22,16 @@ export const VerifyForgotPwdOTP = () => {
   const user = useSelector((state) => state?.auth);
   const navigate = useNavigate();
   // const navigate = useHistory();
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
   const [errorMsg, setErrorMsg] = useState("");
-  const [showResend, setShowResend] = useState(true);
-  const [countdown, setCountdown] = useState(60);
+  // const [showResend, setShowResend] = useState(true);
+  // const [countdown, setCountdown] = useState(60);
   const [isLoading, setIsLoading] = useState(false);
 
   const handleSubmit = (values) => {
     setIsLoading(true);
     setErrorMsg("");
+    toast.dismiss();
     const otp = inputRefs.map((ref) => ref.current.value).join("");
     if (otp?.length >= 6) {
       let payload = {
@@ -93,22 +94,22 @@ export const VerifyForgotPwdOTP = () => {
     }
   };
 
-  const ResentOTP = () => {
-    let payload = {
-      email: user?.emailId,
-    };
-    console.log("payload", payload);
-    // resend_otp(payload)
-    //   .then((res) => {
-    //     console.log("res", res);
-    //     inputRefs.forEach((ref) => {
-    //       ref.current.value = "";
-    //     });
-    //   })
-    //   .catch((err) => {
-    //     console.log("err", err);
-    //   });
-  };
+  // const ResentOTP = () => {
+  //   let payload = {
+  //     email: user?.emailId,
+  //   };
+  //   console.log("payload", payload);
+  //   // resend_otp(payload)
+  //   //   .then((res) => {
+  //   //     console.log("res", res);
+  //   //     inputRefs.forEach((ref) => {
+  //   //       ref.current.value = "";
+  //   //     });
+  //   //   })
+  //   //   .catch((err) => {
+  //   //     console.log("err", err);
+  //   //   });
+  // };
 
   return (
     <div
@@ -221,16 +222,24 @@ export const VerifyForgotPwdOTP = () => {
                       inputProps={{ maxLength: 1 }}
                       inputRef={ref}
                       style={{
-                        width: "40px",
-                        height: "40px",
-                        marginRight: "10px",
+                        width: "50px",
+                        // height: "40px",
+                        marginRight: "20px",
                         fontSize: "20px",
                         textAlign: "center",
+                        borderRadius: "5px",
                       }}
                       onChange={(event) => {
                         handleInputChange(event, index);
                       }}
                       onKeyDown={(event) => handleInputBackspace(event, index)}
+                      InputProps={{
+                        style: {
+                          textAlign: "center",
+                          borderRadius: "5px",
+                          border: errorMsg ? ".1px ridge red" : null,
+                        },
+                      }}
                     />
                   </Grid>
                 ))}
@@ -240,7 +249,7 @@ export const VerifyForgotPwdOTP = () => {
                 <Typography
                   style={{ marginTop: "48px", color: "#DC143C", fontSize: 12 }}
                 >
-                  {errorMsg}
+                  {"Invalid Otp, Please try again"}
                 </Typography>
               ) : null}
 

@@ -11,11 +11,13 @@ import Cretified from "../../Component/Certificate/Cretified";
 import Footer from "../../Component/Footer/Footer";
 import Banner from "../../Component/Banner/Banner";
 import { useLocation, useNavigate } from "react-router-dom";
+import { BoatDetailCard } from "../new/BoatDetailCard";
+
 // import { useHistory } from "react-router-dom";
 
 const Home = () => {
-  const backgroundImage = Backgroundimg;
   const navigate = useNavigate();
+  const backgroundImage = Backgroundimg;
   const location = useLocation();
   const content =
     "Find all boat trips and certified Scuba professionals within Saudi Arabia in one place";
@@ -75,6 +77,75 @@ const Home = () => {
 
   return (
     <div>
+      {/* <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <span
+          onClick={() => {
+            navigate("/boatBookingRequest");
+          }}
+        >
+          boat Booking Request
+        </span>
+        <span
+          onClick={() => {
+            navigate("/boatViewDetails");
+          }}
+        >
+          boat View Details
+        </span>
+        <span
+          onClick={() => {
+            navigate("/boatDetailCard");
+          }}
+        >
+          {"BoatDetail==>>>Card"}
+        </span>
+        <span
+          onClick={() => {
+            navigate("/boatCard");
+          }}
+        >
+          {"boat Card"}
+        </span>
+        <span
+          onClick={() => {
+            navigate("/boatOfferStep3");
+          }}
+        >
+          {"boat Offer Step 3"}
+        </span>
+      </div> */}
+      {/* <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <span
+          onClick={() => {
+            // navigate("/bookingHistory");
+            navigate("/setting");
+          }}
+        >
+          setting
+        </span>
+        <span
+          onClick={() => {
+            navigate("/boatViewDetails");
+          }}
+        >
+          boatViewDetails
+        </span>
+      </div> */}
+
       <Banner
         backgroundImage={backgroundImage}
         content={content}
@@ -86,6 +157,7 @@ const Home = () => {
         className={className}
         showInput={showInput}
         buttonStyle={buttonStyle}
+        presentPage={"Home"}
       />
       <Journey />
       <Owner_boat />

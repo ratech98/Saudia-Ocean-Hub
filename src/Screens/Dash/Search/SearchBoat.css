@@ -1,0 +1,265 @@
+.full-container {
+  background-color: #f6f6f6;
+  padding-top: 49px;
+  height: auto;
+  width: 100%;
+}
+
+.inside-search-style {
+  display: flex;
+  background-color: white;
+  width: 100%;
+  align-items: center;
+  padding: 17.5px 100px 17.5px 97px;
+  border-radius: 5px;
+}
+
+.search-text-box {
+  display: flex;
+  width: 100%;
+  align-items: center;
+}
+
+.search-btn {
+  display: flex;
+  width: 30%;
+  justify-content: space-between;
+}
+
+.cancel-icon {
+  width: 31px;
+  height: 31px;
+}
+
+.straight-line {
+  background-color: rgba(66, 70, 81, 0.7);
+  width: 1px;
+  height: 70px;
+}
+
+.btn {
+  background-color: #3973a5;
+  color: white;
+  width: 50%;
+  height: 50px;
+  align-self: center;
+}
+
+.suggestion-box-content {
+  display: flex;
+  height: auto;
+  width: 100%;
+  flex-direction: row;
+  justify-content: space-between;
+  /* background-color: #026b93; */
+}
+
+.boat-list {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: auto;
+  width: 100%;
+  margin: 0;
+  align-self: center;
+  align-items: center;
+  align-content: center;
+  justify-content: center;
+  /* margin-bottom: 100px; */
+  /* background-color: aquamarine; */
+  /* margin: 120px 0px 0px 0px; */
+}
+.align-card {
+  margin: 0px 0px 0px 0px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  height: auto;
+}
+
+.boat-card {
+  /* flex: 0 0 auto; Let the cards take their natural width */
+  /* margin-bottom: 20px; Add some margin between the cards */
+  /* ... other styles ... */
+  margin: 27.5px;
+  /* background-color: #026b93; */
+}
+
+.headerContainer {
+  width: 100%;
+}
+
+.contentContainer {
+  justify-content: space-between;
+  display: flex;
+  flex-direction: row;
+  margin: 0px 24px;
+  /* background-color: "green", */
+}
+
+.appIcon {
+  width: 158px;
+  height: 98px;
+}
+
+.titleOptionTxt {
+  font-size: 16px;
+  color: #424651;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.headerLeftSide {
+  justify-content: space-between;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  flex: 0.5;
+}
+
+.actionButton {
+  font-size: 24px;
+  color: #026b93;
+  font-weight: 600;
+  border-color: #026b93;
+  border-width: 2px;
+  border-radius: 30px;
+  border-style: solid;
+  padding: 10px 50px;
+  cursor: pointer;
+  margin-left: 65%;
+  align-items: center;
+  width: 25%;
+}
+
+.pageTopContainer {
+  display: flex;
+  flex-direction: column;
+  margin-top: 30px;
+}
+
+.subtitleTxt {
+  font-size: 28px;
+  color: #424651;
+  text-align: center;
+}
+
+.docUploadContainer {
+  display: flex;
+  flex-direction: column;
+  margin-top: 20px;
+  margin-left: 10%;
+}
+
+.uploadBoatDocTitleTxt {
+  font-size: 30px;
+  color: rgba(66, 70, 81, 0.87);
+  font-family: "Poppins";
+  font-weight: 600;
+  line-height: 1.53;
+}
+
+.uploadBoatDocTxt {
+  margin-top: 20px;
+  font-size: 20px;
+  color: rgba(66, 70, 81, 0.87);
+  font-family: "Poppins";
+  font-weight: 300;
+  line-height: 1.53;
+}
+
+.boatOfferTitle {
+  margin-top: 193px;
+  font-size: 48px;
+  color: rgba(66, 70, 81, 0.87);
+  font-family: "Poppins";
+  font-weight: 600;
+  line-height: 1.5;
+  text-align: center;
+}
+
+.boatName {
+  font-size: 20px;
+  color: rgba(66, 70, 81, 0.87);
+  font-family: "Poppins";
+  font-weight: 600;
+  line-height: 1.5;
+  text-align: left;
+}
+
+.boatDrierName {
+  font-size: 20px;
+  color: rgba(66, 70, 81, 0.6);
+  font-family: "Poppins";
+  font-weight: normal;
+  line-height: 1.5;
+  text-align: left;
+  margin-top: 8px;
+}
+
+.boatprice {
+  font-size: 18px;
+  color: rgba(66, 70, 81, 0.87);
+  font-family: "Poppins";
+  font-weight: 600;
+  line-height: 1.5;
+  text-align: left;
+  margin-left: 10px;
+}
+
+.moneyIcon {
+  width: 28px;
+  height: 30px;
+}
+
+.groupIcon {
+  width: 33px;
+  height: 25px;
+  margin-right: 10px;
+}
+
+.noDataContent {
+  display: flex;
+  flex-direction: column;
+  margin-top: 100px;
+  align-items: center;
+}
+
+.noResultImg {
+  width: 139px;
+  height: 139px;
+}
+
+.sryTxt {
+  margin-top: 50px;
+  font-family: "Poppins";
+  font-size: 36px;
+  font-weight: 600;
+  color: rgba(66, 70, 81, 0.87);
+}
+
+.noResultTxt {
+  margin-top: 24px;
+  font-family: "Poppins";
+  font-size: 36px;
+  font-weight: 600;
+  color: rgba(66, 70, 81, 0.45);
+  width: 70%;
+  text-align: center;
+  margin-bottom: 100px;
+}
+
+.loadMoreStyle {
+  display: flex;
+  justify-content: center;
+  margin: 50px 0px;
+}
+
+.loadMoreTxt {
+  color: #3973a5;
+  width: 10%;
+  height: 35px;
+  border-color: #3973a5;
+  border-width: 2px;
+  font-size: 14px;
+}

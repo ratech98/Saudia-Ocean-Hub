@@ -75,7 +75,14 @@ const localImageBox = [
   //   },
 ];
 
-const Imagebox = ({ imageBox = null }) => {
+const Imagebox = ({
+  imageBox = null,
+  showNew = false,
+  numBorder,
+  numWidth,
+  numHeight,
+  showPlaceName,
+}) => {
   const [showdata, setShowData] = useState([]);
 
   useEffect(() => {
@@ -87,113 +94,244 @@ const Imagebox = ({ imageBox = null }) => {
   }, [imageBox]);
 
   return (
-    // <div
-    //   style={
-    //     {
-    //       // display: "flex",
-    //       // width: "100%",
-    //       // backgroundColor: "darkmagenta",
-    //       // width: "100%",
-    //       // alignSelf: "center",
-    //       // alignItems: "center",
-    //       // justifyContent: "center",
-    //       // alignContent: "center",
-    //     }
-    //   }
-    // >
-    <div
-      style={{
-        marginTop: "30px",
-        // margin: "0px 140px 140px 0px",
-        // margin: "50px 140px 0px",
-        paddingLeft: "40px",
-        paddingRight: "40px",
-        // backgroundColor: "green",
-        display: "flex",
-        flexWrap: "wrap",
-        flex: 1,
-        // alignSelf: "center",
-        // alignItems: "center",
-        justifyContent: "space-between",
-        // alignContent: "center",
-      }}
-    >
-      {localImageBox?.map((item, index) => (
-        <>
-          {console.log("iten", item)}
-          <Card
-            style={{
-              // backgroundColor: "goldenrod",
-              borderRadius: 0,
-              width: 400,
-              marginTop: "55px",
-              //   marginRight: "55px",
-              // marginRight: "27.5px",
-              // marginLeft: "27.5px",
-              //   margin: "50px 42.5px",
-              // margin: "0 0 24px",
-            }}
-            key={item?.id}
+    <>
+      {showNew ? (
+        <div>
+          <Container
+            className="d-flex flex-wrap justify-content-between"
+            style={{ marginTop: 30 }}
           >
-            <Card.Img
-              variant="top"
-              src={IMAGES?.boat1 ?? item?.image}
-              style={{ borderRadius: 0 }}
-            />
-            <Card.Body>
-              <Card.Title>{item?.boat_name}</Card.Title>
-              <Card.Text className="place_name">{item?.marine_city}</Card.Text>
+            {myimageBox?.map((item) => {
+              console.log("item", item);
+              return (
+                <Card
+                  style={{
+                    borderRadius: `${numBorder}px`,
+                    width: `${numWidth}`,
+                  }}
+                  key={item.id}
+                >
+                  <Card.Img
+                    variant="top"
+                    src={item.image}
+                    style={{
+                      borderTopLeftRadius: `${numBorder}`,
+                      borderTopLeftRadius: `${numBorder}`,
+                      width: `${numWidth}px`,
+                      height: `${numHeight}px`,
+                    }}
+                  />
+                  <Card.Body>
+                    <Card.Title>{item.boatName}</Card.Title>
+                    {showPlaceName && (
+                      <Card.Text className="place_name">
+                        {item.placeName}
+                      </Card.Text>
+                    )}
+                    <div className="star_ratings">
+                      <StarRating rating={item.starCount} />
+                    </div>
+                    <Row className="justify-content-between">
+                      <Col>
+                        <Row className="gap-3">
+                          <Col xs={1}>
+                            <Card.Text>
+                              <img
+                                src={IMAGES.MONEY_CARD}
+                                style={{ width: "28px", height: "30px" }}
+                                className="moneyIcon"
+                                alt="money"
+                              />
+                            </Card.Text>
+                          </Col>
+                          <Col>
+                            <Card.Text className="money">
+                              {item.money}
+                            </Card.Text>
+                          </Col>
+                        </Row>
+                      </Col>
+                      <Col style={{ display: "contents" }}>
+                        <Row className="gap-3">
+                          <Col xs={1}>
+                            <Card.Text>
+                              <item.userGroup
+                                size={29}
+                                color="rgba(66, 70, 81, 0.87)"
+                              />
+                            </Card.Text>
+                          </Col>
+                          <Col>
+                            <Card.Text className="member">
+                              {item.member}
+                            </Card.Text>
+                          </Col>
+                        </Row>
+                      </Col>
+                    </Row>
+                  </Card.Body>
+                </Card>
+              );
+            })}
+          </Container>
+        </div>
+      ) : (
+        <div
+          style={
+            {
+              // display: "flex",
+              // width: "100%",
+              // backgroundColor: "darkmagenta",
+              // width: "100%",
+              // alignSelf: "center",
+              // alignItems: "center",
+              // justifyContent: "center",
+              // alignContent: "center",
+            }
+          }
+        >
+          <div
+            style={{
+              marginTop: "50px",
+              // margin: "0px 140px 140px 0px",
+              // margin: "50px 140px 0px",
+              paddingLeft: "110px",
+              paddingRight: "100px",
+              // backgroundColor: "green",
+              display: "flex",
+              flexWrap: "wrap",
+              // alignSelf: "center",
+              // alignItems: "center",
+              // justifyContent: "center",
+              // alignContent: "center",
+            }}
+          >
+            {showdata?.map((item, index) => (
+              <>
+                <Card
+                  style={{
+                    // backgroundColor: "goldenrod",
+                    borderRadius: 0,
+                    width: 400,
+                    // marginTop: "55px",
+                    // marginRight: "55px"
+                    // marginRight: "27.5px",
+                    // marginLeft: "27.5px",
+                    margin: "50px 42.5px",
+                    // margin: "0 0 24px",
+                  }}
+                  key={item?.id}
+                >
+                  <Card.Img
+                    variant="top"
+                    src={IMAGES?.boat1 ?? item?.image}
+                    style={{ borderRadius: 0 }}
+                  />
+                  <Card.Body>
+                    <Card.Title>{item?.boat_name}</Card.Title>
+                    <Card.Text className="place_name">
+                      {item?.marine_city}
+                    </Card.Text>
 
-              <div className="star_ratings">
-                <StarRating rating={5} />
-              </div>
-              <Row className="justify-content-between">
-                <Col>
-                  <Row className="gap-3">
-                    <Col xs={1}>
-                      <Card.Text>
-                        <img
-                          src={IMAGES.MONEY_CARD}
-                          style={{ width: "28px", height: "30px" }}
-                          className="moneyIcon"
-                          alt="money"
-                        />
-                      </Card.Text>
-                    </Col>
-                    <Col>
-                      <Card.Text className="money">
-                        {item?.price_per_hour} {item?.price_currency}
-                      </Card.Text>
-                    </Col>
-                  </Row>
-                </Col>
-                <Col style={{ display: "contents" }}>
-                  <Row className="gap-3">
-                    <Col xs={1}>
-                      <Card.Text>
-                        <img
-                          src={IMAGES.GROUP}
-                          style={{ width: 36, height: 25 }}
-                          color="rgba(66, 70, 81, 0.87)"
-                          alt="grp"
-                        />
-                      </Card.Text>
-                    </Col>
-                    <Col>
-                      <Card.Text className="member">
-                        {item?.boat_max_capacity}
-                      </Card.Text>
-                    </Col>
-                  </Row>
-                </Col>
-              </Row>
-            </Card.Body>
-          </Card>
-        </>
-      ))}
-    </div>
-    // </div>
+                    <div className="star_ratings">
+                      <StarRating rating={5} />
+                    </div>
+                    <Row className="justify-content-between">
+                      <Col>
+                        <Row className="gap-3">
+                          <Col xs={1}>
+                            <Card.Text>
+                              <img
+                                src={IMAGES.MONEY_CARD}
+                                style={{ width: "28px", height: "30px" }}
+                                className="moneyIcon"
+                                alt="money"
+                              />
+                            </Card.Text>
+                          </Col>
+                          <Col>
+                            <Card.Text className="money">
+                              {item?.price_per_hour} {item?.price_currency}
+                            </Card.Text>
+                          </Col>
+                        </Row>
+                      </Col>
+                      <Col style={{ display: "contents" }}>
+                        <Row className="gap-3">
+                          <Col xs={1}>
+                            <Card.Text>
+                              <img
+                                src={IMAGES.GROUP}
+                                style={{ width: 36, height: 25 }}
+                                color="rgba(66, 70, 81, 0.87)"
+                                alt="grp"
+                              />
+                            </Card.Text>
+                          </Col>
+                          <Col>
+                            <Card.Text className="member">
+                              {item?.boat_max_capacity}
+                            </Card.Text>
+                          </Col>
+                        </Row>
+                      </Col>
+                    </Row>
+                  </Card.Body>
+                </Card>
+              </>
+            ))}
+          </div>
+        </div>
+      )}
+    </>
   );
 };
 
 export default Imagebox;
+
+const myimageBox = [
+  {
+    id: 1,
+    image: Boat,
+    boatName: "Peace Boat",
+    placeName: "Russel Madam",
+    starCount: 4,
+    moneyIcon: FaMoneyBill,
+    money: "55000 SAR",
+    userGroup: FaUsers,
+    member: "15",
+  },
+  {
+    id: 2,
+    image: Boat,
+    boatName: "Al Madina Boat",
+    placeName: "Yanbu",
+    starCount: 4,
+    moneyIcon: FaMoneyBill,
+    money: "6000 SAR",
+    userGroup: FaUsers,
+    member: "15",
+  },
+  {
+    id: 3,
+    image: Boat,
+    boatName: "Russel Madam",
+    placeName: "Riyadh",
+    starCount: 5,
+    moneyIcon: FaMoneyBill,
+    money: "10000 SAR",
+    userGroup: FaUsers,
+    member: "12",
+  },
+  // {
+  //   id: 4,
+  //   image: Boat,
+  //   boatName: "Russel Madam",
+  //   placeName: "Riyadh",
+  //   starCount: 5,
+  //   moneyIcon: FaMoneyBill,
+  //   money: "10000 SAR",
+  //   userGroup: FaUsers,
+  //   member: "12",
+  // },
+];

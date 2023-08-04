@@ -1,0 +1,177 @@
+.header-title {
+  display: flex;
+  flex-direction: column;
+  margin-top: 30px;
+}
+
+.header-title .subtitleTxt {
+  font-family: Poppins;
+  font-size: 34px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.5;
+  letter-spacing: normal;
+  text-align: center;
+  color: var(--charcoal-grey-87);
+}
+
+.header-title .subtitleTxt2 {
+  font-weight: bolder;
+}
+
+.upload-boat-doc {
+  display: flex;
+  flex-direction: row;
+  margin-top: 20px;
+  align-items: center;
+  /* padding: 0px 150px; */
+}
+
+.upload-boat-detail {
+  display: flex;
+  flex-direction: row;
+  margin-top: 20px;
+  align-items: center;
+  padding: 0px 0px 0px 150px;
+}
+
+.upload-boat-detail .upload-boat-doc-title,
+.upload-boat-doc .upload-boat-doc-title {
+  font-family: Poppins;
+  font-size: 24px;
+  font-weight: 600;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.53;
+  letter-spacing: normal;
+  text-align: left;
+  color: var(--charcoal-grey-87);
+}
+
+.upload-boat-detail .upload-boat-doc-info,
+.upload-boat-doc .upload-boat-doc-info {
+  font-family: Poppins;
+  font-size: 16px;
+  font-weight: 300;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.5;
+  letter-spacing: normal;
+  text-align: left;
+  color: rgba(66, 70, 81, 0.6);
+}
+
+.doc-img {
+  padding: 25px;
+  border-radius: 500px;
+  align-self: "center";
+  align-items: "center";
+  display: "flex";
+  background-color: white;
+}
+
+.boat-doc {
+  width: 70%;
+  min-width: 50%;
+  padding-left: 5%;
+}
+
+.add-file-icon {
+  flex: 1;
+  background-color: white;
+  height: 80px;
+  width: 90px;
+}
+
+.add-boat-detial {
+  flex: 1;
+  width: 95px;
+  height: 85px;
+}
+
+.botton-align-right {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.boat-list-button {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  align-self: flex-end;
+  align-content: flex-end;
+  padding: 20px 46px;
+  margin: 50px 0px 0px 0px;
+  border: solid 3px #026b93;
+  border-radius: 50px;
+}
+
+.boat-list-button .action-button {
+  font-family: Poppins;
+  font-size: 18px;
+  font-weight: 600;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.46;
+  letter-spacing: normal;
+  text-align: left;
+  color: #026b93;
+  cursor: pointer;
+  padding-right: 20px;
+  font-weight: bolder;
+  border: none;
+  width: 100%;
+}
+
+.boat-offers {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+  margin: 120px 0px 0px 0px;
+  align-self: center;
+  align-items: center;
+  align-content: center;
+  justify-content: center;
+  /* margin-bottom: 100px; */
+}
+
+.align-card {
+  margin: 0px 0px 0px 0px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  height: auto;
+
+  /* align-self: center; */
+  /* align-items: center; */
+  /* align-content: center; */
+  /* justify-content: center; */
+}
+
+.boat-offers .boat-offer-title {
+  font-size: 48px;
+  color: rgba(66, 70, 81, 0.87);
+  font-family: "Poppins";
+  font-weight: 600;
+  line-height: 1.5;
+  text-align: center;
+  font-family: Poppins;
+  font-stretch: normal;
+  font-style: normal;
+  letter-spacing: normal;
+  /* background-color: #f6f6f6; */
+  width: 100%;
+}
+
+@media (max-width: 800px) {
+  .upload-boat-detail {
+    display: flex;
+    flex-direction: row;
+    margin-top: 20px;
+    align-items: center;
+    padding: 0px 0px 0px 0px;
+  }
+}

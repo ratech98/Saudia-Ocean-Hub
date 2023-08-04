@@ -20,7 +20,7 @@ import { useNavigate } from "react-router-dom";
 import { Visibility, VisibilityOff } from "@material-ui/icons";
 import { countryCodeJson } from "./countryCodeJson";
 import { useDispatch, useSelector } from "react-redux";
-import { EmailId } from "../../redux/slices";
+import { EmailId, confirmTickMsg } from "../../redux/slices";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import { register } from "../../Service/api";
 import IMAGES from "../Images";
@@ -163,8 +163,8 @@ export const SignUp = () => {
   };
 
   const handleSubmit = async (value, type) => {
-    console.log("type", type);
     setErrorMessage("");
+    toast.dismiss();
     formik.setErrors({});
     if (isTermsOfServiceChecked) {
       setLoading(true);
@@ -186,17 +186,30 @@ export const SignUp = () => {
         };
       }
 
-      // console.log("handle Submit payload", payload);
+      console.log("handle Submit payload", payload);
       register(payload)
         .then((res) => {
-          // console.log("register res", res);
+          console.log("register res", res);
 
           if (res?.data?.message === "user registered successfully") {
             if (type !== "GOOGLE") {
               dispatch(EmailId(value?.email));
               navigate("/verifyOTP");
             } else {
-              navigate("/logIn");
+              dispatch(
+                confirmTickMsg({
+                  title:
+                    "Your account has been created successfully, Please login!",
+                  buttonName: "Go to login",
+                })
+              );
+
+              toast.success(res?.data?.message, {
+                position: toast.POSITION.TOP_RIGHT,
+                autoClose: 20000,
+              });
+              navigate("/confirmation");
+              // navigate("/logIn");
             }
           } else {
             if (
@@ -211,6 +224,7 @@ export const SignUp = () => {
             }
             // console.log("res?.data?.message", res?.data?.message);
             // setErrorMessage(res?.data?.message);
+
             toast.error(res?.data?.message, {
               position: toast.POSITION.TOP_RIGHT,
               autoClose: 20000,
@@ -221,6 +235,7 @@ export const SignUp = () => {
         .catch((err) => {
           setLoading(false);
           console.log("register API error", err);
+
           toast.error("Something went wrong. Please try again later.", {
             position: toast.POSITION.TOP_RIGHT,
             autoClose: 2000,
@@ -259,6 +274,7 @@ export const SignUp = () => {
   return (
     <div style={styles.containerBody}>
       {loading ? <Loader loading={loading} /> : null}
+
       <form onSubmit={formik.handleSubmit} style={styles.formStyle}>
         <img src={IMAGES.APP_ICON} alt="Icon" style={styles.appIconStyle} />
         <div style={styles.pageTitleDev}>

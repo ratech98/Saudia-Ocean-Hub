@@ -1,0 +1,112 @@
+.setting {
+  display: flex;
+  width: 100%;
+  /* height: 100%; */
+  flex-direction: column;
+  /* background-color: aqua; */
+  /* justify-content: space-between; */
+  background-color: #f6f6f6;
+}
+
+.footer-style {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  /* align-self: flex-end; */
+  /* align-content: flex-end; */
+  justify-content: flex-end;
+  /* align-items: flex-end; */
+}
+
+.setting .title {
+  /* width: 170px; */
+  /* height: 56px; */
+  /* margin: 100px 25.5px 45px 281.5px; */
+  font-family: Poppins;
+  font-size: 40px;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.5;
+  letter-spacing: normal;
+  text-align: left;
+  color: #424651;
+  margin-top: 50px;
+}
+
+.inside-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+}
+
+.header-tab {
+  padding: 45px 0px 0px 0px;
+  /* background-color: bisque; */
+}
+
+.header-tab .tab-title {
+  font-family: Poppins;
+  font-size: 20px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.5;
+  letter-spacing: normal;
+  text-align: left;
+  color: black;
+  padding: 0px 30px;
+  /* background-color: aquamarine; */
+}
+
+.header-tab .tab-selected-title {
+  font-family: Poppins;
+  font-size: 20px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.5;
+  letter-spacing: normal;
+  text-align: left;
+  color: #3973a5;
+  text-decoration: underline;
+  padding: 0px 30px;
+}
+
+/* Edit Field tab */
+.edit-text-file {
+  font-size: 16px;
+  font-family: Poppin;
+  color: dimgray;
+  padding: 10px;
+  border-bottom: none;
+  background-color: #fff;
+  border-radius: 5px;
+  box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.09);
+  background-color: red;
+}
+
+/* notification tab */
+.notification {
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+  width: 100%;
+  height: 100%;
+}
+
+.notification .list-title-txt {
+  /* width: 319px; */
+  /* height: 43px; */
+
+  font-family: Poppins;
+  font-size: 30px;
+  font-weight: 500;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.53;
+  letter-spacing: normal;
+  text-align: left;
+  color: #424651;
+}
