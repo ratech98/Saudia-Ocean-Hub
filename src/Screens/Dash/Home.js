@@ -12,11 +12,26 @@ import Footer from "../../Component/Footer/Footer";
 import Banner from "../../Component/Banner/Banner";
 import { useLocation, useNavigate } from "react-router-dom";
 import { BoatDetailCard } from "../new/BoatDetailCard";
+import { useSelector } from "react-redux";
+import { toast } from "react-toastify";
 
 // import { useHistory } from "react-router-dom";
 
 const Home = () => {
   const navigate = useNavigate();
+  const auth = useSelector((state) => state?.auth);
+
+  const link1 = "For Boat Owners";
+  const link2 = "For Boat Rentel";
+  const link3 = "List a Boat Offer";
+  const href1 = "#";
+  const href2 = "#";
+  const href3 = "#";
+  const num = "7";
+  const num1 = "2";
+  const showItem = false;
+  const showLogin = true;
+  const showProfile = false;
   const backgroundImage = Backgroundimg;
   const location = useLocation();
   const content =
@@ -60,6 +75,17 @@ const Home = () => {
     height: 81,
   };
 
+  const backgroundColors = "#70a8c0";
+  const clientPadding = "150px 0 200.1px";
+  const Client_Title_Show = true;
+  const screenTop = 220;
+  const reviewCard_color = " rgba(246, 246, 246, 0.7)";
+  const reviewCard_height = 299;
+  const reviewCard_width = 425;
+  const reviewCard_center = "left";
+  const bgimage =
+    "linear-gradient(to bottom, #70a8c0, #3c85a7 29%, #03487a 74%, #03487a)";
+
   useEffect(() => {
     const handleBackButton = (event) => {
       // Prevent the default behavior of the back button
@@ -75,77 +101,28 @@ const Home = () => {
     };
   }, [location.pathname, navigate]);
 
+  const handle_navigation = (pageName) => {
+    console.log("pageName", pageName);
+    if (pageName === "Home") {
+      if (auth?.tokenDecodeData?.user_type === "BOAT_OWNER") {
+        navigate("/boatOwnerDashBoard");
+      } else {
+        navigate("/rental");
+      }
+    } else if (pageName === "rental") {
+      navigate("/rental");
+    } else if (pageName === "boatOwnerDashBoard") {
+      navigate("/boatOwnerDashBoard");
+    } else {
+      toast.info("Under Development", {
+        position: toast.POSITION.TOP_RIGHT,
+        autoClose: 2000,
+      });
+    }
+  };
+
   return (
     <div>
-      {/* <div
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-      >
-        <span
-          onClick={() => {
-            navigate("/boatBookingRequest");
-          }}
-        >
-          boat Booking Request
-        </span>
-        <span
-          onClick={() => {
-            navigate("/boatViewDetails");
-          }}
-        >
-          boat View Details
-        </span>
-        <span
-          onClick={() => {
-            navigate("/boatDetailCard");
-          }}
-        >
-          {"BoatDetail==>>>Card"}
-        </span>
-        <span
-          onClick={() => {
-            navigate("/boatCard");
-          }}
-        >
-          {"boat Card"}
-        </span>
-        <span
-          onClick={() => {
-            navigate("/boatOfferStep3");
-          }}
-        >
-          {"boat Offer Step 3"}
-        </span>
-      </div> */}
-      {/* <div
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-      >
-        <span
-          onClick={() => {
-            // navigate("/bookingHistory");
-            navigate("/setting");
-          }}
-        >
-          setting
-        </span>
-        <span
-          onClick={() => {
-            navigate("/boatViewDetails");
-          }}
-        >
-          boatViewDetails
-        </span>
-      </div> */}
-
       <Banner
         backgroundImage={backgroundImage}
         content={content}
@@ -157,12 +134,33 @@ const Home = () => {
         className={className}
         showInput={showInput}
         buttonStyle={buttonStyle}
-        presentPage={"Home"}
+        // presentPage={"Home"}
+        link1={link1}
+        link2={link2}
+        link3={link3}
+        showItem={showItem}
+        href1={href1}
+        href2={href2}
+        href3={href3}
+        showLogin={showLogin}
+        showProfile={showProfile}
+        num={num}
+        num1={num1}
       />
-      <Journey />
-      <Owner_boat />
+      <Journey handleClick={handle_navigation} />
+      <Owner_boat handleClick={handle_navigation} />
       <Ocian_hub />
-      <Client_review />
+      <Client_review
+        backgroundColors={backgroundColors}
+        clientPadding={clientPadding}
+        Client_Title_Show={Client_Title_Show}
+        scrollingTop={screenTop}
+        reviewCard_color={reviewCard_color}
+        reviewCard_height={reviewCard_height}
+        reviewCard_width={reviewCard_width}
+        reviewCard_center={reviewCard_center}
+        bgimage={bgimage}
+      />
       <Cretified />
       <Footer />
     </div>

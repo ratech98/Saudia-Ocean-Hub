@@ -1,5 +1,5 @@
 export const API = {
-  currentEnv: "dev",
+  currentEnv: "qa",
   baseUrls: {
     // dev: "",
     // prod: "http://localhost:3002/",

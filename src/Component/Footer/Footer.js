@@ -7,6 +7,7 @@ import Nav from "react-bootstrap/Nav";
 import Insta from "../../assets/Icons/instagram.svg";
 import Snap from "../../assets/Icons/snapchat.svg";
 import Youtube from "../../assets/Icons/youtube.svg";
+import Twitter from "../../assets/Icons/twitter.png";
 
 const Footer = () => {
   return (
@@ -16,6 +17,11 @@ const Footer = () => {
           <Col>
             <div className="d-flex justify-content-center">
               <Nav className="w-100 justify-content-center ">
+                <Nav.Item>
+                  <Nav.Link>
+                    <img className="social-icons" src={Twitter} alt="Twitter" />
+                  </Nav.Link>
+                </Nav.Item>
                 <Nav.Item>
                   <Nav.Link>
                     <img className="social-icons" src={Insta} alt="Insta" />

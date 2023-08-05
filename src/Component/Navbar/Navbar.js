@@ -11,13 +11,39 @@ import { useDispatch, useSelector } from "react-redux";
 import { AuthToken, TokenDecodeData, UserId } from "../../redux/slices";
 import { Typography } from "@mui/material";
 import { toast } from "react-toastify";
+// import searchIcon from "../../assets/Icons/search.svg";
+// import mail from "../../assets/Icons/mail-svgrepo-com.png";
+// import bell from "../../assets/Icons/bell.svg";
+// import Ellipse from "../../assets/Images/bg_img.png";
 
-const Navbar = ({ showLoginSignUp, presentPage }) => {
+const Navbar = ({
+  showLoginSignUp,
+  presentPage,
+  link1,
+  link2,
+  link3,
+  showItem,
+  href1,
+  href2,
+  href3,
+  showLogin,
+  showProfile,
+  num,
+  num1,
+  backgroundColor,
+}) => {
   const navigate = useNavigate();
   const location = useLocation();
   const [openModal, setOpenModal] = useState(false);
   const dispatch = useDispatch();
   const auth = useSelector((state) => state?.auth);
+
+  const handleLink1Click = () => {
+    window.scrollTo({ top: 1655, behavior: "smooth" });
+  };
+  const handleLink1Click2 = () => {
+    window.scrollTo({ top: 850, behavior: "smooth" });
+  };
 
   const handleOpenModal = () => {
     setOpenModal(true);
@@ -117,7 +143,10 @@ const Navbar = ({ showLoginSignUp, presentPage }) => {
                             : "none",
                         marginLeft: "25px",
                       }}
-                      onClick={() => handle_navigation("boatOwnerDashBoard")}
+                      //   onClick={() => handle_navigation("boatOwnerDashBoard")}
+                      onClick={() => {
+                        handleLink1Click();
+                      }}
                     >
                       For Boat Owners
                     </Typography>
@@ -138,7 +167,8 @@ const Navbar = ({ showLoginSignUp, presentPage }) => {
                         marginLeft: "25px",
                       }}
                       onClick={() => {
-                        handle_navigation("rental");
+                        // handle_navigation("rental");
+                        handleLink1Click2();
                       }}
                     >
                       For Boat Rentals

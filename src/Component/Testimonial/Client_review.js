@@ -1,9 +1,19 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "./Client_review.css";
 import Container from "react-bootstrap/Container";
-import Ellipse from "../../assets/Images/Ellipse.svg";
+import Ellipse from "../../assets/Logo/profile.jpg";
 
-const Client_review = () => {
+const Client_review = ({
+  backgroundColors,
+  clientPadding,
+  Client_Title_Show,
+  scrollingTop,
+  reviewCard_color,
+  reviewCard_width,
+  reviewCard_height,
+  reviewCard_center,
+  bgimage,
+}) => {
   const Testimonial = [
     {
       id: 1,
@@ -50,81 +60,77 @@ const Client_review = () => {
   ];
 
   const scrollableRowRef = useRef(null);
+  const [fullyVisibleCardIds, setFullyVisibleCardIds] = useState([]);
 
-  const checkVisibility = () => {
-    const scrollableRow = scrollableRowRef.current;
-    const cards = scrollableRow.getElementsByClassName("review_card");
-
-    const scrollLeft = scrollableRow.scrollLeft;
-    const containerWidth = scrollableRow.offsetWidth;
-
-    Array.from(cards).forEach((card, index) => {
-      const cardRect = card.getBoundingClientRect();
-
-      const isLastCard = index === Testimonial.length - 1;
-
-      if (isLastCard) {
-        const isFullyVisible =
-          cardRect.left >= 0 && cardRect.right <= window.innerWidth;
-        if (isFullyVisible) {
-          card.style.marginTop = "100px";
-        } else {
-          card.style.marginTop = "";
-        }
-      } else {
-        const isPartiallyVisible =
-          cardRect.left < window.innerWidth && cardRect.right > 0;
-        if (isPartiallyVisible) {
-          const cardLeft =
-            cardRect.left - scrollableRow.getBoundingClientRect().left;
-          const cardRight = cardLeft + card.offsetWidth;
-          if (
-            cardLeft < scrollLeft &&
-            cardRight > scrollLeft + containerWidth
-          ) {
-            card.style.marginLeft = `${scrollLeft - cardLeft}px`;
-          } else {
-            card.style.marginLeft = "";
-          }
-          card.style.marginTop = "";
-        } else {
-          card.style.marginLeft = "";
-          card.style.marginTop = "";
-        }
-      }
-    });
+  const handleIntersection = (entries) => {
+    const visibleCardIds = entries
+      .filter((entry) => entry.isIntersecting)
+      .map((entry) => parseInt(entry.target.dataset.id));
+    setFullyVisibleCardIds(visibleCardIds);
   };
 
   useEffect(() => {
-    checkVisibility();
-
-    const handleScroll = () => {
-      checkVisibility();
+    const observerOptions = {
+      root: null,
+      rootMargin: "0px",
+      threshold: 1.0,
     };
 
-    window.addEventListener("scroll", handleScroll);
+    const observer = new IntersectionObserver(
+      handleIntersection,
+      observerOptions
+    );
+
+    if (scrollableRowRef.current) {
+      const cards = scrollableRowRef.current.querySelectorAll(".review_card");
+      cards.forEach((card) => observer.observe(card));
+    }
 
     return () => {
-      window.removeEventListener("scroll", handleScroll);
+      observer.disconnect();
     };
-  }, []);
+  }, [Testimonial]);
 
   return (
-    <div className="client_review">
+    <div
+      className="client_review"
+      style={{
+        backgroundColor: backgroundColors,
+        padding: clientPadding,
+        backgroundImage: bgimage,
+      }}
+    >
       <Container fluid className="container-padding">
-        <div className="text-center client_review_title">
-          <h2>What Our Customers Are Saying</h2>
-        </div>
-        <div className="scrollable-row" ref={scrollableRowRef}>
+        {Client_Title_Show && (
+          <div className="text-center client_review_title">
+            <h2>What Our Customers Are Saying</h2>
+          </div>
+        )}
+        <div
+          className="scrollable-row"
+          style={{ paddingTop: scrollingTop }}
+          ref={scrollableRowRef}
+        >
           {Testimonial.map((item) => (
             <div key={item.id} className="flex-nowrap">
-              <div className="review_card">
-                <div className="">
+              <div
+                className="review_card"
+                style={{
+                  backgroundColor: reviewCard_color,
+                  width: reviewCard_width,
+                  height: reviewCard_height,
+                  marginTop: fullyVisibleCardIds.includes(item.id)
+                    ? "80px"
+                    : "0",
+                }}
+                data-id={item.id}
+              >
+                <div className="review_image">
                   <img src={item.image} alt="client_img" />
                 </div>
                 <h4>{item.name}</h4>
                 <p>{item.place}</p>
-                <h5>{item.review}</h5>
+                <h5 style={{ textAlign: reviewCard_center }}>{item.review}</h5>
               </div>
             </div>
           ))}

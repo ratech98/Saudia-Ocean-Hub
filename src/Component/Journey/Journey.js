@@ -6,7 +6,7 @@ import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 
-const Journey = () => {
+const Journey = ({ handleClick = () => {} }) => {
   return (
     <div>
       <Container fluid className="p-0">
@@ -23,7 +23,14 @@ const Journey = () => {
             }}
           >
             <div style={{ width: "100%" }}>
-              <img className="boat_img" src={Boat} alt="boat_carousal_img" />
+              <img
+                className="boat_img"
+                src={Boat}
+                alt="boat_carousal_img"
+                onClick={() => {
+                  handleClick("rental");
+                }}
+              />
             </div>
             <div style={{ width: "100%", marginLeft: "30px" }}>
               <img

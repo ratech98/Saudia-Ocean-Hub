@@ -1,7 +1,7 @@
-.client_review {
+/* .client_review {
   padding: 201px 0 200.1px;
   background-image: linear-gradient(to bottom, #70a8c0, #3c85a7 29%, #03487a 74%, #03487a);
-}
+} */
 
 .client_review_title h2 {
   font-family: Poppins;
@@ -19,6 +19,7 @@
   width: 99px;
   height: 99px;
   margin-top: -45px;
+  border-radius: 50%;
 }
 
 .review_card h4 {
@@ -55,13 +56,11 @@
   font-style: normal;
   line-height: 1.5;
   letter-spacing: normal;
-  text-align: left;
   color: #424651;
+  padding-top: 20px;
 }
 
 .review_card {
-  width: 361px;
-  height: 262px;
   padding: 0px 40px;
   border-radius: 15px;
   background-color: rgba(246, 246, 246, 0.7);
@@ -70,7 +69,6 @@
 }
 
 .scrollable-row {
-  padding-top: 220px;
   overflow-x: auto;
   display: flex;
   flex-wrap: nowrap;
@@ -84,7 +82,8 @@
   flex-shrink: 0;
   width: 300px; 
   margin-right: 20px;
-  transition: transform 0.3s ease;
+  margin-top: 0;
+  transition: margin-top 0.3s ease;
 }
 
 .scrollable-row::-webkit-scrollbar {

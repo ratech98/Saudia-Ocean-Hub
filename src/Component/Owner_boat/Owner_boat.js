@@ -9,7 +9,7 @@ import Clock from "../../assets/Images/clock.svg";
 import Grow from "../../assets/Images/grow.svg";
 import Web from "../../assets/Images/web.svg";
 
-const Owner_boat = () => {
+const Owner_boat = ({ handleClick = () => {} }) => {
   return (
     <div>
       <Container fluid className="d-flex">
@@ -55,7 +55,14 @@ const Owner_boat = () => {
               </Row>
             </div>
             <div style={{ textAlign: "start" }}>
-              <Button className="boat_owner_btn">List Your Boat Now</Button>
+              <Button
+                className="boat_owner_btn"
+                onClick={() => {
+                  handleClick("boatOwnerDashBoard");
+                }}
+              >
+                List Your Boat Now{" "}
+              </Button>
             </div>
           </Col>
           <Col className="p-0 w-50">
