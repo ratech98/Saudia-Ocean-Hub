@@ -12,13 +12,15 @@ import Footer from "../../Component/Footer/Footer";
 import Banner from "../../Component/Banner/Banner";
 import { useLocation, useNavigate } from "react-router-dom";
 import { BoatDetailCard } from "../new/BoatDetailCard";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
+import { verifyOTP } from "../../redux/slices";
 
 // import { useHistory } from "react-router-dom";
 
 const Home = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const auth = useSelector((state) => state?.auth);
 
   const link1 = "For Boat Owners";
@@ -103,6 +105,7 @@ const Home = () => {
 
   const handle_navigation = (pageName) => {
     console.log("pageName", pageName);
+    dispatch(verifyOTP(null));
     if (pageName === "Home") {
       if (auth?.tokenDecodeData?.user_type === "BOAT_OWNER") {
         navigate("/boatOwnerDashBoard");
@@ -134,18 +137,18 @@ const Home = () => {
         className={className}
         showInput={showInput}
         buttonStyle={buttonStyle}
-        // presentPage={"Home"}
+        presentPage={"Home"}
+        homeBtn={"Home"}
         link1={link1}
         link2={link2}
-        link3={link3}
         showItem={showItem}
         href1={href1}
         href2={href2}
-        href3={href3}
         showLogin={showLogin}
         showProfile={showProfile}
         num={num}
         num1={num1}
+        clicktoScroll={true}
       />
       <Journey handleClick={handle_navigation} />
       <Owner_boat handleClick={handle_navigation} />

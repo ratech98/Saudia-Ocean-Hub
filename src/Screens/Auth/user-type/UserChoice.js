@@ -17,61 +17,20 @@ export const UserChoice = () => {
   };
 
   return (
-    <div className="user-choice-header">
-      <img src={IMAGES.APP_ICON} alt="ICON" className="appIcon" />
+    <div className="user-choice-root">
+      <img src={IMAGES.APP_ICON} alt="ICON" className="app-icon" />
       <Container
-        style={{
-          // backgroundColor: "ActiveBorder",
-          padding: "20px 0px",
-          height: "100%",
-        }}
         // fluid
-        className="user-body"
+        className="body"
       >
-        {/* <div> */}
-        <Typography className="user-heading">
+        <Typography className="title-txt">
           Join Us In Saudia Ocean Hub
         </Typography>
 
-        {/* <div className="user-options"> */}
-
-        <Container
-          class="user-options"
-          style={{
-            // backgroundColor: "lightsalmon",
-            height: "100%",
-          }}
-        >
-          <Row
-            style={{
-              display: "flex",
-              height: "100%",
-
-              width: "100%",
-              margin: "0px",
-              padding: "0px",
-              // backgroundColor: "red",
-              justifyContent: "space-between",
-            }}
-          >
-            <Col
-              md={6}
-              sm={12}
-              style={{
-                margin: "0px",
-                padding: "0px",
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                // alignContent: "center",
-
-                // alignSelf: "center",
-                // backgroundColor: "yellow",
-              }}
-            >
+        <Container className="container-option">
+          <Row className="row-options">
+            <Col className="col-options" md={6} sm={12}>
               <div
-                // md={10}
-                // sm={12}
                 onClick={() => {
                   handleUser("BOAT_OWNER");
                 }}
@@ -84,28 +43,17 @@ export const UserChoice = () => {
                   }}
                   className="select-dot"
                 />
-                <Typography className="user-choice-text">
-                  I am a Boat Owner, offering my boat
-                </Typography>
+                <div className="text-box">
+                  <Typography className="option-text-style">
+                    I am a Boat Owner, offering my boat
+                  </Typography>
+                </div>
               </div>
             </Col>
 
             {/* ====================================================seleect=============================================== */}
-            <Col
-              md={6}
-              sm={12}
-              style={{
-                margin: "0px",
-                padding: "0px",
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                // backgroundColor: "lightseagreen",
-                // alignContent: "center",
-                // alignItems: "center",
-                // alignSelf: "center",
-              }}
-            >
+
+            <Col className="col-options" md={6} sm={12}>
               <div
                 md={6}
                 sm={10}
@@ -121,15 +69,15 @@ export const UserChoice = () => {
                   }}
                   className="select-dot"
                 />
-                <Typography className="user-choice-text">
-                  I am a Customer, looking for a new experience
-                </Typography>
+                <div className="text-box">
+                  <Typography className="option-text-style">
+                    I am a Customer, looking for a new experience
+                  </Typography>
+                </div>
               </div>
             </Col>
           </Row>
         </Container>
-
-        {/* </div> */}
 
         <Button
           onClick={() => {
@@ -154,7 +102,6 @@ export const UserChoice = () => {
             Log in
           </Typography>
         </div>
-        {/* </div> */}
       </Container>
     </div>
   );

@@ -38,6 +38,7 @@ import { SearchBoat } from "../Screens/Dash/Search/SearchBoat";
 import { Setting } from "../Screens/Dash/Settings-pages/Setting";
 
 const PrivateRoute = ({ children, session, type, screenName }) => {
+  console.log("children", children, "type", type);
   const navigate = useNavigate();
 
   const [calculateTime, setCalculateTime] = useState(false);
@@ -46,9 +47,10 @@ const PrivateRoute = ({ children, session, type, screenName }) => {
   useEffect(() => {
     const getCurrentSession = async () => {
       const token = localStorage.getItem("session");
-
+      console.log("token", token);
       if (token) {
         let tokenDecode = jwt_decode(token);
+        console.log("tokenDecode", tokenDecode);
         const currentTimestamp = Math.floor(Date.now() / 1000);
         console.log("auth condition", currentTimestamp < tokenDecode.exp);
         if (currentTimestamp < tokenDecode.exp) {

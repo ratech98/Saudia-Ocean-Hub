@@ -31,7 +31,26 @@ const Navbar = ({
   num,
   num1,
   backgroundColor,
+  clicktoScroll = false,
+  homeBtn,
+  homeBtnHref,
 }) => {
+  console
+    .log
+    // "nav bar ",
+    // link1
+    // link2,
+    // link3,
+    // showItem,
+    // href1,
+    // href2,
+    // href3,
+    // showLogin,
+    // showProfile,
+    // num,
+    // num1,
+    // backgroundColor
+    ();
   const navigate = useNavigate();
   const location = useLocation();
   const [openModal, setOpenModal] = useState(false);
@@ -76,13 +95,14 @@ const Navbar = ({
   // console.log("location", location.pathname);
 
   const handle_navigation = (pageName) => {
-    console.log("pageName", pageName);
+    // console.log("pageName", pageName);
     if (pageName === "Home") {
-      if (auth?.tokenDecodeData?.user_type === "BOAT_OWNER") {
-        navigate("/boatOwnerDashBoard");
-      } else {
-        navigate("/rental");
-      }
+      navigate("/");
+      // if (auth?.tokenDecodeData?.user_type === "BOAT_OWNER") {
+      //   navigate("/boatOwnerDashBoard");
+      // } else {
+      //   navigate("/rental");
+      // }
     } else if (pageName === "rental") {
       navigate("/rental");
     } else if (pageName === "boatOwnerDashBoard") {
@@ -110,71 +130,77 @@ const Navbar = ({
           </Col>
           <Col sm={7} className="d-flex align-items-center">
             <Nav>
-              {console.log('presentPage === "Home"', presentPage === "Home")}
               <Nav.Item>
                 <Typography
                   className="custom-text-style"
                   style={{
-                    color: presentPage === "Home" ? "#026b93" : "#424651",
-                    textDecoration:
-                      presentPage === "Home" ? "underline" : "none",
+                    color: presentPage === homeBtn ? "#026b93" : "#424651",
+                    marginLeft: "25px",
                   }}
-                  onClick={() => handle_navigation("Home")}
+                  onClick={() => navigate(homeBtnHref)}
                 >
-                  Home
+                  {homeBtn}
                 </Typography>
               </Nav.Item>
-              {!auth?.AuthToken ? (
+              {link1 ? (
                 <>
                   <Nav.Item>
-                    {/* <Nav.Link href="" eventKey="link-1">
-                  For Boat Owners
-                </Nav.Link> */}
                     <Typography
                       className="custom-text-style"
                       style={{
-                        color:
-                          presentPage === "For Boat Owners"
-                            ? "#026b93"
-                            : "#424651",
-                        textDecoration:
-                          presentPage === "For Boat Owners"
-                            ? "underline"
-                            : "none",
+                        color: presentPage === link1 ? "#026b93" : "#424651",
+
                         marginLeft: "25px",
                       }}
-                      //   onClick={() => handle_navigation("boatOwnerDashBoard")}
+                      //   onClick={() => }
                       onClick={() => {
-                        handleLink1Click();
+                        clicktoScroll
+                          ? handleLink1Click()
+                          : handle_navigation("/");
                       }}
                     >
-                      For Boat Owners
-                    </Typography>
-                  </Nav.Item>
-                  <Nav.Item>
-                    {/* <Nav.Link href="">For Boat Rentals</Nav.Link> */}
-                    <Typography
-                      className="custom-text-style"
-                      style={{
-                        color:
-                          presentPage === "For Boat Rentals"
-                            ? "#026b93"
-                            : "#424651",
-                        textDecoration:
-                          presentPage === "For Boat Owners"
-                            ? "underline"
-                            : "none",
-                        marginLeft: "25px",
-                      }}
-                      onClick={() => {
-                        // handle_navigation("rental");
-                        handleLink1Click2();
-                      }}
-                    >
-                      For Boat Rentals
+                      {link1}
                     </Typography>
                   </Nav.Item>
                 </>
+              ) : null}
+              {link2 ? (
+                <Nav.Item>
+                  <Typography
+                    className="custom-text-style"
+                    style={{
+                      color: presentPage === link2 ? "#026b93" : "#424651",
+
+                      marginLeft: "25px",
+                    }}
+                    onClick={() => {
+                      clicktoScroll
+                        ? handleLink1Click2()
+                        : handle_navigation("");
+                    }}
+                  >
+                    {link2}
+                  </Typography>
+                </Nav.Item>
+              ) : null}
+              {link3 ? (
+                <Nav.Item>
+                  <Typography
+                    className="custom-text-style"
+                    style={{
+                      color: presentPage === link2 ? "#026b93" : "#424651",
+
+                      marginLeft: "25px",
+                    }}
+                    onClick={() => {
+                      clicktoScroll
+                        ? handleLink1Click2()
+                        : handle_navigation("");
+                    }}
+                  >
+                    {link3}
+                  </Typography>
+                </Nav.Item>
               ) : null}
             </Nav>
           </Col>
@@ -182,10 +208,19 @@ const Navbar = ({
             {showLoginSignUp ? (
               <Nav>
                 <Nav.Item>
-                  <Nav.Link href="/logIn">Login</Nav.Link>
+                  <Nav.Link
+                    href="/logIn"
+                    style={{ fontWeight: "bolder", fontSize: "15px" }}
+                  >
+                    Login
+                  </Nav.Link>
                 </Nav.Item>
                 <Nav.Item>
-                  <Nav.Link eventKey="link-1" href="/userChoice">
+                  <Nav.Link
+                    eventKey="link-1"
+                    href="/userChoice"
+                    style={{ fontWeight: "bolder", fontSize: "15px" }}
+                  >
                     SignUp
                   </Nav.Link>
                 </Nav.Item>

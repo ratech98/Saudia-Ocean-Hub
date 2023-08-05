@@ -24,6 +24,7 @@ import {
   Password,
   TokenDecodeData,
   UserId,
+  verifyOTP,
 } from "../../redux/slices";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -99,6 +100,7 @@ export const LogIn = () => {
   });
 
   useEffect(() => {
+    console.log("user?.verifyOTPpage", user?.verifyOTPpage);
     if (user?.verifyOTPpage === "VERIFY_OTP") {
       const blockBackButton = (e) => {
         e.preventDefault();
@@ -110,7 +112,7 @@ export const LogIn = () => {
         window.removeEventListener("popstate", blockBackButton);
       };
     }
-  }, [location.pathname, navigate]);
+  }, [location.pathname, navigate, user?.verifyOTPpage]);
 
   const handleSubmit = async (value, type) => {
     toast.dismiss();
@@ -147,7 +149,7 @@ export const LogIn = () => {
           dispatch(UserId(res?.data?.user_id));
           dispatch(AuthToken(res?.data?.token));
           localStorage.setItem("session", res?.data?.token);
-
+          dispatch(verifyOTP(null));
           tokenDecode?.user_type === "BOAT_OWNER"
             ? navigate("/boatOwnerDashBoard")
             : navigate("/rental");

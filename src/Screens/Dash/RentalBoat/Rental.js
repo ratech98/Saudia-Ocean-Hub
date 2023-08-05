@@ -13,6 +13,18 @@ import { BoatDetailCard } from "../../new/BoatDetailCard";
 import { boat_list_filter } from "../../../Service/api";
 import { search_boat_id } from "../../../redux/slices";
 
+const link1 = "Boat Offers";
+const link2 = "Scuba Courses/Programs";
+const link3 = "Scuba Diving Trips";
+const href1 = "#";
+const href2 = "#";
+const href3 = "#";
+const num = "7";
+const num1 = "2";
+const showItem = false;
+const showLogin = true;
+const showProfile = false;
+
 export const Rental = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -48,15 +60,17 @@ export const Rental = () => {
   }, []);
 
   useEffect(() => {
-    const blockBackButton = (e) => {
-      e.preventDefault();
-      navigate(location.pathname);
-    };
-    window.history.pushState(null, null, window.location.pathname);
-    window.addEventListener("popstate", blockBackButton);
-    return () => {
-      window.removeEventListener("popstate", blockBackButton);
-    };
+    if (auth?.AuthToken) {
+      const blockBackButton = (e) => {
+        e.preventDefault();
+        navigate(location.pathname);
+      };
+      window.history.pushState(null, null, window.location.pathname);
+      window.addEventListener("popstate", blockBackButton);
+      return () => {
+        window.removeEventListener("popstate", blockBackButton);
+      };
+    }
   }, [location.pathname, navigate]);
 
   return (
@@ -79,6 +93,19 @@ export const Rental = () => {
         extraInputValue={extraInputValue}
         handleExtraInputChange={handleExtraInputChange}
         presentPage={"Home"}
+        homeBtn={"Home"}
+        homeBtnHref={"/rental"}
+        link1={link1}
+        link2={link2}
+        link3={link3}
+        showItem={showItem}
+        href1={href1}
+        href2={href2}
+        href3={href3}
+        showLogin={showLogin}
+        showProfile={showProfile}
+        num={num}
+        num1={num1}
       />
       {/* <Container
         style={{

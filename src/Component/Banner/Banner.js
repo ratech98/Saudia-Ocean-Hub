@@ -22,6 +22,21 @@ const Banner = ({
   inputStyle,
   buttonStyle,
   presentPage,
+  showHeader = true,
+  link1,
+  link2,
+  link3,
+  showItem,
+  href1,
+  href2,
+  href3,
+  showLogin,
+  showProfile,
+  num,
+  num1,
+  clicktoScroll,
+  homeBtn,
+  homeBtnHref,
 }) => {
   const [windowHeight, setWindowHeight] = useState(window.innerHeight);
 
@@ -46,7 +61,26 @@ const Banner = ({
         height: windowHeight,
       }}
     >
-      <Header presentPage={presentPage} />
+      {showHeader ? (
+        <Header
+          presentPage={presentPage}
+          link1={link1}
+          link2={link2}
+          link3={link3}
+          showItem={showItem}
+          href1={href1}
+          href2={href2}
+          href3={href3}
+          showLogin={showLogin}
+          showProfile={showProfile}
+          num={num}
+          num1={num1}
+          backgroundColor={backgroundColor}
+          clicktoScroll={clicktoScroll}
+          homeBtn={homeBtn}
+          homeBtnHref={homeBtnHref}
+        />
+      ) : null}
       <Container className="">
         <div className={`pt-5 ${className}`}>
           <div>

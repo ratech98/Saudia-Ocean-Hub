@@ -197,7 +197,7 @@ export const HeaderContent = ({
   return (
     <>
       <div class={showline ? "root-border" : "root"}>
-        <div class="body">
+        <div class="body-tag">
           <div class="firstRowContent">
             <img alt="iocn" src={IMAGES.APP_ICON} className="appIcon" />
 
@@ -212,121 +212,107 @@ export const HeaderContent = ({
                   {contentname1 ? (
                     <>
                       <Nav.Item>
-                        <Nav.Link
+                        <Typography
+                          className="content-name"
                           style={{
-                            color: "blue",
-
-                            // presentPage === contentname1
-                            // ? "#026b93"
-                            //   : "#424651",
-                            textDecoration:
+                            color:
                               presentPage === contentname1
-                                ? `underline`
-                                : "none",
+                                ? "#026b93"
+                                : "#424651",
+
+                            margin: "0px 25px",
                           }}
+                          //   onClick={() => }
                           onClick={() => {
                             handleBack(contentname1);
                           }}
-                          className="contentName"
                         >
                           {contentname1}
-                        </Nav.Link>
+                        </Typography>
                       </Nav.Item>
                     </>
                   ) : null}
                   {contentname2 ? (
                     <>
                       <Nav.Item>
-                        <Nav.Link
+                        <Typography
                           style={{
+                            margin: "0px 25px",
                             color:
                               presentPage === contentname2
                                 ? "#026b93"
                                 : "#424651",
-                            textDecoration:
-                              presentPage === contentname2
-                                ? `underline`
-                                : "none",
                           }}
                           onClick={() => {
                             handleBack(contentname2);
                           }}
-                          className="contentName"
+                          className="content-name"
                         >
                           {contentname2}
-                        </Nav.Link>
+                        </Typography>
                       </Nav.Item>
                     </>
                   ) : null}
                   {contentname3 ? (
                     <>
                       <Nav.Item>
-                        <Nav.Link
+                        <Typography
                           style={{
+                            margin: "0px 25px",
                             color:
                               presentPage === contentname3
                                 ? "#026b93"
                                 : "#424651",
-                            textDecoration:
-                              presentPage === contentname3
-                                ? `underline`
-                                : "none",
                           }}
                           onClick={() => {
                             handleBack(contentname3);
                           }}
-                          className="contentName"
+                          className="content-name"
                         >
                           {contentname3}
-                        </Nav.Link>
+                        </Typography>
                       </Nav.Item>
                     </>
                   ) : null}
                   {contentname4 ? (
                     <>
                       <Nav.Item>
-                        <Nav.Link
+                        <Typography
                           style={{
+                            margin: "0px 25px",
                             color:
                               presentPage === contentname4
                                 ? "#026b93"
                                 : "#424651",
-                            textDecoration:
-                              presentPage === contentname4
-                                ? `underline`
-                                : "none",
                           }}
                           onClick={() => {
                             handleBack(contentname4);
                           }}
-                          className="contentName"
+                          className="content-name"
                         >
                           {contentname4}
-                        </Nav.Link>
+                        </Typography>
                       </Nav.Item>
                     </>
                   ) : null}
                   {contentname5 ? (
                     <>
                       <Nav.Item>
-                        <Nav.Link
+                        <Typography
                           style={{
+                            margin: "0px 25px",
                             color:
                               presentPage === contentname5
                                 ? "#026b93"
                                 : "#424651",
-                            textDecoration:
-                              presentPage === contentname5
-                                ? `underline`
-                                : "none",
                           }}
                           onClick={() => {
                             handleBack(contentname5);
                           }}
-                          className="contentName"
+                          className="content-name"
                         >
                           {contentname5}
-                        </Nav.Link>
+                        </Typography>
                       </Nav.Item>
                     </>
                   ) : null}
@@ -347,7 +333,7 @@ export const HeaderContent = ({
                           onClick={() => {
                             handleBack(contentname6);
                           }}
-                          className="contentName"
+                          className="content-name"
                         >
                           {contentname6}
                         </Nav.Link>
