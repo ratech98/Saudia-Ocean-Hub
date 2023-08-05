@@ -18,10 +18,14 @@ export const BookingHistory = () => {
 
   const handleHeaderCallBack = (name) => {
     if (name === "Home") {
-      if (auth?.tokenDecodeData?.user_type === "BOAT_OWNER") {
-        navigate("/boatOwnerDashBoard");
+      if (auth?.AuthToken) {
+        if (auth?.tokenDecodeData?.user_type === "BOAT_OWNER") {
+          navigate("/boatOwnerDashBoard");
+        } else {
+          navigate("/rental");
+        }
       } else {
-        navigate("/rental");
+        navigate("/");
       }
     } else if (name === "Log In") {
       navigate("/logIn");
