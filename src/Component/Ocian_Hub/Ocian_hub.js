@@ -22,18 +22,22 @@ const Ocian_hub = () => {
                 backgroundImage: `url(${Ellipse})`,
                 backgroundSize: "contain",
                 backgroundRepeat: "no-repeat",
-                width: 180,
-                height: 180,
+                width: 140,
+                height: 140,
                 display: "grid",
                 alignContent: "center",
                 justifyContent: "center",
               }}
             >
-              <img src={Handshake} alt="handshake" />
+              <img
+                src={Handshake}
+                alt="handshake"
+                style={{ height: 47, width: 71.7 }}
+              />
             </div>
             <div className="ocian_image_box_title">
               <h4>Flexibility</h4>
-              <p>
+              <p style={{ width: "270px" }}>
                 At Saudia Ocean Hub, we believe in giving our customers the
                 flexibility to plan their bookings according to their own
                 schedule.
@@ -46,18 +50,22 @@ const Ocian_hub = () => {
                 backgroundImage: `url(${Ellipse})`,
                 backgroundSize: "contain",
                 backgroundRepeat: "no-repeat",
-                width: 180,
-                height: 180,
+                width: 140,
+                height: 140,
                 display: "grid",
                 alignContent: "center",
                 justifyContent: "center",
               }}
             >
-              <img src={Start} alt="Start" />
+              <img
+                src={Start}
+                alt="Start"
+                style={{ height: 47, width: 71.7 }}
+              />
             </div>
             <div className="ocian_image_box_title">
               <h4>100% Trust Worthy</h4>
-              <p>
+              <p style={{ width: "270px" }}>
                 At Saudia Ocean Hub, we take pride in offering a safe and secure
                 platform for all of our users. We ensure that all of our boats
                 are fully licensed and certified.
@@ -70,18 +78,22 @@ const Ocian_hub = () => {
                 backgroundImage: `url(${Ellipse})`,
                 backgroundSize: "contain",
                 backgroundRepeat: "no-repeat",
-                width: 180,
-                height: 180,
+                width: 140,
+                height: 140,
                 display: "grid",
                 alignContent: "center",
                 justifyContent: "center",
               }}
             >
-              <img src={Shift} alt="Shift" />
+              <img
+                src={Shift}
+                alt="Shift"
+                style={{ height: 47, width: 71.7 }}
+              />
             </div>
             <div className="ocian_image_box_title">
               <h4>Professional Connection</h4>
-              <p>
+              <p style={{ width: "270px" }}>
                 At Saudia Ocean Hub, we care about providing a unique
                 opportunity for all of our customers to connect together and
                 expand their network.

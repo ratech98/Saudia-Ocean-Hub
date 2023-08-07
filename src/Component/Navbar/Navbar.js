@@ -95,7 +95,7 @@ const Navbar = ({
   // console.log("location", location.pathname);
 
   const handle_navigation = (pageName) => {
-    // console.log("pageName", pageName);
+    console.log("pageName", pageName);
     if (pageName === "Home") {
       navigate("/");
       // if (auth?.tokenDecodeData?.user_type === "BOAT_OWNER") {

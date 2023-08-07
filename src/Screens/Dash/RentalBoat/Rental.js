@@ -95,7 +95,7 @@ export const Rental = () => {
         handleExtraInputChange={handleExtraInputChange}
         presentPage={"Home"}
         homeBtn={"Home"}
-        homeBtnHref={auth?.AuthToken ? "/rental" : "/"}
+        homeBtnHref={auth?.AuthToken ? "/rental" : "/rental"}
         link1={link1}
         link2={link2}
         link3={link3}
@@ -126,8 +126,8 @@ export const Rental = () => {
           flex: 1,
           paddingTop: 80,
           // width: window.innerWidth,
-          paddingRight: 30,
-          paddingLeft: 30,
+          paddingRight: 120,
+          paddingLeft: 120,
 
           justifyContent: "space-between",
         }}
@@ -196,8 +196,8 @@ export const Rental = () => {
                   margin: "27.5px",
                 }}
                 onClick={() => {
-                  navigate("/boatViewDetails");
-                  dispatch(search_boat_id(item?.boat_id));
+                  //   navigate("/boatViewDetails");
+                  //   dispatch(search_boat_id(item?.boat_id));
                 }}
               >
                 <BoatDetailCard
@@ -351,15 +351,15 @@ const boatListData_dummy = [
     boat_max_capacity: "100",
     image: IMAGES.boat3,
   },
-  {
-    id: 4,
-    boat_name: "Al Saif",
-    marine_city: "Indigo Beach",
-    price_per_hour: "8",
-    price_currency: "SAR",
-    boat_max_capacity: "100",
-    image: IMAGES.boat4,
-  },
+  //   {
+  //     id: 4,
+  //     boat_name: "Al Saif",
+  //     marine_city: "Indigo Beach",
+  //     price_per_hour: "8",
+  //     price_currency: "SAR",
+  //     boat_max_capacity: "100",
+  //     image: IMAGES.boat4,
+  //   },
 ];
 
 const backgroundImage = Boat_Experience;

@@ -9,16 +9,34 @@ const Cretified = () => {
   return (
     <div className="certified">
       <Container fluid>
-        <Row>
+        <Row
+        // style={{ display: "flex" }}
+        >
           <Col className="justify-content-center certified__title">
-            <h2>Trusted by PADI®</h2>
+            <h2>
+              Trusted by <span style={{ fontWeight: "bolder" }}>PADI®</span>
+            </h2>
             <p>
               Saudia Ocean Hub is officially certified as an official hub for
               scuba by PADI Professional Association of Diving Instructors
             </p>
           </Col>
-          <Col className="certified_img text-center">
-            <img src={Cretificate} alt="Cretificate" />
+          <Col
+            style={{
+              //   backgroundColor: "red",
+              justifyContent: "flex-end",
+              display: "flex",
+            }}
+            className=""
+          >
+            <img
+              src={Cretificate}
+              alt="Cretificate"
+              style={{
+                width: "297.1px",
+                height: "99.5px",
+              }}
+            />
           </Col>
         </Row>
       </Container>

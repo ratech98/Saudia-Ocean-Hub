@@ -44,7 +44,11 @@ const Owner_boat = ({ handleClick = () => {} }) => {
               </Row>
               <Row>
                 <Col sm={2} className="p-0 text-start">
-                  <img src={Web} alt="web" />
+                  <img
+                    src={Web}
+                    alt="web"
+                    style={{ alignSelf: "center", display: "flex" }}
+                  />
                 </Col>
                 <Col>
                   <p>

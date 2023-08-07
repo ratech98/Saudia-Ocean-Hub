@@ -5,10 +5,10 @@
 .certified__title h2{
   padding-bottom: 40px;
   font-family: Poppins;
-  font-size: 48px;
+  font-size: 38px;
   font-weight: normal;
   font-stretch: normal;
-  font-style: normal;
+  /* font-style: normal; */
   line-height: 0.48;
   letter-spacing: normal;
   text-align: left;
@@ -16,7 +16,7 @@
 }
 .certified__title p{
   font-family: Poppins;
-  font-size: 24px;
+  font-size: 16px;
   font-weight: normal;
   font-stretch: normal;
   font-style: normal;
@@ -26,6 +26,6 @@
   color: rgba(66, 70, 81, 0.6);
 }
 .certified_img{
-  width: 357.1px;
-  height: 139.5px;
+  width: 297.1px;
+  height: 99.5px;
 }

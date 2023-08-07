@@ -82,8 +82,8 @@ const Home = () => {
   const Client_Title_Show = true;
   const screenTop = 220;
   const reviewCard_color = " rgba(246, 246, 246, 0.7)";
-  const reviewCard_height = 299;
-  const reviewCard_width = 425;
+  const reviewCard_height = 262;
+  const reviewCard_width = 320;
   const reviewCard_center = "left";
   const bgimage =
     "linear-gradient(to bottom, #70a8c0, #3c85a7 29%, #03487a 74%, #03487a)";

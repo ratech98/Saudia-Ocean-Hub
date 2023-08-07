@@ -336,6 +336,9 @@ export const BoatDetailCard = ({
               ...Image1Spring,
               backgroundImage: `url(${profile_image ?? IMAGES.APP_ICON})`,
               backgroundSize: profile_image ? "cover" : "contain",
+              //   height: 250,
+              //   width: 250,
+              borderRadius: 0,
             }}
           ></Image1>
         </Tooltip>

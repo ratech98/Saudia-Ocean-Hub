@@ -47,12 +47,10 @@ const PrivateRoute = ({ children, session, type, screenName }) => {
   useEffect(() => {
     const getCurrentSession = async () => {
       const token = localStorage.getItem("session");
-      console.log("token", token);
       if (token) {
         let tokenDecode = jwt_decode(token);
-        console.log("tokenDecode", tokenDecode);
         const currentTimestamp = Math.floor(Date.now() / 1000);
-        console.log("auth condition", currentTimestamp < tokenDecode.exp);
+
         if (currentTimestamp < tokenDecode.exp) {
           if (tokenDecode.user_type === type) {
             setCalculateTime(true);

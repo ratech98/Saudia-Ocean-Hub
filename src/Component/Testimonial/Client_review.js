@@ -102,8 +102,21 @@ const Client_review = ({
     >
       <Container fluid className="container-padding">
         {Client_Title_Show && (
-          <div className="text-center client_review_title">
-            <h2>What Our Customers Are Saying</h2>
+          <div className="text-center ">
+            <h2
+              className="client_review_title"
+              style={{ color: "rgba(246, 246, 246, 0.87)" }}
+            >
+              What Our{" "}
+              <span
+                style={{
+                  fontWeight: "bold",
+                  color: "rgba(246, 246, 246, 0.87)",
+                }}
+              >
+                Customers Are Saying
+              </span>
+            </h2>
           </div>
         )}
         <div

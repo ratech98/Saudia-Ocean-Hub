@@ -17,9 +17,10 @@
   margin-top: 50px;
   font-family: Poppins;
   font-size: 45px;
-  font-weight: 500;
+  font-weight: 900;
   font-stretch: normal;
-  font-style: normal;
+  font-size: 45px;
+  /* font-style: normal; */
   line-height: 1.27;
   letter-spacing: normal;
   text-align: left;
@@ -40,10 +41,11 @@
 .boat_owner_btn{
   margin-top: 50px;
   font-family: Poppins;
-  font-size: 30px;
-  font-weight: 500;
-  font-stretch: normal;
-  font-style: normal;
+  font-size: 18px;
+  font-weight: bolder;
+  border-width: 2px;
+  /* font-stretch: normal; */
+  /* font-style: normal; */
   line-height: 1.33;
   letter-spacing: normal;
   text-align: center;
@@ -61,7 +63,7 @@
 }
 .boat_owners_desc p{
   font-family: Poppins;
-  font-size: 20px;
+  font-size: 18px;
   font-weight: 600;
   font-stretch: normal;
   font-style: normal;

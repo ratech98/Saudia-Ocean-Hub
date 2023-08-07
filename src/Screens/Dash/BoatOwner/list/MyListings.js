@@ -37,7 +37,8 @@ export const MyListings = () => {
       if (auth?.tokenDecodeData?.user_type === "BOAT_OWNER") {
         navigate("/boatOwnerDashBoard");
       } else {
-        navigate("/rental");
+        // navigate("/rental");
+        navigate("/boatOwnerDashBoard");
       }
     } else if (name === "Log In") {
       navigate("/logIn");
