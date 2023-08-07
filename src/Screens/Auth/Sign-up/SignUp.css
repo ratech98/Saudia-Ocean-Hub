@@ -1,0 +1,307 @@
+.full-box {
+  width: 100%;
+  /* height: 100vh; */
+  height: auto;
+  background-color: #f6f6f6;
+  /* background-color: rebeccapurple; */
+  padding: 0px;
+  margin: 0px;
+}
+
+.formStyle {
+  width: 100%;
+  /* height: 100vh; */
+  height: 100%;
+  /* background-color: #f6f6f6; */
+  padding: 0px;
+  margin: 0px;
+}
+
+.appIconStyle {
+  margin-left: 140px;
+  width: 200px;
+  height: 100px;
+}
+
+.body-content {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  align-self: flex-start;
+  align-content: flex-start;
+  justify-content: flex-start;
+  /* background-color: antiquewhite; */
+  padding: 0px 10px;
+  margin: 0px;
+}
+
+.body-content .page-title {
+  font-size: 45px;
+  font-family: Poppins;
+  line-height: 0.89;
+  color: #424651;
+  font-weight: bold;
+  padding: 0px;
+  /* margin: -40px 0px 0px 0px; */
+}
+
+.body-content .title-info {
+  /* margin-top: 11px; */
+  font-size: 30px;
+  font-family: Poppins;
+  line-height: 1.33;
+  font-weight: 500;
+  font-size: normal;
+  text-align: center;
+  color: #424651;
+}
+
+.login-div {
+  display: flex;
+  margin-top: 15px;
+  flex-direction: row;
+  align-self: center;
+  text-align: center;
+}
+
+.login-div .acc-txt {
+  color: #424651;
+  font-size: 14px;
+  font-family: Poppins;
+  font-weight: normal;
+  text-align: center;
+}
+
+.login-div .login-txt {
+  margin-left: 40px;
+  color: #424651;
+  font-size: 14px;
+  font-family: Poppins;
+  font-weight: normal;
+  text-decoration: underline;
+  text-align: center;
+}
+
+/* Styles for the checkbox checked state */
+.checkBoxcheckedstyle {
+  color: #424651;
+  border: 1px solid rgba(66, 70, 81, 0.4);
+  border-radius: 1px;
+  width: 22px;
+  height: 22px;
+  align-self: center;
+  align-items: center;
+  align-content: center;
+  justify-content: center;
+  display: flex;
+}
+
+.first-field {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
+  margin: 40px 0px 0px 0px;
+  padding: 0px;
+  /* background-color: aquamarine; */
+}
+
+.first-field .text-fileds {
+  margin: 0px;
+  border-radius: 5px;
+  width: 45%;
+}
+
+.first-field .text-field-inputs {
+  font-size: 16px;
+  font-family: Poppins;
+  color: #424651;
+  padding: 10px;
+  border-bottom: none;
+  background-color: #fff;
+  border-radius: 5px;
+  box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.09);
+}
+
+.body-content .text-filed {
+  margin: 0px;
+  border-radius: 5px;
+  width: 55%;
+  margin-top: 20px;
+}
+
+.body-content .text-inputs {
+  font-size: 16px;
+  font-family: Poppins;
+  color: #424651;
+  padding: 10px;
+  border-bottom: none;
+  background-color: #fff;
+  border-radius: 5px;
+  box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.09);
+  /* background-color: #026b93; */
+}
+
+.pwd-div {
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  width: 100%;
+  max-width: 55%;
+  margin: 0 auto;
+}
+
+.end-content {
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  width: 100%;
+  margin-top: 15px;
+  padding-bottom: 15px;
+  /* background-color: coral; */
+}
+
+.end-content .btnStyle {
+  width: 100%;
+  background-color: #026b93;
+  color: white;
+  font-size: 14px;
+  font-family: Poppins;
+  font-weight: bold;
+  text-transform: none;
+  box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.09);
+  padding: 10px;
+}
+.end-content .btnStyle:hover {
+  background-color: #025977;
+}
+
+.error-msg-txt {
+  color: #dc143c;
+  font-size: 11;
+  font-family: Poppins;
+  margin-top: 5px;
+}
+
+.pwd-filed {
+  background-color: #fff;
+  box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.09);
+  margin-top: 20px;
+  border-radius: 5px;
+  display: flex;
+  align-self: center;
+  align-items: center;
+  align-content: center;
+  width: 100%;
+  padding: 0px 10px 0px 0px;
+}
+
+.pwd-filed .pwd-txt-input {
+  font-size: 16px;
+  font-family: Poppins;
+  color: #424651;
+  border-bottom: none;
+  background-color: #fff;
+  padding: 0px;
+  padding: 0px 0px 0px 15px;
+}
+
+.check-box-div {
+  display: flex;
+  flex-direction: column;
+}
+
+.unChecked-box {
+  border: 1px solid rgba(66, 70, 81, 0.4);
+  border-radius: 1px;
+  width: 22px;
+  height: 22px;
+}
+
+.checked-box {
+  color: #424651;
+  border: 1px solid rgba(66, 70, 81, 0.4);
+  border-radius: 1px;
+  width: 22px;
+  height: 22px;
+  align-self: center;
+  align-items: center;
+  align-content: center;
+  justify-content: center;
+  display: flex;
+}
+
+.check-box-txt {
+  font-size: 14px;
+  font-family: Poppins;
+  color: rgba(66, 70, 81, 0.87);
+}
+
+.agree-info-txt {
+  font-size: 14px;
+  font-family: Poppins;
+  color: rgba(66, 70, 81, 0.87);
+}
+
+.err-term-service-txt {
+  color: #dc143c;
+  font-size: 12px;
+  font-family: Poppins;
+  margin-top: -10px;
+  /* background-color: aquamarine; */
+}
+
+.pwd-strength-div {
+  border-color: white;
+  border-radius: 5px;
+  border-width: 1;
+  border-style: solid;
+  align-self: center;
+  flex: 0.5;
+  background-color: white;
+  position: absolute;
+  right: 4%;
+  display: flex;
+  justify-content: center;
+  padding: 10px;
+  box-sizing: border-box;
+  box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.09);
+  /* width: 100%; */
+  /* max-width: 13%; */
+  height: auto;
+  margin-top: 10px;
+  /* background-color: lightpink; */
+  display: flex;
+  flex-direction: column;
+  width: 20%;
+}
+.pwd-strength-title {
+  color: #424651;
+  font-size: 14px;
+  font-family: Poppins;
+  font-weight: revert;
+}
+
+.pwd-strength-info-marker {
+  height: 5px;
+  width: 100%;
+  border: solid 0.5px rgba(66, 70, 81, 0.3);
+  margin-top: 10px;
+  margin-bottom: 10px;
+  /* background-color: #025977; */
+}
+
+.pwd-strength-info-txt {
+  color: #424651;
+  font-size: 12px;
+  font-family: Poppins;
+  font-weight: normal;
+  letter-spacing: 0;
+  /* background-color: #dc143c; */
+}
+
+@media (max-width: 467px) {
+  .pwd-strength-div {
+    display: block;
+  }
+}

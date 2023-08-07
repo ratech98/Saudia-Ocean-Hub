@@ -1,12 +1,14 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Button, Container, Grid, TextField, Typography } from "@mui/material";
+import { Button, Grid, TextField, Typography } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
-import { resend_otp, verifyOtp } from "../../Service/api";
-import { EmailId, confirmTickMsg, verifyOTP } from "../../redux/slices";
-import IMAGES from "../Images";
+import { resend_otp, verifyOtp } from "../../../Service/api";
+import { EmailId, confirmTickMsg, verifyOTP } from "../../../redux/slices";
+import IMAGES from "../../Images";
 import { toast } from "react-toastify";
-import Loader from "../Loader";
+import Loader from "../../Loader";
+import "./VerifyOTP.css";
+import { Container } from "react-bootstrap";
 
 const useOtpInputRefs = (length) => {
   const inputRefs = React.useMemo(() => {
@@ -142,50 +144,27 @@ const VerifyOTP = () => {
   };
 
   return (
-    <div
-      style={{
-        width: "100%",
-        height: "100vh",
-        backgroundColor: "#f6f6f6",
-        paddingBottom: "100px",
-      }}
-    >
+    <div className="verify-otp-full-container">
       {isLoading ? <Loader loading={isLoading} /> : null}
-      <img
-        src={IMAGES.APP_ICON}
-        alt="ICON"
-        style={{
-          marginLeft: "140px",
-          width: "200px",
-          height: "100px",
-        }}
-      />
-      <div
-        style={{
-          display: "flex",
-          height: "90%",
-        }}
-      >
-        <Container
-          sx={{}}
-          style={{
-            backgroundColor: "white",
-            width: "65%",
-            display: "flex",
-            justifyContent: "center",
+      <div className="icon-div">
+        <Grid
+          item
+          className="top-back-button"
+          onClick={() => {
+            dispatch(EmailId(null));
+            navigate(-1);
           }}
         >
+          <img src={IMAGES.LEFT_BACK_BUTTON} className="back-icon" alt="Back" />
+        </Grid>
+        <img src={IMAGES.APP_ICON} alt="ICON" className="app-icon-style" />
+      </div>
+      <div className="body-content">
+        <Container className="verify-otp-body-container">
           <Grid container direction="column">
             <Grid
               item
-              sx={{
-                marginTop: "20px",
-                display: "flex",
-                cursor: "pointer",
-                alignItems: "center",
-                alignSelf: "flex-start",
-                marginLeft: "10px",
-              }}
+              className="back-button"
               onClick={() => {
                 dispatch(EmailId(null));
                 navigate(-1);
@@ -193,65 +172,27 @@ const VerifyOTP = () => {
             >
               <img
                 src={IMAGES.LEFT_BACK_BUTTON}
-                style={{
-                  width: "14px",
-                  height: "18px",
-                }}
+                className="back-icon"
                 alt="Back"
               />
-              <Typography
-                variant="subtitle1"
-                sx={{
-                  fontSize: "20px",
-                  fontFamily: "Poppins",
-                  fontWeight: "normal",
-                  color: "#3973a5",
-                  marginLeft: "16px",
-                }}
-              >
+              <Typography variant="subtitle1" className="back-txt">
                 Back
               </Typography>
             </Grid>
 
-            <Grid
-              item
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-              }}
-            >
+            <div className="inside-content-box">
               <img
                 src={IMAGES.VERIFY_ACC}
                 alt="Verify Acc"
-                style={{ width: "260px", height: "220px" }}
+                style={{}}
+                className="verify-acc-icon"
               />
 
-              <Typography
-                variant="h4"
-                sx={{
-                  fontSize: "40px",
-                  fontFamily: "Poppins",
-                  fontWeight: "550",
-
-                  color: "black",
-                  textAlign: "center",
-                }}
-              >
+              <Typography className="please-txt">
                 Please Verify Account
               </Typography>
 
-              <Typography
-                variant="subtitle1"
-                sx={{
-                  marginTop: "8px",
-                  fontSize: "22px",
-                  fontFamily: "Poppins",
-                  fontWeight: "normal",
-                  color: "rgba(66, 70, 81, 0.87)",
-                  textAlign: "center",
-                }}
-              >
+              <Typography className="enter-code-txt">
                 Enter the six-digit code we sent to your email to verify your
                 new account
               </Typography>
@@ -270,13 +211,7 @@ const VerifyOTP = () => {
                       // type="password"
                       inputProps={{ maxLength: 1 }}
                       inputRef={ref}
-                      style={{
-                        width: "40px",
-                        height: "40px",
-                        marginRight: "10px",
-                        fontSize: "20px",
-                        textAlign: "center",
-                      }}
+                      className="opt-text-filed"
                       onChange={(event) => handleInputChange(event, index)}
                       onKeyDown={(event) => handleInputBackspace(event, index)}
                       InputProps={{
@@ -290,63 +225,50 @@ const VerifyOTP = () => {
                   </Grid>
                 ))}
               </Grid>
+              <div className="end-content-div">
+                {errorMsg ? (
+                  <Typography className="error-msg-txt">{errorMsg}</Typography>
+                ) : null}
 
-              {errorMsg ? (
-                <Typography
-                  style={{ marginTop: "48px", color: "#DC143C", fontSize: 12 }}
-                >
-                  {errorMsg}
-                </Typography>
-              ) : null}
+                {showResend ? (
+                  <Typography
+                    variant="contained"
+                    onClick={startCountdown}
+                    style={
+                      {
+                        // color: "#3973a5",
+                        // marginTop: errorMsg ? "18px" : "48px",
+                        // textAlign: "center",
+                        // borderRadius: "5px",
+                        // fontSize: 14,
+                        // marginBottom: "25px",
+                      }
+                    }
+                    className="resend-txt"
+                  >
+                    Resend OTP
+                  </Typography>
+                ) : (
+                  <Typography
+                    variant="body2"
+                    style={{
+                      color: "#3973a5",
+                      marginTop: errorMsg ? "18px" : "48px",
+                      textAlign: "center",
+                      borderRadius: "5px",
+                      fontSize: 14,
+                      marginBottom: "25px",
+                    }}
+                  >
+                    Resend OTP in {countdown} seconds
+                  </Typography>
+                )}
 
-              {showResend ? (
-                <Typography
-                  variant="contained"
-                  onClick={startCountdown}
-                  style={{
-                    color: "#3973a5",
-                    marginTop: errorMsg ? "18px" : "48px",
-                    textAlign: "center",
-                    borderRadius: "5px",
-                    fontSize: 14,
-                    marginBottom: "25px",
-                  }}
-                >
-                  Resend OTP
-                </Typography>
-              ) : (
-                <Typography
-                  variant="body2"
-                  style={{
-                    color: "#3973a5",
-                    marginTop: errorMsg ? "18px" : "48px",
-                    textAlign: "center",
-                    borderRadius: "5px",
-                    fontSize: 14,
-                    marginBottom: "25px",
-                  }}
-                >
-                  Resend OTP in {countdown} seconds
-                </Typography>
-              )}
-
-              <Button
-                variant="contained"
-                onClick={handleSubmit}
-                style={{ backgroundColor: "#3973a5" }}
-                sx={{
-                  color: "white",
-                  textAlign: "center",
-                  borderRadius: "5px",
-                  fontSize: 24,
-                  marginBottom: "25px",
-                  paddingLeft: "100px",
-                  paddingRight: "100px",
-                }}
-              >
-                Verify & Continue
-              </Button>
-            </Grid>
+                <Button onClick={handleSubmit} className="btn-style">
+                  Verify & Continue
+                </Button>
+              </div>
+            </div>
           </Grid>
         </Container>
       </div>

@@ -15,9 +15,9 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { Visibility, VisibilityOff } from "@material-ui/icons";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import { useDispatch, useSelector } from "react-redux";
-import IMAGES from "../Images";
-import GoogleSignInButton from "./GoogleSignInButton";
-import { login } from "../../Service/api";
+import IMAGES from "../../Images";
+import GoogleSignInButton from "../GoogleSignInButton";
+import { login } from "../../../Service/api";
 import {
   AuthToken,
   EmailId,
@@ -25,12 +25,12 @@ import {
   TokenDecodeData,
   UserId,
   verifyOTP,
-} from "../../redux/slices";
+} from "../../../redux/slices";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import moment from "moment";
 import jwt_decode from "jwt-decode";
-import Loader from "../Loader";
+import Loader from "../../Loader";
+import "./Login.css";
 
 const emailIdValidation = new RegExp(
   /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/i
@@ -193,16 +193,24 @@ export const LogIn = () => {
 
   return (
     <>
-      <div style={styles.containerBody}>
+      {/* <Typography
+        onClick={() => {
+          navigate("/verifyOTP");
+        }}
+      >
+        verifyOTP
+      </Typography> */}
+      <div className="full-container-body">
         {isLoading ? <Loader loading={isLoading} /> : null}
-        <div style={styles.backgroundImage}></div>
+        <div className="background-image-show" />
 
-        <form onSubmit={formik.handleSubmit} style={styles.formStyle}>
-          <img src={IMAGES.APP_ICON} alt="Icon" style={styles.appIconStyle} />
-          <div style={styles.pageContentDev}>
+        <form onSubmit={formik.handleSubmit} className="form-style">
+          <img src={IMAGES.APP_ICON} alt="Icon" className="display-app-icon" />
+
+          <div className="field-content">
             {/* Email */}
 
-            <Grid container style={styles.fieldDev}>
+            <Grid className="text-field-box">
               <CustomTextField
                 margin="normal"
                 fullWidth
@@ -228,23 +236,11 @@ export const LogIn = () => {
                       position="start"
                       style={{ marginLeft: "20px" }}
                     >
-                      <IconButton
-                        style={
-                          {
-                            // marginLeft: "10px",
-                            // top: -3,
-                            // left: -1,
-                          }
-                        }
-                      >
+                      <IconButton>
                         <img
                           src={IMAGES.EMAIL_ICON}
                           alt="lock"
-                          style={{
-                            width: "20px",
-                            height: "20px",
-                            opacity: 0.4,
-                          }}
+                          className="email-icon"
                         />
                       </IconButton>
                     </InputAdornment>
@@ -254,18 +250,18 @@ export const LogIn = () => {
                   shrink: true,
                 }}
                 inputProps={{
-                  style: styles.pwdStyles,
+                  className: "text-style",
                 }}
               />
 
               {formik.touched.email && Boolean(formik.errors.email) ? (
-                <span style={styles.ErrorMsgTxt}>
+                <span className="error-msg-txt">
                   {formik.touched.email && formik.errors.email}
                 </span>
               ) : null}
             </Grid>
             {/* Password */}
-            <Grid container style={styles.fieldDev}>
+            <Grid className="text-field-box">
               <CustomTextField
                 type={showPassword ? "text" : "password"}
                 margin="normal"
@@ -327,20 +323,18 @@ export const LogIn = () => {
                   shrink: true,
                 }}
                 inputProps={{
-                  style: {
-                    ...styles.pwdStyles,
-                  },
+                  className: "text-style",
                 }}
               />
 
               {formik.touched.password && Boolean(formik.errors.password) ? (
-                <span style={styles.ErrorMsgTxt}>
+                <span className="error-msg-txt">
                   {formik.touched.password && formik.errors.password}
                 </span>
               ) : null}
             </Grid>
 
-            <Grid container style={styles.endContent}>
+            <Grid className="end-content">
               <Grid item xs={12}>
                 <FormControlLabel
                   control={
@@ -348,10 +342,8 @@ export const LogIn = () => {
                       name="RememberMe"
                       checked={isRemembermeChecked}
                       onChange={handleCheckboxChange}
-                      icon={<span style={styles.checkBoxUncheckedstyle} />}
-                      checkedIcon={
-                        <span style={styles.checkBoxcheckedstyle}>✓</span>
-                      }
+                      icon={<span className="unChecked" />}
+                      checkedIcon={<span className="checked">✓</span>}
                     />
                   }
                   label={
@@ -369,15 +361,13 @@ export const LogIn = () => {
               </Grid>
               <Grid item xs={12}>
                 {errorMsg ? (
-                  <Typography style={styles.ErrorMsgTxt}>{errorMsg}</Typography>
+                  <Typography className="error-msg-txt">{errorMsg}</Typography>
                 ) : null}
                 <Button
                   variant="contained"
                   color="primary"
                   type="submit"
-                  style={{
-                    ...styles.btnStyle,
-                  }}
+                  className="login-btn-style"
                   disabled={isLoading}
                 >
                   Log in
@@ -410,9 +400,9 @@ export const LogIn = () => {
                 </div>
               </Grid>
               <Grid item xs={12}>
-                <div style={styles.forgotPwdDev}>
+                <div className="forgot-pwd-div">
                   <Typography
-                    style={styles.forgotPwdTxt}
+                    className="forgot-pwd-txt"
                     onClick={() => {
                       dispatch(EmailId(formik.values.email));
                       navigate("/forgotPassword");
@@ -421,7 +411,7 @@ export const LogIn = () => {
                     Forgot Password?
                   </Typography>
                   <Typography
-                    style={styles.noAccTxt}
+                    className="no-acc-txt"
                     onClick={() => {
                       navigate("/userChoice");
                     }}
@@ -436,133 +426,4 @@ export const LogIn = () => {
       </div>
     </>
   );
-};
-
-const styles = {
-  containerBody: {
-    display: "flex",
-    height: "100vh",
-  },
-  backgroundImage: {
-    flex: 1,
-    backgroundImage: `url(${IMAGES.SEA_VIEW_IMG})`,
-    backgroundSize: "cover",
-    backgroundRepeat: "no-repeat",
-    backgroundPosition: "center",
-  },
-  formStyle: {
-    borderWidth: 1,
-    borderColor: "#dddddd",
-    backgroundColor: "#f6f6f6",
-    borderStyle: "solid",
-    flex: 1,
-    width: "100%",
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-  },
-  appIconStyle: {
-    marginTop: "80px",
-    width: "198px",
-    height: "98px",
-  },
-  pageContentDev: {
-    width: "100%",
-    alignItems: "center",
-    display: "flex",
-    flexDirection: "column",
-    marginTop: "60px",
-  },
-  fieldDev: {
-    display: "flex",
-    justifyContent: "space-between",
-    flexDirection: "row",
-    width: "67%",
-  },
-
-  pwdDev: {
-    display: "flex",
-    flexDirection: "column",
-    alignContent: "center",
-    width: "100%",
-  },
-
-  pwdStyles: {
-    fontSize: 16,
-    fontFamily: "Poppins",
-    color: "#424651",
-    borderBottom: "none",
-    backgroundColor: "#fff",
-    height: "40px",
-  },
-  ErrorMsgTxt: {
-    color: "#DC143C",
-    fontSize: 12,
-    fontFamily: "Poppins",
-  },
-  endContent: {
-    alignContent: "center",
-    width: "65%",
-  },
-  btnStyle: {
-    marginTop: "30px",
-    width: "100%",
-    backgroundColor: "#026b93",
-    color: "white",
-    fontSize: "14px",
-    fontFamily: "Poppins",
-    fontWeight: "bold",
-    textTransform: "none",
-    boxShadow: "0px 0px 2px rgba(0, 0, 0, 0.09)",
-    padding: "10px",
-  },
-  forgotPwdDev: {
-    display: "flex",
-    marginTop: "30px",
-    width: "100%",
-    justifyContent: "space-between",
-  },
-  forgotPwdTxt: {
-    fontSize: "14px",
-    fontFamily: "Poppins",
-    alignSelf: "flex-start",
-    color: "rgba(66, 70, 81, 0.87)",
-    cursor: "pointer",
-  },
-  noAccTxt: {
-    fontSize: "14px",
-    fontFamily: "Poppins",
-    alignSelf: "flex-end",
-    textAlign: "end",
-    color: "rgba(66, 70, 81, 0.87)",
-    cursor: "pointer",
-  },
-  googleBtn: {
-    background: "#026b93",
-    color: "white",
-    padding: "10px",
-    borderRadius: "5px",
-    border: "none",
-    // backgroundColor: "red",
-    cursor: "pointer",
-    width: "100%",
-  },
-  checkBoxUncheckedstyle: {
-    border: "1px solid rgba(66, 70, 81, 0.4)",
-    borderRadius: "1px",
-    width: "22px",
-    height: "22px",
-  },
-  checkBoxcheckedstyle: {
-    color: "#424651",
-    border: "1px solid rgba(66, 70, 81, 0.4)",
-    borderRadius: "1px",
-    width: "22px",
-    height: "22px",
-    alignSelf: "center",
-    alignItems: "center",
-    alignContent: "center",
-    justifyContent: "center",
-    display: "flex",
-  },
 };
