@@ -199,11 +199,7 @@ export const BoatOwnerDashBoard = () => {
               Best Boat Offers This Week
             </Typography>
             <div className="align-card">
-              {boatListData?.map((item, index) => {
-                // console.log(
-                //   "boatListData item",
-                //   `http://localhost:3000/${item?.front_image}`
-                // );
+              {boatListData_dummy?.map((item, index) => {
                 return (
                   <div
                     style={{
@@ -217,13 +213,14 @@ export const BoatOwnerDashBoard = () => {
                     }}
                   >
                     <BoatDetailCard
-                      profile_image={`http://localhost:3000/${item?.front_image}`}
+                      // profile_image={`http://localhost:3000/${item?.front_image}`}
                       boatName={item?.boat_name}
                       marine_city={item?.marine_city}
                       starRating={3}
                       pricePerHour={item?.price_per_hour}
                       priceCurrency={item?.price_currency}
                       boatMaxCapacity={item?.boat_max_capacity}
+                      profile_image={item?.image}
                     />
                   </div>
                 );
@@ -237,3 +234,42 @@ export const BoatOwnerDashBoard = () => {
     </>
   );
 };
+
+const boatListData_dummy = [
+  {
+    id: 1,
+    boat_name: "Jagadeesh",
+    marine_city: "Durrat Al Arus",
+    price_per_hour: "8",
+    price_currency: "SAR",
+    boat_max_capacity: "100",
+    image: IMAGES.boat1,
+  },
+  {
+    id: 2,
+    boat_name: "Bhadur",
+    marine_city: "Al Fanateer Beach",
+    price_per_hour: "8",
+    price_currency: "SAR",
+    boat_max_capacity: "100",
+    image: IMAGES.boat2,
+  },
+  {
+    id: 3,
+    boat_name: "Farasan",
+    marine_city: "Umluj Beach",
+    price_per_hour: "8",
+    price_currency: "SAR",
+    boat_max_capacity: "100",
+    image: IMAGES.boat3,
+  },
+  {
+    id: 4,
+    boat_name: "Al Saif",
+    marine_city: "Indigo Beach",
+    price_per_hour: "8",
+    price_currency: "SAR",
+    boat_max_capacity: "100",
+    image: IMAGES.boat4,
+  },
+];

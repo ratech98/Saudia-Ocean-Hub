@@ -12,6 +12,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { BoatDetailCard } from "../../new/BoatDetailCard";
 import { boat_list_filter } from "../../../Service/api";
 import { search_boat_id } from "../../../redux/slices";
+import IMAGES from "../../Images";
 
 const link1 = "Boat Offers";
 const link2 = "Scuba Courses/Programs";
@@ -188,7 +189,7 @@ export const Rental = () => {
             justifyContent: "center",
           }}
         >
-          {boatListData?.map((item, index) => {
+          {boatListData_dummy?.map((item, index) => {
             return (
               <div
                 style={{
@@ -206,6 +207,7 @@ export const Rental = () => {
                   pricePerHour={item?.price_per_hour}
                   priceCurrency={item?.price_currency}
                   boatMaxCapacity={item?.boat_max_capacity}
+                  profile_image={item?.image}
                 />
               </div>
             );
@@ -321,40 +323,44 @@ export const Rental = () => {
   );
 };
 
-// const boatListData = [
-//   {
-//     id: 1,
-//     boat_name: "Jagadeesh",
-//     marine_city: "Durrat Al Arus",
-//     price_per_hour: "8",
-//     price_currency: "SAR",
-//     boat_max_capacity: "100",
-//   },
-//   {
-//     id: 2,
-//     boat_name: "Bhadur",
-//     marine_city: "Al Fanateer Beach",
-//     price_per_hour: "8",
-//     price_currency: "SAR",
-//     boat_max_capacity: "100",
-//   },
-//   {
-//     id: 3,
-//     boat_name: "Farasan",
-//     marine_city: "Umluj Beach",
-//     price_per_hour: "8",
-//     price_currency: "SAR",
-//     boat_max_capacity: "100",
-//   },
-//   {
-//     id: 4,
-//     boat_name: "Al Saif",
-//     marine_city: "Indigo Beach",
-//     price_per_hour: "8",
-//     price_currency: "SAR",
-//     boat_max_capacity: "100",
-//   },
-// ];
+const boatListData_dummy = [
+  {
+    id: 1,
+    boat_name: "Jagadeesh",
+    marine_city: "Durrat Al Arus",
+    price_per_hour: "8",
+    price_currency: "SAR",
+    boat_max_capacity: "100",
+    image: IMAGES.boat1,
+  },
+  {
+    id: 2,
+    boat_name: "Bhadur",
+    marine_city: "Al Fanateer Beach",
+    price_per_hour: "8",
+    price_currency: "SAR",
+    boat_max_capacity: "100",
+    image: IMAGES.boat2,
+  },
+  {
+    id: 3,
+    boat_name: "Farasan",
+    marine_city: "Umluj Beach",
+    price_per_hour: "8",
+    price_currency: "SAR",
+    boat_max_capacity: "100",
+    image: IMAGES.boat3,
+  },
+  {
+    id: 4,
+    boat_name: "Al Saif",
+    marine_city: "Indigo Beach",
+    price_per_hour: "8",
+    price_currency: "SAR",
+    boat_max_capacity: "100",
+    image: IMAGES.boat4,
+  },
+];
 
 const backgroundImage = Boat_Experience;
 const title = "Best Boating Experience in Saudi Arabia";
