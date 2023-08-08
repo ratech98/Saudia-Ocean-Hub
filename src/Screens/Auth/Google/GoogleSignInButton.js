@@ -3,7 +3,8 @@ import React from "react";
 import { useGoogleLogin } from "@react-oauth/google";
 import { Button, Typography } from "@mui/material";
 import axios from "axios";
-import IMAGES from "../Images";
+import IMAGES from "../../Images";
+import "./GoogleSignInButton.css";
 
 const googleClientId =
   "496577884812-quv2n4j54nvk6gtrmo4vuv98cmrlf5q4.apps.googleusercontent.com";
@@ -28,15 +29,9 @@ const GoogleSignInButton = ({
   });
 
   return (
-    <div style={{ width: "100%" }}>
+    <div style={{ width: "100%" }} className="google-box">
       <Button
-        style={{
-          width: "100%",
-          textTransform: "none",
-          border: "1.5px solid #026b93",
-          boxShadow: "0px 0px 2px rgba(0, 0, 0, 0.09)",
-          padding: "10px",
-        }}
+        className="google-login-btn"
         onClick={() => {
           if (isTermsOfServiceChecked) {
             login();
@@ -45,27 +40,8 @@ const GoogleSignInButton = ({
           }
         }}
       >
-        <img
-          alt="google"
-          src={IMAGES.GOOGLE}
-          style={{
-            width: "20px",
-            height: "20px",
-            fill: "#3973a5",
-            color: "#3973a5",
-            marginRight: "15px",
-          }}
-        />
-        <Typography
-          style={{
-            color: "#026b93",
-            fontSize: "14px",
-            fontFamily: "Poppins",
-            fontWeight: "bold",
-          }}
-        >
-          {title}
-        </Typography>
+        <img alt="google" src={IMAGES.GOOGLE} className="google-img" />
+        <Typography className="btn-name">{title}</Typography>
       </Button>
     </div>
   );

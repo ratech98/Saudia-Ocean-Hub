@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useFormik } from "formik";
 import {
-  TextField,
   Button,
   FormControlLabel,
   Checkbox,
@@ -13,7 +12,6 @@ import {
   DialogActions,
   Typography,
 } from "@mui/material";
-import { withStyles } from "@mui/styles";
 import { useNavigate } from "react-router-dom";
 import { Visibility, VisibilityOff } from "@material-ui/icons";
 import { countryCodeJson } from "../countryCodeJson";
@@ -24,9 +22,11 @@ import { register } from "../../../Service/api";
 import IMAGES from "../../Images";
 import Loader from "../../Loader";
 import { toast } from "react-toastify";
-import GoogleSignInButton from "../GoogleSignInButton";
+import GoogleSignInButton from "../Google/GoogleSignInButton";
 import "./SignUp.css";
 import { Container } from "react-bootstrap";
+import { withStyles } from "@material-ui/core/styles";
+import TextField from "@material-ui/core/TextField";
 
 const start_space_Validation = new RegExp(/^(?!\s).*/);
 const emailIdValidation = new RegExp(
@@ -42,15 +42,36 @@ const CustomCheckbox = withStyles({
   checked: {},
 })(Checkbox);
 
-const CustomTextField = withStyles({
+const styles = (theme) => ({
   root: {
     "& input::placeholder": {
       fontSize: "16px",
       color: "rgba(66, 70, 81, 0.4)",
       fontFamily: "Poppins",
     },
+    [theme.breakpoints.down("sm")]: {
+      // Apply styles for small screens
+      "& input::placeholder": {
+        fontSize: "10px",
+        color: "rgba(66, 70, 81, 0.4)", // Change the color for small screens
+      },
+    },
   },
-})(TextField);
+});
+
+const CustomTextField = withStyles(styles)(TextField);
+// const CustomTextField = withStyles({
+//   root: {
+//     "& input::placeholder": {
+//       fontSize: "16px",
+//       // color: "rgba(66, 70, 81, 0.4)",
+//       color: "red",
+
+//       fontFamily: "Poppins",
+//     },
+
+//   },
+// })(TextField);
 
 // Define the regex patterns for each condition
 const regexPatterns = [
@@ -324,14 +345,12 @@ export const SignUp = () => {
                         ? "1px solid red"
                         : null,
                   },
-                  // placeholder: "GJ",
                 }}
                 InputLabelProps={{
                   shrink: true,
                 }}
                 inputProps={{
                   className: "text-field-inputs",
-                  // placeholder: "custom-placeholder",
                 }}
               />
 
@@ -516,7 +535,7 @@ export const SignUp = () => {
             {/* mob no. err MSG */}
             <div style={{ display: "flex", width: "100%" }}>
               {formik.touched.cellNo && Boolean(formik.errors.cellNo) ? (
-                <Typography style={styles.ErrorMsgTxt}>
+                <Typography style={StyleEff.ErrorMsgTxt}>
                   {formik.touched.cellNo && formik.errors.cellNo}
                 </Typography>
               ) : null}
@@ -585,7 +604,7 @@ export const SignUp = () => {
             </div>
             <div style={{ display: "flex", width: "100%" }}>
               {formik.touched.password && Boolean(formik.errors.password) ? (
-                <Typography style={styles.ErrorMsgTxt}>
+                <Typography style={StyleEff.ErrorMsgTxt}>
                   {formik.touched.password && formik.errors.password}
                 </Typography>
               ) : null}
@@ -643,12 +662,13 @@ export const SignUp = () => {
                       ? "1px solid red"
                       : null,
                 },
+                className: "custom-placeholder-style",
               }}
               InputLabelProps={{
                 shrink: true,
               }}
               inputProps={{
-                // style: styles.customTextField,
+                // style: StyleEff.customTextField,
                 className: "text-inputs ",
               }}
             />
@@ -813,7 +833,7 @@ export const SignUp = () => {
   );
 };
 
-const styles = {
+const StyleEff = {
   pwdPowerDev: {
     borderColor: "white",
     borderRadius: "5px",

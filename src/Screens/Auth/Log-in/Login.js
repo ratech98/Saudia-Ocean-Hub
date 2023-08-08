@@ -16,7 +16,7 @@ import { Visibility, VisibilityOff } from "@material-ui/icons";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import { useDispatch, useSelector } from "react-redux";
 import IMAGES from "../../Images";
-import GoogleSignInButton from "../GoogleSignInButton";
+import GoogleSignInButton from "../Google/GoogleSignInButton";
 import { login } from "../../../Service/api";
 import {
   AuthToken,
