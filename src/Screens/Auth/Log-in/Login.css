@@ -69,8 +69,15 @@
 }
 
 .end-content {
+  display: flex;
+  flex-direction: column;
   align-content: center;
-  width: 65%;
+  align-items: center;
+  width: 100%;
+}
+
+.inside-end-content {
+  width: 67%;
 }
 
 .unChecked {
@@ -111,6 +118,7 @@
   margin-top: 30px;
   width: 100%;
   justify-content: space-between;
+  /* background-color: #dc143c; */
 }
 
 .forgot-pwd-div .forgot-pwd-txt {
@@ -144,7 +152,7 @@
     width: 198px;
     height: 98px;
     margin: 0px;
-    background-color: dimgray;
+    /* background-color: dimgray; */
   }
 
   .form-style {
@@ -161,12 +169,12 @@
   }
   .field-content {
     width: 100%;
-    height: 100%;
+    height: auto;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
-    margin-top: 60px;
+    margin: 60px;
     /* background-color: antiquewhite; */
   }
 
@@ -186,8 +194,16 @@
     background-color: #fff;
     height: 40px;
   }
+
   .end-content {
+    display: flex;
+    flex-direction: column;
     align-content: center;
+    align-items: center;
+    width: 100%;
+  }
+
+  .inside-end-content {
     width: 90%;
   }
 }

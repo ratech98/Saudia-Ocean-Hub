@@ -13,12 +13,12 @@
  **********************************************************************/
 
 import React from "react";
-import { Tooltip, Button } from "@mui/material";
+import { Tooltip, Button, Typography } from "@mui/material";
 import { styled } from "@mui/material/styles";
-import Image1Image from "../../assets/Images/boat_carousal_1.png";
 import { animated, useSpring, easings } from "react-spring";
-import { StarRating } from "../../UI kit/5Star/StarRating";
-import IMAGES from "../Images";
+import IMAGES from "../../Images";
+import { StarRating } from "../../../UI kit/5Star/StarRating";
+import "./BoatDetailCard.css";
 
 const TypeQuest = animated(
   styled("div")(({ theme }) => ({
@@ -36,7 +36,6 @@ const TypeQuest = animated(
     boxSizing: `border-box`,
     overflow: `hidden`,
     height: "auto",
-    width: "375px", // Set the width to 300px
   }))
 );
 
@@ -67,7 +66,7 @@ const Image1 = animated(
     justifyContent: `flex-start`,
     alignItems: `flex-start`,
     alignSelf: `stretch`,
-    height: `251px`,
+
     margin: `0px`,
     border: `solid 0.5px rgba(66, 70, 81, 0.2)`,
     backgroundColor: "whitesmoke",
@@ -116,39 +115,50 @@ const TitleTop = styled("div")({
 
 const Title = animated(
   styled("div")(({ theme }) => ({
-    textAlign: `left`,
+    // textAlign: `left`,
     whiteSpace: `pre-wrap`,
-    fontSynthesis: `none`,
-    // color: theme.palette["Text"]["Primary"],
-    fontStyle: `bold`,
-    // fontFamily: `Poppins`,
-    fontWeight: `700`,
-    fontSize: `26px`,
-    letterSpacing: `normal`,
-    // textDecoration: `underline`,
-    textTransform: `none`,
-    margin: `0px`,
-    color: `#424651`,
-    lineHeight: "1.5",
+    // fontSynthesis: `none`,
+    // fontStyle: `bold`,
+    // // fontFamily: `Poppins`,
+    // fontWeight: `700`,
+    // fontSize: `26px`,
+    // letterSpacing: `normal`,
+    // textTransform: `none`,
+    // margin: `0px`,
+    // color: `#424651`,
+    // lineHeight: "1.5",
+    alignSelf: "flex-start",
+    alignItems: "flex-start",
+    alignContent: "flex-start",
+    justifyContent: "flex-start",
+    display: "flex",
+    margin: 0,
+    padding: 0,
+    width: "100%",
   }))
 );
 
 const SubTitle = animated(
   styled("div")(({ theme }) => ({
-    textAlign: `left`,
-    whiteSpace: `pre-wrap`,
-    fontSynthesis: `none`,
-    // color: theme.palette["Text"]["Primary"],
-    fontStyle: `bold`,
-    // fontFamily: `Poppins`,
-    fontWeight: `normal`,
-    fontSize: `20px`,
-    letterSpacing: `normal`,
-    // textDecoration: `underline`,
-    textTransform: `none`,
-    margin: `0px`,
-    color: `rgba(66, 70, 81, 0.6)`,
-    lineHeight: "1.5",
+    // textAlign: `left`,
+    // whiteSpace: `pre-wrap`,
+    // fontSynthesis: `none`,
+    // fontStyle: `bold`,
+    // fontWeight: `normal`,
+    // fontSize: `20px`,
+    // letterSpacing: `normal`,
+    // textTransform: `none`,
+    // color: `rgba(66, 70, 81, 0.6)`,
+    // lineHeight: "1.5",
+    display: "flex",
+    alignSelf: "flex-start",
+    alignItems: "flex-start",
+    alignContent: "flex-start",
+    justifyContent: "flex-start",
+    margin: 0,
+    padding: 0,
+    width: "100%",
+    // backgroundColor: "lightgreen",
   }))
 );
 
@@ -200,19 +210,25 @@ const Rectangle3 = styled("div")(({ theme }) => ({
 
 const Details1 = animated(
   styled("div")(({ theme }) => ({
-    textAlign: `left`,
-    whiteSpace: `pre-wrap`,
-    fontSynthesis: `none`,
-    // color: theme.palette["Text"]["Primary"],
-    fontStyle: `normal`,
-    fontFamily: `Heebo`,
-    fontWeight: `400`,
-    fontSize: `16px`,
-    letterSpacing: `0.15000000596046448px`,
-    textDecoration: `none`,
-    lineHeight: `150%`,
-    textTransform: `none`,
-    alignSelf: `stretch`,
+    // textAlign: `left`,
+    // fontSynthesis: `none`,
+    // fontStyle: `normal`,
+    // fontWeight: `400`,
+    // fontSize: `16px`,
+    // letterSpacing: `0.15000000596046448px`,
+    // textDecoration: `none`,
+    // lineHeight: `150%`,
+    // textTransform: `none`,
+    // alignSelf: `stretch`,
+    // margin: `12px 0px 0px 0px`,
+    display: "flex",
+    alignSelf: "center",
+    alignItems: "center",
+    alignContent: "center",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    padding: 0,
+    width: "100%",
     margin: `12px 0px 0px 0px`,
   }))
 );
@@ -322,7 +338,7 @@ export const BoatDetailCard = ({
       onMouseEnter={() => {
         TypeQuestApi.start({ ...{ transform: "scale(1.05)" }, delay: 0 });
       }}
-      //   className={props.className}
+      className="card-content"
       style={{ ...TypeQuestSpring }}
     >
       <ImageFrame>
@@ -337,13 +353,16 @@ export const BoatDetailCard = ({
               backgroundImage: `url(${profile_image ?? IMAGES.APP_ICON})`,
               backgroundSize: profile_image ? "cover" : "contain",
             }}
+            className="boat-img"
           ></Image1>
         </Tooltip>
       </ImageFrame>
       <Content>
         <Details>
           <TitleTop>
-            <Title style={{ ...TitleSpring }}>{boatName}</Title>
+            <Title style={{ ...TitleSpring }} className="boat-name-content">
+              <Typography className="boat-name">{boatName}</Typography>
+            </Title>
 
             <Q3Dots style={{ ...Q3DotsSpring }}>
               <Rectangle1></Rectangle1>
@@ -352,7 +371,9 @@ export const BoatDetailCard = ({
             </Q3Dots>
           </TitleTop>
           <TitleTop>
-            <SubTitle style={{ ...TitleSpring }}>{marine_city}</SubTitle>
+            <SubTitle style={{ ...TitleSpring }} className="city-name-content">
+              <Typography className="city-name"> {marine_city}</Typography>
+            </SubTitle>
 
             <Q3Dots style={{ ...Q3DotsSpring }}>
               <Rectangle1></Rectangle1>
@@ -377,60 +398,69 @@ export const BoatDetailCard = ({
           <Details1
             style={{
               ...ButtonContainedSpring,
-              display: "flex",
-              flexDirection: "row",
-              justifyContent: "space-between",
             }}
+            className="end-content"
           >
-            <div style={{ display: "flex", flexDirection: "row" }}>
+            <div className="momey-div">
               <Image1
                 style={{
                   ...Image1Spring,
                   backgroundImage: `url(${IMAGES.MONEY_CARD})`,
-                  width: "28px",
-                  height: "30px",
+                  marginRight: "10px",
+                  // alignSelf: "center",
+                  // alignContent: "center",
+                  // alignItems: "center",
+                }}
+                className="money-icon-style"
+              />
+              <Typography
+                style={{
+                  ...ButtonContainedSpring,
                   alignSelf: "center",
                   alignContent: "center",
                   alignItems: "center",
                 }}
-              />
-              <Details1
-                style={{
-                  ...ButtonContainedSpring,
-                  textAlign: "center",
-                  alignSelf: "center",
-                  fontSize: "16px",
-                  fontWeight: "600",
-                  margin: `0px 0px 0px 15px`,
-                }}
+                className="price-txt"
               >
                 {pricePerHour} {priceCurrency}
-              </Details1>
+              </Typography>
             </div>
-            <div style={{ display: "flex", flexDirection: "row" }}>
+            <div
+              className="momey-div"
+              style={{
+                display: "flex",
+                justifyContent: "flex-end",
+                alignSelf: "flex-end",
+                alignContent: "flex-end",
+                alignItems: "flex-end",
+              }}
+            >
               <Image1
                 style={{
                   ...Image1Spring,
                   backgroundImage: `url(${IMAGES.GROUP})`,
-                  width: 36,
-                  height: 25,
+                  // width: 36,
+                  // height: 25,
                   alignSelf: "center",
                   alignContent: "center",
                   alignItems: "center",
+                  // backgroundColor: "violet",
+                  // marginRight: "10px",
                 }}
+                className="group-icon"
               />
-              <Details1
+              <Typography
                 style={{
                   ...ButtonContainedSpring,
-                  textAlign: "center",
                   alignSelf: "center",
-                  fontSize: "16px",
-                  fontWeight: "600",
-                  margin: `0px 0px 0px 15px`,
+                  alignContent: "center",
+                  alignItems: "center",
+                  textAlign: "center",
                 }}
+                className="capacity-txt"
               >
                 {boatMaxCapacity}
-              </Details1>
+              </Typography>
             </div>
           </Details1>
           {/* </TitleTop> */}

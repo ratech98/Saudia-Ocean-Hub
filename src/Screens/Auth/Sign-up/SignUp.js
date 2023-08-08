@@ -3,10 +3,8 @@ import { useFormik } from "formik";
 import {
   TextField,
   Button,
-  Grid,
   FormControlLabel,
   Checkbox,
-  InputAdornment,
   IconButton,
   MenuItem,
   Dialog,
@@ -289,7 +287,7 @@ export const SignUp = () => {
           }}
         >
           <div className="body-content">
-            <Typography className="page-title">Create Account</Typography>
+            <Typography className="page-title-gj">Create Account</Typography>
             <Typography className="title-info">
               Open your gate to endless happiness!
             </Typography>
@@ -326,12 +324,14 @@ export const SignUp = () => {
                         ? "1px solid red"
                         : null,
                   },
+                  // placeholder: "GJ",
                 }}
                 InputLabelProps={{
                   shrink: true,
                 }}
                 inputProps={{
                   className: "text-field-inputs",
+                  // placeholder: "custom-placeholder",
                 }}
               />
 
@@ -405,6 +405,9 @@ export const SignUp = () => {
               }}
               InputLabelProps={{
                 shrink: true,
+                style: {
+                  fontSize: "18px",
+                },
               }}
               inputProps={{
                 className: "text-inputs",
@@ -427,39 +430,18 @@ export const SignUp = () => {
               variant="standard"
               InputProps={{
                 disableUnderline: true,
+                className: "phone-no",
                 style: {
-                  backgroundColor: "white",
-                  borderRadius: "5px",
-                  display: "flex",
-                  alignItems: "center",
-                  marginTop: "-8px",
-                  marginBottom: "-8px",
                   border:
                     formik.touched.cellNo && Boolean(formik.errors.cellNo)
                       ? "1px solid red"
                       : null,
                 },
                 startAdornment: (
-                  <div
-                    onClick={handleCountryCodeClick}
-                    style={{
-                      cursor: "pointer",
-
-                      justifyContent: "center",
-                      display: "flex",
-                      paddingLeft: "30px",
-                      paddingRight: "5px",
-                    }}
-                  >
+                  <div onClick={handleCountryCodeClick} className="country-div">
                     {selectedCountry && (
                       <>
-                        <Typography
-                          style={{
-                            fontSize: 30,
-                            textAlign: "center",
-                            fontFamily: "Poppins",
-                          }}
-                        >
+                        <Typography className="flag-design">
                           {selectedCountry.flag}
                         </Typography>
                         <img
@@ -471,16 +453,7 @@ export const SignUp = () => {
                             alignSelf: "center",
                           }}
                         />
-                        <Typography
-                          style={{
-                            fontSize: "16px",
-                            textAlign: "center",
-                            marginLeft: "20px",
-                            fontFamily: "Poppins",
-                            alignSelf: "center",
-                            color: "#424651",
-                          }}
-                        >
+                        <Typography className="dial-code-txt">
                           {selectedCountry.dial_code}
                         </Typography>
                       </>
@@ -521,7 +494,14 @@ export const SignUp = () => {
                     }}
                   >
                     <Typography
-                      style={{ marginRight: "15px", fontSize: "20px" }}
+                      style={
+                        {
+                          // backgroundColor: "gray",
+                          // color: "red",
+                          // fontSize: "100px",
+                        }
+                      }
+                      className="modal-county-txt"
                     >
                       {country.flag}{" "}
                     </Typography>
@@ -548,6 +528,8 @@ export const SignUp = () => {
                   formik.touched.password && Boolean(formik.errors.password)
                     ? "1px solid red"
                     : null,
+                width: "100%",
+                // backgroundColor: "rebeccapurple",
               }}
               className="pwd-filed"
             >
@@ -569,10 +551,10 @@ export const SignUp = () => {
                 variant="standard"
                 InputProps={{
                   disableUnderline: true,
-
                   style: {
-                    backgroundColor: "white",
-                    borderRadius: "5px",
+                    margin: "0",
+                    padding: "0",
+                    width: "100%",
                   },
                   endAdornment: (
                     <>
@@ -589,8 +571,16 @@ export const SignUp = () => {
                 }}
                 inputProps={{
                   className: "pwd-txt-input",
+                  style: {
+                    margin: "0px",
+                    padding: "0px 15px",
+                  },
                 }}
-                style={{ padding: "0px", margin: "0px" }}
+                style={{
+                  padding: "0px",
+                  margin: "0px",
+                  // paddingLeft: "15px",
+                }}
               />
             </div>
             <div style={{ display: "flex", width: "100%" }}>
@@ -600,7 +590,25 @@ export const SignUp = () => {
                 </Typography>
               ) : null}
             </div>
-
+            {password ? (
+              <>
+                {strengthIndicator !== "green" ? (
+                  <div className="small-pwd-strength-div">
+                    <Typography className="small-pwd-strength-err-info">
+                      The minimum password length is 8 characters and must
+                      contain at least 1 lowercase letter, 1 capital letter, 1
+                      number and 1 special character.
+                    </Typography>
+                  </div>
+                ) : (
+                  <div className="small-pwd-strength-div">
+                    <Typography className="small-pwd-strength-success-info">
+                      Your password is strong and secure. Good job!
+                    </Typography>
+                  </div>
+                )}
+              </>
+            ) : null}
             {/* Confirm Password */}
             <CustomTextField
               type="password"
@@ -640,13 +648,13 @@ export const SignUp = () => {
                 shrink: true,
               }}
               inputProps={{
-                style: styles.customTextField,
-                // className: "text-field-input",
+                // style: styles.customTextField,
+                className: "text-inputs ",
               }}
             />
 
             {password ? (
-              <div className="pwd-strength-div" style={{ display: "block" }}>
+              <div className="pwd-strength-div">
                 <Typography className="pwd-strength-title">
                   Password Strength{" "}
                   <Typography
@@ -699,7 +707,7 @@ export const SignUp = () => {
               </div>
             ) : null}
 
-            {/* check boa */}
+            {/* check boat */}
             <div className="check-box-div">
               <FormControlLabel
                 control={
@@ -731,7 +739,7 @@ export const SignUp = () => {
                   />
                 }
                 label={
-                  <Typography className="agree-info-txt">
+                  <Typography className="check-box-txt">
                     Creating an account means you agree to our{" "}
                     <span
                       style={{
@@ -785,7 +793,7 @@ export const SignUp = () => {
                 </Typography>
               )}
               <div className="login-div">
-                <Typography className="acc-txt ">
+                <Typography className="acc-txt">
                   Already have an account?
                 </Typography>
                 <Typography

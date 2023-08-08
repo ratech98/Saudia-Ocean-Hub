@@ -195,10 +195,10 @@ export const LogIn = () => {
     <>
       {/* <Typography
         onClick={() => {
-          navigate("/verifyOTP");
+          navigate("/boatOwnerDashBoard");
         }}
       >
-        verifyOTP
+        boatOwnerDashBoard
       </Typography> */}
       <div className="full-container-body">
         {isLoading ? <Loader loading={isLoading} /> : null}
@@ -334,8 +334,8 @@ export const LogIn = () => {
               ) : null}
             </Grid>
 
-            <Grid className="end-content">
-              <Grid item xs={12}>
+            <div className="end-content">
+              <div className="inside-end-content">
                 <FormControlLabel
                   control={
                     <CustomCheckbox
@@ -358,48 +358,49 @@ export const LogIn = () => {
                     </span>
                   }
                 />
-              </Grid>
-              <Grid item xs={12}>
-                {errorMsg ? (
-                  <Typography className="error-msg-txt">{errorMsg}</Typography>
-                ) : null}
-                <Button
-                  variant="contained"
-                  color="primary"
-                  type="submit"
-                  className="login-btn-style"
-                  disabled={isLoading}
-                >
-                  Log in
-                </Button>
-              </Grid>
-              <Grid item xs={12}>
-                <div
-                  style={{
-                    display: "flex",
-                    marginTop: "15px",
-                    width: "100%", // Adjust the width as needed
-                    backgroundColor: "#f6f6f6",
-                    justifyContent: "center",
-                    borderStyle: "dotted",
-                    borderWidth: 0.1,
-                    borderColor: "gray",
-                    borderRadius: "5px",
-                    boxShadow: "0px 0px 2px rgba(0, 0, 0, 0.2)",
-                  }}
-                >
-                  {/* email,name,phno. */}
-                  <GoogleOAuthProvider clientId="496577884812-quv2n4j54nvk6gtrmo4vuv98cmrlf5q4.apps.googleusercontent.com">
-                    <GoogleSignInButton
-                      googleResponce={setGoogleResult}
-                      title={"Sign in with google"}
-                      handle={handleSubmit}
-                      isTermsOfServiceChecked={true}
-                    />
-                  </GoogleOAuthProvider>
-                </div>
-              </Grid>
-              <Grid item xs={12}>
+                {/* </Grid> */}
+                <Grid item xs={12}>
+                  {errorMsg ? (
+                    <Typography className="error-msg-txt">
+                      {errorMsg}
+                    </Typography>
+                  ) : null}
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    type="submit"
+                    className="login-btn-style"
+                    disabled={isLoading}
+                  >
+                    Log in
+                  </Button>
+                </Grid>
+                <Grid item xs={12}>
+                  <div
+                    style={{
+                      display: "flex",
+                      marginTop: "15px",
+                      width: "100%", // Adjust the width as needed
+                      backgroundColor: "#f6f6f6",
+                      justifyContent: "center",
+                      borderStyle: "dotted",
+                      borderWidth: 0.1,
+                      borderColor: "gray",
+                      borderRadius: "5px",
+                      boxShadow: "0px 0px 2px rgba(0, 0, 0, 0.2)",
+                    }}
+                  >
+                    <GoogleOAuthProvider clientId="496577884812-quv2n4j54nvk6gtrmo4vuv98cmrlf5q4.apps.googleusercontent.com">
+                      <GoogleSignInButton
+                        googleResponce={setGoogleResult}
+                        title={"Sign in with google"}
+                        handle={handleSubmit}
+                        isTermsOfServiceChecked={true}
+                      />
+                    </GoogleOAuthProvider>
+                  </div>
+                </Grid>
+                {/* <Grid item xs={12}> */}
                 <div className="forgot-pwd-div">
                   <Typography
                     className="forgot-pwd-txt"
@@ -419,8 +420,9 @@ export const LogIn = () => {
                     Don`t have an account?
                   </Typography>
                 </div>
-              </Grid>
-            </Grid>
+                {/* </Grid> */}
+              </div>
+            </div>
           </div>
         </form>
       </div>

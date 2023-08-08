@@ -9,7 +9,7 @@ import Banner from "../../../Component/Banner/Banner";
 import Footer from "../../../Component/Footer/Footer";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { BoatDetailCard } from "../../new/BoatDetailCard";
+import { BoatDetailCard } from "../Card/BoatDetailCard";
 import { boat_list_filter } from "../../../Service/api";
 import { search_boat_id } from "../../../redux/slices";
 

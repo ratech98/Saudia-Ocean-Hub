@@ -6,6 +6,7 @@ import { toast } from "react-toastify";
 import IMAGES from "../../Images";
 import { verify_forgotpass_otp } from "../../../Service/api";
 import Loader from "../../Loader";
+import "./VerifyForgotPwdOTP.css";
 
 const useOtpInputRefs = (length) => {
   const inputRefs = React.useMemo(() => {
@@ -112,96 +113,47 @@ export const VerifyForgotPwdOTP = () => {
   // };
 
   return (
-    <div
-      style={{
-        width: "100%",
-        height: "100vh",
-        backgroundColor: "#f6f6f6",
-        paddingBottom: "100px",
-      }}
-    >
+    <div style={{}} className="full-box">
       {isLoading ? <Loader loading={isLoading} /> : null}
-      <img
-        src={IMAGES.APP_ICON}
-        alt="ICON"
-        style={{
-          marginLeft: "140px",
-          width: "200px",
-          height: "100px",
-          // marginTop: "24px",
-        }}
-      />
-      <div
-        style={{
-          display: "flex",
-          height: "90%",
-        }}
-      >
+      <div className="icon-div">
+        <Grid
+          item
+          className="top-back-button"
+          onClick={() => {
+            navigate(-1);
+          }}
+        >
+          <img src={IMAGES.LEFT_BACK_BUTTON} className="back-icon" alt="Back" />
+        </Grid>
+        <img src={IMAGES.APP_ICON} alt="ICON" className="app-icon-style" />
+      </div>
+      <div className="box-body">
         <Container
-          sx={{}}
           style={{
             backgroundColor: "white",
-            width: "65%",
             display: "flex",
             justifyContent: "center",
           }}
         >
           <Grid container direction="column">
-            <Grid
-              item
-              sx={{
-                marginTop: "20px",
-                display: "flex",
-                cursor: "pointer",
-                alignItems: "center",
-                alignSelf: "flex-start",
-                marginLeft: "10px",
-              }}
+            <div
               onClick={() => {
                 navigate(-1);
               }}
+              className="back-content"
             >
               <img
                 src={IMAGES.LEFT_BACK_BUTTON}
-                style={{
-                  width: "14px",
-                  height: "18px",
-                }}
+                className="back-icon"
                 alt="Back"
               />
-              <Typography
-                variant="subtitle1"
-                sx={{
-                  fontSize: "20px",
-                  fontFamily: "Poppins",
-                  fontWeight: "normal",
-                  color: "#3973a5",
-                  marginLeft: "16px",
-                }}
-              >
+              <Typography variant="subtitle1" className="back-txt">
                 Back
               </Typography>
-            </Grid>
+            </div>
 
-            <Grid
-              item
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-              }}
-            >
-              <Typography
-                variant="subtitle1"
-                sx={{
-                  margin: "50px 0px",
-                  fontSize: "22px",
-                  fontFamily: "Poppins",
-                  fontWeight: "normal",
-                  color: "rgba(66, 70, 81, 0.87)",
-                  textAlign: "center",
-                }}
-              >
+            <div className="inside-body">
+              <Typography className="page-info-txt">
                 Enter the six-digit code we sent to your email to verify your
                 authentication
               </Typography>
@@ -211,7 +163,6 @@ export const VerifyForgotPwdOTP = () => {
                 justifyContent="center"
                 alignItems="center"
                 marginTop={"20px"}
-                // sx={{ marginTop: "48px" }}
               >
                 {inputRefs.map((ref, index) => (
                   <Grid item key={index}>
@@ -284,37 +235,10 @@ export const VerifyForgotPwdOTP = () => {
                 </Typography>
               )} */}
 
-              <div
-                style={{
-                  // backgroundColor: "red",
-                  display: "flex",
-                  justifyContent: "flex-end",
-                  alignContent: "flex-end",
-                  alignItems: "flex-end",
-                  // alignSelf: "flex-end",
-                  // height: "300px",
-                }}
-              >
-                <Button
-                  variant="contained"
-                  onClick={handleSubmit}
-                  style={{ backgroundColor: "#3973a5" }}
-                  sx={{
-                    color: "white",
-                    // padding: "10px",
-                    // width: "30%",
-                    textAlign: "center",
-                    borderRadius: "5px",
-                    fontSize: 24,
-                    margin: "50px 0px",
-                    paddingLeft: "100px",
-                    paddingRight: "100px",
-                  }}
-                >
-                  Verify & Continue
-                </Button>
-              </div>
-            </Grid>
+              <Button onClick={handleSubmit} className="submit-btn">
+                Verify & Continue
+              </Button>
+            </div>
           </Grid>
         </Container>
       </div>

@@ -1,0 +1,142 @@
+.full-box {
+  width: 100%;
+  height: 100vh;
+  background-color: #f6f6f6;
+  padding-bottom: 100px;
+}
+
+.icon-div {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-self: flex-start;
+  align-items: flex-start;
+  align-content: flex-start;
+}
+
+.top-back-button {
+  display: none;
+}
+.app-icon-style {
+  margin-left: 140px;
+  width: 200px;
+  height: 100px;
+}
+
+.back-icon {
+  width: 14px;
+  height: 18px;
+}
+
+.back-content {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: row;
+  cursor: pointer;
+  align-items: center;
+  align-self: flex-start;
+  margin-left: 10px;
+}
+
+.back-content .back-txt {
+  font-size: 20px;
+  font-family: Poppins;
+  font-weight: normal;
+  color: #3973a5;
+  margin-left: 16px;
+}
+
+.box-body {
+  display: flex;
+  height: 90%;
+}
+
+.inside-body {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  align-self: center;
+  align-content: center;
+  /* background-color: aquamarine; */
+}
+
+.inside-body .page-info-txt {
+  font-size: 24px;
+  font-family: Poppins;
+  font-weight: 550;
+  color: black;
+  text-align: center;
+  margin: 50px 100px;
+  width: 100%;
+  /* background-color: lawngreen; */
+}
+
+.inside-body .submit-btn {
+  color: white;
+  text-align: center;
+  border-radius: 15px;
+  font-size: 24px;
+  padding: 10px 100px;
+  margin: 50px 100px;
+  background-color: #3973a5;
+}
+/*  */
+/*  */
+/*  */
+/*  */
+/*  */
+/* ==================== width: 467px ==================== */
+/*  */
+/*  */
+/*  */
+/*  */
+/*  */
+/*  */
+
+@media (max-width: 467px) {
+  .full-box {
+    width: 100%;
+    height: 100vh;
+    background-color: white;
+    padding-bottom: 100px;
+  }
+  .icon-div {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-self: flex-start;
+    align-items: center;
+    align-content: center;
+    /* background-color: lightcoral; */
+    /* padding: 10px; */
+  }
+
+  .top-back-button {
+    display: flex;
+    flex-direction: row;
+    cursor: pointer;
+    align-items: center;
+    align-content: center;
+    margin: 20px 0px 0px 0px;
+    /* background-color: red; */
+  }
+  .back-content {
+    display: none;
+  }
+
+  .app-icon-style {
+    width: 120px;
+    height: 58px;
+    margin: 0px 0px 0px 40px;
+  }
+  .inside-body .submit-btn {
+    color: white;
+    text-align: center;
+    border-radius: 15px;
+    font-size: 18px;
+    padding: 10px 80px;
+    margin: 30px 50px;
+    background-color: #3973a5;
+  }
+}

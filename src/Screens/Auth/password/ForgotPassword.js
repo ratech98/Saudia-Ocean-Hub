@@ -7,6 +7,7 @@ import { toast } from "react-toastify";
 import { forgot_password_request } from "../../../Service/api";
 import { EmailId } from "../../../redux/slices";
 import Loader from "../../Loader";
+import "./ForgotPassword.css";
 
 const start_space_Validation = new RegExp(/^(?!\s).*/);
 
@@ -57,120 +58,50 @@ export const ForgotPassword = () => {
   };
 
   return (
-    <div
-      style={{
-        width: "100%",
-        height: "100vh",
-        backgroundColor: "#f6f6f6",
-        paddingBottom: "100px",
-      }}
-    >
+    <div className="pwd-full-box">
       {isLoading ? <Loader loading={isLoading} /> : null}
-      <img
-        src={IMAGES.APP_ICON}
-        alt="ICON"
-        style={{
-          marginLeft: "140px",
-          width: "200px",
-          height: "100px",
-        }}
-      />
-      <div
-        style={{
-          display: "flex",
-          height: "90%",
-        }}
-      >
-        <Container
-          sx={{}}
-          style={{
-            backgroundColor: "white",
-            width: "65%",
-            display: "flex",
-            justifyContent: "center",
-            height: "100%",
+      <div className="icon-div">
+        <Grid
+          item
+          className="top-back-button"
+          onClick={() => {
+            dispatch(EmailId(null));
+            navigate(-1);
           }}
         >
+          <img src={IMAGES.LEFT_BACK_BUTTON} className="back-icon" alt="Back" />
+        </Grid>
+        <img src={IMAGES.APP_ICON} alt="ICON" className="app-icon-style" />
+      </div>
+      <div className="box-body">
+        <Container className="container-body">
           <Grid container direction="column">
-            <Grid
-              item
-              sx={{
-                marginTop: "20px",
-                display: "flex",
-                cursor: "pointer",
-                alignItems: "center",
-                alignSelf: "flex-start",
-                marginLeft: "10px",
-              }}
+            <div
               onClick={() => {
-                // dispatch(EmailId(null));
                 navigate(-1);
               }}
+              className="back-content"
             >
               <img
                 src={IMAGES.LEFT_BACK_BUTTON}
-                style={{
-                  width: "14px",
-                  height: "18px",
-                }}
+                className="back-icon"
                 alt="Back"
               />
-              <Typography
-                variant="subtitle1"
-                sx={{
-                  fontSize: "20px",
-                  fontFamily: "Poppins",
-                  fontWeight: "normal",
-                  color: "#3973a5",
-                  marginLeft: "16px",
-                }}
-              >
+              <Typography variant="subtitle1" className="back-txt">
                 Back
               </Typography>
-            </Grid>
+            </div>
 
-            <Grid
-              item
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            >
-              <Typography
-                // variant="h4"
-                sx={{
-                  fontSize: "40px",
-                  fontFamily: "Poppins",
-                  fontWeight: "550",
-                  color: "black",
-                  textAlign: "center",
-                }}
-              >
+            <div className="inside-body">
+              <Typography className="page-title-txt">
                 Forgot Password
               </Typography>
 
-              <Typography
-                sx={{
-                  fontSize: "24px",
-                  fontFamily: "Poppins",
-                  fontWeight: "550",
-                  color: "black",
-                  textAlign: "center",
-                  margin: "50px 100px",
-                }}
-              >
+              <Typography className="page-info-txt">
                 Enter the email address associated with your account and we`ll
                 send you a verification code to reset your password
               </Typography>
-              <div
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  width: "50%",
-                }}
-              >
+              <div className="show-txt-filed">
                 <TextField
                   label={"Email"}
                   variant="outlined"
@@ -195,6 +126,7 @@ export const ForgotPassword = () => {
                       alignSelf: "center",
                     },
                   }}
+                  style={{ width: "100%" }}
                 />
                 {errorMsg ? (
                   <Typography
@@ -211,21 +143,11 @@ export const ForgotPassword = () => {
               <Button
                 variant="contained"
                 onClick={handleSubmit}
-                style={{ backgroundColor: "#3973a5" }}
-                sx={{
-                  color: "white",
-                  textAlign: "center",
-                  borderRadius: "15px",
-                  fontSize: 24,
-                  marginBottom: "25px",
-                  paddingLeft: "100px",
-                  paddingRight: "100px",
-                  margin: "50px 100px",
-                }}
+                className="submit-btn"
               >
                 Continue
               </Button>
-            </Grid>
+            </div>
           </Grid>
         </Container>
       </div>

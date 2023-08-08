@@ -1,7 +1,7 @@
 .full-box {
   width: 100%;
   /* height: 100vh; */
-  height: auto;
+  /* height: auto; */
   background-color: #f6f6f6;
   /* background-color: rebeccapurple; */
   padding: 0px;
@@ -10,9 +10,8 @@
 
 .formStyle {
   width: 100%;
-  /* height: 100vh; */
-  height: 100%;
-  /* background-color: #f6f6f6; */
+  height: auto;
+  background-color: #f6f6f6;
   padding: 0px;
   margin: 0px;
 }
@@ -30,23 +29,24 @@
   align-self: flex-start;
   align-content: flex-start;
   justify-content: flex-start;
-  /* background-color: antiquewhite; */
   padding: 0px 10px;
   margin: 0px;
+  height: auto;
+  /* width: 100%; */
 }
 
-.body-content .page-title {
+.body-content .page-title-gj {
   font-size: 45px;
   font-family: Poppins;
   line-height: 0.89;
   color: #424651;
   font-weight: bold;
   padding: 0px;
-  /* margin: -40px 0px 0px 0px; */
+  text-align: center;
 }
 
 .body-content .title-info {
-  /* margin-top: 11px; */
+  margin-top: 10px;
   font-size: 30px;
   font-family: Poppins;
   line-height: 1.33;
@@ -64,7 +64,7 @@
   text-align: center;
 }
 
-.login-div .acc-txt {
+.body-content .end-content .login-div .acc-txt {
   color: #424651;
   font-size: 14px;
   font-family: Poppins;
@@ -72,7 +72,7 @@
   text-align: center;
 }
 
-.login-div .login-txt {
+.body-content .end-content .login-div .login-txt {
   margin-left: 40px;
   color: #424651;
   font-size: 14px;
@@ -112,7 +112,7 @@
   width: 45%;
 }
 
-.first-field .text-field-inputs {
+.body-content .first-field .text-field-inputs {
   font-size: 16px;
   font-family: Poppins;
   color: #424651;
@@ -121,6 +121,12 @@
   background-color: #fff;
   border-radius: 5px;
   box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.09);
+  height: 25px;
+}
+
+.custom-placeholder::placeholder {
+  color: blue; /* Change the color to your desired style */
+  /* Add any other styles you want for the placeholder */
 }
 
 .body-content .text-filed {
@@ -139,7 +145,44 @@
   background-color: #fff;
   border-radius: 5px;
   box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.09);
-  /* background-color: #026b93; */
+  height: 25px;
+}
+
+.body-content .phone-no {
+  background-color: white;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  margin: 0px;
+  padding: 0px;
+  padding: 0px 0px;
+}
+
+.country-div {
+  cursor: pointer;
+  justify-content: center;
+  display: flex;
+  padding-left: 30px;
+  padding-right: 5px;
+}
+
+.country-div .flag-design {
+  font-size: 30px;
+  text-align: center;
+}
+
+.country-div .dial-code-txt {
+  font-size: 16px;
+  text-align: center;
+  margin-left: 20px;
+  font-family: Poppins;
+  align-self: center;
+  color: #424651;
+}
+
+.modal-county-txt {
+  margin-right: 15px;
+  font-size: 20px;
 }
 
 .pwd-div {
@@ -158,10 +201,9 @@
   width: 100%;
   margin-top: 15px;
   padding-bottom: 15px;
-  /* background-color: coral; */
 }
 
-.end-content .btnStyle {
+.body-content .end-content .btnStyle {
   width: 100%;
   background-color: #026b93;
   color: white;
@@ -172,28 +214,29 @@
   box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.09);
   padding: 10px;
 }
-.end-content .btnStyle:hover {
+.body-content .end-content .btnStyle:hover {
   background-color: #025977;
 }
 
 .error-msg-txt {
   color: #dc143c;
-  font-size: 11;
-  font-family: Poppins;
+  font-size: 8;
+  /* font-family: Poppins; */
   margin-top: 5px;
+  background-color: lightseagreen;
 }
 
 .pwd-filed {
-  background-color: #fff;
-  box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.09);
-  margin-top: 20px;
-  border-radius: 5px;
   display: flex;
   align-self: center;
   align-items: center;
   align-content: center;
+  border-radius: 5px;
   width: 100%;
-  padding: 0px 10px 0px 0px;
+  height: 30px;
+  margin: 20px 0px 0px 0px;
+  background-color: #fff;
+  box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.09);
 }
 
 .pwd-filed .pwd-txt-input {
@@ -202,13 +245,15 @@
   color: #424651;
   border-bottom: none;
   background-color: #fff;
-  padding: 0px;
   padding: 0px 0px 0px 15px;
+  margin: 0;
+  height: 100%;
 }
 
 .check-box-div {
   display: flex;
   flex-direction: column;
+  width: 100%;
 }
 
 .unChecked-box {
@@ -231,16 +276,12 @@
   display: flex;
 }
 
-.check-box-txt {
+.body-content .check-box-div .check-box-txt {
   font-size: 14px;
   font-family: Poppins;
   color: rgba(66, 70, 81, 0.87);
-}
-
-.agree-info-txt {
-  font-size: 14px;
-  font-family: Poppins;
-  color: rgba(66, 70, 81, 0.87);
+  font-weight: 400;
+  line-height: 15px;
 }
 
 .err-term-service-txt {
@@ -251,7 +292,7 @@
   /* background-color: aquamarine; */
 }
 
-.pwd-strength-div {
+.body-content .pwd-strength-div {
   border-color: white;
   border-radius: 5px;
   border-width: 1;
@@ -300,8 +341,208 @@
   /* background-color: #dc143c; */
 }
 
+.small-pwd-strength-div {
+  display: none;
+}
+
+/*  */
+/*  */
+/*  */
+/*  */
+/*  */
+/*  */
+/*  */
+/*  */
+/*  */
+/*  */
+/*  */
+/*  */
+/*  */
+/*  */
+/*  */
+/*  */
 @media (max-width: 467px) {
-  .pwd-strength-div {
-    display: block;
+  .appIconStyle {
+    margin: 0px;
+    width: 200px;
+    height: 100px;
+  }
+  .formStyle {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-self: center;
+    align-items: center;
+    align-content: center;
+    width: 100%;
+    height: auto;
+    background-color: #f6f6f6;
+    padding: 0px;
+    margin: 0px;
+  }
+  .body-content .page-title-gj {
+    font-size: 16px;
+    font-family: Poppins;
+    line-height: 24px;
+    color: #424651;
+    font-weight: bold;
+    padding: 0px;
+    text-align: center;
+    /* background-color: #025977; */
+  }
+
+  .body-content .title-info {
+    margin-top: 10px;
+    font-size: 12px;
+    font-family: Poppins;
+    line-height: 18px;
+    font-weight: 500;
+    font-size: normal;
+    text-align: center;
+    color: #424651;
+    /* background-color: aqua; */
+  }
+
+  .body-content .pwd-strength-div {
+    display: none;
+  }
+
+  .small-pwd-strength-div {
+    display: flex;
+    /* background-color: lightcyan; */
+    margin-top: 2px;
+    justify-content: flex-start;
+    align-items: flex-start;
+    align-self: flex-start;
+    align-content: flex-start;
+  }
+
+  .small-pwd-strength-div .small-pwd-strength-err-info {
+    font-family: Poppins;
+    font-size: 8px;
+    font-weight: 400;
+    color: #ef3a3a;
+    text-align: start;
+  }
+
+  .small-pwd-strength-div .small-pwd-strength-success-info {
+    font-family: Poppins;
+    font-size: 8px;
+    font-weight: 400;
+    color: green;
+  }
+
+  .body-content .first-field .text-field-inputs {
+    font-size: 10px;
+    font-family: Poppins;
+    color: #424651;
+    padding: 8px 10px;
+    border-bottom: none;
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.09);
+    height: 10px;
+    /* background-color: lightblue; */
+  }
+
+  .body-content .text-inputs {
+    font-size: 10px;
+    font-family: Poppins;
+    color: #424651;
+    padding: 8px 10px;
+    border-bottom: none;
+    border-radius: 5px;
+    box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.09);
+    background-color: white;
+    height: 10px;
+    /* background-color: lightblue; */
+  }
+
+  .pwd-filed {
+    display: flex;
+    align-self: center;
+    align-items: center;
+    align-content: center;
+    border-radius: 5px;
+    width: 100%;
+    height: 100%;
+    margin: 20px 0px 0px 0px;
+    background-color: #fff;
+    box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.09);
+    background-color: #025977;
+  }
+
+  .pwd-filed .pwd-txt-input {
+    font-size: 10px;
+    font-family: Poppins;
+    color: #424651;
+    border-bottom: none;
+    background-color: #fff;
+    padding: 0px 0px 0px 15px;
+    margin: 0;
+    height: 100%;
+  }
+
+  .check-box-div {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  .body-content .check-box-div .check-box-txt {
+    font-size: 10px;
+    font-family: Poppins;
+    color: rgba(66, 70, 81, 0.87);
+    font-weight: 400;
+    line-height: 15px;
+  }
+
+  .body-content .end-content .btnStyle {
+    width: 100%;
+    background-color: #026b93;
+    color: white;
+    font-size: 10px;
+    font-family: Poppins;
+    font-weight: bold;
+    text-transform: none;
+    box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.09);
+    padding: 10px;
+  }
+  .body-content .end-content .login-div .acc-txt {
+    color: #424651;
+    font-size: 10px;
+    font-family: Poppins;
+    font-weight: normal;
+    text-align: center;
+  }
+  .body-content .end-content .login-div .login-txt {
+    margin-left: 40px;
+    color: #424651;
+    font-size: 10px;
+    font-family: Poppins;
+    font-weight: normal;
+    text-decoration: underline;
+    text-align: center;
+  }
+  .country-div {
+    cursor: pointer;
+    justify-content: center;
+    display: flex;
+    padding-left: 20px;
+    padding-right: 5px;
+  }
+
+  .country-div .flag-design {
+    font-size: 20px;
+    text-align: center;
+  }
+
+  .country-div .dial-code-txt {
+    font-size: 10px;
+    text-align: center;
+    margin-left: 15px;
+    font-family: Poppins;
+    align-self: center;
+    color: #424651;
   }
 }

@@ -32,7 +32,7 @@ import { AuthToken, TokenDecodeData, UserId } from "../redux/slices";
 import { BoatBookingRequest } from "../Screens/new/BoatBookingRequest";
 import BoatViewDetails from "../Screens/Dash/Boat-View-Details/BoatViewDetails";
 
-import { BoatDetailCard } from "../Screens/new/BoatDetailCard";
+import { BoatDetailCard } from "../Screens/Dash/Card/BoatDetailCard";
 import { BookingHistory } from "../Screens/Dash/Booking_History/BookingHistory";
 import { SearchBoat } from "../Screens/Dash/Search/SearchBoat";
 import { Setting } from "../Screens/Dash/Settings-pages/Setting";

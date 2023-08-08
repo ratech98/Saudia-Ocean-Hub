@@ -11,7 +11,7 @@ import Cretified from "../../Component/Certificate/Cretified";
 import Footer from "../../Component/Footer/Footer";
 import Banner from "../../Component/Banner/Banner";
 import { useLocation, useNavigate } from "react-router-dom";
-import { BoatDetailCard } from "../new/BoatDetailCard";
+import { BoatDetailCard } from "./Card/BoatDetailCard";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { verifyOTP } from "../../redux/slices";

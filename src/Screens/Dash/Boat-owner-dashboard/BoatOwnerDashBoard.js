@@ -5,7 +5,7 @@ import Footer from "../../../Component/Footer/Footer";
 import { useLocation, useNavigate } from "react-router-dom";
 import { HeaderContent } from "../../Common/map/HeaderContent";
 import { useDispatch, useSelector } from "react-redux";
-import { BoatDetailCard } from "../../new/BoatDetailCard";
+import { BoatDetailCard } from "../Card/BoatDetailCard";
 import { boat_list_filter } from "../../../Service/api";
 import {
   boatRegisterStep1,
@@ -206,9 +206,10 @@ export const BoatOwnerDashBoard = () => {
                 // );
                 return (
                   <div
-                    style={{
-                      margin: "27.5px",
-                    }}
+                    // style={{
+                    //   margin: "27.5px",
+                    // }}
+                    className="card-margin"
                     onClick={() => {
                       navigate("/boatViewDetails");
                       // item?.boat_id
