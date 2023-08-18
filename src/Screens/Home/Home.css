@@ -1,0 +1,870 @@
+.home-full-box {
+  width: 100%;
+  height: 100%;
+  background-color: #f6f6f6;
+}
+
+/* =========================================================                    Banner */
+
+.banner {
+  width: 100%;
+  height: auto;
+  min-height: 300px;
+  position: sticky;
+  background-image: url("../../assets/Images/bg_img.png");
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+
+  /* Flex properties to center content */
+  display: flex;
+  flex-direction: column;
+  /* justify-content: center; */
+  align-items: center;
+}
+
+.inner-banner-box {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  position: static;
+  width: 100%;
+  height: 100%;
+  /* background-color: rgba(255, 255, 255, 0.5); */
+}
+
+.show-header-outSide-banner {
+  display: none;
+}
+.show-header-inside-banner {
+  width: 100%;
+  display: flex;
+}
+
+.banner-txt-content {
+  position: relative;
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
+  width: 100%;
+  /* height: auto; */
+  /* background-color: lightgreen; */
+}
+
+.banner-txt-box {
+  display: flex;
+  flex-direction: column;
+  width: 55%;
+}
+
+.banner-txt-box .welcome-txt {
+  font-family: Poppins;
+  font-size: 48px;
+  font-weight: bolder;
+  font-stretch: normal;
+  font-style: normal;
+  letter-spacing: normal;
+  text-align: left;
+  width: 100%;
+  height: auto;
+  color: rgba(66, 70, 81, 1);
+  /* background-color: #026b93; */
+}
+
+.banner-txt-box .sub-titile {
+  padding: 24px 0 80px;
+  font-family: Poppins;
+  font-size: 24px;
+  font-weight: 500;
+  font-stretch: normal;
+  font-style: normal;
+  letter-spacing: normal;
+  text-align: left;
+  color: rgba(66, 70, 81, 1);
+  width: 100%;
+  height: auto;
+}
+
+.banner-txt-box .get-start-btn {
+  font-size: 24px;
+  font-family: Poppins;
+  font-weight: bolder;
+  text-align: center;
+  color: #026b99;
+  padding: 15px;
+  width: 50%;
+  box-shadow: 1px 1px 1px #026b93;
+  border: solid 2.5px #026b93;
+  /* background-color: rgba(255, 255, 255, 0.2); */
+  text-transform: none;
+  display: flex;
+  align-self: flex-start;
+  justify-content: center;
+  align-items: center;
+  align-content: flex-start;
+  min-width: 30%;
+  border-radius: 60px;
+}
+
+.banner .get-start-btn:hover {
+  background-color: #026b93; /* Change to the desired color when pressed */
+  color: white; /* Change to the desired text color when pressed */
+  border-color: #026b93; /* Change to the desired border color when pressed */
+}
+
+/* =========================================================                    journey */
+.choose-journey {
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  align-self: center;
+  align-items: center;
+  /* background-color: #026b93; */
+  padding: 100px 0 0 0;
+}
+
+.choose-journey .title {
+  font-family: Poppins;
+  font-size: 48px;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.38;
+  letter-spacing: normal;
+  text-align: center;
+  color: rgba(66, 70, 81, 0.87);
+  max-width: 55%;
+}
+
+.show-img-box {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  /* width: 100%; */
+  /* background-color: lightgreen; */
+  /* height: 100%; */
+  padding: 10% 0;
+}
+
+.boat_img {
+  width: 100%;
+  /* height: 100%; */
+  /* height: 265px; */
+  object-fit: contain;
+  opacity: 0.9;
+}
+
+/* =========================================================             boat owner */
+.boat-owner-box {
+  margin: 0px;
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  height: 100%;
+  background-image: linear-gradient(
+    to bottom,
+    #70a8c0,
+    #3c85a7 29%,
+    #03487a 74%,
+    #03487a
+  );
+}
+
+.boat-owners-point-list {
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  align-self: center;
+  padding: 0 5% !important;
+  /* background-color: red; */
+}
+
+.boat-owners-point-list .for-boat-owner-txt {
+  font-family: Poppins;
+  font-size: 30px;
+  font-weight: 500;
+  font-stretch: normal;
+  font-style: normal;
+  /* line-height: 1.33; */
+  letter-spacing: normal;
+  text-align: start;
+  color: #f6f6f6;
+}
+
+.boat-owners-point-list .sub-title-txt {
+  margin-top: 50px;
+  font-family: Poppins;
+  font-size: 45px;
+  font-weight: 500;
+  font-stretch: normal;
+  font-style: normal;
+  /* line-height: 1.27; */
+  letter-spacing: normal;
+  text-align: left;
+  color: #f6f6f6;
+}
+
+.owner-desc {
+  padding: 0px;
+  margin-top: 50px;
+  /* background-color: #f6f6f6; */
+  height: 100%;
+}
+
+.owner-desc .point-list {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  margin: 32px 0;
+}
+
+.point-list .point-list-img {
+  width: 32px;
+  height: 56px;
+}
+
+.point-list .point-txt {
+  margin: 0 0 0 55px;
+  font-family: Poppins;
+  font-size: 20px;
+  font-weight: 600;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.5;
+  letter-spacing: normal;
+  text-align: left;
+  color: rgba(246, 246, 246, 0.87);
+}
+
+.boat-owners-point-list .boat-owner-btn {
+  text-transform: none;
+  display: flex;
+  font-family: Poppins;
+  font-size: 24px;
+  font-stretch: normal;
+  font-style: normal;
+  letter-spacing: normal;
+  font-weight: bolder;
+  text-align: center;
+  color: #f6f6f6;
+  box-shadow: 1px 1px 1px white;
+  padding: 3% 10%;
+  width: fit-content;
+  margin: 0;
+  border: solid 1.5px white;
+  border-radius: 55px;
+
+  /* justify-content: center; */
+  /* align-items: center; */
+  /* align-self: center; */
+  /* align-content: center; */
+  /* 
+  color: #026b99;
+  padding: 15px;
+  width: 50%;display: flex;
+  align-self: flex-start;
+  justify-content: center;
+  align-items: center;
+  align-content: flex-start;
+  min-width: 30%;
+  border-radius: 60px; */
+}
+
+.boat-owners-point-list .boat-owner-btn:hover {
+  background-color: white;
+  color: #3c85a7;
+  /* border: solid 2.5px #3c85a7; */
+  box-shadow: 0px 0px 5px #70a8c0;
+}
+
+.boat-img-show {
+  width: 50%;
+}
+.boat-img-show .img-fluid {
+  width: 100%;
+  max-width: 100%;
+  height: -webkit-fill-available !important;
+}
+
+/* =========================================================             ocian hub */
+.ocean-hub {
+  padding: 189px 0;
+  background-color: #f6f6f6;
+}
+
+.ocean-hub .ocean-hub-title {
+  font-family: Poppins;
+  font-size: 48px;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+
+  letter-spacing: normal;
+  text-align: center;
+  color: #424651;
+}
+
+.ocean-hub-content-box {
+  display: flex;
+  flex-direction: row;
+  padding: 100px 0;
+  justify-content: center;
+  text-align: -webkit-center;
+  margin: 0;
+}
+
+.ocen-hub-each-point {
+  display: flex;
+  flex-direction: column;
+
+  width: 100%;
+  height: 100%;
+}
+.ocen-hub-list-icon {
+  width: 91.7px;
+  height: 67.1px;
+  object-fit: contain;
+}
+
+.white-circle-background {
+  display: flex;
+  background-color: white;
+  align-content: center;
+  justify-content: center;
+  align-items: center;
+  align-self: center;
+  border-radius: 90%;
+  padding: 7% 7%;
+}
+
+.ocen-hub-txt-box {
+  padding-top: 50px;
+}
+
+.ocen-hub-txt-box .ocean-hub-point-title {
+  padding-bottom: 20px;
+  font-family: Poppins;
+  font-size: 30px;
+  font-weight: 600;
+  font-stretch: normal;
+  font-style: normal;
+  letter-spacing: normal;
+  text-align: center;
+  color: rgba(66, 70, 81, 0.87);
+}
+.ocen-hub-txt-box .ocean-hub-point-info {
+  font-family: Poppins;
+  font-size: 20px;
+  font-weight: 500;
+  font-stretch: normal;
+  font-style: normal;
+  letter-spacing: normal;
+  text-align: left;
+  color: rgba(66, 70, 81, 0.6);
+  /* background-color: lightgray; */
+  padding: 0 20px;
+}
+
+/* =========================================================             client review */
+
+.client-review-container {
+  width: 100%;
+  /* background-color: #70a8c0; */
+  padding: 150px 0 200.1px;
+  background-image: linear-gradient(
+    to bottom,
+    #70a8c0,
+    #3c85a7 29%,
+    #03487a 74%,
+    #03487a
+  );
+}
+.client-review-title {
+}
+.client-review-title .client-review-title-txt {
+  font-family: Poppins;
+  font-size: 48px;
+  font-weight: 600;
+  font-stretch: normal;
+  font-style: normal;
+  letter-spacing: normal;
+  text-align: center;
+  color: rgba(246, 246, 246, 0.87);
+}
+.scrollable-row {
+  overflow-x: auto;
+  display: flex;
+  flex-wrap: nowrap;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  scroll-padding: 0px 20px; /* Added padding on left and right */
+  scroll-snap-align: start; /* Ensures each card snaps to the start position */
+  padding-top: 220px;
+}
+.scrollable-row::-webkit-scrollbar {
+  display: none;
+}
+
+.flex-nowrap {
+  flex-wrap: nowrap;
+
+  /* */
+}
+
+.flex-nowrap .review_card {
+  flex-shrink: 0;
+  margin-right: 20px;
+  margin-top: 0;
+  transition: margin-top 0.3s ease;
+  background-color: rgba(246, 246, 246, 0.7);
+  width: 425px;
+  height: 299px;
+  padding: 0px 35px 40px 35px;
+  position: relative;
+  /* background-color: darkcyan; */
+  border-radius: 15px;
+}
+
+/* .review_card .fully-visible {
+  margin-top: 50px;
+} */
+
+.review_card .client-img {
+  width: 99px;
+  height: 99px;
+}
+
+.review_card .client-card-name-txt {
+  margin: 24px 0px 8px 0;
+  padding-top: 90px;
+  font-family: Poppins;
+  font-size: 21px;
+  font-weight: 600;
+  font-stretch: normal;
+  font-style: normal;
+  /* line-height: 1.48; */
+  letter-spacing: normal;
+  text-align: left;
+  color: #424651;
+}
+
+.review_card .client-card-city-txt {
+  font-family: Poppins;
+  font-size: 15px;
+  font-weight: 300;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.53;
+  letter-spacing: normal;
+  text-align: left;
+  color: #424651;
+}
+
+.review_card .client-card-review-txt {
+  margin: 32px 0 0;
+  font-family: Poppins;
+  font-size: 18px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.5;
+  letter-spacing: normal;
+  text-align: left;
+  color: #424651;
+}
+
+/* =========================================================             certified */
+.certified-box {
+  /* padding: 80px 80px 40px 80px; */
+  background-color: rgba(246, 246, 246, 0.9);
+  /* background-color: lightblue; */
+  padding: 0;
+}
+.certified-content {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.certified-content .certified-title {
+  padding-bottom: 40px;
+  font-family: Poppins;
+  font-size: 48px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  letter-spacing: normal;
+  text-align: start;
+  color: rgba(66, 70, 81, 0.87);
+}
+
+.certified-content .certified-info {
+  font-family: Poppins;
+  font-size: 24px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  letter-spacing: normal;
+  text-align: left;
+  color: rgba(66, 70, 81, 0.6);
+}
+
+.certified-content .certified_img {
+  width: 357.1px;
+  height: 139.5px;
+  align-self: center;
+}
+
+.footer-style-hide {
+  display: contents;
+  margin: 0;
+  padding: 0;
+}
+
+/*  */
+/*  */
+/*  */
+/*  */
+/*  */
+/*  */
+/*  */
+/*  */
+/*  */
+/*  */
+/*  */
+/*  */
+/*  */
+/*  */
+/*  */
+/*  */
+/* =========================================================      max-width: 768px       =========================================================================== */
+/*  */
+/*  */
+/*  */
+/*  */
+/*  */
+/*  */
+/*  */
+/*  */
+/*  */
+/*  */
+/*  */
+/*  */
+/*  */
+/*  */
+/*  */
+/*  */
+@media (max-width: 768px) {
+  .choose-journey {
+    /* background-color: #026b93; */
+    padding: 50px 0 0 0;
+  }
+
+  .choose-journey .title {
+    font-size: 14px;
+    width: 90%;
+  }
+
+  /* banner */
+
+  .banner {
+    width: 100%;
+    height: auto;
+    min-height: 300px;
+    position: sticky;
+    background-image: url("../../assets/Images/bg_img.png");
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+
+    /* Flex properties to center content */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .inner-banner-box {
+    display: flex;
+    flex-direction: column;
+    position: static;
+    width: 100%;
+    max-height: 10%;
+    padding: 10% 0;
+  }
+
+  .show-header-outSide-banner {
+    display: flex;
+  }
+
+  .show-header-inside-banner {
+    display: none;
+  }
+
+  .banner-txt-box .welcome-txt {
+    font-size: 18px;
+    /* background-color: #026b93; */
+  }
+
+  .banner-txt-box .sub-titile {
+    padding: 8px 0 40px;
+    font-size: 14px;
+  }
+
+  .banner-txt-box .get-start-btn {
+    font-size: 14px;
+    border-radius: 30px;
+    min-width: 50%;
+    border: solid 1px #026b93;
+    box-shadow: 0.5px 0.5px 0.5px #026b93;
+  }
+
+  .banner-txt-content {
+    /* background-color: lightcoral; */
+  }
+
+  .banner-txt-box {
+    /* background-color: linen; */
+  }
+
+  .owner-desc {
+    margin-top: 10px;
+  }
+  .owner-desc .point-list {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    margin: 2px 0;
+  }
+
+  .boat-owners-point-list {
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    align-self: center;
+    padding: 5% !important;
+    /* background-color: red; */
+  }
+
+  .boat-owners-point-list .for-boat-owner-txt {
+    font-size: 8px;
+  }
+
+  .boat-owners-point-list .sub-title-txt {
+    margin-top: 10px;
+    font-size: 10px;
+  }
+
+  .owner-desc {
+    margin-top: 20px;
+  }
+
+  .owner-desc .point-list {
+    margin: 12px 0;
+  }
+
+  .boat-img-show {
+    width: 40%;
+  }
+
+  .point-list .point-list-img {
+    width: 12px;
+    height: 26px;
+  }
+
+  .point-list .point-txt {
+    margin: 0 0 0 10px;
+    font-size: 8px;
+  }
+
+  .boat-owners-point-list .boat-owner-btn {
+    font-size: 8px;
+    border-width: 0.1px;
+    padding: 0 10%;
+    border-radius: 20px !important;
+    /* width: 100%; */
+  }
+
+  /*  */
+  /*  */
+  /* ocean hub */
+  /*  */
+  .ocean-hub {
+    padding: 89px 10px;
+    background-color: #f6f6f6;
+  }
+  .ocean-hub .ocean-hub-title {
+    font-size: 14px;
+  }
+  .scrollable-row {
+    padding-top: 50px;
+  }
+  .ocean-hub-content-box {
+    flex-direction: column;
+    padding: 10px 0;
+  }
+  .ocen-hub-each-point {
+    flex-direction: row;
+    margin: 10px 0px;
+  }
+
+  .ocen-hub-list-icon {
+    width: 35px;
+    height: 25px;
+    object-fit: contain;
+  }
+
+  .white-circle-background {
+    width: auto;
+    height: auto;
+    padding: 4% 3%;
+  }
+
+  .ocen-hub-txt-box {
+    padding: 0px 0px 0px 20px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .ocen-hub-txt-box .ocean-hub-point-title {
+    padding-bottom: 5px;
+    font-size: 12px;
+    text-align: start;
+  }
+  .ocen-hub-txt-box .ocean-hub-point-info {
+    font-size: 10px;
+    text-align: start;
+    padding: 10px 0 0 0;
+  }
+
+  /*  */
+  /*  */
+  /*  */
+  /* client review */
+  /*  */
+  .client-review-container {
+    padding: 50px 0 50.1px;
+    /* background-color: bisque; */
+  }
+  .client-review-title .client-review-title-txt {
+    font-size: 14px;
+  }
+  .flex-nowrap .review_card {
+    width: 142px;
+    height: 94px;
+    padding: 0px 10px 10px 10px;
+    margin-right: 10px;
+    /* background-color: #03487a; */
+    border-radius: 10px;
+  }
+
+  .review_card .client-img {
+    width: 40px;
+    height: 40px;
+    /* background-color: #03487a; */
+  }
+
+  .review_card .client-card-name-txt {
+    margin: 14px 0px 8px 0;
+    padding-top: 20px;
+    font-family: Poppins;
+    font-size: 10px;
+    font-weight: 600;
+    font-stretch: normal;
+    font-style: normal;
+    letter-spacing: normal;
+    text-align: left;
+    color: #424651;
+  }
+
+  .review_card .client-card-city-txt {
+    font-size: 8px;
+  }
+
+  .review_card .client-card-review-txt {
+    margin: 12px 0 0;
+    font-size: 8px;
+  }
+
+  /* =========================================================             certified */
+  .certified-box {
+    /* padding: 80px 80px 40px 80px; */
+    background-color: rgba(246, 246, 246, 0.9);
+    /* background-color: lightblue; */
+    padding: 0;
+  }
+  .certified-content {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
+  .certified-content .certified-title {
+    padding-bottom: 5px;
+    font-size: 14px;
+  }
+
+  .certified-content .certified-info {
+    font-size: 8px;
+  }
+
+  .certified-content .certified_img {
+    width: 78.1px;
+    height: 62.5px;
+    align-self: center;
+  }
+
+  .footer-style-hide {
+    display: none;
+    margin: 0;
+    padding: 0;
+  }
+}
+
+/*  */
+/*  */
+/*  */
+/*  */
+/*  */
+/*  */
+/*  */
+/*  */
+/*  */
+/*  */
+/*  */
+/*  */
+/*  */
+/*  */
+/*  */
+/*  */
+/* =========================================================        max-width: 467px     =========================================================================== */
+/*  */
+/*  */
+/*  */
+/*  */
+/*  */
+/*  */
+/*  */
+/*  */
+/*  */
+/*  */
+/*  */
+/*  */
+/*  */
+/*  */
+/*  */
+/*  */
+@media (max-width: 467px) {
+  .banner-txt-box .welcome-txt {
+    font-size: 14px;
+  }
+
+  .banner-txt-box .sub-titile {
+    font-size: 8px;
+  }
+  .banner-txt-box .get-start-btn {
+    box-shadow: 0.1px 0.1px 0.1px #026b93;
+    font-size: 8px;
+  }
+}

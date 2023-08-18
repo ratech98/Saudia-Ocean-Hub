@@ -4,12 +4,10 @@
 }
 
 .choose_journey_title {
-  height: 56px;
-  margin: 0px auto 220px auto;
+  /* height: 56px; */
+  /* margin: 0px auto 220px auto; */
 }
-.choose_journey_title h2 {
-  width: 672px;
-  height: 133px;
+.choose_journey_title .title {
   font-family: Poppins;
   font-size: 48px;
   font-weight: bold;
@@ -29,4 +27,10 @@
   /* height: 265px; */
   object-fit: contain;
   opacity: 0.9;
+}
+
+@media (max-width: 767px) {
+  .choose_journey_title .title {
+    font-size: 28px;
+  }
 }

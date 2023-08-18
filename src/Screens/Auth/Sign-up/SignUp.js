@@ -60,18 +60,6 @@ const styles = (theme) => ({
 });
 
 const CustomTextField = withStyles(styles)(TextField);
-// const CustomTextField = withStyles({
-//   root: {
-//     "& input::placeholder": {
-//       fontSize: "16px",
-//       // color: "rgba(66, 70, 81, 0.4)",
-//       color: "red",
-
-//       fontFamily: "Poppins",
-//     },
-
-//   },
-// })(TextField);
 
 // Define the regex patterns for each condition
 const regexPatterns = [

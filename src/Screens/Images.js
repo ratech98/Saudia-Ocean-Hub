@@ -35,6 +35,9 @@ const IMAGES = {
   ELLIPSE: require("../assets/Images/Ellipse.svg"),
   LOCATION: require("../assets/Images/location.webp"),
   RIGHT_ARROW: require("../assets/Images/right.png"),
+  TOGGELE_BUTTON: require("../assets/Images/toggle-button-icon.png"),
+  MENU_ICON: require("../assets/Images/menu.png"),
+
   //
   //
   //

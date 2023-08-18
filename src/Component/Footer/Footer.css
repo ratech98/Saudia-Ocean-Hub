@@ -19,6 +19,8 @@
   background-color: #f6f6f6;
   padding: 9px;
   border-radius: 10px;
+  width: 50px;
+  height: 50px;
 }
 .footer-links .nav-links {
   font-family: Poppins;

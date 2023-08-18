@@ -8,7 +8,7 @@ import {
 } from "react-router-dom";
 import { BoatOwnerDashBoard } from "../Screens/Dash/Boat-owner-dashboard/BoatOwnerDashBoard";
 import { Rental } from "../Screens/Dash/RentalBoat/Rental";
-import Home from "../Screens/Dash/Home";
+import Home from "../Screens/Home/Home";
 import { LogIn } from "../Screens/Auth/Log-in/Login";
 import { BoatOfferStep1 } from "../Screens/Dash/BoatOwner/ListABoatOffer/step1/BoatOfferStep1";
 import { BoatOfferStep2 } from "../Screens/Dash/BoatOwner/ListABoatOffer/step2/BoatOfferStep2";

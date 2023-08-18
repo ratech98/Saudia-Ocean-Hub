@@ -350,8 +350,10 @@ export const BoatDetailCard = ({
           <Image1
             style={{
               ...Image1Spring,
-              backgroundImage: `url(${profile_image ?? IMAGES.APP_ICON})`,
-              backgroundSize: profile_image ? "cover" : "contain",
+              // backgroundImage: `url(${profile_image ?? IMAGES.APP_ICON})`,
+              // backgroundSize: profile_image ? "cover" : "contain",
+              backgroundImage: `url(${profile_image})`,
+              backgroundSize: "cover",
             }}
             className="boat-img"
           ></Image1>

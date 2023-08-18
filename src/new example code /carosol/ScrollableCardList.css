@@ -1,0 +1,19 @@
+.scrollable-card-list {
+  display: flex;
+  overflow-x: scroll;
+  padding: 10px;
+}
+
+.card-placeholder {
+  flex: 0 0 auto;
+  width: 100px; /* Adjust this to control the peeking effect */
+  background-color: transparent;
+}
+
+.card {
+  flex: 0 0 auto;
+  width: 400px; /* Adjust this to your card width */
+  margin-right: 10px;
+  border: 1px solid #ccc;
+  /* Add any additional card styling here */
+}

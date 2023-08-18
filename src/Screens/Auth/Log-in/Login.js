@@ -195,10 +195,10 @@ export const LogIn = () => {
     <>
       {/* <Typography
         onClick={() => {
-          navigate("/boatOwnerDashBoard");
+          navigate("/setting");
         }}
       >
-        boatOwnerDashBoard
+        setting
       </Typography> */}
       <div className="full-container-body">
         {isLoading ? <Loader loading={isLoading} /> : null}
