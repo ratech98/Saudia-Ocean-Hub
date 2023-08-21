@@ -302,7 +302,6 @@ export const SignUp = () => {
         className="formStyle"
         style={{ height: "100%" }}
       >
-        {/* <img src={IMAGES.APP_ICON} alt="Icon" className="appIconStyle" /> */}
         <div className={class_name.show_inner_headder}>
           <img src={IMAGES.APP_ICON} alt="ICON" className="appIconStyle" />
         </div>
