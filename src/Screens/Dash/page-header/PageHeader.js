@@ -599,11 +599,11 @@ const useStyles = makeStyles((theme) => ({
     marginLeft: "25px",
     // /* font-family: Poppins; */
     fontSize: "clamp(10px, 2vw, 20px)",
-    fontWeight: "400",
+    fontWeight: "500",
     fontStretch: "normal",
     fontStyle: "normal",
-    letterSpacing: "normal",
     textAlign: "left",
-    color: "#424651",
+    color: "rgba(66, 70, 81, 0.87)",
+    letterSpacing: 0.5,
   },
 }));

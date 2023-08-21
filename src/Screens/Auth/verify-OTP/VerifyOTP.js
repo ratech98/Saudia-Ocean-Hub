@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Button, Grid, TextField, Typography } from "@mui/material";
+import { Grid, TextField } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { resend_otp, verifyOtp } from "../../../Service/api";
 import { EmailId, confirmTickMsg, verifyOTP } from "../../../redux/slices";
@@ -9,6 +9,8 @@ import { toast } from "react-toastify";
 import Loader from "../../Loader";
 import "./VerifyOTP.css";
 import { Container } from "react-bootstrap";
+import { Button, Typography } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core/styles";
 
 const useOtpInputRefs = (length) => {
   const inputRefs = React.useMemo(() => {
@@ -21,6 +23,7 @@ const useOtpInputRefs = (length) => {
 };
 
 const VerifyOTP = () => {
+  const class_name = useStyles({ min: 10, max: 30, unit: "px" });
   const inputRefs = useOtpInputRefs(6);
   const user = useSelector((state) => state?.auth);
   const navigate = useNavigate();
@@ -146,7 +149,10 @@ const VerifyOTP = () => {
   return (
     <div className="verify-otp-full-container">
       {isLoading ? <Loader loading={isLoading} /> : null}
-      <div className="icon-div">
+      <div
+        className="icon-div"
+        // style={{ backgroundColor: "red" }}
+      >
         <Grid
           item
           className="top-back-button"
@@ -185,14 +191,21 @@ const VerifyOTP = () => {
                 src={IMAGES.VERIFY_ACC}
                 alt="Verify Acc"
                 style={{}}
-                className="verify-acc-icon"
+                // className="verify-acc-icon"
+                className={class_name.verified_img}
               />
 
-              <Typography className="please-txt">
+              <Typography
+                // className="please-txt"
+                className={class_name.pageTitle}
+              >
                 Please Verify Account
               </Typography>
 
-              <Typography className="enter-code-txt">
+              <Typography
+                // className="enter-code-txt"
+                className={class_name.page_info_txt}
+              >
                 Enter the six-digit code we sent to your email to verify your
                 new account
               </Typography>
@@ -263,10 +276,19 @@ const VerifyOTP = () => {
                     Resend OTP in {countdown} seconds
                   </Typography>
                 )}
-
-                <Button onClick={handleSubmit} className="btn-style">
-                  Verify & Continue
-                </Button>
+                <div
+                  style={{
+                    // backgroundColor: "red",
+                    display: "flex",
+                    alignItems: "flex-end",
+                    alignContent: "center",
+                    height: "100%",
+                  }}
+                >
+                  <Button onClick={handleSubmit} className="btn-style">
+                    Verify & Continue
+                  </Button>
+                </div>
               </div>
             </div>
           </Grid>
@@ -277,3 +299,41 @@ const VerifyOTP = () => {
 };
 
 export default VerifyOTP;
+
+const useStyles = makeStyles((theme) => ({
+  pageTitle: {
+    // width: "442px",
+    // height: "56px",
+    margin: "8px",
+    fontSize: "clamp(14px, 3vw, 40px)",
+    fontFamily: "Poppins",
+    // fontSize: "40px",
+    fontWeight: "600",
+    fontStretch: "normal",
+    fontStyle: "normal",
+    lineHeight: 1,
+    letterSpacing: "normal",
+    textAlign: "center",
+    color: "var(--charcoal-grey-87)",
+  },
+  page_info_txt: {
+    // width: "784px",
+    // height: "31px",
+    margin: "8px 0 0",
+    fontFamily: "Poppins",
+    // fontSize: "22px",
+    fontSize: "clamp(10px, 1vw, 22px)",
+    fontWeight: "normal",
+    fontStretch: "normal",
+    fontStyle: "normal",
+    lineHeight: 1.82,
+    letterSpacing: "normal",
+    textAlign: "center",
+    color: "var(--charcoal-grey-87)",
+  },
+
+  verified_img: {
+    width: "clamp(165px, 30vw, 260px)", // Adjust the range as needed
+    height: "clamp(145px, 30vh, 220px)", // Adjust the range as needed
+  },
+}));

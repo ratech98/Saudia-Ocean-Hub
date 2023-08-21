@@ -1,16 +1,16 @@
 .full-box {
   width: 100%;
   /* height: 100vh; */
-  /* height: auto; */
+  height: 100%;
   background-color: #f6f6f6;
-  /* background-color: rebeccapurple; */
   padding: 0px;
   margin: 0px;
 }
 
 .formStyle {
   width: 100%;
-  height: auto;
+  height: 100%;
+  /* height: auto; */
   background-color: #f6f6f6;
   padding: 0px;
   margin: 0px;
@@ -223,7 +223,7 @@
   font-size: 8;
   /* font-family: Poppins; */
   margin-top: 5px;
-  background-color: lightseagreen;
+  /* background-color: lightseagreen; */
 }
 
 .pwd-filed {
@@ -233,10 +233,11 @@
   align-content: center;
   border-radius: 5px;
   width: 100%;
-  height: 30px;
+  height: 45px;
   margin: 20px 0px 0px 0px;
   background-color: #fff;
   box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.09);
+  /* background-color: #025977; */
 }
 
 .pwd-filed .pwd-txt-input {
@@ -361,7 +362,7 @@
 /*  */
 /*  */
 /*  */
-@media (max-width: 467px) {
+@media (max-width: 767px) {
   .appIconStyle {
     margin: 0px;
     width: 200px;
@@ -375,10 +376,14 @@
     align-items: center;
     align-content: center;
     width: 100%;
-    height: auto;
+    height: 100%;
     background-color: #f6f6f6;
     padding: 0px;
     margin: 0px;
+  }
+
+  .body-content {
+    background-color: #f6f6f6;
   }
   .body-content .page-title-gj {
     font-size: 16px;
@@ -468,7 +473,6 @@
     margin: 20px 0px 0px 0px;
     background-color: #fff;
     box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.09);
-    background-color: #025977;
   }
 
   .pwd-filed .pwd-txt-input {

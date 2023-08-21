@@ -10,8 +10,9 @@ import {
   DialogTitle,
   DialogContent,
   DialogActions,
-  Typography,
 } from "@mui/material";
+import { makeStyles } from "@material-ui/core/styles";
+import Typography from "@material-ui/core/Typography";
 import { useNavigate } from "react-router-dom";
 import { Visibility, VisibilityOff } from "@material-ui/icons";
 import { countryCodeJson } from "../countryCodeJson";
@@ -70,6 +71,7 @@ const regexPatterns = [
 ];
 
 export const SignUp = () => {
+  const class_name = useStyles({ min: 10, max: 30, unit: "px" });
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const user = useSelector((state) => state?.auth);
@@ -281,21 +283,45 @@ export const SignUp = () => {
   );
 
   return (
-    <div className="full-box">
+    <div
+      // className="full-box"
+      className={class_name.signUp_full_box}
+      style={{ backgroundColor: "red", height: "100%" }}
+    >
+      <div className={class_name.show_outer_headder}>
+        <img
+          src={IMAGES.APP_ICON}
+          alt="ICON"
+          className={class_name.app_icon_style}
+        />
+      </div>
       {loading ? <Loader loading={loading} /> : null}
 
-      <form onSubmit={formik.handleSubmit} className="formStyle">
-        <img src={IMAGES.APP_ICON} alt="Icon" className="appIconStyle" />
+      <form
+        onSubmit={formik.handleSubmit}
+        className="formStyle"
+        style={{ height: "100%" }}
+      >
+        {/* <img src={IMAGES.APP_ICON} alt="Icon" className="appIconStyle" /> */}
+        <div className={class_name.show_inner_headder}>
+          <img src={IMAGES.APP_ICON} alt="ICON" className="appIconStyle" />
+        </div>
         <Container
-          className="container-sm"
+          // className="container-sm"
           style={{
-            // backgroundColor: "lightgreen",
             alignSelf: "center",
             display: "flex",
             justifyContent: "center",
+            // padding: "0px",
+            // margin: "0px",
           }}
         >
-          <div className="body-content">
+          <div
+            className="body-content"
+            style={{
+              backgroundColor: "#f6f6f6",
+            }}
+          >
             <Typography className="page-title-gj">Create Account</Typography>
             <Typography className="title-info">
               Open your gate to endless happiness!
@@ -536,7 +562,6 @@ export const SignUp = () => {
                     ? "1px solid red"
                     : null,
                 width: "100%",
-                // backgroundColor: "rebeccapurple",
               }}
               className="pwd-filed"
             >
@@ -949,3 +974,52 @@ const StyleEff = {
     display: "flex",
   },
 };
+
+const useStyles = makeStyles((theme) => ({
+  show_outer_headder: {
+    display: "none",
+  },
+  app_icon_style: {
+    width: "200px",
+    height: "100px",
+  },
+  body_content: {
+    display: "flex",
+    flexDirection: "column",
+    width: "100%",
+    height: "100vh",
+    backgroundColor: "#f6f6f6",
+  },
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //  ==============================    max-width: 767
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  "@media (max-width: 767px)": {
+    app_icon_style: {
+      width: "96px",
+      height: "48px",
+      margin: "16px",
+    },
+    show_outer_headder: {
+      display: "flex",
+    },
+    show_inner_headder: {
+      display: "none",
+    },
+  },
+}));

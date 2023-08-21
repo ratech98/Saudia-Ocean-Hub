@@ -193,10 +193,22 @@ export const Rental = () => {
         fluid
         className={class_name?.rental_banner}
         style={{
-          height: windowWidth >= 768 ? windowHeight : "auto",
+          // height: windowWidth >= 768 ? windowHeight : "auto",
+          height: window.innerWidth > 1000 ? window.innerHeight : "auto",
+          // padding: "0px",
+          // backgroundColor: "gray",
         }}
       >
-        <div className={class_name.banner_inner_box} style={{}}>
+        <div
+          className={class_name.banner_inner_box}
+          // style={{
+          //   display: "flex",
+          //   backgroundColor: "red",
+          //   height: "100%",
+          //   padding: "0px",
+          //   margin: "0px",
+          // }}
+        >
           {/* inside header */}
           <div className={class_name.show_rental_header_inside_banner}>
             <PageHeader
@@ -267,8 +279,9 @@ export const Rental = () => {
           </div>
         </div>
       </div>
-      <div style={{ backgroundColor: "#f6f6f6" }}>
-        {/* ================================================== boat card ================================================== */}
+
+      {/* ================================================== boat card ================================================== */}
+      <div style={{}} className={class_name.boat_card_AND_Circle}>
         <Container
           // fluid
           className={class_name.boat_list_container}
@@ -283,11 +296,25 @@ export const Rental = () => {
           </div>
 
           <div className={class_name.show_boat_cards_container}>
-            <div className={class_name.show_boar_cards} style={{}}>
+            <div
+              className={class_name.show_boar_cards}
+              // style={{
+              //   backgroundColor: "khaki",
+              //   justifyContent: "space-between",
+              //   alignItems: "center",
+              //   alignContent: "center",
+              //   alignSelf: "center",
+              // }}
+            >
               {boatListData?.map((item, index) => {
                 return (
                   <div
                     className={class_name.boat_card_space}
+                    // style={{
+                    //   marginLeft: index % 2 === 0 ? 0 : "27.5px",
+                    //   marginRight: index % 2 === 0 ? 0 : "27.5px",
+                    // }}
+                    style={{ backgroundColor: "gainsboro" }}
                     onClick={() => {
                       navigate("/boatViewDetails");
                       dispatch(search_boat_id(item?.boat_id));
@@ -346,21 +373,21 @@ export const Rental = () => {
                 <Col className="d-flex justify-content-end">
                   <img
                     alt="ellipse"
-                    src={IMAGES?.PROFILE_ICON}
+                    src={IMAGES?.weekendCircle_1}
                     className={class_name.picture_style}
                   />
                 </Col>
                 <Col className="d-flex justify-content-end">
                   <img
                     alt="ellipse"
-                    src={IMAGES?.boat1}
+                    src={IMAGES?.weekendCircle_2}
                     className={class_name.picture_style}
                   />
                 </Col>
                 <Col className="d-flex justify-content-end">
                   <img
                     alt="ellipse"
-                    src={IMAGES?.boat3}
+                    src={IMAGES?.weekendCircle_3}
                     className={class_name.picture_style}
                   />
                 </Col>
@@ -369,21 +396,21 @@ export const Rental = () => {
                 <Col xs={4} className="p-0">
                   <img
                     alt="ellipse"
-                    src={IMAGES?.subaDiving}
+                    src={IMAGES?.weekendCircle_4}
                     className={class_name.picture_style}
                   />
                 </Col>
                 <Col xs={4} className="p-0">
                   <img
                     alt="ellipse"
-                    src={IMAGES?.boat1}
+                    src={IMAGES?.weekendCircle_5}
                     className={class_name.picture_style}
                   />
                 </Col>
                 <Col xs={4} className="p-0">
                   <img
                     alt="ellipse"
-                    src={IMAGES?.boat2}
+                    src={IMAGES?.weekendCircle_6}
                     className={class_name.picture_style}
                   />
                 </Col>
@@ -392,21 +419,21 @@ export const Rental = () => {
                 <Col className="d-flex justify-content-end">
                   <img
                     alt="ellipse"
-                    src={IMAGES?.boat4}
+                    src={IMAGES?.weekendCircle_7}
                     className={class_name.picture_style}
                   />
                 </Col>
                 <Col className="d-flex justify-content-end">
                   <img
                     alt="ellipse"
-                    src={IMAGES?.boat2}
+                    src={IMAGES?.weekendCircle_8}
                     className={class_name.picture_style}
                   />
                 </Col>
                 <Col className="d-flex justify-content-end">
                   <img
                     alt="ellipse"
-                    src={IMAGES?.boat3}
+                    src={IMAGES?.weekendCircle_9}
                     className={class_name.picture_style}
                   />
                 </Col>
@@ -415,7 +442,9 @@ export const Rental = () => {
           </div>
         </Container>
       </div>
-      <Footer />
+      <div className="footer-style-hide">
+        <Footer />
+      </div>
     </div>
   );
 };
@@ -526,15 +555,22 @@ const useStyles = makeStyles((theme) => ({
     height: "100%",
   },
 
+  boat_card_AND_Circle: {
+    backgroundColor: "#f6f6f6",
+    padding: ({ min, max, unit }) =>
+      `clamp(${min}${unit}, calc(${min}${unit} + (${max} - ${min}) * ((100vw - 300px) / (1600 - 300))), ${max}${unit})`,
+  },
+
   boat_list_container: {
     padding: "80px 0px",
     // backgroundColor: "lightgreen",
   },
+
   boat_Offers_title: {
     display: "flex",
     justifyContent: "space-between",
     alignItems: "center",
-    margin: "32px 0px",
+    margin: "0px 10px",
     // backgroundColor: "lightyellow",
   },
   boat_Offers_txt: {
@@ -566,17 +602,18 @@ const useStyles = makeStyles((theme) => ({
     width: "100%",
     overflowX: "auto",
     padding: "0px",
-    /* background-color: black; */
+    // backgroundColor: "pink",
     margin: "0px",
   },
 
   boat_card_space: {
-    margin: "27.5px",
+    // backgroundColor: "red",
+    // margin: "27.5px",
     [theme.breakpoints.up("sm")]: {
-      margin: "10px",
+      // margin: "10px",
     },
     [theme.breakpoints.up("md")]: {
-      margin: "27.5px",
+      // margin: "27.5px",
     },
     [theme.breakpoints.up("lg")]: {
       margin: "27.5px",
@@ -586,7 +623,7 @@ const useStyles = makeStyles((theme) => ({
   show_boar_cards: {
     display: "flex",
     width: "100%",
-    alignItems: "center",
+    // alignItems: "center",
     justifyContent: "center",
     flexWrap: "wrap",
     margin: "0px",

@@ -24,8 +24,8 @@ const TypeQuest = animated(
   styled("div")(({ theme }) => ({
     // backgroundColor: `rgba(250, 250, 250, 1)`,
     backgroundColor: "#ffffff",
-    boxShadow: `0px 4px 8px rgba(0, 0, 0, 0.16)`,
-    borderRadius: `8px`,
+    // boxShadow: `0px 4px 8px rgba(0, 0, 0, 0.16)`,
+    // borderRadius: `8px`,
     display: `flex`,
     position: `relative`,
     isolation: `isolate`,
@@ -36,6 +36,7 @@ const TypeQuest = animated(
     boxSizing: `border-box`,
     overflow: `hidden`,
     height: "auto",
+    border: "solid 0.5px rgba(66, 70, 81, 0.4)",
   }))
 );
 
@@ -66,11 +67,8 @@ const Image1 = animated(
     justifyContent: `flex-start`,
     alignItems: `flex-start`,
     alignSelf: `stretch`,
-
     margin: `0px`,
-    border: `solid 0.5px rgba(66, 70, 81, 0.2)`,
-    backgroundColor: "whitesmoke",
-    borderRadius: `8px`,
+    // borderRadius: `8px`,
   })
 );
 
