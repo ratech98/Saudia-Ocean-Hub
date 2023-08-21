@@ -1,0 +1,468 @@
+html,
+body,
+.rental-page {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+.rental-page {
+  background-color: #f6f6f6;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.show-rental-header-outSide-banner {
+  display: none;
+}
+
+.rental-banner {
+  width: 100%;
+  height: auto;
+  min-height: 300px;
+  position: sticky;
+  background-image: url("../../../assets/Images/Boating_Experience.png");
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+
+  /* Flex properties to center content */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  background-color: aqua;
+}
+
+.show-rental-header-inside-banner {
+  width: 100%;
+  display: flex;
+  /* background-color: #026b93; */
+}
+
+.content-banner-box {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  position: static;
+  width: 100%;
+  height: 100%;
+  /* background-color: rgba(255, 255, 255, 0.5); */
+}
+
+.banner-txt-search-content {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  /* height: auto; */
+  /* background-color: lightgreen; */
+}
+
+.banner-txt-search-content .welcome-txt {
+  font-family: Poppins;
+  font-size: 48px;
+  font-weight: bolder;
+  font-stretch: normal;
+  font-style: normal;
+  letter-spacing: normal;
+  text-align: center;
+  width: 100%;
+  height: auto;
+  color: rgba(66, 70, 81, 1);
+  /* background-color: #026b93; */
+}
+
+.search {
+  margin: 52px 0px 0px 0px;
+  display: flex;
+  justify-content: center;
+  align-self: center;
+  align-content: center;
+  align-items: center;
+  width: 100%;
+  /* background-color: aquamarine; */
+  /* padding: 10px; */
+}
+
+.search .text-fileds {
+  margin: 0px;
+  border-radius: 5px;
+  /* width: 45%; */
+  background-color: white;
+  border: none;
+  padding: 0px 60px 0px 0px;
+}
+
+.search .text-field-inputs {
+  font-size: 24px;
+  font-family: Poppins;
+  color: #424651;
+  padding: 30px 0px 30px 60px;
+  border: none;
+  border-radius: 5px;
+  height: 25px;
+  /* box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.09); */
+  /* background-color: greenyellow; */
+  /* position: fixed; */
+  height: ;
+}
+
+.search .search-img-font-size {
+  font-size: 42px;
+}
+
+/* .search .text-fileds :focus {
+  outline: none; 
+  border: 2px solid green;
+}
+
+
+.search .text-fileds :active {
+  border: 2px solid red;
+} */
+
+.boat-list-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 120px 0;
+}
+
+.boat-Offers-title {
+  display: flex;
+  justify-content: space-between;
+  margin: 32px 0;
+}
+
+.boat-Offers-title .boat-Offers-txt {
+  font-family: Poppins;
+  font-size: 38px;
+  font-weight: 600;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.74;
+  letter-spacing: normal;
+  text-align: center;
+  color: rgba(66, 70, 81, 0.87);
+}
+
+.boat-Offers-title .show-more-txt {
+  font-family: Poppins;
+  font-size: 24px;
+  font-weight: 500;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 2.75;
+  letter-spacing: normal;
+  text-align: center;
+  color: rgba(66, 70, 81, 0.6);
+}
+
+.show-boar-cards {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-self: center;
+  align-items: center;
+  align-content: center;
+  justify-content: center;
+  /* width: 100%;
+  background-color: aqua;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-self: center;
+  align-items: center;
+  align-content: center;
+  justify-content: center;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  padding: 10px; */
+}
+
+.circle-design-container {
+  background-color: lightpink;
+  /* display: flex */
+  flex-direction: row;
+  width: 100%;
+  padding: 0px;
+  height: 100%;
+}
+
+.seperate-container-box1 {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 40%;
+  margin: 1%;
+  height: 100%;
+  /* background-color: antiquewhite; */
+}
+
+.big-circle {
+  /* height: ; */
+  display: flex;
+  width: fit-content;
+  /* margin: 0 14px 78px 0; */
+  padding: 164px 100px;
+  object-fit: contain;
+  background-image: linear-gradient(
+    132deg,
+    rgba(57, 115, 165, 0.1) 29%,
+    rgba(57, 115, 165, 0.2) 53%,
+    rgba(57, 115, 165, 0.3) 66%,
+    rgba(57, 115, 165, 0.4) 77%
+  );
+  border-radius: 50%;
+}
+
+.big-circle .big-circle-inside-txt {
+  font-family: Poppins;
+  font-size: 38px;
+  font-weight: 600;
+  font-stretch: normal;
+  font-style: normal;
+  letter-spacing: normal;
+  text-align: center;
+  color: rgba(66, 70, 81, 0.87);
+}
+
+.reviews-info-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  /* padding: 10%; */
+  /* margin: 132px 128px 32px 0; */
+  /* background-color: lightgray; */
+}
+
+.reviews-info-box .reviews-info-title {
+  font-family: Poppins;
+  font-size: 30px;
+  font-weight: 500;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.53;
+  letter-spacing: normal;
+  text-align: center;
+  color: var(--charcoal-grey-87);
+}
+
+.reviews-info-box .marketing-label {
+  /* width: 552px; */
+  /* height: 208px; */
+  /* margin: 32px 128px 0 0; */
+  font-family: Poppins;
+  font-size: 20px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.5;
+  letter-spacing: normal;
+  text-align: center;
+  color: rgba(66, 70, 81, 0.6);
+}
+
+/*  */
+/*  */
+/*  */
+/*  */
+/*  */
+/*  */
+/*  */
+/*  */
+/*  */
+/*  */
+/*  */
+/*  */
+/*  */
+/*  */
+/*  */
+/*  */
+/* =========================================================      max-width: 768px       =========================================================================== */
+/*  */
+/*  */
+/*  */
+/*  */
+/*  */
+/*  */
+/*  */
+/*  */
+/*  */
+/*  */
+/*  */
+/*  */
+/*  */
+/*  */
+/*  */
+/*  */
+@media (max-width: 768px) {
+  .show-rental-header-outSide-banner {
+    display: flex;
+  }
+
+  .rental-banner {
+    width: 100%;
+    height: auto;
+    min-height: 300px;
+    position: sticky;
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+
+    /* Flex properties to center content */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .show-rental-header-inside-banner {
+    display: none;
+  }
+
+  .content-banner-box {
+    display: flex;
+    flex-direction: column;
+    position: static;
+    width: 100%;
+    max-height: 10%;
+    padding: 10% 0;
+  }
+
+  .banner-txt-search-content .welcome-txt {
+    font-size: 18px;
+    /* background-color: #026b93; */
+  }
+
+  .search {
+    margin: 22px 0px 0px 0px;
+    display: flex;
+    justify-content: center;
+    align-self: center;
+    align-content: center;
+    align-items: center;
+    width: 100%;
+    /* background-color: aquamarine; */
+    /* padding: 10px; */
+  }
+
+  .search .text-field-inputs {
+    font-size: 24px;
+    font-family: Poppins;
+    color: #424651;
+    padding: 30px 0px 30px 60px;
+    border: none;
+    border-radius: 5px;
+    height: 25px;
+  }
+
+  .search .search-img-font-size {
+    font-size: 32px;
+  }
+
+  .boat-list-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 80px 0;
+    /* background-color: #424651; */
+  }
+
+  .boat-Offers-title {
+    display: flex;
+    justify-content: space-between;
+    margin: 32px 0;
+    /* background-color: lightblue; */
+  }
+
+  .boat-Offers-title .boat-Offers-txt {
+    font-size: 28px;
+  }
+
+  .boat-Offers-title .show-more-txt {
+    font-size: 14px;
+    /* background-color: lavenderblush; */
+  }
+
+  .show-boat-cards-container {
+    width: 100%;
+    overflow-x: auto;
+    padding: 0px;
+    /* background-color: black; */
+    margin: 0px;
+    padding: 0px;
+  }
+
+  .show-boar-cards {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    flex-wrap: nowrap;
+    /* background-color: #f6f6f6; */
+    margin: 0px;
+    padding: 0px;
+  }
+
+  .boat-card {
+    flex: 0 0 auto;
+    margin: 0px;
+    padding: 0px;
+  }
+}
+
+/*  */
+/*  */
+/*  */
+/*  */
+/*  */
+/*  */
+/*  */
+/*  */
+/*  */
+/*  */
+/*  */
+/*  */
+/*  */
+/*  */
+/*  */
+/*  */
+/* =========================================================      max-width: 425 px       =========================================================================== */
+/*  */
+/*  */
+/*  */
+/*  */
+/*  */
+/*  */
+/*  */
+/*  */
+/*  */
+/*  */
+/*  */
+/*  */
+/*  */
+/*  */
+/*  */
+/*  */
+@media (max-width: 425px) {
+  .banner-txt-search-content .welcome-txt {
+    font-size: 16px;
+  }
+
+  .search .text-fileds {
+    padding: 0px 16px 0px 0px;
+    /* background-color: #026b93; */
+  }
+  .search .text-field-inputs {
+    font-size: 10px;
+    padding: 12px 0px 12px 16px;
+    height: 25px;
+    /* background-color: greenyellow; */
+  }
+  .search .search-img-font-size {
+    font-size: 22px;
+  }
+}

@@ -16,7 +16,6 @@ const CustomCheckbox = withStyles({
 
 export const NotificationTab = ({}) => {
   const renderList = (item) => {
-    console.log("item", item);
     return (
       <div>
         <FormControlLabel
@@ -25,45 +24,17 @@ export const NotificationTab = ({}) => {
               name="RememberMe"
               checked={item?.status}
               //   onChange={handleCheckboxChange}
-              icon={
-                <span
-                  style={{
-                    border: "1px solid rgba(66, 70, 81, 0.4)",
-                    borderRadius: "1px",
-                    width: "22px",
-                    height: "22px",
-                  }}
-                />
-              }
-              checkedIcon={
-                <span
-                  style={{
-                    color: "#424651",
-                    border: "1px solid rgba(66, 70, 81, 0.4)",
-                    borderRadius: "1px",
-                    width: "22px",
-                    height: "22px",
-                    alignSelf: "center",
-                    alignItems: "center",
-                    alignContent: "center",
-                    justifyContent: "center",
-                    display: "flex",
-                  }}
-                >
-                  ✓
-                </span>
-              }
-              //   disableTouchRipple={item.status}
+              icon={<span className="notify-empty-check-box" />}
+              checkedIcon={<span className="notify-tick-check-box">✓</span>}
               disabled={true}
             />
           }
           label={
             <span
               style={{
-                fontSize: "14px",
-                color: "rgba(66, 70, 81, 0.87)",
-                fontFamily: "Poppins",
+                color: item?.unselect ? "rgba(66, 70, 81, 0.38)" : "#424651",
               }}
+              className="notify-content-name-txt"
             >
               {item?.name}
             </span>
@@ -73,32 +44,41 @@ export const NotificationTab = ({}) => {
     );
   };
   return (
-    <div className="notification">
-      <Container
-        style={{
-          //   height: "100%",
-          //   borderRadius: "0",
-          //   margin: "0px",
-          //   padding: "0px",
-          // padding: "80px 200px",
-          //   backgroundColor: "white",
-          //   width: "100%",
-          //   margin: "50px 0px 100px 0px",
-          //   padding: "50px 0px",
-          margin: "100px 94px",
-        }}
-      >
-        <Typography className="list-title-txt">
-          Booking Notifications
-        </Typography>
+    <>
+      <div className="notification">
+        <Container
+          style={{
+            padding: "50px 94px",
+          }}
+        >
+          <Typography className="notify-list-title-txt">
+            Booking Notifications
+          </Typography>
 
-        <Row>
-          {booking_list?.map((item, index) => {
-            return renderList(item);
-          })}
-        </Row>
-      </Container>
-    </div>
+          <Row style={{ margin: "20px 0px 40px 0px" }}>
+            {booking_list?.map((item, index) => {
+              return renderList(item);
+            })}
+          </Row>
+          <Typography className="notify-list-title-txt">
+            Offer Notifications
+          </Typography>
+          <Row style={{ margin: "20px 0px 40px 0px" }}>
+            {offer_list?.map((item, index) => {
+              return renderList(item);
+            })}
+          </Row>
+          <Typography className="notify-list-title-txt">
+            Transaction Notifications
+          </Typography>
+          <Row style={{ margin: "20px 0px 40px 0px" }}>
+            {transaction_list?.map((item, index) => {
+              return renderList(item);
+            })}
+          </Row>
+        </Container>
+      </div>
+    </>
   );
 };
 
@@ -114,9 +94,9 @@ const booking_list = [
 ];
 
 const offer_list = [
-  { id: 1, name: "Your offer is declined", status: true },
-  { id: 2, name: "Your offer is accepted", status: true },
-  { id: 3, name: "Your offer is under review", status: true },
+  { id: 1, name: "Your offer is declined", status: false, unselect: true },
+  { id: 2, name: "Your offer is accepted", status: false, unselect: true },
+  { id: 3, name: "Your offer is under review", status: false, unselect: true },
 ];
 
 const transaction_list = [

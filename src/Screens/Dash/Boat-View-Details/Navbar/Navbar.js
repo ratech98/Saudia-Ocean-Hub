@@ -7,6 +7,7 @@ import Col from "react-bootstrap/Col";
 import Nav from "react-bootstrap/Nav";
 import { useNavigate } from "react-router-dom";
 import IMAGES from "../../../Images";
+import useWindowDimensions from "../../../../UI kit/useWindowDimensions";
 // import searchIcon from '../../assets/Icons/search.svg'
 // import mail from '../../assets/Icons/mail-svgrepo-com.png'
 // import bell from '../../assets/Icons/bell.svg'
@@ -27,6 +28,7 @@ const Navbar = ({
   backgroundColor,
 }) => {
   const navigate = useNavigate();
+
   return (
     <div
       className="navbar"

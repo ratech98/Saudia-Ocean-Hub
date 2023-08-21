@@ -124,6 +124,7 @@ const Client_review = ({
           style={{ paddingTop: scrollingTop }}
           ref={scrollableRowRef}
         >
+          {/* <div className="card-placeholder" /> */}
           {Testimonial.map((item) => (
             <div key={item.id} className="flex-nowrap">
               <div
@@ -147,6 +148,7 @@ const Client_review = ({
               </div>
             </div>
           ))}
+          {/* <div className="card-placeholder" /> */}
         </div>
       </Container>
     </div>

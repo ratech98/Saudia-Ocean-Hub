@@ -2,15 +2,14 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Typography } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
-import IMAGES from "../../Images";
 import "./Setting.css";
-import { confirmTickMsg } from "../../../redux/slices";
 import { Col, Container, Nav, Row } from "react-bootstrap";
 import { HeaderContent } from "../../Common/map/HeaderContent";
 import { toast } from "react-toastify";
 import Footer from "../../../Component/Footer/Footer";
 import { EditProfileTab } from "./setting-tab/EditProfileTab";
 import { NotificationTab } from "./setting-tab/NotificationTab";
+import { SecurityAndPwdTab } from "./setting-tab/SecurityAndPwdTab";
 
 const first_tab = "Edit Profile";
 const second_tab = "Billing & Payment";
@@ -21,7 +20,7 @@ export const Setting = () => {
   const auth = useSelector((state) => state?.auth);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const [selectedTab, setSelectedTab] = useState("Edit Profile");
+  const [selectedTab, setSelectedTab] = useState(third_tab);
 
   const handleHeaderCallBack = (name) => {
     if (name === "Home") {
@@ -53,14 +52,7 @@ export const Setting = () => {
   const handleNavigation = (tabName) => {
     setSelectedTab(tabName);
   };
-  console.log(
-    " selectedTab === ",
-    selectedTab === first_tab,
-    "selectedTab",
-    selectedTab,
-    "first_tab",
-    first_tab
-  );
+
   return (
     <>
       <div className="setting">
@@ -76,7 +68,7 @@ export const Setting = () => {
           showline={false}
         />
 
-        <Container>
+        <Container style={{}}>
           <div class="inside-container">
             <Typography className="title">Settings</Typography>
 
@@ -138,14 +130,15 @@ export const Setting = () => {
             </Row>
             <div
               style={{
-                // backgroundColor: "red",
-                padding: "100px 0px",
+                padding: "50px 0px",
               }}
             >
               {selectedTab === first_tab ? (
                 <>
                   <EditProfileTab />
                 </>
+              ) : selectedTab === third_tab ? (
+                <SecurityAndPwdTab />
               ) : selectedTab === fourth_tab ? (
                 <NotificationTab />
               ) : null}

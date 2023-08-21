@@ -32,6 +32,7 @@ import { Card, Col, Container, Row } from "react-bootstrap";
 import { withStyles } from "@mui/styles";
 import { useFormik } from "formik";
 import { countryCodeJson } from "../../../Auth/countryCodeJson";
+import Authentication2 from "../../../../new example code /login/login_src/login_form/Authentication2";
 
 const start_space_Validation = new RegExp(/^(?!\s).*/);
 const emailIdValidation = new RegExp(
@@ -432,6 +433,7 @@ export const EditProfileTab = ({
 
   return (
     <>
+      {/* <Authentication2 /> */}
       <form onSubmit={formik.handleSubmit}>
         <Row
           style={{

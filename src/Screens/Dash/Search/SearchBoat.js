@@ -15,7 +15,7 @@ import { LocationOn } from "@material-ui/icons";
 import { HeaderContent } from "../../Common/map/HeaderContent";
 import { useSelector } from "react-redux";
 import { boat_list_filter } from "../../../Service/api";
-import { BoatDetailCard } from "../../new/BoatDetailCard";
+import { BoatDetailCard } from "../Card/BoatDetailCard";
 import { MiniLoader } from "../../Common/MiniLoader";
 import { toast } from "react-toastify";
 import CardLoader from "../../Common/CardLoader";

@@ -118,7 +118,7 @@ const Navbar = ({
   return (
     <div className="navbar">
       <Container className="w-100 d-inline">
-        <Row>
+        <Row style={{ backgroundColor: "lightgreen" }}>
           <Col sm={3}>
             <Nav>
               <Nav.Item>

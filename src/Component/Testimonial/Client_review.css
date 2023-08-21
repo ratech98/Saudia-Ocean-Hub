@@ -80,7 +80,7 @@
 
 .review_card {
   flex-shrink: 0;
-  width: 300px; 
+  width: 300px;
   margin-right: 20px;
   margin-top: 0;
   transition: margin-top 0.3s ease;
@@ -95,4 +95,10 @@
 }
 .review_card.fully-visible {
   margin-top: 50px;
+}
+
+.card-placeholder {
+  flex: 0 0 auto;
+  width: 100px; /* Adjust this to control the peeking effect */
+  background-color: transparent;
 }

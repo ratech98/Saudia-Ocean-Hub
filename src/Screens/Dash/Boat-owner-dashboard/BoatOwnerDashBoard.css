@@ -25,7 +25,6 @@
   flex-direction: row;
   margin-top: 20px;
   align-items: center;
-  /* padding: 0px 150px; */
 }
 
 .upload-boat-detail {
@@ -128,36 +127,26 @@
 .boat-offers {
   display: flex;
   flex-direction: column;
-  height: 100%;
-  width: 100%;
-  margin: 120px 0px 0px 0px;
-  align-self: center;
+  /* height: 100%;
+  width: 100%; */
+  /* margin-top: 37px ; */
+
+  /* align-self: center;
   align-items: center;
   align-content: center;
-  justify-content: center;
+  justify-content: center; */
   /* margin-bottom: 100px; */
 }
 
 .align-card {
-  /* margin: 0px 0px 0px 0px;
+  /* margin: 0px 100px 0px 100px; */
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  height: auto; */
-
-  /* align-self: center; */
-  /* align-items: center; */
-  /* align-content: center; */
-  /* justify-content: center; */
-
-  margin: 0px 100px 0px 100px;
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  align-self: center;
+  /* align-self: center;
   align-items: center;
   align-content: center;
-  justify-content: center;
+  justify-content: center; */
 }
 
 .boat-offers .boat-offer-title {
@@ -175,12 +164,169 @@
   width: 100%;
 }
 
+.card-margin {
+  margin: 27.5px;
+}
+
+/*  */
+/*  */
+/*  */
+/*  */
+/*  */
+/*  */
+/*  */
+/*  */
+/*  */
+/*  */
+/*  */
+/*  */
+/*  */
+/*  */
+/*  */
+/*  */
+/*  */
+/*  */
+/*  */
+/*  */
+/*  */
+/*  */
+/*  */
+/*  */
 @media (max-width: 800px) {
+}
+/*  */
+/*  */
+/*  */
+/*  */
+/*  */
+/*  */
+/*  */
+/*  */
+/*  */
+/*  */
+/*  */
+/*  */
+/*  */
+/*  */
+/*  */
+/*  */
+/*  */
+/*  */
+/*  */
+/*  */
+/*  */
+/*  */
+/*  */
+/*  */
+
+@media (max-width: 767px) {
   .upload-boat-detail {
     display: flex;
     flex-direction: row;
     margin-top: 20px;
     align-items: center;
     padding: 0px 0px 0px 0px;
+  }
+  .header-title .subtitleTxt {
+    font-family: Poppins;
+    font-size: 24px;
+    font-weight: 400;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.5;
+    letter-spacing: normal;
+    text-align: center;
+    color: var(--charcoal-grey-87);
+  }
+
+  .header-title .subtitleTxt2 {
+    font-weight: bolder;
+  }
+  .upload-boat-doc {
+    display: flex;
+    flex-direction: row;
+    margin-top: 20px;
+    align-items: center;
+  }
+
+  .add-boat-detial {
+    flex: 1;
+    width: 71px;
+    height: 70px;
+  }
+
+  .add-file-icon {
+    flex: 1;
+    background-color: white;
+    width: 71px;
+    height: 70px;
+  }
+  .doc-img {
+    padding: 15px;
+    border-radius: 500px;
+    align-self: "center";
+    align-items: "center";
+    display: "flex";
+    background-color: white;
+  }
+
+  .upload-boat-detail .upload-boat-doc-title,
+  .upload-boat-doc .upload-boat-doc-title {
+    font-family: Poppins;
+    font-size: 16px;
+    font-weight: 600;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.53;
+    letter-spacing: normal;
+    text-align: left;
+    color: var(--charcoal-grey-87);
+  }
+
+  .upload-boat-detail .upload-boat-doc-info,
+  .upload-boat-doc .upload-boat-doc-info {
+    font-family: Poppins;
+    font-size: 14px;
+    font-weight: 300;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.5;
+    letter-spacing: normal;
+    text-align: left;
+    color: rgba(66, 70, 81, 0.6);
+  }
+  .boat-list-button .action-button {
+    font-family: Poppins;
+    font-size: 12px;
+    font-weight: 600;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.46;
+    letter-spacing: normal;
+    text-align: left;
+    color: #026b93;
+    cursor: pointer;
+    padding-right: 20px;
+    font-weight: bolder;
+    border: none;
+    width: 100%;
+  }
+
+  .boat-offers .boat-offer-title {
+    font-size: 24px;
+    color: rgba(66, 70, 81, 0.87);
+    font-family: "Poppins";
+    font-weight: 600;
+    line-height: 1.5;
+    text-align: center;
+    font-family: Poppins;
+    font-stretch: normal;
+    font-style: normal;
+    letter-spacing: normal;
+    /* background-color: #f6f6f6; */
+    width: 100%;
+  }
+  .card-margin {
+    margin: 8px;
   }
 }

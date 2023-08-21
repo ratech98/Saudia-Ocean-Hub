@@ -13,7 +13,7 @@ import Map from "../../Common/map/Map";
 import { BoatView } from "./Boat_View/BoatView";
 import Client_review from "./Testimonial/Client_review";
 import Policy from "./CancelationPolicy/Policy";
-import { BoatDetailCard } from "../../new/BoatDetailCard";
+import { BoatDetailCard } from "../Card/BoatDetailCard";
 import { single_boat_data_API } from "../../../Service/api";
 import { useDispatch, useSelector } from "react-redux";
 import CalendarComponent from "../../Common/Calendar/CalendarComponent";

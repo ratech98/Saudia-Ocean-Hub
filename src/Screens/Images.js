@@ -35,6 +35,10 @@ const IMAGES = {
   ELLIPSE: require("../assets/Images/Ellipse.svg"),
   LOCATION: require("../assets/Images/location.webp"),
   RIGHT_ARROW: require("../assets/Images/right.png"),
+  TOGGELE_BUTTON: require("../assets/Images/toggle-button-icon.png"),
+  MENU_ICON: require("../assets/Images/menu.png"),
+  WEB_WORLD: require("../assets/Images/webWorldGlobel.png"),
+
   //
   //
   //
@@ -46,5 +50,15 @@ const IMAGES = {
   boat3: require("../assets/Images/removeable/boat3.jpeg"),
   boat4: require("../assets/Images/removeable/boat4.jpeg"),
   subaDiving: require("../assets/Images/removeable/subaDiving.jpeg"),
+  //weekend circle img
+  weekendCircle_1: require("../assets/Images/weekend/weekend_charters_1.png"),
+  weekendCircle_2: require("../assets/Images/weekend/weekend_charters_2.png"),
+  weekendCircle_3: require("../assets/Images/weekend/weekend_charters_3.png"),
+  weekendCircle_4: require("../assets/Images/weekend/weekend_charters_4.png"),
+  weekendCircle_5: require("../assets/Images/weekend/weekend_charters_5.png"),
+  weekendCircle_6: require("../assets/Images/weekend/weekend_charters_6.png"),
+  weekendCircle_7: require("../assets/Images/weekend/weekend_charters_7.png"),
+  weekendCircle_8: require("../assets/Images/weekend/weekend_charters_8.png"),
+  weekendCircle_9: require("../assets/Images/weekend/weekend_charters_9.png"),
 };
 export default IMAGES;
