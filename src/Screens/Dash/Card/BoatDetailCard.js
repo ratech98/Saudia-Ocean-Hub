@@ -19,6 +19,7 @@ import { animated, useSpring, easings } from "react-spring";
 import IMAGES from "../../Images";
 import { StarRating } from "../../../UI kit/5Star/StarRating";
 import "./BoatDetailCard.css";
+import { makeStyles } from "@material-ui/core/styles";
 
 const TypeQuest = animated(
   styled("div")(({ theme }) => ({
@@ -246,6 +247,7 @@ export const BoatDetailCard = ({
   boatMaxCapacity = "1",
   profile_image,
 }) => {
+  const class_name = useStyles({ min: 10, max: 30, unit: "px" });
   const [TypeQuestSpring, TypeQuestApi] = useSpring(() => ({
     config: {
       duration: 100,
@@ -336,10 +338,11 @@ export const BoatDetailCard = ({
       onMouseEnter={() => {
         TypeQuestApi.start({ ...{ transform: "scale(1.05)" }, delay: 0 });
       }}
-      className="card-content"
+      // className="card-content"
+      className={class_name.cardContent}
       style={{ ...TypeQuestSpring }}
     >
-      <ImageFrame>
+      <ImageFrame style={{}}>
         <Tooltip
           arrow={true}
           placement={"top"}
@@ -357,7 +360,7 @@ export const BoatDetailCard = ({
           ></Image1>
         </Tooltip>
       </ImageFrame>
-      <Content>
+      <Content className="end-details-item">
         <Details>
           <TitleTop>
             <Title style={{ ...TitleSpring }} className="boat-name-content">
@@ -384,20 +387,11 @@ export const BoatDetailCard = ({
           <Details1 style={{ ...Details1Spring }}>
             <StarRating rating={starRating} />
           </Details1>
-          {/* <ButtonContained
-            variant="contained"
-            size="large"
-            // color="primary"
-            // onClick={fns.handleButtonClick}
-            style={{ ...ButtonContainedSpring }}
-          >
-            {" "}
-            BOOK ME{" "}
-          </ButtonContained> */}
 
           <Details1
             style={{
               ...ButtonContainedSpring,
+              // backgroundColor: "red",
             }}
             className="end-content"
           >
@@ -469,3 +463,57 @@ export const BoatDetailCard = ({
     </TypeQuest>
   );
 };
+
+const useStyles = makeStyles((theme) => ({
+  cardContent: {
+    // width: "375px",
+    width: "200px",
+    height: "auto",
+    backgroundColor: "#424651",
+    [theme.breakpoints.up("sm")]: {
+      width: "293px",
+    },
+    [theme.breakpoints.up("md")]: {
+      width: "290px",
+    },
+    [theme.breakpoints.up("lg")]: {
+      width: "375px",
+    },
+  },
+
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //  ==============================    max-width: 767
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  // "@media (max-width: 767px)": {
+  //   cardContent: {
+  //     width: "375px",
+  //     height: "auto",
+  //     backgroundColor: "#424651",
+  //     [theme.breakpoints.up("sm")]: {
+  //       width: "300px",
+  //     },
+  //     [theme.breakpoints.up("md")]: {
+  //       width: "300px",
+  //     },
+  //     [theme.breakpoints.up("lg")]: {
+  //       width: "300px",
+  //     },
+  //   },
+  // },
+}));
