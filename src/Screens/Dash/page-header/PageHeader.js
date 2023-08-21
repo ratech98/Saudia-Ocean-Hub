@@ -16,6 +16,7 @@ import Snap from "../../../assets/Icons/snapchat.svg";
 import Youtube from "../../../assets/Icons/youtube.svg";
 import Twitter from "../../../assets/Icons/twitter.png";
 import { makeStyles, withStyles } from "@material-ui/core/styles";
+import Divider from "@mui/material/Divider";
 
 export const PageHeader = ({
   showLoginSignUp,
@@ -216,7 +217,9 @@ export const PageHeader = ({
         anchor="left"
         open={openDrawer}
         onClose={() => setOpenDrawer(false)}
-        PaperProps={{ style: { width: "90%", height: "100%" } }}
+        PaperProps={{
+          style: { width: "90%", height: "100%", overflow: "hidden" },
+        }}
         data-bs-toggle="collapse"
       >
         <div
@@ -234,7 +237,7 @@ export const PageHeader = ({
               //   alignSelf: "center",
               //   alignContent: "center",
               alignItems: "center",
-              //   backgroundColor: "rebeccapurple",
+              // backgroundColor: "rebeccapurple",
               width: "100%",
               paddingLeft: "33px",
             }}
@@ -246,6 +249,9 @@ export const PageHeader = ({
                 width: "16px",
                 height: "14px",
               }}
+              onClick={() => {
+                setOpenDrawer(false);
+              }}
             />
             <div className="app-icon-drawer">
               <img
@@ -256,37 +262,49 @@ export const PageHeader = ({
             </div>
           </div>
 
-          <List className="content-list">
-            {showLoginSignUp ? (
-              <div
-                style={{
-                  display: "flex",
-                  flexDirection: "row",
-                  //   backgroundColor: "lightblue",
-                  alignItems: "center",
-                  padding: "30px 0",
-                }}
-              >
-                <img
-                  alt="profile"
-                  src={IMAGES?.PROFILE_ICON}
-                  style={{ width: "40px", height: "40px" }}
-                />
+          <List
+            className="content-list"
+            // style={{ backgroundColor: "lightpink" }}
+          >
+            <ListItem
+              button
+              onClick={() => {
+                // setOpenDrawer(false);
+                // handle_navigation("Home");
+              }}
+            >
+              {!showLoginSignUp ? (
                 <div
                   style={{
                     display: "flex",
-                    flexDirection: "column",
-                    //   backgroundColor: "lightcyan",
-                    marginLeft: "16px",
+                    flexDirection: "row",
+                    // backgroundColor: "lightblue",
+                    alignItems: "center",
+                    padding: "30px 0",
+                    width: "100%",
                   }}
                 >
-                  <Typography style={{ fontWeight: "bold" }}>
-                    user name
-                  </Typography>
-                  <Typography style={{}}>Boat Owner</Typography>
+                  <img
+                    alt="profile"
+                    src={IMAGES?.PROFILE_ICON}
+                    style={{ width: "40px", height: "40px" }}
+                  />
+                  <div
+                    style={{
+                      display: "flex",
+                      flexDirection: "column",
+                      //   backgroundColor: "lightcyan",
+                      marginLeft: "16px",
+                    }}
+                  >
+                    <Typography style={{ fontWeight: "bold" }}>
+                      user name
+                    </Typography>
+                    <Typography style={{}}>Boat Owner</Typography>
+                  </div>
                 </div>
-              </div>
-            ) : null}
+              ) : null}
+            </ListItem>
             <ListItem
               button
               onClick={() => {
@@ -361,14 +379,21 @@ export const PageHeader = ({
                 </Typography>
               </ListItem>
             ) : null}
-            {!showLoginSignUp ? (
+            {showLoginSignUp ? (
               <div
                 style={{
                   display: "flex",
                   flexDirection: "column",
                 }}
               >
-                <div className="straight-line" />
+                <Divider
+                  variant="middle"
+                  style={{
+                    backgroundColor: "rgba(172, 172, 172, 0.4)",
+                    height: "1px",
+                  }}
+                />
+
                 <ListItem
                   button
                   onClick={() => {
@@ -406,7 +431,14 @@ export const PageHeader = ({
               </div>
             ) : null}
 
-            <div className="straight-line" />
+            <Divider
+              variant="middle"
+              style={{
+                backgroundColor: "rgba(172, 172, 172, 0.4)",
+                height: "1px",
+              }}
+            />
+
             <ListItem
               button
               onClick={() => {
@@ -487,8 +519,25 @@ export const PageHeader = ({
             </ListItem>
           </List>
         </div>
+        <div
+          style={{
+            display: "flex",
+            height: "100%",
+            justifyContent: "center",
+          }}
+        ></div>
+        <Divider
+          variant="middle"
+          style={{
+            backgroundColor: "rgba(172, 172, 172, 0.4)",
+            height: "1px",
+            // backgroundColor: "black",
+          }}
+        />
+
         <div className="end-content">
-          <div className="straight-line2" />
+          {/* <div className="straight-line2" /> */}
+
           <div
             style={{
               width: "100%",
