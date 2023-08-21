@@ -611,9 +611,11 @@ const useStyles = makeStyles((theme) => ({
     // margin: "27.5px",
     [theme.breakpoints.up("sm")]: {
       // margin: "10px",
+      margin: "10.5px",
     },
     [theme.breakpoints.up("md")]: {
       // margin: "27.5px",
+      margin: "20.5px",
     },
     [theme.breakpoints.up("lg")]: {
       margin: "27.5px",
