@@ -286,7 +286,7 @@ export const SignUp = () => {
     <div
       // className="full-box"
       className={class_name.signUp_full_box}
-      style={{ backgroundColor: "red", height: "100%" }}
+      style={{ height: "100%" }}
     >
       <div className={class_name.show_outer_headder}>
         <img
