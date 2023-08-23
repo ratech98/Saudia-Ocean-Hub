@@ -210,7 +210,7 @@ export const LogIn = () => {
           <div className="field-content">
             {/* Email */}
 
-            <Grid className="text-field-box">
+            <div className="text-field-box">
               <CustomTextField
                 margin="normal"
                 fullWidth
@@ -253,15 +253,24 @@ export const LogIn = () => {
                   className: "text-style",
                 }}
               />
-
-              {formik.touched.email && Boolean(formik.errors.email) ? (
-                <span className="error-msg-txt">
-                  {formik.touched.email && formik.errors.email}
-                </span>
-              ) : null}
-            </Grid>
+            </div>
+            {formik.touched.email && Boolean(formik.errors.email) ? (
+              <div className="inside-end-content">
+                <div className="err-margin">
+                  <Typography className="error-msg-txt">
+                    {formik.touched.email && formik.errors.email}
+                  </Typography>
+                </div>
+              </div>
+            ) : null}
             {/* Password */}
-            <Grid className="text-field-box">
+            <div
+              className="text-field-box"
+              style={{
+                padding: "0px",
+                margin: "0px",
+              }}
+            >
               <CustomTextField
                 type={showPassword ? "text" : "password"}
                 margin="normal"
@@ -288,7 +297,8 @@ export const LogIn = () => {
                         : null,
 
                     borderRadius: "5px",
-                    // Incorrect pasword, please try again
+                    // padding: "0px",
+                    // margin: "0px",
                   },
                   startAdornment: (
                     <InputAdornment
@@ -326,14 +336,16 @@ export const LogIn = () => {
                   className: "text-style",
                 }}
               />
-
-              {formik.touched.password && Boolean(formik.errors.password) ? (
-                <span className="error-msg-txt">
-                  {formik.touched.password && formik.errors.password}
-                </span>
-              ) : null}
-            </Grid>
-
+            </div>
+            {formik.touched.password && Boolean(formik.errors.password) ? (
+              <div className="inside-end-content">
+                <div className="err-margin">
+                  <Typography className="error-msg-txt">
+                    {formik.touched.password && formik.errors.password}
+                  </Typography>
+                </div>
+              </div>
+            ) : null}
             <div className="end-content">
               <div className="inside-end-content">
                 <FormControlLabel

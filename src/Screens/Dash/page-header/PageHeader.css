@@ -1,12 +1,17 @@
 .navigation-container-box {
   display: flex;
-  width: 100%;
+  flex: 1;
+  padding-left: 140px;
+  padding-right: 140px;
+  /* width: 100%; */
 }
 
 .header-container-style {
   display: flex;
   flex-direction: row;
-  width: 100%;
+  flex: 1;
+  /* width: 100%; */
+  padding: 0px;
   /* justify-content: space-around; */
   /* background-color: antiquewhite; */
 }
@@ -21,7 +26,8 @@
 .all-content-box {
   display: flex;
   flex-direction: row;
-  width: 100%;
+  /* width: 100%; */
+  flex: 1;
   /* background-color: red; */
   justify-content: space-between;
 }
@@ -144,6 +150,53 @@
   background-color: #acacac66;
   margin: 0 30px;
 }
+
+@media (max-width: 1080px) {
+
+    .navigation-container-box {
+        display: flex;
+        flex: 1;
+        padding-left: 100px;
+        padding-right: 100px;
+        /* background-color: blueviolet; */
+        /* width: 100%; */
+      }
+      
+
+.header-container-style {
+    display: flex;
+    flex-direction: row;
+    /* width: 100%; */
+    padding: 0px;
+    margin-left: 0px;
+    margin-right: 0px;
+    /* justify-content: space-around; */
+    /* background-color: antiquewhite; */
+  }
+}
+
+@media (max-width: 862px) {
+
+    .navigation-container-box {
+        display: flex;
+        flex: 1;
+        padding-left: 50px;
+        padding-right: 50px;
+        /* background-color: blueviolet; */
+        /* width: 100%; */
+    }
+    .header-container-style {
+        display: flex;
+        flex-direction: row;
+        /* width: 100%; */
+        padding: 0px;
+        margin-left: 0px;
+        margin-right: 0px;
+        /* justify-content: space-around; */
+        /* background-color: antiquewhite; */
+      }
+}
+
 /* ================================================================================ */
 /* ================================================================================ */
 /* ================================================================================ */
@@ -154,18 +207,26 @@
 @media (max-width: 767px) {
   .navigation-container-box {
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     width: 100%;
+    flex: 1;
     background-color: white;
+    padding-left: 0%;
+    padding-right: 0%;
   }
   .header-container-style {
     display: flex;
     flex-direction: row;
-    width: 100%;
+    /* width: 100%; */
+    flex: 1;
     justify-content: space-around;
     background-color: white;
+    /* background-color: red; */
     margin: 0;
-    padding: 16px;
+    padding-left: 16px;
+    padding-right: 16px;
+    padding-top: 2px;
+    padding-bottom: 2px;
     /* background-color: darksalmon; */
   }
   .drawer-menu-icon {

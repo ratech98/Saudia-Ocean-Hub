@@ -96,7 +96,7 @@ export const BoatOwnerDashBoard = () => {
         setIsLoading(false);
       });
   }, [auth?.AuthToken]);
-  console.log("width", width);
+  // console.log("width", width);
   return (
     <>
       <div style={{ backgroundColor: "#f6f6f6" }}>
@@ -119,8 +119,17 @@ export const BoatOwnerDashBoard = () => {
           />
         </div>
 
-        <Container>
-          <div className="header-title">
+        <div style={{}} className={class_name.page_top_container}>
+          <div
+            // className="header-title"
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              // backgroundColor: "green",
+              // width: "100%",.
+              marginTop: "30px",
+            }}
+          >
             <Typography
               // className="subtitleTxt"
               className={class_name?.ListYourBoatandEarnMoney}
@@ -136,15 +145,20 @@ export const BoatOwnerDashBoard = () => {
             </Typography>
           </div>
           <div className="upload-boat-doc">
-            <div className="doc-img">
+            <div className={class_name.doc_img_div}>
               <img
                 alt="add_file"
                 src={IMAGES.ADD_FILES}
-                // className="add-file-icon"
-                className={class_name.add_boat_deatils}
+                className={class_name.add_boat_deatils1}
               />
             </div>
-            <div className="boat-doc">
+            <div
+              // className="boat-doc"
+              className={class_name.boat_doc}
+              // style={{
+
+              // }}
+            >
               <Typography
                 // className="upload-boat-doc-title"
                 className={class_name?.doc_title_txt}
@@ -162,15 +176,17 @@ export const BoatOwnerDashBoard = () => {
             </div>
           </div>
           <div className="upload-boat-detail">
-            <div className="doc-img">
+            <div className={class_name.doc_img_div}>
               <img
                 alt="add_file"
                 src={IMAGES.ADD_BOATE_DETAILS}
-                // className="add-boat-detial"
-                className={class_name.add_boat_deatils}
+                className={class_name.add_boat_deatils2}
               />
             </div>
-            <div className="boat-doc">
+            <div
+              // className="boat-doc"
+              className={class_name.boat_doc}
+            >
               <Typography
                 // className="upload-boat-doc-title"
                 className={class_name.doc_title_txt}
@@ -188,7 +204,6 @@ export const BoatOwnerDashBoard = () => {
           </div>
           {/* BUTTON */}
           <div className="botton-align-right">
-            {/* <div className="boat-list-button"> */}
             <div className={class_name?.get_action_btn}>
               <Typography
                 className={`${class_name.get_action_txt} hoverEffect`}
@@ -196,7 +211,6 @@ export const BoatOwnerDashBoard = () => {
                 onClick={() => {
                   navigate("/BoatOfferStep1");
                   dispatch(single_boat_details_store(null));
-                  navigate("/BoatOfferStep1");
                   dispatch(
                     boatRegisterStep1({
                       ministryOfTransportDoc: null,
@@ -229,7 +243,6 @@ export const BoatOwnerDashBoard = () => {
                 List Your Boat Now
               </Typography>
 
-              {/* <ArrowRightAlt /> */}
               <img
                 alt="left-arr.png"
                 src={require("../../../assets/Images/left-arr.png")}
@@ -237,7 +250,7 @@ export const BoatOwnerDashBoard = () => {
               />
             </div>
           </div>
-        </Container>
+        </div>
         <div
           className="boat-offers"
           style={
@@ -395,9 +408,28 @@ const boatListDatas = [
 ];
 
 const useStyles = makeStyles((theme) => ({
+  page_top_container: {
+    display: "flex",
+    flexDirection: "column",
+    // padding: "97px 280px 193px 280px",
+    padding: "5% 10% 0%",
+    // backgroundColor: "white",
+    // [theme.breakpoints.up("md")]: {
+    //   padding: "57px 250px 193px 280px", // Large screens
+    //   backgroundColor: "red",
+    // },
+    // [theme.breakpoints.between("sm", "md")]: {
+    //   padding: "50px 150px 150px 185px", // Medium screens
+    //   backgroundColor: "lightblue",
+    // },
+    // [theme.breakpoints.down("sm")]: {
+    //   padding: "32px 16px 16px 37px", // Small screens
+    //   backgroundColor: "blue",
+    // },
+  },
   ListYourBoatandEarnMoney: {
-    fontFamily: "Poppins",
-    fontSize: "clamp(14px, 5vw, 38px)",
+    // fontFamily: "Poppins",
+    fontSize: "clamp(14px, 4vw, 38px)",
     fontWeight: "normal",
     fontStretch: "normal",
     fontStyle: "normal",
@@ -405,7 +437,6 @@ const useStyles = makeStyles((theme) => ({
     letterSpacing: "normal",
     textAlign: "center",
     color: "rgba(66, 70, 81, 0.87)",
-    // backgroundColor: "red",
   },
   //
   get_action_btn: {
@@ -433,13 +464,16 @@ const useStyles = makeStyles((theme) => ({
       "& $get_action_txt": {
         color: "white", // Change text color on hover
       },
+      "& $left_arr": {
+        filter: "brightness(0) invert(1)", // Change image color on hover
+      },
     },
     // backgroundColor: "red",
   },
   get_action_txt: {
-    fontFamily: "Poppins",
+    // fontFamily: "Poppins",
     fontSize: "clamp(8px, 2vw, 24px)", // Adjust the range as needed
-    fontWeight: "600",
+    fontWeight: "500",
     fontStretch: "normal",
     fontStyle: "normal",
     lineHeight: 0.96,
@@ -447,19 +481,43 @@ const useStyles = makeStyles((theme) => ({
     textAlign: "center",
     color: "#026b93",
   },
+
+  boat_doc: {
+    // backgroundColor: "red",
+    width: "100%",
+    minWidth: "50%",
+    paddingLeft: "16px",
+    [theme.breakpoints.up("sm")]: {
+      paddingLeft: "30px",
+      width: "100%",
+      // backgroundColor: "yellow",
+    },
+    [theme.breakpoints.up("md")]: {
+      paddingLeft: "50px",
+      width: "80%",
+      minWidth: "50%",
+      // backgroundColor: "red",
+    },
+    [theme.breakpoints.up("lg")]: {
+      paddingLeft: "60px",
+      width: "70%",
+      // backgroundColor: "green",
+    },
+  },
+
   doc_title_txt: {
-    fontFamily: "Poppins",
-    fontSize: "clamp(10px, 3vw, 24px)", // Adjust the range as needed
+    // fontFamily: "Poppins",
+    fontSize: "clamp(10px, 2.7vw, 24px)", // Adjust the range as needed
     fontWeight: "600",
     fontStretch: "normal",
     fontStyle: "normal",
-    // lineHeight: 0.96,
+    lineHeight: 1.53,
     letterSpacing: "normal",
     textAlign: "left",
     color: "rgba(66, 70, 81, 0.87)",
   },
   doc_sub_title_txt: {
-    fontFamily: "Poppins",
+    // fontFamily: "Poppins",
     fontSize: "clamp(8px, 2vw, 16px)", // Adjust the range as needed
     fontWeight: "600",
     fontStretch: "normal",
@@ -469,18 +527,42 @@ const useStyles = makeStyles((theme) => ({
     textAlign: "left",
     color: "rgba(66, 70, 81, 0.6)",
   },
-  add_boat_deatils: {
-    width: "clamp(55px, 15vw, 95px)", // Adjust the range as needed
-    height: "clamp(35px, 10vh, 84px)", // Adjust the range as needed
+  doc_img_div: {
+    padding: "2.5% 1.5%",
+    [theme.breakpoints.up("sm")]: {
+      padding: "2.5% 1.5%",
+    },
+    [theme.breakpoints.up("md")]: {
+      padding: "2.5% 1.5%",
+    },
+    [theme.breakpoints.up("lg")]: {
+      padding: "2.5% 1.5%",
+    },
+    borderRadius: "500px",
+    alignSelf: "center",
+    alignItems: "center",
+    display: "flex",
+    backgroundColor: "white",
+    // backgroundColor: "red",
+  },
+  //
+  add_boat_deatils1: {
+    width: "clamp(63px, 15vw, 116px)", // Adjust the range as needed
+    height: "clamp(56.5px, 11vh, 113px)", // Adjust the range as needed
+  },
+  //
+  add_boat_deatils2: {
+    width: "clamp(55px, 15vw, 115px)",
+    height: "clamp(35px, 11vh, 106px)",
   },
   left_arr: {
-    width: "22px", // Adjust the range as needed
-    height: "15px", // Adjust the range as needed
+    width: "22px",
+    height: "15px",
     alignSelf: "center",
     marginLeft: "15px",
   },
   BestBoatOffers: {
-    fontFamily: "Poppins",
+    // fontFamily: "Poppins",
     fontSize: "clamp(14px, 5vw, 48px)",
     fontWeight: "600",
     fontStretch: "normal",
@@ -491,6 +573,25 @@ const useStyles = makeStyles((theme) => ({
     color: "rgba(66, 70, 81, 0.87)",
   },
 
+  // leftArrContainer: {
+  //   display: "inline-block",
+  //   position: "relative",
+  // },
+  // normalImage: {
+  //   width: 24, // Adjust the image size as needed
+  //   height: 24, // Adjust the image size as needed
+  //   transition: "opacity 0.3s",
+  //   opacity: 1,
+  // },
+  // hoverImage: {
+  //   opacity: 0,
+  //   position: "absolute",
+  //   top: 0,
+  //   left: 0,
+  // },
+  // card: {
+  //   maxWidth: 200, // Adjust the card width as needed
+  // },
   //
   //
   //
@@ -511,9 +612,48 @@ const useStyles = makeStyles((theme) => ({
   //
   //
   "@media (max-width: 767px)": {
+    add_boat_deatils1: {
+      width: "clamp(21px, 15vw, 42px)", // Adjust the range as needed
+      height: "clamp(19px, 8vh, 38px)", // Adjust the range as needed
+      // backgroundColor: "yellow",
+
+      [theme.breakpoints.up("sm")]: {
+        width: "clamp(63px, 13vw, 76px)",
+        height: "clamp(56.5px, 8vh, 113px)",
+        // backgroundColor: "green",
+      },
+      [theme.breakpoints.up("md")]: {
+        //
+      },
+      [theme.breakpoints.up("lg")]: {
+        width: "clamp(63px, 15vw, 116px)",
+        height: "clamp(56.5px, 11vh, 113px)",
+        backgroundColor: "yellow",
+      },
+    },
+    //
+
+    add_boat_deatils2: {
+      width: "clamp(27.5px, 15vw, 42px)",
+      height: "clamp(17.5px, 8vh, 35px)",
+
+      [theme.breakpoints.up("sm")]: {
+        width: "clamp(63px, 13vw, 76px)",
+        height: "clamp(56.5px, 8vh, 113px)",
+        // backgroundColor: "green",
+      },
+      [theme.breakpoints.up("md")]: {
+        // backgroundColor: "green",
+      },
+      [theme.breakpoints.up("lg")]: {
+        width: "clamp(55px, 15vw, 115px)",
+        height: "clamp(35px, 11vh, 106px)",
+        backgroundColor: "yellow",
+      },
+    },
     left_arr: {
-      width: "9px", // Adjust the range as needed
-      height: "6px", // Adjust the range as needed
+      width: "9px",
+      height: "6px",
       alignSelf: "center",
       marginLeft: "10px",
     },

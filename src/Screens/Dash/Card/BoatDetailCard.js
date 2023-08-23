@@ -35,10 +35,12 @@ const TypeQuest = animated(
     justifyContent: `flex-start`,
     alignItems: `flex-start`,
     padding: `0px`,
+    margin: "0px",
     boxSizing: `border-box`,
     overflow: `hidden`,
     height: "auto",
     border: "solid 0.5px rgba(66, 70, 81, 0.4)",
+    // backgroundColor:'red'
   }))
 );
 

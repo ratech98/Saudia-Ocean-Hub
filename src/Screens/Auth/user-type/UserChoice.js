@@ -7,6 +7,7 @@ import { Button, Card, Col, Container, Row } from "react-bootstrap";
 import IMAGES from "../../Images";
 import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
+import { toast } from "react-toastify";
 
 export const UserChoice = () => {
   const class_name = useStyles({ min: 10, max: 30, unit: "px" });
@@ -62,19 +63,21 @@ export const UserChoice = () => {
                     handleUser("BOAT_OWNER");
                   }}
                   className="options"
+                  // style={{ backgroundColor: "red" }}
                 >
-                  <div
-                    style={{
-                      backgroundColor:
-                        userType === "BOAT_OWNER" ? "dimgray" : "white",
-                    }}
-                    className="select-dot"
-                  />
-                  <div className="text-box">
-                    <Typography
-                      // className="option-text-style"
-                      className={class_name.option_txt_style}
-                    >
+                  <div className={class_name.dot_box}>
+                    <div
+                      style={{
+                        backgroundColor:
+                          userType === "BOAT_OWNER"
+                            ? "rgba(2, 107, 147, 1)"
+                            : "white",
+                      }}
+                      className={class_name.dot}
+                    />
+                  </div>
+                  <div className={class_name.text_box}>
+                    <Typography className={class_name.option_txt_style}>
                       I am a Boat Owner, offering my boat
                     </Typography>
                   </div>
@@ -92,18 +95,19 @@ export const UserChoice = () => {
                   }}
                   className="options"
                 >
-                  <div
-                    style={{
-                      backgroundColor:
-                        userType === "CUSTOMER" ? "dimgray" : "white",
-                    }}
-                    className="select-dot"
-                  />
-                  <div className="text-box">
-                    <Typography
-                      // className="option-text-style"
-                      className={class_name.option_txt_style}
-                    >
+                  <div className={class_name.dot_box}>
+                    <div
+                      style={{
+                        backgroundColor:
+                          userType === "CUSTOMER"
+                            ? "rgba(2, 107, 147, 1)"
+                            : "white",
+                      }}
+                      className={class_name.dot}
+                    />
+                  </div>
+                  <div className={class_name.text_box}>
+                    <Typography className={class_name.option_txt_style}>
                       I am a Customer, looking for a new experience
                     </Typography>
                   </div>
@@ -114,8 +118,16 @@ export const UserChoice = () => {
 
           <Button
             onClick={() => {
-              dispatch(UserType(userType));
-              navigate("/SignUp");
+              if (userType !== "") {
+                dispatch(UserType(userType));
+                navigate("/SignUp");
+              } else {
+                toast.dismiss();
+                toast.info("Please select user type", {
+                  position: toast.POSITION.TOP_RIGHT,
+                  autoClose: 2000,
+                });
+              }
             }}
             className="btn"
           >
@@ -157,7 +169,7 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: "#f6f6f6",
   },
   choice_title_txt: {
-    fontFamily: "Poppins",
+    // fontFamily: "Poppins",
     fontSize: "clamp(14px, 5vw, 48px)", // Adjust the range as needed
     fontWeight: "bolder",
     fontStretch: "normal",
@@ -171,15 +183,51 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
   },
   option_txt_style: {
-    fontFamily: "Poppins",
+    // fontFamily: "Poppins",
     fontSize: "clamp(12px, 1vw, 24px)", // Adjust the range as needed
-    fontWeight: "600",
+    fontWeight: "500",
     fontStretch: "normal",
     fontStyle: "normal",
     lineHeight: 1.38,
     letterSpacing: "normal",
     // textAlign: "left",
     color: "rgba(66, 70, 81, 0.87)",
+  },
+  text_box: {
+    padding: "1%",
+    minHeight: "100%",
+    height: "100px",
+    display: "flex",
+    alignItems: "center",
+    // backgroundColor: "red",
+    width: "100%",
+  },
+  dot_box: {
+    display: "flex",
+    alignSelf: "flex-end",
+    // padding: "2%",
+    backgroundColor: "white",
+    borderRadius: "30px",
+    border: "solid 1px #707070",
+  },
+  dot: {
+    width: "100px",
+    height: "100px",
+    borderRadius: "30px",
+    alignSelf: "flex-end",
+
+    [theme.breakpoints.up("sm")]: {
+      width: "15px",
+      height: "15px",
+    },
+    [theme.breakpoints.up("md")]: {
+      width: "20px",
+      height: "20px",
+    },
+    [theme.breakpoints.up("lg")]: {
+      width: "20px",
+      height: "20px",
+    },
   },
 
   //
@@ -212,6 +260,20 @@ const useStyles = makeStyles((theme) => ({
     },
     show_inner_headder: {
       display: "none",
+    },
+    dot_box: {
+      display: "flex",
+      alignSelf: "center",
+      padding: "1%",
+      backgroundColor: "white",
+      borderRadius: "30px",
+      border: "solid 1px #707070",
+    },
+    dot: {
+      width: "10px",
+      height: "10px",
+      borderRadius: "30px",
+      alignSelf: "center",
     },
   },
 }));

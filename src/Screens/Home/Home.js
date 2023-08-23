@@ -38,11 +38,13 @@ import Cretificate from "../../assets/Images/certified.svg";
 import { Container } from "react-bootstrap";
 
 import IMAGES from "../Images";
+import useWindowDimensions from "../../UI kit/useWindowDimensions";
 
 const Home = () => {
   const class_name = useStyles({ min: 10, max: 30, unit: "px" });
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const { height, width } = useWindowDimensions();
   const auth = useSelector((state) => state?.auth);
   const scrollableRowRef = useRef(null);
   const [fullyVisibleCardIds, setFullyVisibleCardIds] = useState([]);
@@ -55,6 +57,51 @@ const Home = () => {
       .map((entry) => parseInt(entry.target.dataset.id));
     setFullyVisibleCardIds(visibleCardIds);
   };
+
+  const Testimonial = [
+    {
+      id: 1,
+      name: "Abdallah Hazmi",
+      place: "Riyadh",
+      review: "Best Experiences Ever. Good Idea!",
+      image: IMAGES.weekendCircle_1,
+    },
+    {
+      id: 2,
+      name: "Baker Arkan",
+      place: "Jeddah",
+      review: "This is very useful! we had a wonderful time.",
+      image: IMAGES.weekendCircle_2,
+    },
+    {
+      id: 3,
+      name: "Mohammed Wadi",
+      place: "Abha",
+      review: "good effort!",
+      image: IMAGES.weekendCircle_3,
+    },
+    {
+      id: 4,
+      name: "Salem Salem",
+      place: "Mecca",
+      review: "The most trusted scuba classes! Thank you.",
+      image: IMAGES.weekendCircle_4,
+    },
+    {
+      id: 5,
+      name: "Salem Salem",
+      place: "Mecca",
+      review: "The most trusted scuba classes! Thank you.",
+      image: IMAGES.weekendCircle_5,
+    },
+    {
+      id: 6,
+      name: "Salem Salem",
+      place: "Mecca",
+      review: "The most trusted scuba classes! Thank you.",
+      image: IMAGES.weekendCircle_6,
+    },
+  ];
 
   useEffect(() => {
     const observerOptions = {
@@ -113,6 +160,8 @@ const Home = () => {
       // }
     } else if (selected_page === "rental") {
       navigate("/rental");
+    } else if (selected_page === "boatOwnerDashBoard") {
+      navigate("/boatOwnerDashBoard");
     } else if (selected_page === "SignUp") {
       navigate("/userChoice");
     } else if (selected_page === "Login") {
@@ -177,12 +226,12 @@ const Home = () => {
     window.scrollTo({ top: 750, behavior: "smooth" });
   };
 
-  console.log(
-    // '  height: window.innerWidth > 1000 ? window.innerHeight : "auto",',
-    // window.innerWidth > 1000 ? window.innerHeight : "auto",
-    " window.innerWidth",
-    window.innerWidth
-  );
+  // console.log(
+  //   // '  height: window.innerWidth > 1000 ? window.innerHeight : "auto",',
+  //   // window.innerWidth > 1000 ? window.innerHeight : "auto",
+  //   " window.innerWidth",
+  //   window.innerWidth
+  // );
 
   return (
     <>
@@ -204,7 +253,7 @@ const Home = () => {
         <div
           className="banner"
           style={{
-            height: window.innerWidth > 1000 ? window.innerHeight : "auto",
+            height: width > 1000 ? height : "auto",
             // height: "auto",
             // height: "100%",
           }}
@@ -325,7 +374,7 @@ const Home = () => {
                     <img
                       src={Clock}
                       alt="clock"
-                      className="point-list-img"
+                      className={class_name.point_list_img1}
                       // className={class_name.picture_style}
                     />
                     <Typography
@@ -340,12 +389,12 @@ const Home = () => {
                     <img
                       src={Grow}
                       alt="clock"
-                      className="point-list-img"
+                      className={class_name.point_list_img2}
                       // className={class_name.picture_style}
                     />
                     <Typography
-                      // className="point-txt"
                       className={class_name.point_txt}
+                      //   className={class_name.point_list_img2}
                     >
                       Boost up your business and increase your visitors and
                       profits
@@ -355,7 +404,7 @@ const Home = () => {
                     <img
                       src={IMAGES?.WEB_WORLD}
                       alt="clock"
-                      className="point-list-img"
+                      className={class_name.point_list_img3}
                       // className={class_name.boat_Owner_list_icons}
                       // style={{
                       //   backgroundColor: "red",
@@ -389,7 +438,8 @@ const Home = () => {
                   <div
                     className={class_name?.list_boat_btn}
                     onClick={() => {
-                      navigate("/boatOwnerDashBoard");
+                      //   navigate("/boatOwnerDashBoard");
+                      handle_navigation("boatOwnerDashBoard");
                     }}
                   >
                     <Typography
@@ -432,11 +482,14 @@ const Home = () => {
 
             <div className="ocean-hub-content-box">
               <div className="ocen-hub-each-point">
-                <div className="white-circle-background">
+                <div
+                  // className="white-circle-background"
+                  className={class_name.white_circle_background1}
+                >
                   <img
                     src={Handshake}
                     alt="handshake"
-                    className="ocen-hub-list-icon"
+                    className={class_name.ocen_hub_list_icon1}
                   />
                 </div>
                 <div className="ocen-hub-txt-box">
@@ -457,11 +510,14 @@ const Home = () => {
                 </div>
               </div>
               <div className="ocen-hub-each-point">
-                <div className="white-circle-background">
+                <div
+                  //  className="white-circle-background"
+                  className={class_name.white_circle_background1}
+                >
                   <img
                     src={Start}
                     alt="handshake"
-                    className="ocen-hub-list-icon"
+                    className={class_name.ocen_hub_list_icon2}
                   />
                 </div>
                 <div className="ocen-hub-txt-box">
@@ -482,11 +538,11 @@ const Home = () => {
                 </div>
               </div>
               <div className="ocen-hub-each-point">
-                <div className="white-circle-background">
+                <div className={class_name.white_circle_background1}>
                   <img
                     src={Handshake}
                     alt="handshake"
-                    className="ocen-hub-list-icon"
+                    className={class_name.ocen_hub_list_icon3}
                   />
                 </div>
                 <div className="ocen-hub-txt-box">
@@ -545,7 +601,7 @@ const Home = () => {
                       }}
                     >
                       <img
-                        src={IMAGES?.PROFILE_ICON}
+                        src={item.image}
                         alt="client_img"
                         className="client-img"
                         style={{ backgroundColor: "white" }}
@@ -570,55 +626,45 @@ const Home = () => {
           </Container>
         </>
         {/* ================================================== certified ================================================== */}
-        <>
+
+        <div
+          //   className="certified-content"
+          className={class_name.certified_content}
+          //   style={{ padding: "0 20px", }}
+        >
+          <div style={{ width: "75%" }}>
+            <Typography
+              // className="certified-title"
+              className={class_name.certified_title}
+              style={{ fontWeight: "-moz-initial" }}
+            >
+              {"Trusted by "}
+              <span style={{ fontWeight: "bolder" }}> {"PADI®"}</span>
+            </Typography>
+            <Typography
+              // className="certified-info"
+              className={class_name.certified_info}
+            >
+              Saudia Ocean Hub is officially certified as an official hub for
+              scuba by PADI Professional Association of Diving Instructors
+            </Typography>
+          </div>
           <div
             style={{
-              backgroundColor: "#f6f6f6",
-              padding: "50px 0px",
+              width: "25%",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
             }}
           >
-            <Container
-              // fluid
-              className="certified-box"
-            >
-              <div className="certified-content" style={{ padding: "0 20px" }}>
-                <div style={{ width: "70%" }}>
-                  <Typography
-                    // className="certified-title"
-                    className={class_name.certified_title}
-                    style={{ fontWeight: "-moz-initial" }}
-                  >
-                    {"Trusted by "}
-                    <span style={{ fontWeight: "bolder" }}> {"PADI®"}</span>
-                  </Typography>
-                  <Typography
-                    // className="certified-info"
-                    className={class_name.certified_info}
-                  >
-                    Saudia Ocean Hub is officially certified as an official hub
-                    for scuba by PADI Professional Association of Diving
-                    Instructors
-                  </Typography>
-                </div>
-                <div
-                  style={{
-                    width: "30%",
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                  }}
-                >
-                  <img
-                    src={Cretificate}
-                    alt="Cretificate"
-                    // className="certified_img"
-                    className={class_name.certified_img}
-                  />
-                </div>
-              </div>
-            </Container>
+            <img
+              src={Cretificate}
+              alt="Cretificate"
+              // className="certified_img"
+              className={class_name.certified_img}
+            />
           </div>
-        </>
+        </div>
 
         <div className="footer-style-hide">
           <Footer />
@@ -632,8 +678,8 @@ export default Home;
 const useStyles = makeStyles((theme) => ({
   Welcome_txt: {
     // margin: "0 0 24px",
-    fontFamily: "Poppins",
-    fontSize: "clamp(14px, 4vw, 48px)", // Adjust the range as needed
+    // fontFamily: "Poppins",
+    fontSize: "clamp(14px, 3vw, 48px)", // Adjust the range as needed
     fontWeight: "bolder",
     fontStretch: "normal",
     fontStyle: "normal",
@@ -644,7 +690,7 @@ const useStyles = makeStyles((theme) => ({
   },
 
   sub_titile: {
-    // margin: "24px 0 80px",
+    margin: "8px 0 24px",
     [theme.breakpoints.up("sm")]: {
       margin: "8px 0 24px",
     },
@@ -655,7 +701,7 @@ const useStyles = makeStyles((theme) => ({
       margin: "24px 0 80px",
     },
     fontFamily: "Poppins",
-    fontSize: "clamp(8px, 2vw, 24px)", // Adjust the range as needed
+    fontSize: "clamp(8px, 2.5vw, 24px)", // Adjust the range as needed
     fontWeight: "500",
     fontStretch: "normal",
     fontStyle: "normal",
@@ -667,7 +713,7 @@ const useStyles = makeStyles((theme) => ({
 
   get_start_btn: {
     borderRadius: "30px",
-    border: "solid 1px #026b93",
+    border: "solid 1.5px #026b93",
     padding: "3% 15%",
     display: "flex",
     justifyContent: "flex-start",
@@ -695,26 +741,27 @@ const useStyles = makeStyles((theme) => ({
   },
 
   for_boat_owner_txt: {
-    fontFamily: "Poppins",
-    fontSize: "clamp(8px, 3vw, 30px)", // Adjust the range as needed
+    // fontFamily: "Poppins",
+    fontSize: "clamp(8px, 2vw, 30px)", // Adjust the range as needed
     fontWeight: "500",
     fontStretch: "normal",
     fontStyle: "normal",
-    lineHeight: 1.33,
+    lineHeight: "12px",
     letterSpacing: "normal",
     textAlign: "start",
     color: "#f6f6f6",
   },
   boat_owner_sub_title_txt: {
-    fontFamily: "Poppins",
+    // fontFamily: "Poppins",
     fontSize: "clamp(10px, 3vw, 45px)", // Adjust the range as needed
     fontWeight: "500",
     fontStretch: "normal",
-    fontStyle: "normal",
+    // fontStyle: "normal",
     lineHeight: 1.38,
     letterSpacing: "normal",
     textAlign: "left",
     color: "#f6f6f6",
+    marginTop: "10px",
     [theme.breakpoints.up("sm")]: {
       marginTop: "10px",
     },
@@ -727,9 +774,9 @@ const useStyles = makeStyles((theme) => ({
   },
   point_txt: {
     margin: "0 0 0 10px",
-    fontFamily: "Poppins",
-    fontSize: "clamp(8px, 2vw, 20px)", // Adjust the range as needed
-    fontWeight: "600",
+    // fontFamily: "Poppins",
+    fontSize: "clamp(6px, 1.5vw, 20px)", // Adjust the range as needed
+    fontWeight: "500",
     fontStretch: "normal",
     fontStyle: "normal",
     lineHeight: 1.5,
@@ -737,7 +784,7 @@ const useStyles = makeStyles((theme) => ({
     textAlign: "left",
     color: "rgba(246, 246, 246, 0.87)",
     [theme.breakpoints.up("sm")]: {
-      margin: "0 0 0 10px",
+      margin: "0 0 0 20px",
     },
     [theme.breakpoints.up("md")]: {
       margin: "0 0 0 30px",
@@ -766,7 +813,7 @@ const useStyles = makeStyles((theme) => ({
         color: "#03487a", // Change text color on hover
       },
     },
-    padding: "3% 5%",
+    padding: "5% 7%",
     [theme.breakpoints.up("sm")]: {
       padding: "3% 5%",
     },
@@ -778,8 +825,8 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   list_boat_txt: {
-    fontFamily: "Poppins",
-    fontSize: "clamp(8px, 2vw, 24px)", // Adjust the range as needed
+    // fontFamily: "Poppins",
+    fontSize: "clamp(6px, 1.5vw, 24px)", // Adjust the range as needed
     // fontWeight: "bolder",
     fontStretch: "normal",
     fontStyle: "normal",
@@ -823,8 +870,8 @@ const useStyles = makeStyles((theme) => ({
     alignContent: "center",
   },
   choose_journey_txt: {
-    fontFamily: "Poppins",
-    fontSize: "clamp(14px, 4vw, 48px)", // Adjust the range as needed
+    // fontFamily: "Poppins",
+    fontSize: "clamp(15px, 3vw, 48px)", // Adjust the range as needed
     fontWeight: "bolder",
     fontStretch: "normal",
     fontStyle: "normal",
@@ -832,7 +879,16 @@ const useStyles = makeStyles((theme) => ({
     letterSpacing: "normal",
     textAlign: "center",
     color: "rgba(66, 70, 81, 0.87)",
-    maxWidth: "55%",
+    maxWidth: "60%",
+    [theme.breakpoints.up("sm")]: {
+      maxWidth: "52%", // Padding for small screens and up
+    },
+    [theme.breakpoints.up("md")]: {
+      maxWidth: "50%",
+    },
+    [theme.breakpoints.up("lg")]: {
+      maxWidth: "55%",
+    },
   },
 
   show_img_box: {
@@ -844,22 +900,22 @@ const useStyles = makeStyles((theme) => ({
   },
   ocean_hub: {
     backgroundColor: "#f6f6f6",
-    padding: "32px", // Default padding value
+    padding: "32px 0px 16px 0px", // Default padding value
     [theme.breakpoints.up("sm")]: {
-      padding: "32px", // Padding for small screens and up
+      padding: "32px 0px 16px 0px", // Padding for small screens and up
     },
     [theme.breakpoints.up("md")]: {
-      padding: "100px", // Padding for medium screens and up
+      padding: "100px 0px 50px 0px", // Padding for medium screens and up
     },
     [theme.breakpoints.up("lg")]: {
-      padding: "150px 0px", // Padding for large screens and up
+      padding: "150px 0px 75px 0px", // Padding for large screens and up
     },
 
     // backgroundColor: "red",
   },
 
   ocean_hub_title: {
-    fontFamily: "Poppins",
+    // fontFamily: "Poppins",
     fontSize: "clamp(14px, 5vw, 48px)",
     fontWeight: "bold",
     fontStretch: "normal",
@@ -867,12 +923,13 @@ const useStyles = makeStyles((theme) => ({
     letterSpacing: "normal",
     textAlign: "center",
     color: "#424651",
+    opacity: 0.8,
   },
 
   ocean_hub_point_title: {
-    fontFamily: "Poppins",
-    fontSize: "clamp(12px, 5vw, 30px)",
-    fontWeight: "600",
+    // fontFamily: "Poppins",
+    fontSize: "clamp(12px, 2vw, 30px)",
+    fontWeight: "500",
     fontStretch: "normal",
     fontStyle: "normal",
     letterSpacing: "normal",
@@ -881,12 +938,12 @@ const useStyles = makeStyles((theme) => ({
     paddingBottom: "20px",
   },
   ocean_hub_point_info: {
-    fontFamily: "Poppins",
-    fontSize: "clamp(8px, 5vw, 20px)",
+    // fontFamily: "Poppins",
+    fontSize: "clamp(6px, 2vw, 14px)",
     fontWeight: "500",
     fontStretch: "normal",
     fontStyle: "normal",
-    letterSpacing: 0.5,
+    // letterSpacing: 0.5,
     textAlign: "center",
     color: "rgba(66, 70, 81, 0.6)",
     paddingBottom: "20px",
@@ -894,7 +951,7 @@ const useStyles = makeStyles((theme) => ({
   certified_title: {
     fontFamily: "Poppins",
     fontSize: "clamp(14px, 5vw, 48px)",
-    fontWeight: "500",
+    fontWeight: "400",
     fontStretch: "normal",
     fontStyle: "normal",
     // lineHeight: 0.48,
@@ -904,11 +961,12 @@ const useStyles = makeStyles((theme) => ({
     paddingBottom: "40px",
   },
   certified_info: {
-    fontFamily: "Poppins",
-    fontSize: "clamp(10px, 2.5vw, 22px)",
+    // fontFamily: "Poppins",
+    fontSize: "clamp(10px, 3vw, 22px)",
     fontWeight: "normal",
     fontStretch: "normal",
     fontStyle: "normal",
+
     // lineHeight: 0.48,
     letterSpacing: "normal",
     textAlign: "left",
@@ -916,8 +974,65 @@ const useStyles = makeStyles((theme) => ({
   },
 
   certified_img: {
-    width: "clamp(50px, 20vw, 357.1px)", // Adjust the range as needed
-    height: "clamp(20px, 15vh, 139px)", // Adjust the range as needed
+    width: "clamp(50px, 15vw, 357.1px)", // Adjust the range as needed
+    height: "clamp(20px, 10vh, 139px)", // Adjust the range as needed
+  },
+
+  point_list_img1: {
+    width: "clamp(15px, 5vw, 30px)", // Adjust the range as needed
+    height: "clamp(21px, 7vh, 56px)", // Adjust the range as needed
+    marginLeft: "5.5px",
+  },
+  point_list_img2: {
+    width: "clamp(20px, 5vw, 40px)", // Adjust the range as needed
+    height: "clamp(24px, 7vh, 48px)", // Adjust the range as needed
+  },
+  point_list_img3: {
+    width: "clamp(20px, 5vw, 40px)", // Adjust the range as needed
+    height: "clamp(20px, 5vh, 40px)", // Adjust the range as needed
+  },
+
+  ocen_hub_list_icon1: {
+    width: "clamp(45.5px, 5vw, 91px)", // Adjust the range as needed
+    height: "clamp(33.5px, 3vh, 57px)", // Adjust the range as needed
+    //   margin: "17px",
+  },
+  ocen_hub_list_icon2: {
+    width: "clamp(45.5px, 5vw, 91px)", // Adjust the range as needed
+    height: "clamp(37.5px, 4vh, 75px)", // Adjust the range as needed
+  },
+  ocen_hub_list_icon3: {
+    width: "clamp(35.5px, 5vw, 71px)", // Adjust the range as needed
+    height: "clamp(32.5px, 5vh, 75px)", // Adjust the range as needed
+  },
+
+  white_circle_background1: {
+    width: "clamp(90px, 5vw, 180px)", // Adjust the range as needed
+    height: "clamp(90px, 5vh, 180px)",
+    borderRadius: "100%",
+    backgroundColor: "white",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    paddingLeft: "44px",
+    paddingRight: "44px",
+    alignSelf: "center",
+  },
+  certified_content: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    backgroundColor: "#f6f6f6",
+    padding: "24px 16px 24px 16px", // Default padding value
+    [theme.breakpoints.up("sm")]: {
+      padding: "24px 16px 24px 16px", // Default padding value
+    },
+    [theme.breakpoints.up("md")]: {
+      padding: "54px 60px 44px 60px", // Padding for large screens and up
+    },
+    [theme.breakpoints.up("lg")]: {
+      padding: "81px 140px 64px 140px", // Padding for large screens and up
+    },
   },
 
   //
@@ -941,8 +1056,8 @@ const useStyles = makeStyles((theme) => ({
   //
   "@media (max-width: 767px)": {
     ocean_hub_point_title: {
-      fontFamily: "Poppins",
-      fontSize: "clamp(12px, 3vw, 30px)",
+      //   fontFamily: "Poppins",
+      fontSize: "clamp(12px, 2vw, 30px)",
       fontWeight: "600",
       fontStretch: "normal",
       fontStyle: "normal",
@@ -953,9 +1068,9 @@ const useStyles = makeStyles((theme) => ({
       // backgroundColor: "green",
     },
     ocean_hub_point_info: {
-      fontFamily: "Poppins",
+      //   fontFamily: "Poppins",
       fontSize: "clamp(8px, 2vw, 20px)",
-      fontWeight: "500",
+      fontWeight: "400",
       fontStretch: "normal",
       fontStyle: "normal",
       letterSpacing: 0.5,
@@ -967,53 +1082,72 @@ const useStyles = makeStyles((theme) => ({
     certified_title: {
       paddingBottom: "20px",
     },
+    certified_info: {
+      // fontFamily: "Poppins",
+      fontSize: "clamp(8px, 3vw, 16px)",
+      fontWeight: "normal",
+      fontStretch: "normal",
+      fontStyle: "normal",
+
+      // lineHeight: 0.48,
+      letterSpacing: "normal",
+      textAlign: "left",
+      color: "rgba(66, 70, 81, 0.6)",
+    },
     certified_img: {
-      width: "clamp(130px, 20vw, 357.1px)", // Adjust the range as needed
-      height: "clamp(10px, 15vh, 139px)", // Adjust the range as needed
+      width: "clamp(80px, 20vw, 150px)", // Adjust the range as needed
+      height: "clamp(20px, 15vh,75 px)", // Adjust the range as needed
+    },
+    point_list_img1: {
+      width: "clamp(7px, 5vw, 15px)", // Adjust the range as needed
+      height: "clamp(10px, 7vh, 21px)", // Adjust the range as needed
+      marginLeft: "5.5px",
+    },
+    point_list_img2: {
+      width: "clamp(11px, 5vw, 20px)", // Adjust the range as needed
+      height: "clamp(13px, 7vh, 24px)", // Adjust the range as needed
+      left: "-20px",
+    },
+    point_list_img3: {
+      width: "clamp(10px, 5vw, 20px)", // Adjust the range as needed
+      height: "clamp(10px, 5vh, 20px)", // Adjust the range as needed
+    },
+    ocen_hub_list_icon1: {
+      width: "clamp(28px, 5vw, 46px)", // Adjust the range as needed
+      height: "clamp(20px, 3vh, 33.5px)", // Adjust the range as needed
+      //   margin: "17px",
+    },
+    ocen_hub_list_icon2: {
+      width: "clamp(22px, 5vw, 45.5px)", // Adjust the range as needed
+      height: "clamp(23px, 4vh, 37.5px)", // Adjust the range as needed
+    },
+    ocen_hub_list_icon3: {
+      width: "clamp(23px, 5vw, 35.5px)", // Adjust the range as needed
+      height: "clamp(23px, 5vh, 32.5px)", // Adjust the range as needed
+    },
+    white_circle_background1: {
+      width: "clamp(56px, 5vw, 90px)", // Adjust the range as needed
+      height: "clamp(56px, 5vh, 90px)",
+      borderRadius: "100%",
+      backgroundColor: "white",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      paddingLeft: 20,
+      paddingRight: 20,
+    },
+    ocean_hub: {
+      backgroundColor: "#f6f6f6",
+      padding: "32px 16px 16px 16px", // Default padding value
+      [theme.breakpoints.up("sm")]: {
+        padding: "32px 16px 16px 16px", // Padding for small screens and up
+      },
+      [theme.breakpoints.up("md")]: {
+        padding: "100px 25px 50px 25    px", // Padding for medium screens and up
+      },
+      [theme.breakpoints.up("lg")]: {
+        padding: "150px 0px 75px 0px", // Padding for large screens and up
+      },
     },
   },
 }));
-const Testimonial = [
-  {
-    id: 1,
-    name: "Abdallah Hazmi",
-    place: "Riyadh",
-    review: "Best Experiences Ever. Good Idea!",
-    image: Ellipse,
-  },
-  {
-    id: 2,
-    name: "Baker Arkan",
-    place: "Jeddah",
-    review: "This is very useful! we had a wonderful time.",
-    image: Ellipse,
-  },
-  {
-    id: 3,
-    name: "Mohammed Wadi",
-    place: "Abha",
-    review: "good effort!",
-    image: Ellipse,
-  },
-  {
-    id: 4,
-    name: "Salem Salem",
-    place: "Mecca",
-    review: "The most trusted scuba classes! Thank you.",
-    image: Ellipse,
-  },
-  {
-    id: 5,
-    name: "Salem Salem",
-    place: "Mecca",
-    review: "The most trusted scuba classes! Thank you.",
-    image: Ellipse,
-  },
-  {
-    id: 6,
-    name: "Salem Salem",
-    place: "Mecca",
-    review: "The most trusted scuba classes! Thank you.",
-    image: Ellipse,
-  },
-];

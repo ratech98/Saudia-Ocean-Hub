@@ -150,7 +150,7 @@ const Home = () => {
         num1={num1}
         clicktoScroll={true}
       />
-      <Journey handleClick={handle_navigation} />
+      {/* <Journey handleClick={handle_navigation} /> */}
       <Owner_boat handleClick={handle_navigation} />
       <Ocian_hub />
       <Client_review

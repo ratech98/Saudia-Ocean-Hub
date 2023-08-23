@@ -62,9 +62,13 @@
   height: 40px;
 }
 
-.error-msg-txt {
+.err-margin {
+  margin: -7px 0px 0px 0px;
+  /* background-color: #026b93; */
+}
+.err-margin .error-msg-txt {
   color: #dc143c;
-  font-size: 12;
+  font-size: 12px;
   font-family: Poppins;
 }
 

@@ -17,6 +17,7 @@ import { search_boat_id } from "../../../redux/slices";
 import { PageHeader } from "../page-header/PageHeader";
 // import "./Rental.css";
 import IMAGES from "../../Images";
+import useWindowDimensions from "../../../UI kit/useWindowDimensions";
 
 const boatListData = [
   {
@@ -62,16 +63,16 @@ const styles = (theme) => ({
     "& input::placeholder": {
       fontSize: "clamp(10px, 3vw, 24px)",
       color: "rgba(66, 70, 81, 0.4)",
-      fontFamily: "Poppins",
     },
     [theme.breakpoints.down("767")]: {
       "& input::placeholder": {
-        fontSize: "18px",
+        fontSize: "clamp(10px, 3vw, 24px)",
+        // color: "red",
       },
     },
     [theme.breakpoints.down("424")]: {
       "& input::placeholder": {
-        fontSize: "10px",
+        fontSize: "clamp(10px, 3vw, 24px)",
       },
     },
   },
@@ -82,6 +83,7 @@ const CustomTextField = withStyles(styles)(TextField);
 export const Rental = () => {
   // const class_name = useStyles();
   const class_name = useStyles({ min: 10, max: 30, unit: "px" });
+  const { height, width } = useWindowDimensions();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const location = useLocation();
@@ -190,93 +192,81 @@ export const Rental = () => {
       {/* header & content */}
 
       <div
-        fluid
         className={class_name?.rental_banner}
         style={{
           // height: windowWidth >= 768 ? windowHeight : "auto",
-          height: window.innerWidth > 1000 ? window.innerHeight : "auto",
+          // height: window.innerWidth > 1000 ? window.innerHeight : "auto",
+          height: width > 1000 ? height : "50%",
           // padding: "0px",
-          // backgroundColor: "gray",
+          backgroundColor: "gray",
         }}
       >
-        <div
-          className={class_name.banner_inner_box}
-          // style={{
-          //   display: "flex",
-          //   backgroundColor: "red",
-          //   height: "100%",
-          //   padding: "0px",
-          //   margin: "0px",
-          // }}
-        >
-          {/* inside header */}
-          <div className={class_name.show_rental_header_inside_banner}>
-            <PageHeader
-              showLoginSignUp={!auth?.AuthToken}
-              handle_navigation={handle_navigation}
-              presentPage={"Home"}
-              link1={link1}
-              link2={link2}
-              link3={link3}
-            />
-          </div>
+        {/* inside header */}
+        <div className={class_name.show_rental_header_inside_banner}>
+          <PageHeader
+            showLoginSignUp={!auth?.AuthToken}
+            handle_navigation={handle_navigation}
+            presentPage={"Home"}
+            link1={link1}
+            link2={link2}
+            link3={link3}
+          />
+        </div>
+        {/* banner txt content */}
+        <div className={class_name.banner_inside_content}>
+          <Container className={class_name.banner_txt_search_content}>
+            <Container
+              className="container-sm"
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                flexDirection: "column",
+              }}
+            >
+              <Typography className={class_name.welcome_txt}>
+                {"Best Boating Experience in Saudi Arabia"}
+              </Typography>
+              <div className={class_name.search}>
+                <CustomTextField
+                  className={class_name.text_fileds}
+                  variant="standard"
+                  margin="normal"
+                  fullWidth
+                  name="email"
+                  placeholder="Search for a city"
+                  // value={searchText}
+                  // onChange={}
 
-          {/* banner txt content */}
-          <div className={class_name.banner_inside_content}>
-            <Container className={class_name.banner_txt_search_content}>
-              <Container
-                className="container-sm"
-                style={{
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  flexDirection: "column",
-                }}
-              >
-                <Typography className={class_name.welcome_txt}>
-                  {"Best Boating Experience in Saudi Arabia"}
-                </Typography>
-                <div className={class_name.search}>
-                  <CustomTextField
-                    className={class_name.text_fileds}
-                    variant="standard"
-                    margin="normal"
-                    fullWidth
-                    name="email"
-                    placeholder="Search for a city"
-                    // value={searchText}
-                    // onChange={}
-
-                    InputProps={{
-                      disableUnderline: true,
-                      style: {
-                        margin: "0",
-                        padding: "0",
-                        width: "100%",
-                      },
-                      endAdornment: (
-                        <>
-                          <IconButton>
-                            <Search
-                              style={{}}
-                              className={class_name.search_img_font}
-                            />
-                          </IconButton>
-                        </>
-                      ),
-                    }}
-                    InputLabelProps={{
-                      shrink: true,
-                    }}
-                    inputProps={{
-                      className: class_name.text_field_inputs,
-                      style: {},
-                    }}
-                  />
-                </div>
-              </Container>
+                  InputProps={{
+                    disableUnderline: true,
+                    style: {
+                      margin: "0",
+                      padding: "0",
+                      width: "100%",
+                    },
+                    endAdornment: (
+                      <>
+                        <IconButton>
+                          <Search
+                            style={{}}
+                            className={class_name.search_img_font}
+                          />
+                        </IconButton>
+                      </>
+                    ),
+                  }}
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                  inputProps={{
+                    className: class_name.text_field_inputs,
+                    style: {},
+                  }}
+                />
+              </div>
             </Container>
-          </div>
+          </Container>
         </div>
       </div>
 
@@ -296,25 +286,21 @@ export const Rental = () => {
           </div>
 
           <div className={class_name.show_boat_cards_container}>
-            <div
-              className={class_name.show_boar_cards}
-              // style={{
-              //   backgroundColor: "khaki",
-              //   justifyContent: "space-between",
-              //   alignItems: "center",
-              //   alignContent: "center",
-              //   alignSelf: "center",
-              // }}
-            >
+            <div className={class_name.show_boar_cards}>
               {boatListData?.map((item, index) => {
                 return (
                   <div
                     className={class_name.boat_card_space}
-                    // style={{
-                    //   marginLeft: index % 2 === 0 ? 0 : "27.5px",
-                    //   marginRight: index % 2 === 0 ? 0 : "27.5px",
-                    // }}
-                    style={{ backgroundColor: "gainsboro" }}
+                    style={
+                      width > 767
+                        ? {}
+                        : index === 0
+                        ? {
+                            marginLeft: "0px",
+                          }
+                        : {}
+                    }
+                    // style={{ backgroundColor: "gainsboro" }}
                     onClick={() => {
                       navigate("/boatViewDetails");
                       dispatch(search_boat_id(item?.boat_id));
@@ -461,7 +447,7 @@ const useStyles = makeStyles((theme) => ({
   rental_banner: {
     width: "100%",
     height: "auto",
-    minHeight: "300px",
+    // minHeight: "300px",
     position: "sticky",
     backgroundImage: `url(${Boat_Experience})`,
     backgroundSize: "cover",
@@ -472,13 +458,6 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: "column",
     justifyContent: "center",
     alignItems: "center",
-  },
-  banner_inner_box: {
-    display: "flex",
-    flexDirection: "column",
-    width: "100%",
-    height: "100%",
-    backgroundColor: "rgba(255, 255, 255, 0.5)",
   },
 
   banner_txt_search_content: {
@@ -518,12 +497,13 @@ const useStyles = makeStyles((theme) => ({
   text_fileds: {
     margin: "0px",
     borderRadius: "5px",
-    /* width: 45%; */
+    // width: "45%",
     backgroundColor: "white",
     border: "none",
     padding: "0px 60px 0px 0px",
     paddingRight: ({ min, max, unit }) =>
       `clamp(${min}${unit}, calc(${min}${unit} + (${max} - ${min}) * ((100vw - 300px) / (1600 - 300))), ${max}${unit})`,
+    // backgroundColor: "red",
   },
 
   search_img_font: {
@@ -545,14 +525,17 @@ const useStyles = makeStyles((theme) => ({
   show_rental_header_inside_banner: {
     width: "100%",
     display: "flex",
+    backgroundColor: "rgba(255, 255, 255, 0.5)",
   },
   banner_inside_content: {
     display: "flex",
     justifyContent: "center",
     flexDirection: "column",
-    position: "static",
+    // position: "static",
     width: "100%",
     height: "100%",
+    // backgroundColor: "red",
+    backgroundColor: "rgba(255, 255, 255, 0.5)",
   },
 
   boat_card_AND_Circle: {
@@ -570,7 +553,7 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     justifyContent: "space-between",
     alignItems: "center",
-    margin: "0px 10px",
+    // margin: "0px 10px",
     // backgroundColor: "lightyellow",
   },
   boat_Offers_txt: {
@@ -606,22 +589,6 @@ const useStyles = makeStyles((theme) => ({
     margin: "0px",
   },
 
-  boat_card_space: {
-    // backgroundColor: "red",
-    // margin: "27.5px",
-    [theme.breakpoints.up("sm")]: {
-      // margin: "10px",
-      margin: "10.5px",
-    },
-    [theme.breakpoints.up("md")]: {
-      // margin: "27.5px",
-      margin: "20.5px",
-    },
-    [theme.breakpoints.up("lg")]: {
-      margin: "27.5px",
-    },
-  },
-
   show_boar_cards: {
     display: "flex",
     width: "100%",
@@ -630,8 +597,21 @@ const useStyles = makeStyles((theme) => ({
     flexWrap: "wrap",
     margin: "0px",
     padding: "0px",
+    // backgroundColor: "red",
   },
 
+  boat_card_space: {
+    margin: "27.5px",
+    [theme.breakpoints.up("sm")]: {
+      margin: "10.5px",
+    },
+    [theme.breakpoints.up("md")]: {
+      margin: "20.5px",
+    },
+    [theme.breakpoints.up("lg")]: {
+      margin: "27.5px",
+    },
+  },
   circle_design_container: {
     display: "flex",
     flexDirection: "row",
@@ -788,7 +768,7 @@ const useStyles = makeStyles((theme) => ({
     rental_banner: {
       width: "100%",
       height: "100%",
-      minHeight: "300px",
+      // minHeight: "300px",
       position: "sticky",
       backgroundImage: `url(${require("../../../assets/Images/Boating_Experience.png")})`,
       backgroundSize: "cover",
@@ -807,17 +787,7 @@ const useStyles = makeStyles((theme) => ({
       width: "100%",
       display: "none",
     },
-    banner_inner_box: {
-      display: "flex",
-      flexDirection: "column",
-      width: "100%",
-      height: "100%",
-      backgroundColor: "rgba(255, 255, 255, 0.5)",
 
-      // margin: "0px",
-      // padding: "9% 0px",
-      // backgroundColor: "yellow",
-    },
     banner_inside_content: {
       // display: "flex",
       // justifyContent: "center",
@@ -828,6 +798,8 @@ const useStyles = makeStyles((theme) => ({
       // maxHeight: "10%",
       // padding: "10% 0",
       // backgroundColor: "red",
+      // maxHeight: "10%",
+      // padding: "10% 0",
     },
 
     show_boat_cards_container: {
@@ -836,7 +808,7 @@ const useStyles = makeStyles((theme) => ({
       padding: "0px",
       // backgroundColor: "black",
       margin: "0px",
-      padding: "30px",
+      // padding: "30px",
     },
 
     show_boar_cards: {
@@ -850,14 +822,18 @@ const useStyles = makeStyles((theme) => ({
 
     boat_card_space: {
       margin: "10px",
+      // margin: "0px",
       [theme.breakpoints.up("sm")]: {
         margin: "20px",
+        // margin: "0px",
       },
       [theme.breakpoints.up("md")]: {
         margin: "27.5px",
+        // margin: "0px",
       },
       [theme.breakpoints.up("lg")]: {
         margin: "27.5px",
+        margin: "0px",
       },
     },
 

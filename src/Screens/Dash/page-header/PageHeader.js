@@ -1,15 +1,12 @@
-/* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import IMAGES from "../../Images";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-// import "bootstrap-icons/font/bootstrap-icons.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
-import { Drawer, List, ListItem, Typography } from "@material-ui/core";
+import { Drawer, List, ListItem } from "@material-ui/core";
+import Typography from "@material-ui/core/Typography";
 import "./PageHeader.css";
-import { Container, Nav } from "react-bootstrap";
-import Footer from "../../../Component/Footer/Footer";
 
 import Insta from "../../../assets/Icons/instagram.svg";
 import Snap from "../../../assets/Icons/snapchat.svg";
@@ -18,7 +15,7 @@ import Twitter from "../../../assets/Icons/twitter.png";
 import { makeStyles, withStyles } from "@material-ui/core/styles";
 import Divider from "@mui/material/Divider";
 import useWindowDimensions from "../../../UI kit/useWindowDimensions";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { AuthToken, TokenDecodeData, UserId } from "../../../redux/slices";
 
 export const PageHeader = ({
@@ -32,14 +29,16 @@ export const PageHeader = ({
 }) => {
   const class_name = useStyles({ min: 10, max: 30, unit: "px" });
   const navigate = useNavigate();
-  const [openDrawer, setOpenDrawer] = useState(false);
-  const { height } = useWindowDimensions();
-  const [openModal, setOpenModal] = useState(false);
   const dispatch = useDispatch();
+  const [openDrawer, setOpenDrawer] = useState(false);
+  const { height, width } = useWindowDimensions();
+  const [openModal, setOpenModal] = useState(false);
+  const auth = useSelector((state) => state?.auth);
 
   const handleOpenModal = () => {
     setOpenModal(true);
   };
+
   const modalStyle = {
     display: openModal ? "block" : "none",
     position: "fixed",
@@ -66,27 +65,6 @@ export const PageHeader = ({
     setOpenModal(false);
   };
 
-  //   const handle_navigation = (pageName) => {
-  //     // console.log("pageName", pageName);
-  //     if (pageName === "Home") {
-  //       navigate("/");
-  //       // if (auth?.tokenDecodeData?.user_type === "BOAT_OWNER") {
-  //       //   navigate("/boatOwnerDashBoard");
-  //       // } else {
-  //       //   navigate("/rental");
-  //       // }
-  //     } else if (pageName === "rental") {
-  //       navigate("/rental");
-  //     } else if (pageName === "boatOwnerDashBoard") {
-  //       navigate("/boatOwnerDashBoard");
-  //     } else {
-  //       toast.info("Under Development", {
-  //         position: toast.POSITION.TOP_RIGHT,
-  //         autoClose: 2000,
-  //       });
-  //     }
-  //   };
-
   //   const handleLink1Click = () => {
   //     window.scrollTo({ top: 1655, behavior: "smooth" });
   //   };
@@ -96,7 +74,7 @@ export const PageHeader = ({
 
   return (
     <div className="navigation-container-box">
-      <Container className="header-container-style">
+      <div className="header-container-style">
         {/* ---------------->> open drawer btn <<---------------- */}
         <div
           className="drawer-menu-icon"
@@ -110,7 +88,12 @@ export const PageHeader = ({
         {/* ---------------->> list content <<---------------- || ---> appIcon <----> tab-list <---> search,mail,bell,-icons <--- */}
         <div className="all-content-box">
           <div className="icon-tabName-content">
-            <img src={IMAGES.APP_ICON} className="app-icon-style" alt="logo" />
+            {/* <img src={IMAGES.APP_ICON} className="app-icon-style" alt="logo" /> */}
+            <img
+              src={IMAGES.APP_ICON}
+              className={class_name.picture_style}
+              alt="logo"
+            />
 
             <div className="tab-name-list">
               <Typography
@@ -206,7 +189,8 @@ export const PageHeader = ({
               <img
                 alt="iocn"
                 src={IMAGES.SEARCH}
-                className="search-mail-icon"
+                // className="search-mail-icon"
+                className={class_name.search_mail_icon}
                 onClick={() => {
                   navigate("/searchBoat");
                 }}
@@ -214,7 +198,8 @@ export const PageHeader = ({
               <img
                 alt="iocn"
                 src={IMAGES.EMAIL_ICON}
-                className="search-mail-icon"
+                // className="search-mail-icon"
+                className={class_name.search_mail_icon}
                 onClick={() => {
                   handle_navigation();
                 }}
@@ -222,18 +207,18 @@ export const PageHeader = ({
               <img
                 alt="iocn"
                 src={IMAGES.BELL}
-                className="bell-icon"
+                // className="bell-icon"
+                className={class_name.bell_icon}
                 onClick={() => {
                   navigate("/notification");
                 }}
               />
-              <div
-              //   class="collapse navbar-collapse"
-              >
+              <div className={class_name.profile_icon_div}>
                 <img
                   alt="iocn"
                   src={IMAGES.PROFILE_ICON}
-                  className="profile-icon"
+                  // className="profile-icon"
+                  className={class_name.profile_icon_style}
                   onClick={() => {
                     handleOpenModal();
                   }}
@@ -242,7 +227,7 @@ export const PageHeader = ({
             </div>
           )}
         </div>
-      </Container>
+      </div>
 
       {/* ===========================================================            Drawer            ========================================= */}
       <Drawer
@@ -252,13 +237,8 @@ export const PageHeader = ({
         PaperProps={{
           style: {
             width: "90%",
-            // height: height,
+
             overflow: "hidden",
-            // backgroundColor: "red",
-            // display: "flex",
-            // flex: 1,
-            // justifyContent: "flex-end",
-            // flexDirection: "column",
           },
         }}
         data-bs-toggle="collapse"
@@ -266,21 +246,19 @@ export const PageHeader = ({
         <div
           style={
             {
-              // backgroundColor: "red",
+              // backgroundColor: "red"
             }
           }
-          //   className="drawer-styles"
         >
           <div
             style={{
               display: "flex",
-              //   justifyContent: "space-evenly",
-              //   alignSelf: "center",
-              //   alignContent: "center",
-              alignItems: "center",
-              //   backgroundColor: "rebeccapurple",
-              width: "100%",
+              //   alignItems: "center",
+              //   width: "100%",
               paddingLeft: "33px",
+              paddingTop: 20,
+              paddingRight: 33,
+              justifyContent: "space-between",
             }}
           >
             <img
@@ -289,35 +267,38 @@ export const PageHeader = ({
               style={{
                 width: "16px",
                 height: "14px",
+                alignSelf: "center",
               }}
               onClick={() => {
                 setOpenDrawer(false);
               }}
             />
-            <div className="app-icon-drawer">
-              <img
-                src={IMAGES.APP_ICON}
-                className="drawer-app-icon-style"
-                alt="logo"
-              />
-            </div>
+            {/* <div className="app-icon-drawer"> */}
+            <img
+              src={IMAGES.APP_ICON}
+              // className="drawer-app-icon-style"
+              className={class_name.drawer_app_icon_style}
+              alt="logo"
+            />
+            {/* </div> */}
           </div>
 
           <List
             className="content-list"
             style={{
-              //   backgroundColor: "lightpink",
-              height: height - 240,
+              height: height - 265,
               display: "flex",
               flex: 1,
               justifyContent: "space-between",
+              padding: 0,
+              //   margin: 0,
             }}
           >
             <ListItem
               button
               onClick={() => {
-                // setOpenDrawer(false);
-                // handle_navigation("Home");
+                handleOpenModal();
+                setOpenDrawer(false);
               }}
             >
               {!showLoginSignUp ? (
@@ -325,7 +306,7 @@ export const PageHeader = ({
                   style={{
                     display: "flex",
                     flexDirection: "row",
-                    // backgroundColor: "lightblue",
+
                     alignItems: "center",
                     padding: "30px 0",
                     width: "100%",
@@ -347,7 +328,11 @@ export const PageHeader = ({
                     <Typography style={{ fontWeight: "bold" }}>
                       user name
                     </Typography>
-                    <Typography style={{}}>Boat Owner</Typography>
+                    <Typography style={{}}>
+                      {auth?.tokenDecodeData?.user_type === "BOAT_OWNER"
+                        ? "Boat Owner"
+                        : "Customer"}
+                    </Typography>
                   </div>
                 </div>
               ) : null}
@@ -373,7 +358,6 @@ export const PageHeader = ({
                 <ListItem
                   button
                   onClick={() => {
-                    // clicktoScroll ? handleLink1Click() :
                     setOpenDrawer(false);
                     handle_navigation(link1);
                   }}
@@ -393,7 +377,6 @@ export const PageHeader = ({
               <ListItem
                 button
                 onClick={() => {
-                  //   clicktoScroll ? handleLink1Click2() :
                   setOpenDrawer(false);
                   handle_navigation(link2);
                 }}
@@ -444,7 +427,6 @@ export const PageHeader = ({
                 <ListItem
                   button
                   onClick={() => {
-                    // clicktoScroll ? handleLink1Click() :
                     setOpenDrawer(false);
                     handle_navigation("Login");
                   }}
@@ -566,25 +548,8 @@ export const PageHeader = ({
             </ListItem>
           </List>
         </div>
-        {/* <div
-          style={{
-            display: "flex",
-            height: "100%",
-            justifyContent: "center",
-          }}
-        ></div> */}
-        {/* <Divider
-          variant="middle"
-          style={{
-            backgroundColor: "rgba(172, 172, 172, 0.4)",
-            height: "1px",
-            // backgroundColor: "black",
-          }}
-        /> */}
 
         <div className="end-content">
-          {/* <div className="straight-line2" /> */}
-
           <div
             style={{
               width: "100%",
@@ -605,16 +570,50 @@ export const PageHeader = ({
         </div>
       </Drawer>
       {openModal ? (
-        <div style={modalStyle}>
-          <div style={modalContentStyle}>
-            <h2>Logout Confirmation</h2>
-            <p>Are you sure you want to logout?</p>
-            <button style={logoutButtonStyle} onClick={handleLogout}>
-              Logout
-            </button>
-            <button style={cancelButtonStyle} onClick={handleClose}>
-              Cancel
-            </button>
+        <div style={modalStyle} className={class_name.modal}>
+          <div style={modalContentStyle} className={class_name.inside_modal}>
+            <Typography
+              style={
+                width > 767
+                  ? { fontSize: "32px", fontWeight: "bold" }
+                  : { fontSize: "18px", fontWeight: "bold" }
+              }
+            >
+              Logout Confirmation
+            </Typography>
+            <Typography
+              style={
+                width > 767
+                  ? { fontSize: "24px", fontWeight: "normal" }
+                  : { fontSize: "14px", fontWeight: "normal" }
+              }
+            >
+              Are you sure you want to logout?
+            </Typography>
+            <div>
+              <button style={logoutButtonStyle} onClick={handleLogout}>
+                <Typography
+                  style={
+                    width > 767
+                      ? { fontSize: "20px", fontWeight: "normal" }
+                      : { fontSize: "10px", fontWeight: "normal" }
+                  }
+                >
+                  Logout
+                </Typography>
+              </button>
+              <button style={cancelButtonStyle} onClick={handleClose}>
+                <Typography
+                  style={
+                    width > 767
+                      ? { fontSize: "20px", fontWeight: "normal" }
+                      : { fontSize: "10px", fontWeight: "normal" }
+                  }
+                >
+                  Cancel
+                </Typography>
+              </button>
+            </div>
           </div>
         </div>
       ) : null}
@@ -622,64 +621,22 @@ export const PageHeader = ({
   );
 };
 
-const styles = {
-  root: {
-    display: "flex",
-    backgroundColor: "#f6f6f6",
-    width: "100%",
-  },
-  body: {
-    width: "100%",
-    display: "flex",
-    padding: "24px 100px",
-    justifyContent: "space-between",
-  },
-  appIcon: {
-    width: "198px",
-    height: "98px",
-  },
-  rowContent: {
-    display: "flex",
-    alignItems: "center",
-  },
-  profileImg: {
-    width: "35px",
-    height: "35px",
-
-    opacity: 5,
-  },
-  Icon: {
-    width: "30px",
-    height: "30px",
-  },
-  searchIcon: {
-    width: "25px",
-    height: "25px",
-    marginRight: "25px",
-  },
-  diplayTxtContent: {
-    display: "flex",
-  },
-  titleTxt: {
-    fontSize: "24px",
-    fontWeight: "normal",
-    fontFamily: "Poppins",
-    fontStretch: "normal",
-    fontStyle: "normal",
-    lineHeight: 1.5,
-    letterSpacing: "normal",
-    color: "#424651",
-    marginRight: "30px",
-    // textAlign: "center",
-  },
-};
-
 const modalContentStyle = {
-  backgroundColor: "#fefefe",
-  margin: "15% auto",
-  padding: "20px",
+  display: "flex",
+  flexDirection: "column",
+  justifyContent: "center",
+  alignItems: "center",
+  alignContent: "center",
+  alignSelf: "center",
+  alignTracks: "center",
+  position: "fixed" /* Ensure it's fixed in the viewport */,
+  top: "30%" /* Move the top of the modal to the vertical center */,
+  left: "50%" /* Move the left of the modal to the horizontal center */,
+  transform: "translate(-50%, -50%)" /* Center it precisely */,
+  backgroundColor: "#f6f6f6",
+  // backgroundColor: "white",
+  padding: "2%",
   border: "1px solid #888",
-  width: "300px",
 };
 
 const buttonStyle = {
@@ -708,12 +665,102 @@ const useStyles = makeStyles((theme) => ({
   header_content_txt: {
     marginLeft: "25px",
     // /* font-family: Poppins; */
-    fontSize: "clamp(10px, 2vw, 20px)",
+    fontSize: "clamp(10px, 1.6vw, 20px)",
     fontWeight: "500",
     fontStretch: "normal",
     fontStyle: "normal",
     textAlign: "left",
     color: "rgba(66, 70, 81, 0.87)",
     letterSpacing: 0.5,
+  },
+  picture_style: {
+    width: "clamp(136px, 23vw, 198px)",
+    height: "clamp(52px, 13vw, 98px)",
+  },
+  profile_icon_div: {
+    display: "flex",
+  },
+  profile_icon_style: {
+    width: "clamp(25px, 4.9vw, 45px)",
+    height: "clamp(25px, 4.9vw, 45px)",
+  },
+  search_mail_icon: {
+    width: "clamp(15px, 2vw, 25px)",
+    height: "clamp(15px, 2vw, 25px)",
+    marginRight: "10px",
+    [theme.breakpoints.up("sm")]: {
+      marginRight: "10px",
+    },
+    [theme.breakpoints.up("md")]: {
+      marginRight: "20px",
+    },
+    [theme.breakpoints.up("lg")]: {
+      marginRight: "25px",
+    },
+  },
+  bell_icon: {
+    width: "clamp(15px, 2vw, 25px)",
+    height: "clamp(15px, 2vw, 25px)",
+    marginRight: "10px",
+    [theme.breakpoints.up("sm")]: {
+      marginRight: "10px",
+    },
+    [theme.breakpoints.up("md")]: {
+      marginRight: "20px",
+    },
+    [theme.breakpoints.up("lg")]: {
+      marginRight: "25px",
+    },
+    modal: {
+      // display: openModal ? "block" : "none",
+      position: "fixed",
+      zIndex: 1,
+      left: 0,
+      top: 0,
+      width: "100%",
+      height: "100%",
+      overflow: "auto",
+      backgroundColor: "rgba(0, 0, 0, 0.4)",
+    },
+    inside_modal: {
+      backgroundColor: "#fefefe",
+      margin: "15% auto",
+      padding: "20px",
+      border: "1px solid #888",
+      width: "300px",
+    },
+  },
+
+  "@media (max-width: 767px)": {
+    inside_modal: {
+      backgroundColor: "#fefefe",
+      margin: "15% auto",
+      padding: "20px",
+      border: "1px solid #888",
+      width: "300px",
+    },
+    profile_icon_div: {
+      display: "none",
+    },
+    picture_style: {
+      width: "clamp(96px, 25vw, 165px)", // Adjust the range as needed
+      height: "clamp(48px, 15vw, 98px)", // Adjust the range as needed
+      // border: "solid 0.5px rgba(112, 112, 112, 0.3)",
+      //   backgroundColor: "red",
+    },
+    search_mail_icon: {
+      width: "clamp(10px, 5vw, 20px)",
+      height: "clamp(10px, 5vw, 20px)",
+      marginRight: "16px",
+    },
+    bell_icon: {
+      width: "clamp(10px, 5vw, 20px)",
+      height: "clamp(10px, 5vw, 20px)",
+      marginRight: "0px",
+    },
+    drawer_app_icon_style: {
+      width: "clamp(102px, 25vw, 152px)", // Adjust the range as needed
+      height: "clamp(51px, 15vw, 81px)", // Adjust the range as needed
+    },
   },
 }));

@@ -318,11 +318,12 @@
 }
 
 .ocen-hub-each-point {
-  display: flex;
+   display: flex;
   flex-direction: column;
-
+  align-items: space-between;
+/*
   width: 100%;
-  height: 100%;
+  height: 100%; */
 }
 .ocen-hub-list-icon {
   width: 91.7px;
@@ -331,18 +332,26 @@
 }
 
 .white-circle-background {
-  display: flex;
+ 
   background-color: white;
+   /* display: flex;
   align-content: center;
   justify-content: center;
   align-items: center;
   align-self: center;
   border-radius: 90%;
-  padding: 7% 7%;
+  padding: 7% 7%; */
 }
 
 .ocen-hub-txt-box {
   padding-top: 50px;
+  /* display: flex;
+  flex: 0.2;
+  flex-direction: column; */
+  display: flex;
+  align-self: center;
+  flex-direction: column;
+  width: 80%;
 }
 
 .ocen-hub-txt-box .ocean-hub-point-title {
@@ -559,6 +568,17 @@
 /*  */
 /*  */
 /*  */
+
+@media (max-width: 1000px) {
+    .banner-txt-content {
+       padding-bottom: 50px;
+      }
+      /* .point-list .point-list-img {
+        width: 12px;
+        height: 26px;
+      } */
+    
+}
 @media (max-width: 767px) {
   .choose-journey {
     /* background-color: #026b93; */
@@ -660,7 +680,7 @@
   }
 
   .owner-desc {
-    margin-top: 20px;
+    margin-top: 10px;
   }
 
   .owner-desc .point-list {
@@ -669,7 +689,7 @@
 
   .point-list .point-list-img {
     width: 12px;
-    height: 26px;
+    height: 13px;
   }
 
   .point-list .point-txt {
@@ -701,11 +721,11 @@
   }
   .ocean-hub-content-box {
     flex-direction: column;
-    padding: 10px 0;
+    padding: 32px 0;
   }
   .ocen-hub-each-point {
-    flex-direction: row;
-    margin: 10px 0px;
+     flex-direction: row;
+    /* margin: 10px 0px;  */
   }
 
   .ocen-hub-list-icon {
@@ -715,9 +735,17 @@
   }
 
   .white-circle-background {
+    /* height: 50px;
+    width: 85px; */
+    display: flex;
+    align-items: center;
+    /* border-radius: 100px; */
+    /* padding: 10px; */
+    border-radius: 10px;
+
     width: auto;
-    height: auto;
-    padding: 4% 3%;
+    /* height: auto; */
+    padding: 2% 2%;
   }
 
   .ocen-hub-txt-box {

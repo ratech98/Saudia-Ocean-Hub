@@ -38,6 +38,7 @@ const IMAGES = {
   TOGGELE_BUTTON: require("../assets/Images/toggle-button-icon.png"),
   MENU_ICON: require("../assets/Images/menu.png"),
   WEB_WORLD: require("../assets/Images/webWorldGlobel.png"),
+  DELETE_ICON: require("../assets/Images/Trash Bin 2.png"),
 
   //
   //

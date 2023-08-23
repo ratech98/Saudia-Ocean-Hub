@@ -47,6 +47,12 @@ const PrivateRoute = ({ children, session, type, screenName }) => {
   useEffect(() => {
     const getCurrentSession = async () => {
       const token = localStorage.getItem("session");
+      console.log(
+        "token",
+        token,
+        !token && screenName === "rental",
+        !token && screenName === "boatOwnerDashBoard"
+      );
       if (token) {
         let tokenDecode = jwt_decode(token);
         const currentTimestamp = Math.floor(Date.now() / 1000);
@@ -62,6 +68,12 @@ const PrivateRoute = ({ children, session, type, screenName }) => {
           setLoading(false);
           setCalculateTime(false);
         }
+      } else if (
+        (!token && screenName === "rental") ||
+        (!token && screenName === "boatOwnerDashBoard")
+      ) {
+        setCalculateTime(true);
+        setLoading(false);
       } else {
         setLoading(false);
         setCalculateTime(true);
@@ -69,7 +81,7 @@ const PrivateRoute = ({ children, session, type, screenName }) => {
     };
 
     getCurrentSession();
-  }, [navigate, type]);
+  }, [navigate, screenName, type]);
 
   return loading ? (
     <Loader />

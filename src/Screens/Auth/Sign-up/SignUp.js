@@ -286,7 +286,12 @@ export const SignUp = () => {
     <div
       // className="full-box"
       className={class_name.signUp_full_box}
-      style={{ height: "100%" }}
+      // style={{
+      //   display: "flex",
+      //   flexDirection: "column",
+      //   // height: windowWidth <= 768 ? "100%" : "auto",
+      //   backgroundColor: "green",
+      // }}
     >
       <div className={class_name.show_outer_headder}>
         <img
@@ -975,6 +980,11 @@ const StyleEff = {
 };
 
 const useStyles = makeStyles((theme) => ({
+  signUp_full_box: {
+    display: "flex",
+    flexDirection: "column",
+    height: "auto",
+  },
   show_outer_headder: {
     display: "none",
   },
@@ -1009,6 +1019,11 @@ const useStyles = makeStyles((theme) => ({
   //
   //
   "@media (max-width: 767px)": {
+    signUp_full_box: {
+      display: "flex",
+      flexDirection: "column",
+      height: "100%",
+    },
     app_icon_style: {
       width: "96px",
       height: "48px",
